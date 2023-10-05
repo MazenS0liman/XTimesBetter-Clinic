@@ -1,4 +1,4 @@
-# XTimesBetter-Pharmacy
+# XTimesBetter-Clinic
 
  **How to start the sever ?**
 
