@@ -5,17 +5,18 @@ const patientModel = require('../../models/Patient');
 const appointmentModel = require('../../models/Appointment');
  
 const getPatients = asyncHandler( async (req, res) => {
-    if (req.body.doctor_username === undefined) {
+    // Check if the doctor username is provided
+    if (req.query.doctor_username === undefined) {
         return res.status(400).json({ message: 'Please add a doctor username!' });
     }
 
-    const doctor = await doctorModel.findOne({ username: req.body.doctor_username });
+    const doctor = await doctorModel.findOne({ username: req.query.doctor_username });
     if (!doctor) {
         return res.status(404).json({ message: 'Doctor not found!' });
     }
 
-    // Get all appointments with the doctor specified in the request body
-    const appointments = await appointmentModel.find({ doctor_username: req.body.doctor_username });
+    // Get all appointments with the doctor specified in the request
+    const appointments = await appointmentModel.find({ doctor_username: req.query.doctor_username });
 
     // Get all patients of the doctor
     const patients = await patientModel.find({ username: { $in: appointments.map(appointment => appointment.patient_username) } });
