@@ -13,16 +13,30 @@ import { useFetch } from '../../../components/hooks/useFetch';
 import { useState } from 'react';
 
 export const ViewPatients = () => {
-    const [response] = useFetch('get', 'http://localhost:5000/doctor/patients', {doctor_username:"mohameds0liman"});
-    const [patients, setPatients] = useState(response.patients);
-    const [patientInfo, setPatientInfo] = useState("");
-    const navigate = useNavigate();
+    const [response] = useFetch('get', 'http://localhost:5000/doctor/patients', {doctor_username:"mohameds0liman"}); // To store the response of the request
+    const [patients, setPatients] = useState([]); // To store the patients that will be displayed in cards
+    const [patientInfo, setPatientInfo] = useState(""); // To store the patient that was clicked
+
+    const navigate = useNavigate(); // To redirect to another page
 
     useEffect(() => {
         if (patientInfo !== "") {
             navigate('/doctor/viewPatientInfoPage', { state: patientInfo });
         }
     },[patientInfo]);
+
+    useEffect(() => {
+        const list = [];
+
+        if(response !== undefined && response.patients !== undefined) {
+            for (let i = 0; i < response.patients.length; i++) {
+                list.push(response.patients[i]);
+            }
+
+            setPatients(list);
+        }
+
+    }, [response]);
     
     // Functions
     function handleSearch(name) {
@@ -72,6 +86,7 @@ export const ViewPatients = () => {
             setPatientInfo(patient);
         }
     }
+    
     return (
         <div className={styles['page-body-div']}>
             <div className={styles['page-search-div']}>

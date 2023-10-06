@@ -21,7 +21,7 @@ function App() {
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </>
-  )
+  );
 }
 
 export default App
