@@ -71,9 +71,8 @@ export function ViewPatientInfo() {
             </div>
           </div>
           <div className={styles['patient-info-bottom-div']}>
-            <PatientBoard />
+            <PatientBoard appointments={patient.appointments} emergencies={patient.emergency_contact}/>
           </div>
-
       </div>
 
     )

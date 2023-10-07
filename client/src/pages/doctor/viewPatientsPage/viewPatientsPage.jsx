@@ -58,17 +58,41 @@ export const ViewPatients = () => {
         const list = [];
         const date = new Date();
         
-        for (let i = 0; i < response.patients.length; i++) {
-            for (let j = 0; j < response.patients[i].appointments.length; j++) {
-                let appointmentDate = new Date(response.patients[i].appointments[j].date);
-
-                if (appointmentDate >= date) {
-                    list.push(response.patients[i]);
-                    break;
+        if (response !== undefined && response.patients !== undefined) {
+            for (let i = 0; i < response.patients.length; i++) {
+                for (let j = 0; j < response.patients[i].appointments.length; j++) {
+                    let appointmentDate = new Date(response.patients[i].appointments[j].date);
+    
+                    if (appointmentDate >= date) {
+                        list.push(response.patients[i]);
+                        break;
+                    }
                 }
             }
+            setPatients(list);
         }
-        setPatients(list);
+
+    }
+
+    function handleDatePickerClick(date) {
+        // Search over each patient and check whether any of his appointments is greater than the current appointment
+        // If yes, then add him to the list
+        // If no, then don't add him to the list
+        const list = [];
+
+        if (response !== undefined && response.patients !== undefined) {
+            for (let i = 0; i < response.patients.length; i++) {
+                for (let j = 0; j < response.patients[i].appointments.length; j++) {
+                    let appointmentDate = new Date(response.patients[i].appointments[j].date);
+    
+                    if (appointmentDate >= date) {
+                        list.push(response.patients[i]);
+                        break;
+                    }
+                }
+            }
+            setPatients(list);
+        }
     }
 
     function handleCardClick(patient_username) {
@@ -86,16 +110,26 @@ export const ViewPatients = () => {
             setPatientInfo(patient);
         }
     }
+
+    function handleClearSearchFilter() {
+        // Clear the search bar
+        // Clear the filter
+        // Clear the date picker
+        // Set the patients to the original list
+        if (response !== undefined && response.patients !== undefined) {
+            setPatients(response.patients);
+        }
+    }
     
     return (
         <div className={styles['page-body-div']}>
             <div className={styles['page-search-div']}>
-                <SearchBar handleSearch={handleSearch} handleFilterClick={handleFilterClick} />
+                <SearchBar handleSearch={handleSearch} handleFilterClick={handleFilterClick} handleDatePickerClick={handleDatePickerClick} handleClearSearchFilter={handleClearSearchFilter}/>
             </div>
             <div className={styles['page-cards-div']}>
                 {
                     patients && patients.map((patient, index) => {
-                        return <PatientCard key={index} patient={patient} handleCardClick={handleCardClick}/>
+                        return <PatientCard key={index} patient={patient} handleCardClick={handleCardClick} />
                     })
                 }
             </div>
