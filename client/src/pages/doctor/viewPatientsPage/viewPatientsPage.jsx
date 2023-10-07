@@ -42,13 +42,18 @@ export const ViewPatients = () => {
     function handleSearch(name) {
         const list = [];
 
-        for (let i = 0; i < response.patients.length; i++) {
-            if (response.patients[i].name.includes(name)) {
-                list.push(response.patients[i]);
+        if (response !== undefined && response.patients !== undefined) {
+            for (let i = 0; i < response.patients.length; i++) {
+                let name1 = name.toUpperCase();
+                let name2 = response.patients[i].name.toUpperCase();
+    
+                if (name2.indexOf(name1) === 0) {
+                    list.push(response.patients[i]);
+                }
             }
+    
+            setPatients(list);
         }
-
-        setPatients(list);
     }
 
     function handleFilterClick() {
@@ -98,16 +103,18 @@ export const ViewPatients = () => {
     function handleCardClick(patient_username) {
         // Set the detailed patient to the patient that was clicked
         // Redirect to the patient's page
-        let patient = null;
-        for (let i = 0; i < response.patients.length; i++) {
-            if (response.patients[i].username === patient_username) {
-                patient = response.patients[i];
-                break;
+        if (response !== undefined && response.patients !== undefined) {
+            let patient = null;
+            for (let i = 0; i < response.patients.length; i++) {
+                if (response.patients[i].username === patient_username) {
+                    patient = response.patients[i];
+                    break;
+                }
             }
-        }
-        
-        if (patient !== null) {
-            setPatientInfo(patient);
+            
+            if (patient !== null) {
+                setPatientInfo(patient);
+            }
         }
     }
 

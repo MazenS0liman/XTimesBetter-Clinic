@@ -18,7 +18,8 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleDatePickerClic
     const [staticDate, setStaticDate] = useState(dayjs());
     const [date, setDate] = useState(new Date());
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const inputRef = useRef("");
+    const [inputValue, setInputValue] = useState("");
+    const [searchButtonClicked, setSearchButtonClicked] = useState(false);
 
     useEffect(() => {
         if (staticDate !== null && staticDate.$d !== undefined) {
@@ -30,14 +31,28 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleDatePickerClic
         handleDatePickerClick(date);
     }, [date]);
 
-    function handleChange (event) {
-        inputRef.current = event.target.value;
-        handleSearch(inputRef.current);
+    useEffect(() => {
+        if (!searchButtonClicked) {
+            handleSearch(inputValue);
+        }
+
+        return () => setSearchButtonClicked(false);
+    }, [inputValue]);
+
+    function handleChange(event) {
+        setInputValue(event.target.value);
     }
 
     function handleClick() {
-        handleSearch(inputRef.current);
-        inputRef.current = "";
+        handleSearch(inputValue);
+        setSearchButtonClicked(true);
+        setInputValue("");
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        handleSearch(inputValue);
+        setInputValue("");
     }
 
     return (
@@ -45,7 +60,7 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleDatePickerClic
             <a>Search for your patient</a>
             <div className={styles['searchbar-sub-div']}>
                 <div className={styles['searchbar-input-div']}>
-                    <input className={styles['searchbar-input']} ref={inputRef.current.value} placeholder="Search for ..." type="text" onChange={handleChange} />
+                    <input className={styles['searchbar-input']} value={inputValue} placeholder="Search for ..." type="text" onChange={handleChange}/>
                 </div>
                 
                 <div className={styles['searchbar-icon-div']}>

@@ -27,7 +27,7 @@ export const StaticDate = ({ date, setDate }) => {
                     ]}
                 >
                     <DemoItem label="Appointment Date">
-                        <MobileDatePicker onChange={setDate}/>
+                        <MobileDatePicker onAccept={setDate}/>
                     </DemoItem>
                 </DemoContainer>
             </LocalizationProvider>
