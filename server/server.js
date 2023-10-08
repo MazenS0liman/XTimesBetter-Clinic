@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
+const doctorListRoutes = require('./routes/patient/doctorListRoutes')
+
 mongoose.set('strictQuery', false);
 
 // Express app
@@ -37,3 +39,7 @@ mongoose.connect(MongoURI)
   })
 })
 .catch(err => console.log(err));
+
+// Routes
+// Patient
+app.use('/patient/doctorList', doctorListRoutes)
