@@ -4,6 +4,7 @@ const colors = require('colors');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const adminRoutes= require('./routes/Admin/adminRoute.js');
 
 mongoose.set('strictQuery', false);
 
@@ -37,3 +38,5 @@ mongoose.connect(MongoURI)
   })
 })
 .catch(err => console.log(err));
+
+app.use('/Admin/addremoveclinic', adminRoutes);
