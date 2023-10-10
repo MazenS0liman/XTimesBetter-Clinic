@@ -40,7 +40,7 @@ const PharmacistRequestsSchema = mongoose.Schema({
         enum: ['accepted', 'onhold', 'rejected'],
         required: true,
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
 
 const PharmacistRequests = mongoose.model('PharmacistRequests', PharmacistRequestsSchema);

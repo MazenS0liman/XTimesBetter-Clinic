@@ -17,7 +17,7 @@ const PrescriptionSchema = mongoose.Schema({
         type: Boolean,
         required: true,
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
 
 const Prescription = mongoose.model('Prescription', PrescriptionSchema);
