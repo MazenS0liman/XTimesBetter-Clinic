@@ -4,20 +4,23 @@ import React from 'react';
 import './App.css'
 
 // Pages
-import { ViewPatients } from './pages/doctor/viewPatientsPage/viewPatientsPage';
-import { ViewPatientInfo } from './pages/doctor/viewPatientInfoPage/viewPatientInfoPage';
+import { MainPage } from './Temp';
+import { ViewDoctorMainPage } from './pages/doctor/viewDoctorMainPage/viewDoctorMainPage';
+import { ViewAdminMainPage } from './pages/admin/viewAdminMainPage/viewAdminMainPage';
+import { ViewPatientMainPage } from './pages/patient/viewPatientMainPage/viewPatientMainPage';
 
-// Components
+// React Router Dom Components
 import { Routes, Route, Navigate } from 'react-router-dom';
-
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path='/doctor/viewPatientsPage' element={<ViewPatients />}/>
-        <Route path='/doctor/viewPatientInfoPage' element={<ViewPatientInfo />} ></Route>
+        <Route path='/' element={<MainPage />} ></Route>
+        <Route path='/doctor/*' element={<ViewDoctorMainPage />} ></Route>
+        <Route path='/admin/*' element={<ViewAdminMainPage />} ></Route>
+        <Route path='/patient/*' element={<ViewPatientMainPage />} ></Route>
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </>

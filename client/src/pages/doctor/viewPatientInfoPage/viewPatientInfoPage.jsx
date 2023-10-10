@@ -27,21 +27,27 @@ export function ViewPatientInfo() {
 
     // Choosing image based on the gender of the patient 
     let image = null;
-    if (patient.gender === 'male') {
+    if (patient !== null && patient.gender === 'male') {
       image = manImage;
     } else {
       image = womenImage;
     }
 
-    // Split the patients name string into an array of strings whenever a blank space is encountered
-    const arr = patient.name.split(" ");
-    // Loop through each element of the array and capitalize the first letter.
-    for (let i = 0; i < arr.length; i++) {
-        arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    if(patient !== null) {
+      // Split the patients name string into an array of strings whenever a blank space is encountered
+      const arr = patient.name.split(" ");
+      // Loop through each element of the array and capitalize the first letter.
+      for (let i = 0; i < arr.length; i++) {
+          arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+      }
+      //Join all the elements of the array back into a string 
+      //using a blankspace as a separator 
+      patient.name = arr.join(" ");
     }
-    //Join all the elements of the array back into a string 
-    //using a blankspace as a separator 
-    patient.name = arr.join(" ");
+
+    if (patient === null) {
+      return (<div>No patient exist</div>);
+    }
     
     return (
 
