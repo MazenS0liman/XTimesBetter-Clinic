@@ -12,24 +12,46 @@ import { StaticDate } from '../staticDate/staticDate';
 
 // FontAwesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilter, faCalendarCheck, faFilterCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFilter, faCalendarCheck, faFilterCircleXmark, faCalendarPlus, faCalendarMinus } from '@fortawesome/free-solid-svg-icons';
 
-export const SearchBar = ({handleSearch, handleFilterClick, handleDatePickerClick, handleClearSearchFilter}) => {
-    const [staticDate, setStaticDate] = useState(dayjs());
-    const [date, setDate] = useState(new Date());
-    const [showDatePicker, setShowDatePicker] = useState(false);
+export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePickerClick, handleEndDatePickerClick, handleClearSearchFilter}) => {
+    // Input
     const [inputValue, setInputValue] = useState("");
+
+    // Search Button
     const [searchButtonClicked, setSearchButtonClicked] = useState(false);
 
+    // Start Date Picker
+    const [staticStartDate, setStaticStartDate] = useState(dayjs());
+    const [startDate, setStartDate] = useState(new Date());
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+
+    // End Date Picker
+    const [staticEndDate, setStaticEndDate] = useState(dayjs());
+    const [endDate, setEndDate] = useState(new Date());
+    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+
+    // Start Date Picker
     useEffect(() => {
-        if (staticDate !== null && staticDate.$d !== undefined) {
-            setDate(new Date(staticDate.$d));
+        if (staticStartDate !== null && staticStartDate.$d !== undefined) {
+            setStartDate(new Date(staticStartDate.$d));
         }
-    }, [staticDate]);
+    }, [staticStartDate]);
 
     useEffect(() => {
-        handleDatePickerClick(date);
-    }, [date]);
+        handleStartDatePickerClick(startDate);
+    }, [startDate]);
+
+    // End Date Picker
+    useEffect(() => {
+        if (staticEndDate !== null && staticEndDate.$d !== undefined) {
+            setEndDate(new Date(staticEndDate.$d));
+        }
+    }, [staticEndDate]);
+
+    useEffect(() => {
+        handleEndDatePickerClick(endDate);
+    }, [endDate]);
 
     useEffect(() => {
         if (!searchButtonClicked) {
@@ -76,8 +98,14 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleDatePickerClic
                 </div>
 
                 <div className={styles['searchfilter-icon-div']}>
-                    <button className={styles['searchfilter-button']} onClick={() => setShowDatePicker(!showDatePicker)}>
-                        <FontAwesomeIcon icon={faFilter} />
+                    <button className={styles['searchfilter-button']} onClick={() => setShowStartDatePicker(!showStartDatePicker)}>
+                        <FontAwesomeIcon icon={faCalendarPlus} />
+                    </button>
+                </div>
+
+                <div className={styles['searchfilter-icon-div']}>
+                    <button className={styles['searchfilter-button']} onClick={() => setShowEndDatePicker(!showEndDatePicker)}>
+                        <FontAwesomeIcon icon={faCalendarMinus} />
                     </button>
                 </div>
 
@@ -87,9 +115,15 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleDatePickerClic
                     </button>
                 </div>
                 
-                {showDatePicker && (
+                {showStartDatePicker && (
                     <div className={styles['searchfilter-date-div']}>
-                        <StaticDate date={staticDate} setDate={setStaticDate} />
+                        <StaticDate label={"Start Appointment Date"} date={staticStartDate} setDate={setStaticStartDate} />
+                    </div>
+                )}
+
+                {showEndDatePicker && (
+                    <div className={styles['searchfilter-date-div']}>
+                        <StaticDate label={"End Appointment Date"} date={staticEndDate} setDate={setStaticEndDate} />
                     </div>
                 )}
             </div>

@@ -78,6 +78,3 @@ export function ViewPatientInfo() {
     )
 }
 
-
-
-{/* <button >Go back</button> */}

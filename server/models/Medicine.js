@@ -7,7 +7,7 @@ const MedicineSchema = mongoose.Schema({
     },
     picture: {
         type: String,
-        requried: true,
+        required: true,
     },
     active_ingredients: {
         type: [String],

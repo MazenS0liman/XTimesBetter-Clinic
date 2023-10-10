@@ -16,6 +16,10 @@ export const ViewPatients = () => {
     const [response] = useFetch('get', 'http://localhost:5000/doctor/patients', {doctor_username:"mohameds0liman"}); // To store the response of the request
     const [patients, setPatients] = useState([]); // To store the patients that will be displayed in cards
     const [patientInfo, setPatientInfo] = useState(""); // To store the patient that was clicked
+    const [startAppointmentsDate, setStartAppointmentsDate] = useState(new Date(-8640000000000000));
+    const [endAppointmentsDate, setEndAppointmentsDate] = useState(new Date(8640000000000000));
+    const [showError, setShowError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const navigate = useNavigate(); // To redirect to another page
 
@@ -62,6 +66,10 @@ export const ViewPatients = () => {
         // If no, then don't add him to the list
         const list = [];
         const date = new Date();
+        setStartAppointmentsDate(date);
+        setEndAppointmentsDate(new Date(8640000000000000));
+        setShowError(false);
+        setErrorMessage("");
         
         if (response !== undefined && response.patients !== undefined) {
             for (let i = 0; i < response.patients.length; i++) {
@@ -79,26 +87,61 @@ export const ViewPatients = () => {
 
     }
 
-    function handleDatePickerClick(date) {
-        // Search over each patient and check whether any of his appointments is greater than the current appointment
-        // If yes, then add him to the list
-        // If no, then don't add him to the list
-        const list = [];
-
-        if (response !== undefined && response.patients !== undefined) {
-            for (let i = 0; i < response.patients.length; i++) {
-                for (let j = 0; j < response.patients[i].appointments.length; j++) {
-                    let appointmentDate = new Date(response.patients[i].appointments[j].date);
+    function handleStartDatePickerClick(date) {
+        if (date > endAppointmentsDate) {
+            setErrorMessage("Start date must be before end date");
+            setShowError(true);
+            setPatients([]);
+        } else {
+            const list = [];
+            setStartAppointmentsDate(date);
+            setShowError(false);
+            setErrorMessage("");
     
-                    if (appointmentDate >= date) {
-                        list.push(response.patients[i]);
-                        break;
+            if (response !== undefined && response.patients !== undefined) {
+                for (let i = 0; i < response.patients.length; i++) {
+                    for (let j = 0; j < response.patients[i].appointments.length; j++) {
+                        let appointmentDate = new Date(response.patients[i].appointments[j].date);
+        
+                        if (appointmentDate >= date && appointmentDate <= endAppointmentsDate) {
+                            list.push(response.patients[i]);
+                            break;
+                        }
                     }
                 }
+                setPatients(list);
             }
-            setPatients(list);
         }
     }
+
+    function handleEndDatePickerClick(date) {
+
+        if (date < startAppointmentsDate) {
+            setErrorMessage("End date must be after start date");
+            setShowError(true);
+            setPatients([]);
+        } else {
+            const list = [];
+            setEndAppointmentsDate(date);
+            setShowError(false);
+            setErrorMessage("");
+    
+            if (response !== undefined && response.patients !== undefined) {
+                for (let i = 0; i < response.patients.length; i++) {
+                    for (let j = 0; j < response.patients[i].appointments.length; j++) {
+                        let appointmentDate = new Date(response.patients[i].appointments[j].date);
+        
+                        if (appointmentDate <= date && appointmentDate >= startAppointmentsDate) {
+                            list.push(response.patients[i]);
+                            break;
+                        }
+                    }
+                }
+                setPatients(list);
+            }
+        }
+    }
+
 
     function handleCardClick(patient_username) {
         // Set the detailed patient to the patient that was clicked
@@ -123,6 +166,10 @@ export const ViewPatients = () => {
         // Clear the filter
         // Clear the date picker
         // Set the patients to the original list
+        setStartAppointmentsDate(new Date(-8640000000000000));
+        setEndAppointmentsDate(new Date(8640000000000000));
+        setShowError(false);
+        setErrorMessage("");
         if (response !== undefined && response.patients !== undefined) {
             setPatients(response.patients);
         }
@@ -131,13 +178,20 @@ export const ViewPatients = () => {
     return (
         <div className={styles['page-body-div']}>
             <div className={styles['page-search-div']}>
-                <SearchBar handleSearch={handleSearch} handleFilterClick={handleFilterClick} handleDatePickerClick={handleDatePickerClick} handleClearSearchFilter={handleClearSearchFilter}/>
+                <SearchBar handleSearch={handleSearch} handleFilterClick={handleFilterClick} handleStartDatePickerClick={handleStartDatePickerClick} handleEndDatePickerClick={handleEndDatePickerClick} handleClearSearchFilter={handleClearSearchFilter}/>
             </div>
             <div className={styles['page-cards-div']}>
                 {
                     patients && patients.map((patient, index) => {
                         return <PatientCard key={index} patient={patient} handleCardClick={handleCardClick} />
                     })
+                }
+                {
+                    showError && (
+                        <div className={styles['error-div']}>
+                            <a className={styles['error-message-a']}>{errorMessage}</a>
+                        </div>
+                    )
                 }
             </div>
         </div>

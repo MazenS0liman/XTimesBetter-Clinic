@@ -8,7 +8,7 @@ const PharmacistSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        requried: true,
+        required: true,
     },
     email: {
         type: String,
