@@ -2,10 +2,11 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 const mongoose = require('mongoose');
-var cors = require('cors');
+const cors = require('cors');
 var bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 
 mongoose.set('strictQuery', false);
 
@@ -19,7 +20,20 @@ const MongoURI = process.env.MONGO_URI;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+
+const allowedOrigins = ['http://localhost:5173','http://localhost:5173/doctor/updateInfoPage'];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+};
+
+// Enable CORS for all routes or specify it for specific routes.
+app.use(cors(corsOptions));
 
 
 // Middleware for allowing react to fetch() from server
@@ -43,6 +57,7 @@ mongoose.connect(MongoURI)
 .catch(err => console.log(err));
 
 // Routes
+
 // Patient
 app.use('/patient/register', require('./routes/patient/registerRoute'));
 app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
@@ -50,4 +65,7 @@ app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
 // Doctor
 app.use('/doctor/register', require('./routes/doctor/registerRoute'));
 app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
+app.use('/doctor/profile',require('./routes/doctor/profileRoute') );
 
+// Admin
+app.use('/admin/doctor',require('./routes/admin/viewDoctorInformation') );
