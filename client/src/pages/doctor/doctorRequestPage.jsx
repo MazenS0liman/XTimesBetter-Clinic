@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 //import axios from 'axios';
-const PatientRegister = () => {
+const DoctorRequest = () => {
 
     const [formData, setFormData] = useState({
         username: '',
@@ -8,23 +8,13 @@ const PatientRegister = () => {
         email: '',
         password: '',
         dob: '',
-        gender: 'male', // Default value
-        mobile: '',
-        emergency_contact: [{}], // Initialize with an empty contact object
+        hourly_rate: '', 
+        affilitation: '',
+        educational_background: '', 
+        speciality: '',
       });
 
     // Handle input changes
-    const handleEmergencyContactChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-          ...formData,
-          emergency_contact: {
-            ...formData.emergency_contact,
-            [name]: value,
-          },
-        });
-      };
-      
       const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -37,8 +27,7 @@ const PatientRegister = () => {
     const handleSubmit = async (e) => {
          e.preventDefault();
         try {
-             // Send the formData object to your backend API for registration
-            const response = await fetch('http://localhost:5000/patient/register/', {
+            const response = await fetch('http://localhost:5000/doctor/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -57,12 +46,10 @@ const PatientRegister = () => {
                 email: '',
                 password: '',
                 dob: '',
-                gender: 'male',
-                mobile: '',
-                emergency_contact: {
-                  name: '',
-                  mobile: '',
-                },
+                hourly_rate: '', 
+                affilitation: '',
+                educational_background: '', 
+                speciality: '',
               });
         } else {
             // Registration failed, handle error scenario
@@ -76,8 +63,8 @@ const PatientRegister = () => {
     };
 
     return ( 
-        <div className='patientRegister'>
-            <h2>Patient Registration</h2>
+        <div className='doctorRequest'>
+            <h2>Doctor Registration Request</h2>
       <form onSubmit={handleSubmit}>
         {/* Add form fields for each data attribute */}
         <div>
@@ -131,60 +118,46 @@ const PatientRegister = () => {
           />
         </div>
         <div>
-          <label>Gender:</label>
-          <label>
-    <input
-      type="radio"
-      name="gender"
-      value="male"
-      checked={formData.gender === 'male'}
-      onChange={handleInputChange}
-      required
-    />
-    Male
-  </label>
-  <label>
-    <input
-      type="radio"
-      name="gender"
-      value="female"
-      checked={formData.gender === 'female'}
-      onChange={handleInputChange}
-      required
-    />
-    Female
-  </label>
-        </div>
-        <div>
-          <label>Mobile:</label>
+          <label>Hourly Rate:</label>
           <input
             type="text"
-            name="mobile"
-            value={formData.mobile}
+            name="hourly_rate"
+            value={formData.hourly_rate}
             onChange={handleInputChange}
             required
           />
         </div>
         <div>
-        <label>Emergency Contact Full Name:</label>
-            <input
-                type="text"
-                name="emergencyName" // Use a different name attribute
-                value={formData.emergency_contact.name}
-                onChange={handleEmergencyContactChange}
-                required
-             />
+          <label>Affilitation:</label>
+          <input
+            type="text"
+            name="affilitation"
+            value={formData.affilitation}
+            onChange={handleInputChange}
+            required
+          />
         </div>
         <div>
-        <label>Emergency Contact Mobile Number:</label>
-        <input
-         type="text"
-         name="emergencyMobile" // Use a different name attribute
-         value={formData.emergency_contact.mobile}
-         onChange={handleEmergencyContactChange}
-         required
-         />
+          <label>Educational Background:</label>
+          <input
+            type="text"
+            name="educational_background"
+            value={formData.educational_background}
+            onChange={handleInputChange}
+            required
+          />
         </div>
+        <div>
+          <label>Speciality:</label>
+          <input
+            type="text"
+            name="speciality"
+            value={formData.speciality}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        
         
         {/* Submit button */}
         <button type="submit">Register</button>
@@ -193,4 +166,4 @@ const PatientRegister = () => {
      );
 }
  
-export default PatientRegister;
+export default  DoctorRequest ;
