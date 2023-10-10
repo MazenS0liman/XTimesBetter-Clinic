@@ -1,10 +1,16 @@
-const router = require('express').Router();
+const express = require('express')
 // const { getPrescription } = require('../../controllers/patient/prescriptionsController');
-const { viewMyPrescriptions ,createPrescription,getPrescription,filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,selectPrescriptionFromMyList} = require('../../controllers/patient/prescriptionsController');
-// APIs
-router.get('/', viewMyPrescriptions);
-router.get('/:id', getPrescription);
-router.post('/', createPrescription);
+const { getMedicines,createPrescription,getPrescription,
+    filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,
+    selectPrescriptionFromMyList} = require('../../controllers/patient/prescriptionsController');
+const router = express.Router()
+// router.get('/v', viewMyPrescriptions);
+//router.get('/:patient_username', getPrescription);
+
+//router.get('/viewMyPrescriptionInfo/:username', viewMyPrescriptionInfo);
+router.get('/', getMedicines)
+
+router.post('/create', createPrescription);
 router.get('/filter/date/:visitDate',filterPrescriptionByDate);
 router.get('/filter/doctor/:name',filterPrescriptionByDoctor);
 router.get('/filter/filled/:filledName',filterPrescriptionByfilled);

@@ -5,14 +5,15 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cors = require('cors'); // Import CORS for handling cross-origin requests
-const { viewMyPrescriptions, createPrescription,getPrescription } = require('./controllers/patient/prescriptionsController'); // Import your controllers
+const { getMedicines, createPrescription,getPrescription } = require('./controllers/patient/prescriptionsController'); // Import your controllers
 const prescriptionRoutes = require('./routes/patient/prescriptions')
 
 mongoose.set('strictQuery', false);
+const Port = process.env.PORT || 3000;
 
 // Express app
 const app = express();
-// app.use(cors());
+app.use(cors());
 
 // App variables
 // const Port = process.env.PORT || 5000;
@@ -34,28 +35,31 @@ app.use(function(req, res, next) {
 mongoose.connect(MongoURI)
 .then(()=>{
   console.log("MongoDB is now connected!")
-  app.get('/patient/prescriptions/viewMyPrescriptions', async (req, res) => {
+  // app.get('/patient/prescriptions/viewMyPrescriptions', async (req, res) => {
+  //   try {
+  //     const users = await userModel.find();
+  //     res.status(200).json({ message: 'Success', prescriptions: users });
+  //   } catch (error) {
+  //     res.status(500).json({ error: 'Failed to fetch prescriptions' });
+  //   }
+  // });
+  app.get('/api/prescriptions', async (req, res) => {
     try {
-      const users = await userModel.find();
-      res.status(200).json({ message: 'Success', prescriptions: users });
+      const prescriptions = await Prescription.find();
+      res.json({ prescriptions });
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch prescriptions' });
     }
   });
-  app.get('getPres',(req,res)=>{
-    userModel.find()
-    .then(prescriptions => res.json(prescriptions))
-    .catch(err => res.json(err))
-
+  // app.get("/message", (req, res) => {
+  //   res.json({ message: "Hello from server!" });
+  // });
+  
+    // Starting server
+    app.listen(Port, () => {
+      console.log(`Listening to requests on http://localhost:${Port}`);
+    })
   })
-  app.use('/api/prescriptions',prescriptionRoutes)
-
-  // Starting server
-  app.listen(8000, () => {
-    console.log(`Listening to requests on http://localhost:8000`);
-  })
-})
 .catch(err => console.log(err));
-// app.get('/patient/prescriptions/viewMyPrescriptions', viewMyPrescriptions);
-// app.post('/patient/prescriptions/create', createPrescription);
+app.use('/patient/prescriptionDetails',prescriptionRoutes)
 

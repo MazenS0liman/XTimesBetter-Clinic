@@ -8,25 +8,55 @@ const createPrescription = asyncHandler( async (req, res) => {
     const newPrescription = await userModel.create(prescription);
     res.status(200).json({ message: 'Success', prescription: newPrescription});
 });
-const viewMyPrescriptions = async (req, res) => {
-    try {
-      const users = await userModel.find({}).sort({created:-1});
-      console.log('Fetched users:', users); // Add this line for debugging
-      res.status(200).json({users });
-    } catch (error) {
-      console.error('Error fetching users:', error); // Add this line for debugging
-      res.status(500).json({ error: 'Failed to fetch users' });
-    }
-  };
+const getMedicines = async (req, res) => {
+  const medicines = await userModel.find({}).sort({ createdAt: -1 }).select('patient_username doctor_username visit_date filled');
+  console.log('Fetched users:', medicines); // Add this line for debugging
+  res.status(200).json(medicines)
+}
+// const viewMyPrescriptions = async (req, res) => {
+//     try {
+//       const users = await userModel.find({}).sort({created:-1});
+//       console.log('Fetched users:', users); // Add this line for debugging
+//       res.status(200).json({users });
+//     } catch (error) {
+//       console.error('Error fetching users:', error); // Add this line for debugging
+//       res.status(500).json({ error: 'Failed to fetch users' });
+//     }
+//   };
   const getPrescription = async (req,res) => {
-    const {id} = req.params;
-    const prescription= await userModel.findById(id);
+    //const appointments = await appointmentModel.find({ doctor_username: req.query.doctor_username });
+    const prescription = await userModel.findOne({ username: req.query.patient_username });
     if(!prescription){
       return res.status(404).json({error:'No such prescription'});
     }
     res.status(200).json(prescription);
   }
+const getPatients = asyncHandler( async (req, res) => {
+    // Check if the doctor username is provided
+    if (req.query.doctor_username === undefined) {
+        return res.status(400).json({ message: 'Please add a doctor username!' });
+    }
 
+    const doctor = await doctorModel.findOne({ username: req.query.doctor_username });
+    if (!doctor) {
+        return res.status(404).json({ message: 'Doctor not found!' });
+    }
+
+    // Get all appointments with the doctor specified in the request
+    const appointments = await appointmentModel.find({ doctor_username: req.query.doctor_username });
+
+    // Get all patients of the doctor
+    const patients = await patientModel.find({ username: { $in: appointments.map(appointment => appointment.patient_username) } });
+
+    // Add appointments to the patient
+    let modifiedPatients = [...patients];
+    for (let i = 0; i < modifiedPatients.length; i++) {
+        let filteredAppointments = appointments.filter(appointment => appointment.patient_username === modifiedPatients[i].username);
+        modifiedPatients[i]._doc.appointments= filteredAppointments;
+    }
+
+    res.status(200).json({ message: 'Success', patients: modifiedPatients });
+});
 
     
 
@@ -133,4 +163,4 @@ const selectPrescriptionFromMyList = async (req, res) => {
 
 
 
-module.exports = {viewMyPrescriptions,createPrescription,getPrescription,filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,selectPrescriptionFromMyList};
+module.exports = {getMedicines,createPrescription,getPrescription,filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,selectPrescriptionFromMyList};
