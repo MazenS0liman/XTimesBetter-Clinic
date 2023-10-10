@@ -23,7 +23,7 @@ function UpdateDoctorInfo() {
       setDoctorInfo({ ...doctorInfo, username: value });
     }
   };
-  console.log(doctorInfo)
+  // console.log(doctorInfo)
 
   const handleRadioChange = (val) => {
     setSelectedRadio(val);
@@ -51,7 +51,7 @@ function UpdateDoctorInfo() {
       };
 
     // Make an HTTP PATCH request to send the data to the backend using the requestBody
-    fetch('http://localhost:8000/doctor/profile/updateDoctorInfo', {
+    fetch('http://localhost:5000/doctor/profile/updateDoctorInfo', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

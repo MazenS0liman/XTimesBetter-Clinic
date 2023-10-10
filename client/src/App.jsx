@@ -6,7 +6,7 @@ import './App.css'
 // Pages
 import {ViewPatients} from './pages/doctor/viewPatientsPage/viewPatientsPage';
 import {ViewPatientInfo }from './pages/doctor/viewPatientInfoPage/viewPatientInfoPage';
-import ViewDoctorInfo from './pages/doctor/doctorInfoPage/viewDoctorInfo';
+import ViewRequestedDoctorInfo from './pages/admin/viewRequestedDoctorInfo';
 import UpdateDoctorInfo from'./pages/doctor/doctorInfoPage/updateDoctorInfo.jsx';
 
 
@@ -23,8 +23,8 @@ function App() {
    
       <Routes>
         <Route path = "/doctor/viewPatientsPage" element = {<ViewPatients/>}/>
-        <Route path = "/doctor/doctorInfoPage" element = {<ViewDoctorInfo/>} />
-        <Route path = "/doctor/viewPatientInfiPage" element = {<ViewPatientInfo/>} />
+        <Route path = "/doctor/requestedDoctorInfoPage" element = {<ViewRequestedDoctorInfo/>} />
+        <Route path = "/doctor/viewPatientInfoPage" element = {<ViewPatientInfo/>} />
         <Route path = "/doctor/updateInfoPage" element = {<UpdateDoctorInfo/>} ></Route>
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>

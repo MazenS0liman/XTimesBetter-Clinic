@@ -4,18 +4,19 @@ const doctorModel = require('../../models/Doctor');
 
 const viewDoctorInfo = asyncHandler(async(req, res)=>{
     
-    const {
-        username,
-     }=req.body;
-     const query={username}
-     const doctor= await doctorModel.find({username: username});
+    const { username }=req.body;
+    const query={username}
+    const doctor= await doctorModel.find(query);
     console.log(doctor);
     if(doctor){
         res.status(200).json(doctor); 
     } else{
         res.status(400).json({ message: 'Doctor not found!'});
     }
+
 })
+
+
 
 const updateDoctorInfo = asyncHandler(async(req, res)=>{
     try{
