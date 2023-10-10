@@ -2,6 +2,8 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 const mongoose = require('mongoose');
+var cors = require('cors');
+var bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -17,6 +19,8 @@ const MongoURI = process.env.MONGO_URI;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+
 
 // Middleware for allowing react to fetch() from server
 app.use(function(req, res, next) {
@@ -37,3 +41,13 @@ mongoose.connect(MongoURI)
   })
 })
 .catch(err => console.log(err));
+
+// Routes
+// Patient
+app.use('/patient/register', require('./routes/patient/registerRoute'));
+app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
+
+// Doctor
+app.use('/doctor/register', require('./routes/doctor/registerRoute'));
+app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
+
