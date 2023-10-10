@@ -23,7 +23,7 @@ function App() {
    
       <Routes>
         <Route path = "/doctor/viewPatientsPage" element = {<ViewPatients/>}/>
-        <Route path = "/doctor/requestedDoctorInfoPage" element = {<ViewRequestedDoctorInfo/>} />
+        <Route path = "/admin/requestedDoctorInfoPage" element = {<ViewRequestedDoctorInfo/>} />
         <Route path = "/doctor/viewPatientInfoPage" element = {<ViewPatientInfo/>} />
         <Route path = "/doctor/updateInfoPage" element = {<UpdateDoctorInfo/>} ></Route>
         <Route path='*' element={<Navigate to='/' />} />
