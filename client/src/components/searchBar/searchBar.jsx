@@ -12,9 +12,9 @@ import { StaticDate } from '../staticDate/staticDate';
 
 // FontAwesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faFilter, faCalendarCheck, faFilterCircleXmark, faCalendarPlus, faCalendarMinus } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faFilter, faCalendarCheck, faFilterCircleXmark, faCalendarPlus, faCalendarMinus, faCalendar } from '@fortawesome/free-solid-svg-icons';
 
-export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePickerClick, handleEndDatePickerClick, handleClearSearchFilter}) => {
+export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePickerClick, handleEndDatePickerClick, handleClearSearchFilter, handleUpcomingAppointmentsClick}) => {
     // Input
     const [inputValue, setInputValue] = useState("");
 
@@ -106,6 +106,12 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePicke
                 <div className={styles['searchfilter-icon-div']}>
                     <button className={styles['searchfilter-button']} onClick={() => setShowEndDatePicker(!showEndDatePicker)}>
                         <FontAwesomeIcon icon={faCalendarMinus} />
+                    </button>
+                </div>
+
+                <div className={styles['searchfilter-icon-div']}>
+                    <button className={styles['searchfilter-button']} onClick={handleUpcomingAppointmentsClick}>
+                        <FontAwesomeIcon icon={faCalendar} />
                     </button>
                 </div>
 

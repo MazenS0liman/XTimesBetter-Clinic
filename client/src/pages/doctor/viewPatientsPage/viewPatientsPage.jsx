@@ -84,7 +84,28 @@ export const ViewPatients = () => {
             }
             setPatients(list);
         }
+    }
 
+    function handleUpcomingAppointmentsClick() {
+        const list = [];
+        setStartAppointmentsDate(new Date(-8640000000000000));
+        setEndAppointmentsDate(new Date(8640000000000000));
+        setShowError(false);
+        setErrorMessage("");
+        
+        if (response !== undefined && response.patients !== undefined) {
+            for (let i = 0; i < response.patients.length; i++) {
+                for (let j = 0; j < response.patients[i].appointments.length; j++) {
+                    let appointmentStatus = response.patients[i].appointments[j].status;
+    
+                    if (appointmentStatus === "upcoming") {
+                        list.push(response.patients[i]);
+                        break;
+                    }
+                }
+            }
+            setPatients(list);
+        }
     }
 
     function handleStartDatePickerClick(date) {
@@ -178,7 +199,7 @@ export const ViewPatients = () => {
     return (
         <div className={styles['page-body-div']}>
             <div className={styles['page-search-div']}>
-                <SearchBar handleSearch={handleSearch} handleFilterClick={handleFilterClick} handleStartDatePickerClick={handleStartDatePickerClick} handleEndDatePickerClick={handleEndDatePickerClick} handleClearSearchFilter={handleClearSearchFilter}/>
+                <SearchBar handleSearch={handleSearch} handleFilterClick={handleFilterClick} handleStartDatePickerClick={handleStartDatePickerClick} handleEndDatePickerClick={handleEndDatePickerClick} handleClearSearchFilter={handleClearSearchFilter} handleUpcomingAppointmentsClick={handleUpcomingAppointmentsClick}/>
             </div>
             <div className={styles['page-cards-div']}>
                 {

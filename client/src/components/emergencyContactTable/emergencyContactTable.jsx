@@ -21,8 +21,8 @@ export const EmergencyTable = ({ emergencies }) => {
                 <Table sx={{ width: '100%' ,}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Name</TableCell>
-                            <TableCell align="right">Phone</TableCell>
+                            <TableCell align="center">Name</TableCell>
+                            <TableCell align="center">Phone</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -31,8 +31,8 @@ export const EmergencyTable = ({ emergencies }) => {
                         key={index}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">{emergency.name}</TableCell>
-                            <TableCell align="right">{emergency.mobile}</TableCell>
+                            <TableCell component="th" scope="row" align="center">{emergency.name}</TableCell>
+                            <TableCell align="center">{emergency.phone}</TableCell>
                         </TableRow>
                     ))}
                     </TableBody>

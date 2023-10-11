@@ -8,7 +8,8 @@
     flex-direction: column;
     
     padding: 2px;
-    margin: 5px;
+    margin: 25px;
+    box-sizing: border-box;
 
     backdrop-filter: grayscale(50%);
     border: 1px solid #ffffff22;

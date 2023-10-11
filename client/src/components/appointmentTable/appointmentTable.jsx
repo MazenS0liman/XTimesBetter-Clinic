@@ -21,9 +21,10 @@ export const AppointmentTable = ({ appointments }) => {
                 <Table sx={{ width: '100%' ,}} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Date</TableCell>
-                            <TableCell align="right">Reschedule</TableCell>
-                            <TableCell align="right">Delete</TableCell>
+                            <TableCell align="center">Date</TableCell>
+                            <TableCell align="center">Status</TableCell>
+                            <TableCell align="center">Reschedule</TableCell>
+                            <TableCell align="center">Delete</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -32,9 +33,10 @@ export const AppointmentTable = ({ appointments }) => {
                         key={index}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
-                            <TableCell component="th" scope="row">{appointment.date}</TableCell>
-                            <TableCell align="right"></TableCell>
-                            <TableCell align="right"></TableCell>
+                            <TableCell component="th" scope="row" align="center">{appointment.date}</TableCell>
+                            <TableCell align="center">{appointment.status}</TableCell>
+                            <TableCell align="center"></TableCell>
+                            <TableCell align="center"></TableCell>
                         </TableRow>
                     ))}
                     </TableBody>
