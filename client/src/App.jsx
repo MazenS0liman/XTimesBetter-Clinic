@@ -4,7 +4,9 @@ import PrescriptionTable from './pages/patient/PrescriptionTable'; // Import the
 
 function App() {
   return (
+    
     <div className="App">
+
       <PrescriptionTable />
     
     </div>

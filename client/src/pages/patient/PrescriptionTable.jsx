@@ -14,7 +14,7 @@ function PrescriptionTable() {
   useEffect(() => {
     const fetchPrescriptionData = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/patient/prescriptionDetails', {
+        const response = await axios.get('http://localhost:5000/patient/prescriptionDetails', {
           headers: {
             'Content-Type': 'application/json',
           },

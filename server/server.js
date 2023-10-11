@@ -10,7 +10,7 @@ const prescriptionRoutes = require('./routes/patient/prescriptions');
 const Prescription = require('./models/Prescription');
 
 mongoose.set('strictQuery', false);
-const Port = process.env.PORT || 8000;
+const Port = process.env.PORT || 5000;
 
 // Express app
 const app = express();
