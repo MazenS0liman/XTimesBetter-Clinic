@@ -8,7 +8,7 @@ const PharmacistRequestsSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        requried: true,
+        required: true,
     },
     email: {
         type: String,
@@ -27,7 +27,7 @@ const PharmacistRequestsSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    affilitation: {
+    affiliation: {
         type: String,
         required: true,
     },
@@ -40,7 +40,7 @@ const PharmacistRequestsSchema = mongoose.Schema({
         enum: ['accepted', 'onhold', 'rejected'],
         required: true,
     },
-}, {timestamps: true});
+}, { timestamps: true });
 
 
 const PharmacistRequests = mongoose.model('PharmacistRequests', PharmacistRequestsSchema);

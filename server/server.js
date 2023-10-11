@@ -68,5 +68,5 @@ app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
 app.use('/doctor/profile',require('./routes/doctor/profileRoute') );
 
 // Admin
-app.use('/admin/viewREQDoctor', require('./routes/admin/viewRequestedDoctorInfo') );
-app.use('/admin/removeDoctor', require('./routes/admin/viewRequestedDoctorInfo') );
+app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo') );
+app.use('/admin/removeDoctor', require('./routes/admin/viewRequestedDoctorsInfo') );

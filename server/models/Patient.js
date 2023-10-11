@@ -8,7 +8,7 @@ const PatientSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        requried: true,
+        required: true,
     },
     email: {
         type: String,
@@ -20,7 +20,7 @@ const PatientSchema = mongoose.Schema({
         required: true,
     },
     dob: {
-        type:  String,
+        type: String,
         required: true,
     },
     gender: {
@@ -33,10 +33,19 @@ const PatientSchema = mongoose.Schema({
         required: true,
     },
     emergency_contact: {
-        type: [],
+        type: mongoose.Schema.Types.Mixed,
         required: true,
-    }
-}, {timestamps: true});
+    },
+    subscribed_package: {
+        type: String,
+        required: false,
+    },
+    medicalHistory: {
+        data: Buffer,
+        contentType: String,
+        //required: false,
+    },
+}, { timestamps: true });
 
 
 const Patient = mongoose.model('Patient', PatientSchema);

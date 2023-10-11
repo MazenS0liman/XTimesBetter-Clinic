@@ -8,7 +8,7 @@ const DoctorRequestsSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        requried: true,
+        required: true,
     },
     email: {
         type: String,
@@ -40,7 +40,11 @@ const DoctorRequestsSchema = mongoose.Schema({
         enum: ['accepted', 'onhold', 'rejected'],
         required: true,
     },
-}, {timestamps: true});
+    speciality: {
+        type: String,
+        required: true
+    },
+}, { timestamps: true });
 
 
 const DoctorRequests = mongoose.model('DoctorRequests', DoctorRequestsSchema);
