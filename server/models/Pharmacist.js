@@ -8,7 +8,7 @@ const PharmacistSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        required: true,
+        requried: true,
     },
     email: {
         type: String,
@@ -27,7 +27,7 @@ const PharmacistSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    affiliation: {
+    affilitation: {
         type: String,
         required: true,
     },
@@ -35,7 +35,7 @@ const PharmacistSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-}, { timestamps: true });
+}, {timestamps: true});
 
 
 const Pharmacist = mongoose.model('Pharmacist', PharmacistSchema);

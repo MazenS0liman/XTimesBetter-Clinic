@@ -27,7 +27,7 @@ const DoctorSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    affiliation: {
+    affilitation: {
         type: String,
         required: true,
     },
@@ -39,12 +39,12 @@ const DoctorSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    availableTimeSlots: {
+    availableTimeSlots:{
         type: [Date],
         required: false,
     }
-}, { timestamps: true });
+}, {timestamps: true});
 
 
 const Doctor = mongoose.model('Doctor', DoctorSchema);
-module.exports = Doctor;
+module.exports = Doctor;

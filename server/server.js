@@ -2,15 +2,40 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 const mongoose = require('mongoose');
-var cors = require('cors');
-var bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const cors = require('cors');
+
+
+
 
 mongoose.set('strictQuery', false);
 
 // Express app
 const app = express();
+
+
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*")
+// }) 
+
+// app.use((req, res, next) => {
+//   res.header({"Access-Control-Allow-Origin": "*"});
+//   next();
+// }) 
+
+
+// Allow requests from your frontend domain (replace 'http://localhost:3000' with your frontend URL)
+//app.use(cors({ origin: 'http://localhost:5173/' }));
+
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
+
 
 // App variables
 const Port = process.env.PORT || 5000;
@@ -19,8 +44,6 @@ const MongoURI = process.env.MONGO_URI;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-
 
 // Middleware for allowing react to fetch() from server
 app.use(function(req, res, next) {
@@ -42,12 +65,16 @@ mongoose.connect(MongoURI)
 })
 .catch(err => console.log(err));
 
+
 // Routes
+// Admin (Packages)
+app.use('/admin/addPackage', require('./routes/admin/packageRoute'));
+app.use('/admin/updatePackage', require('./routes/admin/packageRoute'));
+app.use('/admin/deletePackage', require('./routes/admin/packageRoute'));
+app.use('/admin/ViewPackage', require('./routes/admin/packageRoute'));
+
+
+
 // Patient
-app.use('/patient/register', require('./routes/patient/registerRoute'));
-app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
-
-// Doctor
-app.use('/doctor/register', require('./routes/doctor/registerRoute'));
-app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
-
+//View all doctors 
+app.use('/patient/allDoctors', require('./routes/patient/doctorsRoute'));

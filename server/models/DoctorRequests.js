@@ -8,7 +8,7 @@ const DoctorRequestsSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        required: true,
+        requried: true,
     },
     email: {
         type: String,
@@ -27,7 +27,7 @@ const DoctorRequestsSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    affiliation: {
+    affilitation: {
         type: String,
         required: true,
     },
@@ -35,24 +35,12 @@ const DoctorRequestsSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    speciality: {
-        type: String,
-        required: true
-    },
-    availableTimeSlots:{
-        type: [Date],
-        //required: false,
-    },
     status: {
         type: String,
         enum: ['accepted', 'onhold', 'rejected'],
         required: true,
     },
-    speciality: {
-        type: String,
-        required: true
-    },
-}, { timestamps: true });
+}, {timestamps: true});
 
 
 const DoctorRequests = mongoose.model('DoctorRequests', DoctorRequestsSchema);

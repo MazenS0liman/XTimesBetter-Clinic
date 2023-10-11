@@ -7,9 +7,9 @@ const PackageSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        required: true,
+        requried: true,
     },
-    doctor_discount: {
+    doctor_discount: { 
         type: Number,
         required: true,
     },
@@ -21,10 +21,10 @@ const PackageSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    subscribed_patients:{
-        type:[]
-    },
-}, { timestamps: true });
+    subscribed_patients : {
+        type :[]
+    }
+}, {timestamps: true});
 
 
 const Package = mongoose.model('Package', PackageSchema);
