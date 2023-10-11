@@ -19,5 +19,5 @@
     backdrop-filter: grayscale(50%);
     box-shadow: -2px 2px 2px #FFE, 0px 3px 10px 5px #03617288;
     
-    z-index: 10;
+    z-index: 1000;
 }
