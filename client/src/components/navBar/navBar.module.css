@@ -24,7 +24,7 @@ body {
   height: 7vh;
   list-style-type: none;
   display: flex;
-  margin: 0px;
+  margin: 0px 0px 0px 15px;
   padding: 0px;
   justify-content: center;
   align-items: center;
