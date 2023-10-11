@@ -5,7 +5,7 @@ import styles from './medicinalUsesDDL.module.css';
 //components
 import PrescriptionDetail from '../../components/prescriptionFileDetails/prescriptionDetail';
 
-const PrescriptionDetailsPage = () => {
+function PrescriptionDetailsPage  ()  {
     const [medicines, setMedecines] = useState([]);
 
     //search related
@@ -20,7 +20,7 @@ const PrescriptionDetailsPage = () => {
     useEffect(() => {
         const fetchAllPrescriptions= async () => {
             try {
-                const response = await axios.get('http://localhost:3000/patient/prescriptionDetails', {
+                const response = await axios.get('http://localhost:5000/patient/prescriptionDetails', {
                     headers: {
                         'Content-Type': 'application/json',
                     },

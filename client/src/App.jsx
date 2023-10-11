@@ -1,20 +1,14 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom'
-import PatientMedicineCatalog from './pages/patient/prescriptionDetailsPage';
-// Styles
-import './App.css'
+import './App.css';
+import PrescriptionTable from './pages/patient/PrescriptionTable'; // Import the PrescriptionTable component
 
 function App() {
-
   return (
-
-    <div>
-      <Routes>
-        <Route path="/patient/prescriptionDetails" element={<PatientMedicineCatalog />} />
-      </Routes>
+    <div className="App">
+      <PrescriptionTable />
+    
     </div>
-
-  )
+  );
 }
 
-export default App
+export default App;

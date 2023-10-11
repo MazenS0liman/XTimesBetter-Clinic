@@ -6,10 +6,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cors = require('cors'); // Import CORS for handling cross-origin requests
 const { getMedicines, createPrescription,getPrescription } = require('./controllers/patient/prescriptionsController'); // Import your controllers
-const prescriptionRoutes = require('./routes/patient/prescriptions')
+const prescriptionRoutes = require('./routes/patient/prescriptions');
+const Prescription = require('./models/Prescription');
 
 mongoose.set('strictQuery', false);
-const Port = process.env.PORT || 3000;
+const Port = process.env.PORT || 5000;
 
 // Express app
 const app = express();
@@ -35,28 +36,33 @@ app.use(function(req, res, next) {
 mongoose.connect(MongoURI)
 .then(()=>{
   console.log("MongoDB is now connected!")
-  // app.get('/patient/prescriptions/viewMyPrescriptions', async (req, res) => {
-  //   try {
-  //     const users = await userModel.find();
-  //     res.status(200).json({ message: 'Success', prescriptions: users });
-  //   } catch (error) {
-  //     res.status(500).json({ error: 'Failed to fetch prescriptions' });
-  //   }
-  // });
-  app.get('/api/prescriptions', async (req, res) => {
-    try {
-      const prescriptions = await Prescription.find();
-      res.json({ prescriptions });
-    } catch (error) {
-      res.status(500).json({ error: 'Failed to fetch prescriptions' });
-    }
-  });
-  // app.get("/message", (req, res) => {
-  //   res.json({ message: "Hello from server!" });
-  // });
+
   
     // Starting server
-    app.listen(Port, () => {
+    async function yourFunctionToFetchPrescriptions() {
+      try {
+        // Use Mongoose to query the database for prescription data
+        const prescriptions = await Prescription.find({}, 'patient_username doctor_username visit_date filled');
+    
+        // Return the fetched prescription data
+        return prescriptions;
+      } catch (error) {
+        // Handle any errors that occur during the database query
+        console.error('Error fetching prescription data:', error);
+        throw error;
+      }
+    }app.get('/api/getPrescriptions', async (req, res) => {
+  try {
+    // Use your backend function to fetch the prescription data
+    const prescriptionData = await yourFunctionToFetchPrescriptions();
+
+    // Return the data as JSON
+    res.json({ prescriptions: prescriptionData });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch prescription data' });
+  }
+});
+ app.listen(Port, () => {
       console.log(`Listening to requests on http://localhost:${Port}`);
     })
   })
