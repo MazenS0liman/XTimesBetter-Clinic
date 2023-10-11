@@ -9,11 +9,9 @@ const router = express.Router()
 
 //router.get('/viewMyPrescriptionInfo/:username', viewMyPrescriptionInfo);
 router.get('/', getMedicines)
-
 router.post('/create', createPrescription);
 router.get('/filter/date/:visitDate',filterPrescriptionByDate);
 router.get('/filter/doctor/:name',filterPrescriptionByDoctor);
 router.get('/filter/filled/:filledName',filterPrescriptionByfilled);
 router.get('/select/:prescriptionSelect',selectPrescriptionFromMyList);
-
 module.exports = router;

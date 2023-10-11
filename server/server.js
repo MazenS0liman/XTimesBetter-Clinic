@@ -18,7 +18,23 @@ app.use(cors());
 
 // App variables
 const MongoURI = process.env.MONGO_URI;
+app.delete('/prescriptions/:id', async (req, res) => {
+  try {
+    const prescriptionId = req.params.id;
 
+    // Use the Mongoose model to delete the prescription by its ID
+    const deletedPrescription = await Prescription.findByIdAndDelete(prescriptionId);
+
+    if (!deletedPrescription) {
+      res.status(404).json({ message: 'Prescription not found' });
+      return;
+    }
+
+    res.status(200).json({ message: 'Prescription deleted', deletedPrescription });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting prescription', error: error.message });
+  }
+});
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -36,31 +52,6 @@ mongoose.connect(MongoURI)
 .then(()=>{
   console.log("MongoDB is now connected!")
 
-  
-    // // Starting server
-    // async function yourFunctionToFetchPrescriptions() {
-    //   try {
-    //     // Use Mongoose to query the database for prescription data
-    //     const prescriptions = await Prescription.find({}, 'patient_username doctor_username visit_date filled');
-    
-    //     // Return the fetched prescription data
-    //     return prescriptions;
-    //   } catch (error) {
-    //     // Handle any errors that occur during the database query
-    //     console.error('Error fetching prescription data:', error);
-    //     throw error;
-    //   }
-//     }app.get('/api/getPrescriptions', async (req, res) => {
-//   try {
-//     // Use your backend function to fetch the prescription data
-//     const prescriptionData = await yourFunctionToFetchPrescriptions();
-
-//     // Return the data as JSON
-//     res.json({ prescriptions: prescriptionData });
-//   } catch (error) {
-//     res.status(500).json({ error: 'Failed to fetch prescription data' });
-//   }
-// });
  app.listen(Port, () => {
       console.log(`Listening to requests on http://localhost:${Port}`);
     })

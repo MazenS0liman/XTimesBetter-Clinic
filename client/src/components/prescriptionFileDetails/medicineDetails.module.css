@@ -9,7 +9,7 @@ table {
 }
 
 th {
-    background-color: #cc88b1;
+    background-color: #070205;
     font-weight: bold;
     text-align: center;
     padding: 8px;
@@ -26,7 +26,7 @@ tr {
 }
 
 tr:hover {
-    background-color: #efefef;
+    background-color: #bcb3b3;
 }
 
 li,
