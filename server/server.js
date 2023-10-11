@@ -21,6 +21,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
+
 
 // Middleware for allowing react to fetch() from server
 app.use(function(req, res, next) {
@@ -50,4 +58,17 @@ app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
 // Doctor
 app.use('/doctor/register', require('./routes/doctor/registerRoute'));
 app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
+
+// Routes
+// Admin (Packages)
+app.use('/admin/addPackage', require('./routes/admin/packageRoute'));
+app.use('/admin/updatePackage', require('./routes/admin/packageRoute'));
+app.use('/admin/deletePackage', require('./routes/admin/packageRoute'));
+app.use('/admin/ViewPackage', require('./routes/admin/packageRoute'));
+
+
+
+// Patient
+//View all doctors 
+app.use('/patient/allDoctors', require('./routes/patient/doctorsRoute'));
 
