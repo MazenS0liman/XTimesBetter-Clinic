@@ -32,8 +32,8 @@ const createDoctor = asyncHandler( async(req,res) => {
         return res.status(400).json({ message: 'Please add an hourly rate!', registeredIn: false });
     }
 
-    if (doctor.affilitation === undefined) {
-        return res.status(400).json({ message: 'Please add an affilitation!', registeredIn: false });
+    if (doctor.affiliation === undefined) {
+        return res.status(400).json({ message: 'Please add an affiliation!', registeredIn: false });
     }
 
     if (doctor.educational_background === undefined) {

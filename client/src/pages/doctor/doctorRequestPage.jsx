@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import styles from './doctorRequestPage.module.css';
+
 //import axios from 'axios';
 const DoctorRequest = () => {
 
@@ -9,7 +11,7 @@ const DoctorRequest = () => {
         password: '',
         dob: '',
         hourly_rate: '', 
-        affilitation: '',
+        affiliation: '',
         educational_background: '', 
         speciality: '',
       });
@@ -47,7 +49,7 @@ const DoctorRequest = () => {
                 password: '',
                 dob: '',
                 hourly_rate: '', 
-                affilitation: '',
+                affiliation: '',
                 educational_background: '', 
                 speciality: '',
               });
@@ -63,7 +65,7 @@ const DoctorRequest = () => {
     };
 
     return ( 
-        <div className='doctorRequest'>
+        <div className={styles.doctorRequest}>
             <h2>Doctor Registration Request</h2>
       <form onSubmit={handleSubmit}>
         {/* Add form fields for each data attribute */}
@@ -113,6 +115,7 @@ const DoctorRequest = () => {
             type="date"
             name="dob"
             value={formData.dob}
+            max={new Date().toISOString().split('T')[0]}
             onChange={handleInputChange}
             required
           />
@@ -120,7 +123,7 @@ const DoctorRequest = () => {
         <div>
           <label>Hourly Rate:</label>
           <input
-            type="text"
+            type="Number"
             name="hourly_rate"
             value={formData.hourly_rate}
             onChange={handleInputChange}
@@ -128,11 +131,11 @@ const DoctorRequest = () => {
           />
         </div>
         <div>
-          <label>Affilitation:</label>
+          <label>Affiliation:</label>
           <input
             type="text"
-            name="affilitation"
-            value={formData.affilitation}
+            name="affiliation"
+            value={formData.affiliation}
             onChange={handleInputChange}
             required
           />
