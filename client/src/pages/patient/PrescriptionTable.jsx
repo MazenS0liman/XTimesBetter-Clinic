@@ -2,40 +2,38 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 
-//components
 import PrescriptionDetail from '../../components/prescriptionFileDetails/prescriptionDetail';
 
 function PrescriptionTable() {
-  const [prescriptions, setPrescriptions] = useState([]);
-  const [prescriptionsToBeDisplay, setprescriptionsToBeDisplay] = useState([]);
+  const [prescription, setPrescriptions] = useState([]);
+  const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
 
   useEffect(() => {
     const fetchPrescriptionData = async () => {
       try {
-        const response = await axios.get('/api/prescriptions', {
+        const response = await axios.get('http://localhost:8000/patient/prescriptionDetails', {
           headers: {
-              'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
           },
-      });       
-       const data = await response.json();
-       if (response && response.data) {
+        });
 
-        setPrescriptions(response.data);
-        setPrescriptionsToBeDisplay(response.data); // Populate prescriptionsToBeDisplay
-       }
+        if (response && response.data) {
+          setPrescriptions(response.data);
+          setPrescriptionsToBeDisplay(response.data);
+        }
       } catch (error) {
         console.error('Error fetching prescription data:', error);
       }
     };
 
     fetchPrescriptionData();
-  }, []);
+  }, []); // Empty dependency array ensures the effect runs once on component mount
 
   return (
-    <>
-      <h1 className={styles["list-title"]}>Prescription List</h1>
-      <div className={styles["result-container"]}>
-        <table>
+    <div className={styles.container}>
+      <h1 className={styles.listTitle}>Prescription List</h1>
+      <div className={styles.resultContainer}>
+        <table className={styles.prescriptionTable}>
           <thead>
             <tr>
               <th>Patient Username</th>
@@ -45,15 +43,14 @@ function PrescriptionTable() {
             </tr>
           </thead>
           <tbody>
-            {
-            prescriptionsToBeDisplay && prescriptionsToBeDisplay.map((prescription) => {// Updated variable name
-              return <PrescriptionDetail key={prescription._id} prescription={prescription} /> // Updated prop name
-            })
-            }
+            {prescriptionsToBeDisplay.map((prescription) => (
+              <PrescriptionDetail key={prescription._id} prescription={prescription} />
+            ))}
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 }
+
 export default PrescriptionTable;
