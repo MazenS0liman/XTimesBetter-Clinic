@@ -5,14 +5,14 @@ const {addAdmin,removeAdmin, getAdmins, removePatient, removeDoctor } = require(
 // const {removePatient} = require('../../controllers/patient/patientcontroller.js');
 
 // APIs
-router.delete('/', removePatient);
+router.delete('/removepatient', removePatient);
 
 // APIs
-router.delete('/', removeDoctor);
+router.delete('/removedoctor', removeDoctor);
 
 // APIs
 router.post('/', addAdmin);
-router.delete('/', removeAdmin);
+router.delete('/removeadmin', removeAdmin);
 router.get('/', getAdmins);
 
 module.exports = router;
