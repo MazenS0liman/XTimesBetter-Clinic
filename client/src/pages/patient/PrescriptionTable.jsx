@@ -3,7 +3,7 @@ import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 import PrescriptionDetail from '../../components/prescriptionFileDetails/prescriptionDetail';
 
-function PrescriptionTable() {
+const PrescriptionTable=() =>{
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
