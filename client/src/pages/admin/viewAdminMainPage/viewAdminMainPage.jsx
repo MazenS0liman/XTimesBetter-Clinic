@@ -14,6 +14,7 @@ import AddAdmin from '../AddAdminPage/addadmin';
 import RemoveAdmin from '../RemoveAdminPage/removeadmin';
 import RemovePatient from '../RemovePatient/removepatient';
 import RemoveDoctor from '../RemoveDoctor/removedoctor';
+import ViewRequestedDoctorsInfo from '../viewRequestedDoctorsInfo/viewRequestedDoctorsInfo';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -49,6 +50,10 @@ export const ViewAdminMainPage = () => {
         {
             url: "/admin/DeletePackage",
             pageName: "Delete Package",
+        },
+        {
+            url: "/admin/requestedDoctorsInfoPage",
+            pageName: "View Requested Doctors",
         }
     ];
 
@@ -64,6 +69,7 @@ export const ViewAdminMainPage = () => {
             <Route path='/AddPackage' element={<AddPackage />} />
             <Route path='/UpdatePackage' element={<UpdatePackage />}/> 
             <Route path='/DeletePackage' element={<DeletePackage />} /> 
+            <Route path = "/requestedDoctorsInfoPage" element = {<ViewRequestedDoctorsInfo/>} />
             </Routes>
             </>
         </div>
