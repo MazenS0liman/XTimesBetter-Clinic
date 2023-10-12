@@ -13,7 +13,7 @@ import { ViewPatientMainPage } from './pages/patient/viewPatientMainPage/viewPat
 
 // React Router Dom Components
 import { Routes, Route, Navigate } from 'react-router-dom';
-// import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
 
 function App() {
 
@@ -26,13 +26,7 @@ function App() {
         <Route path='/doctor/*' element={<ViewDoctorMainPage />} ></Route>
         <Route path='/admin/*' element={<ViewAdminMainPage />} ></Route>
         <Route path='/patient/*' element={<ViewPatientMainPage />} ></Route>
-        
-       
-        
-        {/* <Route path = "/doctor/viewPatientsPage" element = {<ViewPatients/>}/>
-        <Route path = "/admin/requestedDoctorsInfoPage" element = {<ViewRequestedDoctorsInfo/>} />
-        <Route path = "/doctor/viewPatientInfoPage" element = {<ViewPatientInfo/>} />
-        <Route path = "/doctor/updateInfoPage" element = {<UpdateDoctorInfo/>} ></Route> */}
+  
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
       

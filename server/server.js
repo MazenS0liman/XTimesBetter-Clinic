@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt');
 const adminRoutes= require('./routes/Admin/adminRoute.js');
 
 
+const doctorListRoutes = require('./routes/patient/doctorListRoutes')
+
 mongoose.set('strictQuery', false);
 
 // Express app
@@ -79,9 +81,7 @@ mongoose.connect(MongoURI)
 
 // Routes
 
-// Patient
-app.use('/patient/register', require('./routes/patient/registerRoute'));
-app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
+
 
 // Doctor
 app.use('/doctor/register', require('./routes/doctor/registerRoute'));
@@ -93,8 +93,6 @@ app.use('/doctor/profile',require('./routes/doctor/profileRoute') );
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo') );
 app.use('/admin/removeDoctor', require('./routes/admin/viewRequestedDoctorsInfo') );
-
-// (Packages)
 app.use('/admin/addPackage', require('./routes/admin/packageRoute'));
 app.use('/admin/updatePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/deletePackage', require('./routes/admin/packageRoute'));
@@ -103,7 +101,10 @@ app.use('/Admin/addremoveclinic', adminRoutes);
 
 
 // Patient
-//View all doctors 
 app.use('/patient/allDoctors', require('./routes/patient/doctorsRoute'));
+app.use('/patient/doctorList', doctorListRoutes)
+app.use('/patient/register', require('./routes/patient/registerRoute'));
+app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
+
 
 
