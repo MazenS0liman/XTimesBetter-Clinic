@@ -50,6 +50,7 @@ function UpdateDoctorInfo() {
         affiliation: doctorInfo.affiliation
       };
 
+      
     // Make an HTTP PATCH request to send the data to the backend using the requestBody
     fetch('http://localhost:5000/doctor/profile/updateDoctorInfo', {
       method: 'PATCH',
@@ -66,14 +67,21 @@ function UpdateDoctorInfo() {
        // console.log(data.success);
         if (data) {
             console.log('Doctor updated successfully:', data);
-           
+            alert("Doctor updated successfully ");
           } else {
             console.error('Doctor update failed:', data);
+            alert("Doctor update failed");
            
           }
       })
       .catch((error) => {
         console.error('Error updating doctor:', error);
+        if(username.length===0){
+          alert("Please enter the username! ");
+        }
+        else{
+        alert("This doctor does not exist");
+        }
         console.log('This doctor does not exist');
       });
   };
