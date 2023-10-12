@@ -35,6 +35,14 @@ const DoctorRequestsSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    speciality: {
+        type: String,
+        required: true
+    },
+    availableTimeSlots:{
+        type: [Date],
+        //required: false,
+    },
     status: {
         type: String,
         enum: ['accepted', 'onhold', 'rejected'],
