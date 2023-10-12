@@ -27,7 +27,7 @@ const DoctorSchema = mongoose.Schema({
         type: Number,
         required: true,
     },
-    affilitation: {
+    affiliation: {
         type: String,
         required: true,
     },
@@ -39,11 +39,11 @@ const DoctorSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    availableTimeSlots:{
+    availableTimeSlots: {
         type: [Date],
         required: false,
     }
-}, {timestamps: true});
+}, { timestamps: true });
 
 
 const Doctor = mongoose.model('Doctor', DoctorSchema);
