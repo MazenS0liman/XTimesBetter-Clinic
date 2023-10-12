@@ -8,6 +8,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
 import PatientRegister from '../viewRegisterationPage/patientRegisterPage';
+import  ViewAllDrs  from '../ViewAllDrs/ViewAllDrs';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -18,6 +19,12 @@ export const ViewPatientMainPage = () => {
             url: "/patient/patientRegister",
             pageName: "Registeration",
         },
+        {
+            url: "/patient/ViewAllDrs",
+            pageName: "Doctors",
+        },
+        
+        
     ];
 
     return (
@@ -26,6 +33,7 @@ export const ViewPatientMainPage = () => {
             <>
             <Routes>
                 <Route path="/patientRegister" element={<PatientRegister />} />
+                <Route path='/ViewAllDrs' element={<ViewAllDrs />}/>
             </Routes>
             </>
         </div>

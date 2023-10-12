@@ -10,10 +10,8 @@ import { ViewAdminMainPage } from './pages/admin/viewAdminMainPage/viewAdminMain
 import { ViewPatientMainPage } from './pages/patient/viewPatientMainPage/viewPatientMainPage';
 
 // Pages
-import  ViewAllDrs  from './pages/patient/ViewAllDrs/ViewAllDrs';
-import  AddPackage  from './pages/admin/AddPackage/AddPackage';
-import  UpdatePackage  from './pages/admin/UpdatePackage/UpdatePackage';
-import  DeletePackage  from './pages/admin/DeletePackage/DeletePackage';
+
+
 
 
 // React Router Dom Components
@@ -29,10 +27,8 @@ function App() {
         <Route path='/admin/*' element={<ViewAdminMainPage />} ></Route>
         <Route path='/patient/*' element={<ViewPatientMainPage />} ></Route>
         
-        <Route path='/patient/ViewAllDrs' element={<ViewAllDrs />}/>
-        <Route path='/admin/AddPackage' element={<AddPackage />} />
-        <Route path='/admin/UpdatePackage' element={<UpdatePackage />}/> 
-        <Route path='/admin/DeletePackage' element={<DeletePackage />} /> 
+       
+        
         <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </>

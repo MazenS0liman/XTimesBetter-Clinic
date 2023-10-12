@@ -9,7 +9,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 // Pages
 import { ViewPatientInfo } from '../viewPatientInfoPage/viewPatientInfoPage';
 import { ViewPatients } from '../viewPatientsPage/viewPatientsPage';
-import DoctorRequest from '../doctorRequestPage';
+import DoctorRequest from '../viewDoctorRequestPage/doctorRequestPage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
