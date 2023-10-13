@@ -1,12 +1,14 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
-import PrescriptionTable from './pages/patient/PrescriptionTable'; // Import the PrescriptionTable component
+import PrescriptionTable from './pages/patient/PrescriptionTable';
 
 function App() {
   return (
     <div className="App">
-      <PrescriptionTable />
-    
+      <Routes>
+        <Route path="/patient/prescriptionTable" element={<PrescriptionTable />} />
+      </Routes>
     </div>
   );
 }
