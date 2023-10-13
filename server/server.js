@@ -7,8 +7,7 @@ var bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const adminRoutes= require('./routes/Admin/adminRoute.js');
-
-
+const prescriptionRoutes = require('./routes/patient/prescriptions');
 const doctorListRoutes = require('./routes/patient/doctorListRoutes')
 
 mongoose.set('strictQuery', false);
@@ -105,6 +104,5 @@ app.use('/patient/allDoctors', require('./routes/patient/doctorsRoute'));
 app.use('/patient/doctorList', doctorListRoutes)
 app.use('/patient/register', require('./routes/patient/registerRoute'));
 app.use('/patient/appointment', require('./routes/patient/appointmentRoute'));
-
-
+app.use('/patient/prescriptionDetails',prescriptionRoutes)
 

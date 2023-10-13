@@ -1,7 +1,5 @@
 import React from 'react';
-
-// Styles
-import './App.css'
+import './App.css';
 
 // Pages
 import { MainPage } from './Temp';
@@ -16,7 +14,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 
 function App() {
-
   return (
     <>
    
