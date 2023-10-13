@@ -1,7 +1,48 @@
-import React, { useEffect, useState } from 'react';
+/*import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-
 const FamilyView = () => {
+
+    const [familyMembers, setFamilyMembers] = useState([]);
+
+    const handleViewFamilyMembers = async () => {
+        const response = await axios.get('http://localhost:5000/patient/viewFamilyMembers?username=NayeraMahran');
+        const familyMembers = response.data;
+        console.log(familyMembers);
+        //console.log("familyMembers");
+
+        // Check if the response data is empty
+        if (familyMembers.length > 0) {
+            setFamilyMembers(familyMembers);
+        } else {
+            // Display an error message
+            alert('No family members found');
+        }
+    };
+
+    return (
+        <div>
+            <h1>Family Members</h1>
+            <button onClick={handleViewFamilyMembers}>View Family Members</button>
+
+            {familyMembers.length > 0 && (
+                <ul>
+                    {familyMembers.map((member) => (
+                        <li key={member._id}>
+                            <h2>{member.name}</h2>
+                            <p>Age: {member.age}</p>
+                            <p>Relation: {member.relation}</p>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+};
+
+export default FamilyView;*/
+// RESTORE UP 
+
+/*const FamilyView = () => {
 
     const [member, setMembers] = useState([]);
     //for display
@@ -31,24 +72,13 @@ const FamilyView = () => {
     }, []);
 
 
-    const handleViewFamilyMembers = () => {
-        setMembersToBeDisplay(member);
-    };
+    const handleViewFamilyMembers = async () => {
+        const member3 = member.find(member => member.patient_username === "NayeraMahran");
+        if (member3) {
+            setMembersToBeDisplay(member3);
+        }
+    };*/
 
-    return (
-        <div>
-            <h2>Family Members</h2>
-            <button onClick={handleViewFamilyMembers}>View Family Members</button>
-            {member && (
-                <div>
-                    <h3>Family Members for {member.username}</h3>
-                </div>
-            )}
-        </div>
-    );
-};
-
-export default FamilyView;
 
 
 /*import { useEffect, useState } from "react";
@@ -133,3 +163,62 @@ export default FamilyView;*/
        </div>
    )*/
 
+/* <div>
+ <h2>Family Members</h2>
+ <button onClick={handleViewFamilyMembers}>View Family Members</button>
+ {membersToBeDisplay.length > 0 && ( // conditional statement to render the list of family members only if the membersToBeDisplay state variable is not empty
+     <div>
+         <h3>Family Members for :{member3.patient_username}</h3>
+         <p> Name: {membersToBeDisplay.name}</p>
+         <p>Relation: {membersToBeDisplay.relation}</p>
+     </div>
+ )}
+</div>*/
+
+import React, { useState, useEffect } from 'react';
+
+const FamilyView = () => {
+
+    const [familyMembers, setFamilyMembers] = useState([]);
+    const [showFamilyMembers, setShowFamilyMembers] = useState(false);
+
+    useEffect(() => {
+        const fetchFamilyMembers = async () => {
+            const response = await fetch('http://localhost:5000/patient/viewFamilyMembers?username=NayeraMahran');
+            console.log("anaaaaaaaaaaaa")
+            const familyMembers = await response.json();
+
+            if (response.ok) {
+                setFamilyMembers(familyMembers);
+            }
+
+        };
+
+        fetchFamilyMembers();
+    }, []);
+
+    const handleViewFamilyMembers = async () => {
+        setShowFamilyMembers(true);
+    };
+
+    return (
+        <div>
+            <h1>Family Members</h1>
+            <button onClick={handleViewFamilyMembers}>View Family Members</button>
+
+            {showFamilyMembers &&
+
+                familyMembers.map((member) => (
+                    <p key={member._id}>
+                        <h2>{member.name}</h2>
+                        <p>Age: {member.age}</p>
+                        <p>Relation: {member.relation}</p>
+                    </p>
+                ))
+
+            }
+        </div>
+    );
+};
+
+export default FamilyView;

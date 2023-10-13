@@ -11,23 +11,14 @@ const viewAppoinntments = async (req, res) => {
     }
 
 }
-/*const filterAppointmentsByDate = async (req, res) => {
-    try {
-        const date = req.query.date; // assuming the expected date is provided in the request query parameter "date"
-        const filteredAppointments = appoinntmentsarray.filter(Appointment => Appointment.date === date);
-        res.status(200).json(filteredAppointments);
-    } catch (error) {
-        res.status(500).json({ error: "Error filtering appointments by date" });
-    }
-}*/
 
 const filterAppointmentsByDateForPatient = async (req, res) => {
     try {
-        const entereddate = req.body.date
+        const entereddate = req.query.date
         const appointmentsMade = await appointmentsModel.find({ date: entereddate })
-        if (appointmentsMade.length === 0) {
-            return res.status(200).json({ message: "No appointments found for the entered date" });
-        }
+        /*  if (appointmentsMade.length === 0) {
+              return res.status(200).json({ message: "No appointments found for the entered date" });
+          }*/
 
         res.status(200).json(appointmentsMade);
     }
@@ -38,11 +29,11 @@ const filterAppointmentsByDateForPatient = async (req, res) => {
 }
 const filterAppointmentsByStatusForPatient = async (req, res) => {
     try {
-        const enteredstatus = req.body.status
+        const enteredstatus = req.query.status
         const appointmentsFilteredByStatus = await appointmentsModel.find({ status: enteredstatus })
-        if (appointmentsFilteredByStatus.length === 0) {
-            return res.status(200).json({ message: "No appointments found for the entered status" });
-        }
+        /* if (appointmentsFilteredByStatus.length === 0) {
+             return res.status(200).json({ message: "No appointments found for the entered status" });
+         }*/
 
         res.status(200).json(appointmentsFilteredByStatus);
     }
@@ -72,3 +63,12 @@ appoinntmentsarray.push(dummyAppointment4);
 appoinntmentsarray.push(dummyAppointment5);
 appoinntmentsarray.push(dummyAppointment6);
 appoinntmentsarray.push(dummyAppointment7);*/
+/*const filterAppointmentsByDate = async (req, res) => {
+    try {
+        const date = req.query.date; // assuming the expected date is provided in the request query parameter "date"
+        const filteredAppointments = appoinntmentsarray.filter(Appointment => Appointment.date === date);
+        res.status(200).json(filteredAppointments);
+    } catch (error) {
+        res.status(500).json({ error: "Error filtering appointments by date" });
+    }
+}*/
