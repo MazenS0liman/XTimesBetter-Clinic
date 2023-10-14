@@ -101,7 +101,7 @@ const DoctorRequest = () => {
         <div>
           <label>Password:</label>
           <input
-            type="text"
+            type="password"
             name="password"
             value={formData.password}
             onChange={handleInputChange}

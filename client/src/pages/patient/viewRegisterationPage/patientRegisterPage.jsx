@@ -141,7 +141,7 @@ const PatientRegister = () => {
         <div>
           <label>Password:</label>
           <input
-            type="text"
+            type="password"
             name="password"
             value={formData.password}
             onChange={handleInputChange}
@@ -187,7 +187,7 @@ const PatientRegister = () => {
         <div>
           <label>Mobile:</label>
           <input
-            type="text"
+            type="Number"
             name="mobile"
             value={formData.mobile}
             onChange={handleInputChange}
@@ -207,7 +207,7 @@ const PatientRegister = () => {
         <div>
           <label>Emergency Contact Mobile Number:</label>
           <input
-            type="text"
+            type="Number"
             name="emergency_contact.mobile"
             value={formData.emergency_contact.mobile}
             onChange={handleInputChange}
