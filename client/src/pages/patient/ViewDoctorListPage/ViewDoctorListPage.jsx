@@ -65,7 +65,7 @@ const ViewDoctorList = () => {
                     //console.log("hi3");
   
                     //get unique doctor specialities to populate the filter ddl
-                    const uniqueDoctorSpecialities = [...(response.data.map(item => item.speciality))];
+                    const uniqueDoctorSpecialities = [...new Set(response.data.map(item => item.speciality))];
                     console.log("hi4");
                     console.log(uniqueDoctorSpecialities);
                 
