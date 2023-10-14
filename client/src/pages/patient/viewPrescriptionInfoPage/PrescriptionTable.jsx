@@ -7,6 +7,7 @@ const PrescriptionTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
   const [selectedPrescription, setSelectedPrescription] = useState([]);
+
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
   const [showModal, setShowModal] = useState(false);
@@ -21,13 +22,13 @@ const PrescriptionTable = () => {
         });
 
         if (response && response.data) {
-          console.log(response.data);
-          console.log(response.data[0].medicines);
-          console.log(response.data);
-          console.log(response.data.patient_username);
+          // console.log(response.data);
+          // console.log(response.data[0].medicines);
+          // console.log(response.data);
+          // console.log(response.data.patient_username);
           setPrescriptions(response.data);
           setPrescriptionsToBeDisplay(response.data);
-          setSelectedPrescription(response.data.medicines);
+          // setSelectedPrescription(response.data.medicines);
          
 
         }
@@ -115,47 +116,43 @@ const PrescriptionTable = () => {
             </tr>
           </thead>
           <tbody>
-            {prescriptionsToBeDisplay.map((prescription) => (
-              <tr key={prescription._id}>
-                <td>{prescription.patient_username}</td>
-                <td>{prescription.doctor_username}</td>
-                <td>{prescription.visit_date}</td>
-                <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
-                <td>
-                  <button onClick={() => handleSelectPrescription(selectedPrescription)}>Select</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {showModal && selectedPrescription && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <span className={styles.closeButton} onClick={closePrescriptionModal}>
-              &times;
-            </span>
-            <div className={styles.additionalInfo}> {/* Create a new CSS class for styling */}
-              <p>Selected Successfully</p>
-            </div>
-            <h2>Prescription Details</h2>
-            <ul>
-              {selectedPrescription.map((prescription) => (
-                <li key={prescription.id}>
-                  {prescription.name} - {prescription.dose} - {prescription.timing}
-                </li>
-              ))}
-            </ul>
-            {/* <p>Patient Username: {selectedPrescription.name}</p>
-            <p>Doctor Username: {selectedPrescription.dose}</p>
-            <p>Visit Date: {selectedPrescription.timing}</p> */}
-            {/* <p>Filled: {selectedPrescription.filled ? 'Yes' : 'No'}</p> */}
-            {/* Add more information and customize the modal appearance */}
-
-          </div>
+        {prescriptionsToBeDisplay.map((prescription) => (
+          <tr key={prescription._id}>
+            <td>{prescription.patient_username}</td>
+            <td>{prescription.doctor_username}</td>
+            <td>{prescription.visit_date}</td>
+            <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
+            <td>
+              <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+  {showModal && selectedPrescription && (
+    <div className={styles.modal}>
+      <div className={styles.modalContent}>
+        <span className={styles.closeButton} onClick={closePrescriptionModal}>
+          &times;
+        </span>
+        <div className={styles.additionalInfo}>
+          <p>Selected Successfully</p>
         </div>
-      )}
+        <h2>Prescription Details</h2>
+        <ul>
+          {selectedPrescription.medicines.map((medicine, index) => (
+            <li key={index}>
+      <span className={styles.label}>Name:</span> {medicine.name}<br />
+      <span className={styles.label}>Dose:</span> {medicine.dose}<br />
+      <span className={styles.label}>Timing:</span> {medicine.timing}<br />
+    </li>
+          ))}
+        </ul>
+      </div>
     </div>
-  );
+  )}
+</div>
+);
 }
 export default PrescriptionTable;
