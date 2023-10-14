@@ -8,10 +8,15 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // Pages
 import PatientRegister from '../viewRegisterationPage/patientRegisterPage';
-import  ViewAllDrs  from '../ViewAllDrs/ViewAllDrs';
-import  ViewDoctorsList  from'../ViewDoctorListPage/ViewDoctorListPage'
-import  ViewDoctorInfo  from '../ViewDoctorInfoPage/ViewDoctorInfoPage';
+import ViewAllDrs from '../ViewAllDrs/ViewAllDrs';
+import ViewDoctorsList from '../ViewDoctorListPage/ViewDoctorListPage'
+import ViewDoctorInfo from '../ViewDoctorInfoPage/ViewDoctorInfoPage';
 import PrescriptionTable from '../viewPrescriptionInfoPage/PrescriptionTable';
+import FamilyView from '../PatientHome/PatientHome';
+import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
+import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
+import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
+
 
 
 // Components
@@ -32,26 +37,42 @@ export const ViewPatientMainPage = () => {
             pageName: "Doctors List",
         },
         {
-            url:"/patient/prescriptionTable",
+            url: "/patient/prescriptionTable",
             pageName: "Prescription Page",
+        },
+        {
+            url: "/patient/FamilyInformation",
+            pageName: "Family Info",
+        },
+        {
+            url: "/patient/AddFamily",
+            pageName: "Add Family Member",
+        },
+        {
+            url: "/patient/FilterAppointmentByStatusPatient",
+            pageName: "Filter Status",
+        },
+        {
+            url: "/patient/FilterAppointmentByDatePatient",
+            pageName: "Filter Date",
         }
-        
-        
-        
     ];
 
     return (
         <div className={styles['main-div']}>
             <Navbar name="Patient" list={list} />
             <>
-            <Routes>
-                <Route path="/patientRegister" element={<PatientRegister />} />
-                <Route path='/ViewAllDrs' element={<ViewAllDrs />}/>
-                <Route path='/viewDoctorsListPage' element={< ViewDoctorsList />}/>
-                <Route path='/viewDoctorInfoPage' element={< ViewDoctorInfo />} ></Route>
-                <Route path="/prescriptionTable" element={<PrescriptionTable />} />
-
-            </Routes>
+                <Routes>
+                    <Route path="/patientRegister" element={<PatientRegister />} />
+                    <Route path='/ViewAllDrs' element={<ViewAllDrs />} />
+                    <Route path='/viewDoctorsListPage' element={< ViewDoctorsList />} />
+                    <Route path='/viewDoctorInfoPage' element={< ViewDoctorInfo />} ></Route>
+                    <Route path="/prescriptionTable" element={<PrescriptionTable />} />
+                    <Route path="/FamilyInformation" element={<FamilyView />} />
+                    <Route path="/AddFamily" element={<AddFamilyMember />} />
+                    <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
+                    <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                </Routes>
             </>
         </div>
     )

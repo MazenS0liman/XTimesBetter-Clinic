@@ -9,6 +9,7 @@ function UpdatePackage() {
   const [attribute4, setAttribute4] = useState('');
   const [attribute5, setAttribute5] = useState('');
   const [attribute6, setAttribute6] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Event handlers for input changes
   const handleAttribute1Change = (e) => {
@@ -61,8 +62,15 @@ function UpdatePackage() {
 
       if (response.ok) {
         // Handle a successful response (e.g., show a success message)
-        console.log('Update Successful');
-      } else {
+        //console.log('Update Successful');
+        setErrorMessage('Update Successful');
+
+        
+      }
+      else if (response.status===404){
+        setErrorMessage('No package with this name');
+      }
+      else {
         // Handle API error (e.g., show an error message)
         console.error('API Error:', response.statusText);
       }
@@ -138,6 +146,7 @@ function UpdatePackage() {
         </div>
 
         <button className="submit-button" type="submit">Update</button>
+        {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
       </form>
     </div>
   );

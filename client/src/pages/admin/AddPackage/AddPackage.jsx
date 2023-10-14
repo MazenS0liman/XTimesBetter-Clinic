@@ -37,10 +37,10 @@ function AddPackage() {
       // Prepare the request data (customize as needed)
       const requestData = {
         name: inputs.text1,
-        price: parseFloat(inputs.text2),
-        doctor_discount: parseFloat(inputs.text3),
-        medicine_discount:parseFloat( inputs.text4),
-        family_discount: parseFloat(inputs.text5),
+        price: inputs.text2,
+        doctor_discount: inputs.text3,
+        medicine_discount:inputs.text4,
+        family_discount:inputs.text5,
       };
       console.log(requestData);
 

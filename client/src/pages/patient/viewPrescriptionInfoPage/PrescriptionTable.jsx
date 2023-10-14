@@ -3,12 +3,12 @@ import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 
-const PrescriptionTable=() =>{
+const PrescriptionTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
+  const [selectedPrescription, setSelectedPrescription] = useState([]);
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
-  const [selectedPrescription, setSelectedPrescription] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -21,8 +21,15 @@ const PrescriptionTable=() =>{
         });
 
         if (response && response.data) {
+          console.log(response.data);
+          console.log(response.data[0].medicines);
+          console.log(response.data);
+          console.log(response.data.patient_username);
           setPrescriptions(response.data);
           setPrescriptionsToBeDisplay(response.data);
+          setSelectedPrescription(response.data.medicines);
+         
+
         }
       } catch (error) {
         console.error('Error fetching prescription data:', error);
@@ -31,7 +38,7 @@ const PrescriptionTable=() =>{
 
     fetchPrescriptionData();
   }, []); // Empty dependency array ensures the effect runs once on component mount
- 
+
   const handleFilterClick = () => {
     // Apply the filter logic based on user input
     const filteredPrescriptions = prescriptions.filter((prescription) => {
@@ -61,13 +68,13 @@ const PrescriptionTable=() =>{
     setFilterValue(event.target.value);
   };
 
-  const handleSelectPrescription = (prescription) => {
-    setSelectedPrescription(prescription);
+  const handleSelectPrescription = (selectedPrescription) => {
+     setSelectedPrescription(selectedPrescription);
     setShowModal(true);
   };
 
   const closePrescriptionModal = () => {
-    setSelectedPrescription(null);
+    setSelectedPrescription([]);
     setShowModal(false);
   };
 
@@ -115,7 +122,7 @@ const PrescriptionTable=() =>{
                 <td>{prescription.visit_date}</td>
                 <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
                 <td>
-                  <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
+                  <button onClick={() => handleSelectPrescription(selectedPrescription)}>Select</button>
                 </td>
               </tr>
             ))}
@@ -132,15 +139,23 @@ const PrescriptionTable=() =>{
               <p>Selected Successfully</p>
             </div>
             <h2>Prescription Details</h2>
-            <p>Patient Username: {selectedPrescription.patient_username}</p>
-            <p>Doctor Username: {selectedPrescription.doctor_username}</p>
-            <p>Visit Date: {selectedPrescription.visit_date}</p>
-            <p>Filled: {selectedPrescription.filled ? 'Yes' : 'No'}</p>
+            <ul>
+              {selectedPrescription.map((prescription) => (
+                <li key={prescription.id}>
+                  {prescription.name} - {prescription.dose} - {prescription.timing}
+                </li>
+              ))}
+            </ul>
+            {/* <p>Patient Username: {selectedPrescription.name}</p>
+            <p>Doctor Username: {selectedPrescription.dose}</p>
+            <p>Visit Date: {selectedPrescription.timing}</p> */}
+            {/* <p>Filled: {selectedPrescription.filled ? 'Yes' : 'No'}</p> */}
             {/* Add more information and customize the modal appearance */}
-         
+
           </div>
         </div>
       )}
     </div>
-  );}
+  );
+}
 export default PrescriptionTable;

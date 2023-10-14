@@ -78,12 +78,16 @@ const updatePackage = async (req, res) => {
 
 
 
-    if (!updatedPackage) {
-      return res.status(404).json({ message: 'Package not found' });
-    }
+    // if (!updatedPackage) {
+    //   return res.status(404).json({ message: 'Package not found' });
+    // }
 
     res.status(200).json({ message: 'Package updated', package: updatedPackage });
-  }}
+  }
+  else{
+    return res.status(404).json({ message: 'Package not found' });
+  }
+}
  
    catch (error) {
     res.status(500).json({ error: 'Failed to update package', details: error.message });

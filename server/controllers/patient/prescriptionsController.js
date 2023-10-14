@@ -1,14 +1,14 @@
 // #Task route solution
-const userModel = require('../../models/Prescription');
+const presModel = require('../../models/Prescription');
 const { default: mongoose } = require('mongoose');
 const asyncHandler = require('express-async-handler');
-const patient= require('../../models/Patient');
+const patient = require('../../models/Patient');
 const { use } = require('express/lib/router');
 
-const createPrescription = asyncHandler( async (req, res) => {
-    const prescription = req.body;
-    const newPrescription = await userModel.create(prescription);
-    res.status(200).json({ message: 'Success', prescription: newPrescription});
+const createPrescription = asyncHandler(async (req, res) => {
+  const prescription = req.body;
+  const newPrescription = await presModel.create(prescription);
+  res.status(200).json({ message: 'Success', prescription: newPrescription });
 });
 
 // const getMedicines = async (req, res) => {
@@ -19,11 +19,11 @@ const createPrescription = asyncHandler( async (req, res) => {
 
 const getMedicines = async (req, res) => {
   try {
-    const medicines = await userModel.find({
+    const medicines = await presModel.find({
       patient_username: "Mayan", // Specify the desired patient username
     })
-    .sort({ createdAt: -1 })
-    .select('patient_username doctor_username visit_date filled');
+      .sort({ createdAt: -1 })
+      .select('patient_username doctor_username visit_date filled medicines');
 
     console.log('Fetched medicines for patient:', medicines); // For debugging
 
@@ -48,34 +48,34 @@ const getMedicines = async (req, res) => {
 //       res.status(500).json({ error: 'Failed to fetch users' });
 //     }
 //   };
-  const getPrescription = async (req,res) => {
-    //const appointments = await appointmentModel.find({ doctor_username: req.query.doctor_username });
-    const prescription = await userModel.findOne({ username: req.query.patient_username });
-    if(!prescription){
-      return res.status(404).json({error:'No such prescription'});
-    }
-    res.status(200).json(prescription);
+const getPrescription = async (req, res) => {
+  //const appointments = await appointmentModel.find({ doctor_username: req.query.doctor_username });
+  const prescription = await presModel.findOne({ username: req.query.patient_username });
+  if (!prescription) {
+    return res.status(404).json({ error: 'No such prescription' });
   }
+  res.status(200).json(prescription);
+}
 
 const filterPrescriptionByDoctor = async (req, res) => {
-    const doctorUsername = req.params.name
+  const doctorUsername = req.params.name
 
-    const allDoctors = await userModel.find({}).select('patient_username doctor_username visit_date filled')
+  const allDoctors = await presModel.find({}).select('patient_username doctor_username visit_date filled')
 
-    // List of filtered Doctors
-    let filteredDoctors = []
+  // List of filtered Doctors
+  let filteredDoctors = []
 
-    for ( let i = 0 ; i < allDoctors.length ; i++ ) {
-        if (allDoctors[i].doctor_username.toLowerCase() == doctorUsername.toLowerCase()) {
-            filteredDoctors.push(allDoctors[i])
-        }
+  for (let i = 0; i < allDoctors.length; i++) {
+    if (allDoctors[i].doctor_username.toLowerCase() == doctorUsername.toLowerCase()) {
+      filteredDoctors.push(allDoctors[i])
     }
-    
-    if (!filteredDoctors || filteredDoctors.length == 0) {
-        return res.status(404).json({ error: 'doctor not found' })
-    }
+  }
 
-    res.status(200).json(filteredDoctors)
+  if (!filteredDoctors || filteredDoctors.length == 0) {
+    return res.status(404).json({ error: 'doctor not found' })
+  }
+
+  res.status(200).json(filteredDoctors)
 }
 
 
@@ -84,52 +84,52 @@ const filterPrescriptionByDoctor = async (req, res) => {
 
 const filterPrescriptionByfilled = async (req, res) => {
   try {
-      const filledName = req.params.filledName; // The filled status entered by the user (true or false)
+    const filledName = req.params.filledName; // The filled status entered by the user (true or false)
 
-      // Assuming you have a Prescription model in MongoDB
-      const allPrescriptions = await userModel.find({
-          filled: filledName === 'true', // Convert the user's input to a boolean
-      });
+    // Assuming you have a Prescription model in MongoDB
+    const allPrescriptions = await presModel.find({
+      filled: filledName === 'true', // Convert the user's input to a boolean
+    });
 
-      if (!allPrescriptions || allPrescriptions.length === 0) {
-          return res.status(404).json({ error: 'Prescriptions not found' });
-      }
+    if (!allPrescriptions || allPrescriptions.length === 0) {
+      return res.status(404).json({ error: 'Prescriptions not found' });
+    }
 
-      res.status(200).json(allPrescriptions);
+    res.status(200).json(allPrescriptions);
   } catch (error) {
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
 };
 
 
 
-   
-  const filterPrescriptionByDate = async (req, res) => {
-   
-    try {
-      const date = req.body.visitDate
-      const prescriptionsMade = await userModel.find({ visit_date: date })
-      if (prescriptionsMade.length === 0) {
-        return res.status(404).json({ message: "No prescriptions found for the entered date" });
-      }
 
-      res.status(200).json(prescriptionsMade);
+const filterPrescriptionByDate = async (req, res) => {
+
+  try {
+    const date = req.body.visitDate
+    const prescriptionsMade = await presModel.find({ visit_date: date })
+    if (prescriptionsMade.length === 0) {
+      return res.status(404).json({ message: "No prescriptions found for the entered date" });
+    }
+
+    res.status(200).json(prescriptionsMade);
   }
   catch (error) {
-      res.status(500).json({ error: "Error filtering appointments by date" });
+    res.status(500).json({ error: "Error filtering appointments by date" });
   }
 
 }
-  
+
 const selectPrescriptionFromMyList = async (req, res) => {
   const prescriptionSelect = req.params.prescriptionSelect; // Convert to lowercase for case-insensitive search
 
   try {
     // Assuming you have a collection of prescriptions and it's named `Prescription`
-    const selectedPrescription = await userModel.findOne({
+    const selectedPrescription = await presModel.findOne({
       patient_username: { $regex: `.*\\b${prescriptionSelect}\\b.*`, $options: 'i' },
     }).select('patient_username doctor_username visit_date filled');
-    
+
     if (!selectedPrescription) {
       return res.status(404).json({ error: 'Prescription not found' });
     }
@@ -141,10 +141,10 @@ const selectPrescriptionFromMyList = async (req, res) => {
 };
 
 
- 
-  
 
 
 
 
-module.exports = {getMedicines,createPrescription,getPrescription,filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,selectPrescriptionFromMyList};
+
+
+module.exports = { getMedicines, createPrescription, getPrescription, filterPrescriptionByDate, filterPrescriptionByDoctor, filterPrescriptionByfilled, selectPrescriptionFromMyList };
