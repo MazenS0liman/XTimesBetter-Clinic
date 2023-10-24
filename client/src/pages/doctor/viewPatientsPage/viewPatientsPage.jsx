@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 // Styles
 import styles from './viewPatientsPage.module.css';
@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Hooks
 import { useFetch } from '../../../components/hooks/useFetch';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export const ViewPatients = () => {
     const [response] = useFetch('get', 'http://localhost:5000/doctor/patients', {doctor_username:"mohameds0liman"}); // To store the response of the request

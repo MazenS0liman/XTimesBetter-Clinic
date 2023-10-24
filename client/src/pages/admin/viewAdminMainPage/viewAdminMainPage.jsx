@@ -6,6 +6,9 @@ import styles from './viewAdminMainPage.module.css'
 // React Router Dom Components
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+// Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
 // Pages
 import  AddPackage  from '../AddPackage/AddPackage';
 import  UpdatePackage  from '../UpdatePackage/UpdatePackage';
@@ -20,6 +23,7 @@ import ViewRequestedDoctorsInfo from '../viewRequestedDoctorsInfo/viewRequestedD
 import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewAdminMainPage = () => {
+    const {accessToken, refreshToken} = useAuth();
     const list = [
         {
             url: "/admin/addadmin",
@@ -56,6 +60,8 @@ export const ViewAdminMainPage = () => {
             pageName: "View Requested Doctors",
         }
     ];
+
+    if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
 
     return (
         <div className={styles['main-div']}>

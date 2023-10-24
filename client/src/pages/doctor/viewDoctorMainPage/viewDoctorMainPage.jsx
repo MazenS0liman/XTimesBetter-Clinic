@@ -6,6 +6,9 @@ import styles from './viewDoctorMainPage.module.css'
 // React Router Dom Components
 import { Routes, Route, Navigate } from 'react-router-dom';
 
+// Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
 // Pages
 import { ViewPatientInfo } from '../viewPatientInfoPage/viewPatientInfoPage';
 import { ViewPatients } from '../viewPatientsPage/viewPatientsPage';
@@ -19,6 +22,7 @@ import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDa
 import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewDoctorMainPage = () => {
+    const {accessToken, refreshToken} = useAuth();
     const list = [
         {
             url: "/doctor/doctorRequest",
@@ -41,6 +45,8 @@ export const ViewDoctorMainPage = () => {
             pageName: "Filter Date",
         }
     ];
+
+    if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
 
     return (
         <div className={styles['main-div']}>

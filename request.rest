@@ -1,0 +1,29 @@
+### LogIn
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "username": "hanyshaker",
+    "password": "12345"
+}
+
+### Authenticate Access Token
+GET http://localhost:5000/login
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhbnlzaGFrZXIiLCJpYXQiOjE2OTgxNjY3NzcsImV4cCI6MTY5ODI1MzE3N30.WR9nezWHtIm1VGPTn7DmJcixZRFfpXQaEjUIrzsFRd4
+
+### Refresh Access Token
+GET http://localhost:5000/authentication/getAccessToken
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhbnlzaGFrZXIiLCJpYXQiOjE2OTgxNjY3Nzd9.P7rMaOSepZoKyFCPjUe1sJ7jLnxB-wAI_xqYy_Ydgio"
+}
+
+### Remove Refresh Token
+DELETE http://localhost:5000/logout
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhbnlzaGFrZXIiLCJpYXQiOjE2OTgxNjY3Nzd9.P7rMaOSepZoKyFCPjUe1sJ7jLnxB-wAI_xqYy_Ydgio"
+}
+

@@ -14,33 +14,20 @@ mongoose.set('strictQuery', false);
 
 // Express app
 const app = express();
-// const allowedOrigins = ['http://localhost:5173'];
-// const corsOptions = {
-//   origin: (origin, callback) => {
-//     if (allowedOrigins.includes(origin) || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error('Not allowed by CORS'));
-//     }
-//   },
-// };
 
 // App variables
 const Port = process.env.PORT || 5000;
 const MongoURI = process.env.MONGO_URI;
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  optionSuccessStatus: 200,
+}
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-const corsOptions = {
-  origin: '*',
-  credentials: true,            //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
-}
-
 app.use(cors(corsOptions))
-
 
 // Middleware for allowing react to fetch() from server
 app.use(function (req, res, next) {
@@ -79,7 +66,17 @@ mongoose.connect(MongoURI)
   })
   .catch(err => console.log(err));
 
-// Routes
+// -- Routes -- //
+// LogIn
+app.use('/login', require('./routes/login/loginRoute'));
+
+// LogOut
+app.use('/logout', require('./routes/login/logoutRoute'));
+
+// Authentication
+app.use('/authentication/checkAccessToken', require('./routes/authentication/checkAuthenticationRoute'));
+app.use('/authentication/getAccessToken', require('./routes/authentication/getAccessTokenRoute'));
+
 // Doctor
 app.use('/doctor/register', require('./routes/doctor/registerRoute'));
 app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
