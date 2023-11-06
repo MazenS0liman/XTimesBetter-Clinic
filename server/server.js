@@ -77,12 +77,17 @@ app.use('/logout', require('./routes/login/logoutRoute'));
 app.use('/authentication/checkAccessToken', require('./routes/authentication/checkAuthenticationRoute'));
 app.use('/authentication/getAccessToken', require('./routes/authentication/getAccessTokenRoute'));
 
+// Reset Password
+app.use('/resetPassword', require('./routes/authentication/resetPasswordRoute.js'));
+
 // Doctor
 app.use('/doctor/register', require('./routes/doctor/registerRoute'));
 app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
 app.use('/doctor/profile', require('./routes/doctor/profileRoute'));
 app.use('/doctor/filterAppointmentsByDateForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
 app.use('/doctor/filterAppointmentsByStatusForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
+app.use('/doctor/info', require('./routes/doctor/doctorInfoRoute')); // Get information about specific doctor using his/her username
+app.use('/doctor/changePassword', require('./routes/doctor/changePasswordRoute')); // Update password of a doctor
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -92,6 +97,8 @@ app.use('/admin/updatePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/deletePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/ViewPackage', require('./routes/admin/packageRoute'));
 app.use('/Admin/addremoveclinic', adminRoutes);
+app.use('/admin/info', require('./routes/admin/adminInfoRoute')); // Get information about specific admin using his/her username
+app.use('/admin/changePassword', require('./routes/Admin/changePasswordRoute')); // Update password of an admin
 
 // Patient
 app.use('/patient/allDoctors', require('./routes/patient/doctorsRoute'));
@@ -104,7 +111,7 @@ app.use('/patient/viewFamilyMembers', require('./routes/patient/viewFamilyMember
 app.use('/patient/viewAppointments', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
-
-
+app.use('/patient/info', require('./routes/patient/patientInfoRoute')); // Get information about specific patient using his/her username
+app.use('/patient/changePassword', require('./routes/patient/changePasswordRoute')); // Update password of a patient
 
 

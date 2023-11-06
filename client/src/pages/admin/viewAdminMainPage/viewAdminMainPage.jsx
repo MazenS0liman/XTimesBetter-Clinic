@@ -24,6 +24,8 @@ import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewAdminMainPage = () => {
     const {accessToken, refreshToken} = useAuth();
+    console.log("Admin Access Token: ", accessToken);
+
     const list = [
         {
             url: "/admin/addadmin",

@@ -10,7 +10,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth, useUsername } from '../../../components/hooks/useAuth'; 
 
 // Pages
-import PatientRegister from '../viewRegisterationPage/patientRegisterPage';
 import ViewAllDrs from '../ViewAllDrs/ViewAllDrs';
 import ViewDoctorsList from '../ViewDoctorListPage/ViewDoctorListPage'
 import ViewDoctorInfo from '../ViewDoctorInfoPage/ViewDoctorInfoPage';
@@ -19,20 +18,20 @@ import FamilyView from '../PatientHome/PatientHome';
 import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
+import { PatientProfile } from '../PatientProfile/PatientProfile';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewPatientMainPage = () => {
     const {accessToken, refreshToken} = useAuth();
-    const {username, setUsername} = useUsername();
-    console.log("Username ", username);
     
     const list = [
         {
-            url: "/patient/patientRegister",
-            pageName: "Registeration",
-        },
+            url: "/patient/profile",
+            pageName: "Profile",
+        }
+        ,
         {
             url: "/patient/ViewAllDrs",
             pageName: "Doctors",
@@ -70,7 +69,6 @@ export const ViewPatientMainPage = () => {
             <Navbar name="Patient" list={list} />
             <>
                 <Routes>
-                    <Route path="/patientRegister" element={<PatientRegister />} />
                     <Route path='/ViewAllDrs' element={<ViewAllDrs />} />
                     <Route path='/viewDoctorsListPage' element={< ViewDoctorsList />} />
                     <Route path='/viewDoctorInfoPage' element={< ViewDoctorInfo />} ></Route>
@@ -79,6 +77,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path="/profile" element={<PatientProfile />} />
                 </Routes>
             </>
         </div>

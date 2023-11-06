@@ -12,7 +12,6 @@ import { useAuth } from '../../../components/hooks/useAuth';
 // Pages
 import { ViewPatientInfo } from '../viewPatientInfoPage/viewPatientInfoPage';
 import { ViewPatients } from '../viewPatientsPage/viewPatientsPage';
-import DoctorRequest from '../viewDoctorRequestPage/doctorRequestPage';
 import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 import AppointmentsByStatusViewDoctor from '../FilterAppointmentsForDoctorByStatus/FilterAppointmentsForDoctorByStatus';
 import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDate/FilterAppointmentsForDoctorByDate';
@@ -23,11 +22,9 @@ import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewDoctorMainPage = () => {
     const {accessToken, refreshToken} = useAuth();
+    console.log("Doctor Access Token: ", accessToken);
+
     const list = [
-        {
-            url: "/doctor/doctorRequest",
-            pageName: "Registeration",
-        },
         {
             url: "/doctor/viewPatientsPage",
             pageName: "Patients",
@@ -55,7 +52,6 @@ export const ViewDoctorMainPage = () => {
                 <Routes>
                     <Route path='/viewPatientsPage' element={<ViewPatients />} />
                     <Route path='/viewPatientInfoPage' element={<ViewPatientInfo />} ></Route>
-                    <Route path="/doctorRequest" element={<DoctorRequest />} />
                     <Route path="/updateInfoPage" element={<UpdateDoctorInfo />} ></Route>
                     <Route path="/FilterAppointmentByStatusDoctor" element={<AppointmentsByStatusViewDoctor />} />
                     <Route path="/FilterAppointmentByDateDoctor" element={<AppointmentsByDateViewDoctor />} />

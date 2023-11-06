@@ -3,16 +3,21 @@ import React from 'react';
 // Axios
 import axios from 'axios';
 
-// Hooks
-import { useState } from 'react';
-import { useAuthUpdate, useUsername } from '../../../components/hooks/useAuth';
-
 // Styles
 import styles from './loginPage.module.css';
+
+// Hooks
+import { useState } from 'react';
+
+// Home Made Hooks
+import { useAuthUpdate, useUsername, useUserType, useRecoveryContext } from '../../../components/hooks/useAuth';
+import { useFetch } from '../../../components/hooks/useFetch';
 
 // React Router
 import { useNavigate } from 'react-router-dom';
 
+// User Defined Components
+import { AlertMessageCard } from '../../../components/alertMessageCard/alertMessageCard';
 
 export const LoginPage = () => {
     const [name, setName] = useState("");
@@ -22,6 +27,7 @@ export const LoginPage = () => {
     const [error, setError] = useState(false);
     const {updateAccessToken, updateRefreshToken} = useAuthUpdate();
     const {username, setUsername} = useUsername();
+    const {userType, setUserType} = useUserType();
     const navigate = useNavigate();
 
     function handleUsernameChange(event) {
@@ -33,59 +39,81 @@ export const LoginPage = () => {
     }
 
     async function handleLogInClick() {
-        const response = await axios({
-            method: 'POST',
-            url: 'http://localhost:5000/login',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            data: {
-                username: name,
-                password: password
-            }
-        });
-
-        setAccessToken(response.data.accessToken);
-        setRefreshToken(response.data.refreshToken);
-        updateAccessToken(response.data.accessToken);
-        setUsername(name);
-        
-        if (response.data.accessToken === undefined || response.data.refreshToken === undefined) {
+        try {
+            await axios({
+                method: 'POST',
+                url: 'http://localhost:5000/login',
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: {
+                    username: name,
+                    password: password
+                }
+            })
+            .then((response) => {
+                console.log(`Refresh Token: ${response.data.refreshToken}`);
+    
+                setAccessToken(response.data.accessToken);
+                setRefreshToken(response.data.refreshToken);
+                updateAccessToken(response.data.accessToken);
+                updateRefreshToken(response.data.refreshToken);
+                setUsername(name);
+    
+                if (response.data.userType === "patient") {
+                    setError(false);
+                    setUserType("patient");
+                    navigate('/patient');
+                } 
+                else if (response.data.userType === "doctor") {
+                    setError(false);
+                    setUserType("doctor");
+                    navigate('/doctor');
+                }
+                else if (response.data.userType === "admin") {
+                    setError(false);
+                    setUserType("admin");
+                    navigate('/admin');
+                }
+            })
+        } catch (error) {
             setError(true);
-        }
-        else if (response.data.userType === "patient") {
-            navigate('/patient');
-        } 
-        else if (response.data.userType === "doctor") {
-            navigate('/doctor');
-        }
-        else if (response.data.userType === "admin") {
-            navigate('/admin');
         }
     }
 
+    function handleGoBackButtonClicked () {
+        navigate('/');
+    }
+
     return (
-        <div>
-            <h3>Login Here</h3>
-
-            <div>
-                <label>Username</label>
-                <div className={styles['username-input-div']}>
-                    <input className={styles['searchbar-input']} value={name} placeholder="Enter username ..." type="text" onChange={handleUsernameChange}/>
-                </div>
+        <div className={styles['login-main-div']}>
+            <div className={styles['login-back-button-div']}>
+                <button className={styles['login-back-button']} onClick={handleGoBackButtonClicked}>Home Page</button>
             </div>
+            <div className={styles['login-sub-div']}>
+                <h2 className={styles['login-title-h2']}>Login Here</h2>
 
-            <div>
-                <label>Password</label>
-                <div className={styles['password-input-div']}>
-                    <input className={styles['searchbar-input']} value={password} placeholder="Enter password ..." type="text" onChange={handlePasswordChange}/>
+                <div className={styles['login-username-div']}>
+                    <div className={styles['login-username-label-div']}>
+                        <label className={styles['login-username-label']}>Username</label>
+                    </div>
+                    <div className={styles['username-input-div']}>
+                        <input className={styles['searchbar-input']} value={name} placeholder="Enter username ..." type="text" onChange={handleUsernameChange}/>
+                    </div>
                 </div>
-            </div>
 
-            <button onClick={handleLogInClick}>Log In</button>
-            {
-                error ? <div>Invalid username or password</div> : null
-            }
+                <div className={styles['login-password-div']}>
+                    <div className={styles['login-password-label-div']}>
+                        <label className={styles['login-password-label']}>Password</label>
+                    </div>
+                    <div className={styles['password-input-div']}>
+                        <input className={styles['searchbar-input']} value={password} placeholder="Enter password ..." type="password" onChange={handlePasswordChange}/>
+                    </div>
+                </div>
+                <a className={styles['reset-password-a']} href={"/sendOTP"}>Reset Password</a>
+                <button className={styles['login-button']} onClick={handleLogInClick}>Log In</button>
+            </div>
+            {error && (<AlertMessageCard message={"Invalid username or password"} showAlertMessage={setError}></AlertMessageCard>)}
         </div>
     )
 }
