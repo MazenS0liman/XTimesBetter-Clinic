@@ -23,10 +23,10 @@ const acceptDoctor = asyncHandler(async(req, res)=>{
             return res.status(404).json({ message: 'Doctor not found' });
         }
 
-        return res.status(200).json({ message: 'Doctor accepted successfully', doctor });
+        return res.status(200).json({ message: 'Doctor request is accepted successfully', doctor });
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ message: 'An error occurred while accepting the doctor' });
+        res.status(500).json({ message: 'An error occurred while accepting the request of the doctor' });
     }
 })
 
@@ -40,10 +40,10 @@ const rejectDoctor = asyncHandler(async(req, res)=>{
                     return res.status(404).json({ message: 'Doctor not found' });
                 }
         
-                return res.status(200).json({ message: 'Doctor rejected successfully', doctor });
+                return res.status(200).json({ message: 'Doctor request is rejected successfully', doctor });
             } catch (error) {
                 console.error('Error:', error);
-                res.status(500).json({ message: 'An error occurred while accepting the doctor' });
+                res.status(500).json({ message: 'An error occurred while accepting the request of the doctor' });
             }
        
     

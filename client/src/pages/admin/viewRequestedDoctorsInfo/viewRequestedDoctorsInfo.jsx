@@ -36,7 +36,7 @@ function ViewRequestedDoctorsInfo() {
             }
             // Fetch the updated doctor data again to reflect the changes
             fetchRequestedDoctors();
-            alert('Doctor accepted successfully');
+            alert('Doctor request is accepted successfully');
 
           })
           .catch((error) => {
@@ -57,7 +57,7 @@ function ViewRequestedDoctorsInfo() {
             }
             // Fetch the updated doctor data again to reflect the changes
             fetchRequestedDoctors();
-            alert('Doctor rejected successfully');
+            alert('Doctor request is rejected successfully');
 
           })
           .catch((error) => {
