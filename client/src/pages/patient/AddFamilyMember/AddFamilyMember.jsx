@@ -20,7 +20,7 @@ const AddFamilyMember = () => {
 
         if (!name || !national_id || !age || !gender || !relation || !patient_username) {
             setError('Please fill in all of the required fields.');
-           
+
             return;
         }
 
@@ -45,7 +45,7 @@ const AddFamilyMember = () => {
             console.log(response);
 
             if (response.status === 201) {
-                
+
                 setIsSubmitted(true);
                 setMessage('Family member successfully added!');
                 setName('');
@@ -62,11 +62,11 @@ const AddFamilyMember = () => {
                 //window.location.href = '/success';
             } else if (response.status === 404) {
                 //setMessage('Patient does not exist.');
-              
+
                 setError('Patient does not exist.');
             }
             else {
-                
+
                 setError('An error occurred while adding the family member.');
             }
         } catch (error) {

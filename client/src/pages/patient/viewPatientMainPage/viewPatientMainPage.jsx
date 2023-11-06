@@ -16,6 +16,8 @@ import FamilyView from '../PatientHome/PatientHome';
 import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
+import LinkPatientWithAnotherByEmail from '../LinkPatientWithAnother/LinkPatientWithAnotherByEmail';
+import LinkPatientWithAnotherByMobile from '../LinkPatientWithAnother/LinkPatientWithAnotherByMobile';
 
 
 
@@ -55,6 +57,14 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
+        },
+        {
+            url: "/patient/LinkPatientWithAnotherByEmail",
+            pageName: "Link Family Member By Email",
+        },
+        {
+            url: "/patient/LinkPatientWithAnotherByMobile",
+            pageName: "Link Member By PhoneNumber",
         }
     ];
 
@@ -72,6 +82,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path="/LinkPatientWithAnotherByEmail" element={<LinkPatientWithAnotherByEmail />} />
+                    <Route path="/LinkPatientWithAnotherByMobile" element={<LinkPatientWithAnotherByMobile />} />
                 </Routes>
             </>
         </div>

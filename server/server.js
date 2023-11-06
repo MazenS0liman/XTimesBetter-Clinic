@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/admin/adminRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
-const doctorListRoutes = require('./routes/patient/doctorListRoutes')
+const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 
 mongoose.set('strictQuery', false);
 
@@ -86,6 +86,11 @@ app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
 app.use('/doctor/profile', require('./routes/doctor/profileRoute'));
 app.use('/doctor/filterAppointmentsByDateForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
 app.use('/doctor/filterAppointmentsByStatusForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
+app.use('/doctor/viewContract', require('./routes/doctor/viewContractRoute'));
+app.use('/doctor/addContract', require('./routes/doctor/viewContractRoute'));
+app.use('/doctor/viewDoctors', require('./routes/doctor/viewContractRoute'));
+app.use('/doctor/acceptContract', require('./routes/doctor/viewContractRoute'));
+
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -107,7 +112,8 @@ app.use('/patient/viewFamilyMembers', require('./routes/patient/viewFamilyMember
 app.use('/patient/viewAppointments', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
-
+app.use('/patient/linkByEmail', require('./routes/patient/linkPatientWithAnotherRoute'));
+app.use('/patient/linkByMobile', require('./routes/patient/linkPatientWithAnotherRoute'));
 
 
 

@@ -13,10 +13,12 @@ import DoctorRequest from '../viewDoctorRequestPage/doctorRequestPage';
 import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 import AppointmentsByStatusViewDoctor from '../FilterAppointmentsForDoctorByStatus/FilterAppointmentsForDoctorByStatus';
 import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDate/FilterAppointmentsForDoctorByDate';
+import ContractView from '../viewContractPage/ViewContract';
 
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+
 
 export const ViewDoctorMainPage = () => {
     const list = [
@@ -39,6 +41,10 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/FilterAppointmentByDateDoctor",
             pageName: "Filter Date",
+        },
+        {
+            url: "/doctor/viewContract",
+            pageName: "Contract Info",
         }
     ];
 
@@ -53,6 +59,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/updateInfoPage" element={<UpdateDoctorInfo />} ></Route>
                     <Route path="/FilterAppointmentByStatusDoctor" element={<AppointmentsByStatusViewDoctor />} />
                     <Route path="/FilterAppointmentByDateDoctor" element={<AppointmentsByDateViewDoctor />} />
+                    <Route path="/viewContract" element={<ContractView />} />
                 </Routes>
             </>
         </div>
