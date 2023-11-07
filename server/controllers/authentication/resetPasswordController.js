@@ -15,7 +15,7 @@ const CheckEmail = asyncHandler(async (req, res) => {
         const doctor = await doctorModel.findOne({ email: email });
         const admin = await adminModel.findOne({ email: email });
 
-        if (patient && doctor || patient && admin || admin && doctor) {
+        if ((patient && doctor) || (patient && admin) || (admin && doctor)) {
             return res.status(400).json({ message: 'Multiple users have same email address'});
         }
         else {
@@ -34,13 +34,15 @@ const CheckEmail = asyncHandler(async (req, res) => {
 
 const UpdatePassword = asyncHandler(async (req, res) => {
     const email = req.query.email;
-    const newPassword = await bcrypt.hash(req.query.password, 10);
+    const password = req.query.newPassword;
+    console.log(`Sent Password: ${password}`);
+    const newPassword = await bcrypt.hash(password, 10);
     try {
         const patient = await patientModel.findOne({ email: email });
         const doctor = await doctorModel.findOne({ email: email });
         const admin = await adminModel.findOne({ email: email });
 
-        if (patient && doctor || patient && admin || admin && doctor) {
+        if ((patient && doctor) || (patient && admin) || (admin && doctor)) {
             return res.status(400).json({ message: 'Multiple users have same email address'});
         }
         else {

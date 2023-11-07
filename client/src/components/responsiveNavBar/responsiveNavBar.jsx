@@ -40,7 +40,7 @@ export const ResponsiveAppBar = () => {
   const {accessToken, refreshToken} = useAuth();
 
   useEffect(() => {
-    if (accessToken.split(' ')[1] != ""){
+    if (accessToken.split(' ')[1] != "") {
       setUserLoggedIn(true);
     }
     else {
@@ -106,7 +106,7 @@ export const ResponsiveAppBar = () => {
                 height: '100%',
               }}
             >
-              X-Times Better
+              X-Virtual Clinic
             </Typography>
 
             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

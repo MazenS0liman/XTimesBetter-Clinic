@@ -59,16 +59,19 @@ export const SendOtpPage = () => {
 
     return (
         <div className={styles['send-otp-main-div']}>
-            <div className={styles['send-otp-sub1-div']}>
+            <div className={styles['send-otp-title-div']}>
+                <h2 className={styles['send-otp-title-h2']}>Request OTP</h2>
+            </div>
+            <div className={styles['send-otp-sub-div']}>
                 <div className={styles['send-otp-label-div']}>
                     <label className={styles['send-otp-label']}>Enter your email</label>
                 </div>
                 <div className={styles['send-otp-input-div']}>
-                    <input className={styles['send-otp-input']} value={userEmail} placeholder="email@gmail.com" type="text" onChange={handleEmailChange}></input>
+                    <input className={styles['send-otp-input']} value={userEmail} placeholder="example: email@gmail.com" type="text" onChange={handleEmailChange}></input>
                 </div>
             </div>
-            <div className={styles['send-otp-sub2-div']}>
-                <button className={styles['send-otp-button']} onClick={sendOtp}></button>
+            <div className={styles['send-otp-button-div']}>
+                <button className={styles['send-otp-button']} onClick={sendOtp}>Send OTP</button>
             </div>
         </div>
     );

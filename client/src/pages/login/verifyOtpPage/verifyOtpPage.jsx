@@ -15,28 +15,38 @@ import { useNavigate } from "react-router-dom";
 // User Defined Hooks
 import { useRecoveryContext } from "../../../components/hooks/useAuth";
 
+// Components
+import { AlertMessageCard } from '../../../components/alertMessageCard/alertMessageCard'
+
 export const VerifyOtpPage = () => {
     const {otp, setOTP, email, setEmail} = useRecoveryContext();
     const [OTPinput, setOTPinput] = useState();
     const [disable, setDisable] = useState(true);
     const [timerCount, setTimer] = useState(60);
+    const [alertMessage, showAlertMessage] = useState(true);
     const navigate = useNavigate();
 
     function verifyOTP() {
-        if (parseInt(OTPinput) === otp) {
-            navigate('/resetPassword');
-        }
-        else {
-            alert("The code you have entered is not correct, try again re-send the link");
-        }
+      console.log(parseInt(OTPinput));
+      console.log(otp);
+      if (parseInt(OTPinput) === otp) {
+          navigate('/resetPassword');
+      }
+      else {
+
+          console.log("The code you have entered is not correct, try again re-send the link");
+      }
     }
 
       //function to resend OTP 
   function resendOTP() {
     if (disable) return;
-    axios
-      .post("http://localhost:5000/resetPassword/sendEmail", {
-        otp: otp,
+    // generate another OTP
+    const OTP = Math.floor(Math.random() * 9000 + 1000);
+    // change the global value of the otp in the RecoveryContext Provider
+    setOTP(OTP);
+    axios.post("http://localhost:5000/resetPassword/sendEmail", {
+        otp: OTP,
         recipientEmail: email,
       })
       .then(() => setDisable(true))
@@ -59,14 +69,25 @@ export const VerifyOtpPage = () => {
   }, [disable]);
 
     return (
-        <div>
-          <h3>Email Verification</h3>
-          <p>We have sent a verification code to your email.</p>
-          <form>
-             <input type="text" value={OTPinput} onChange={(e) => { setOTPinput(e.target.value) }} /> 
-              <button onClick={() => verifyOTP()}>Verify Account</button> 
-              <a onClick={() => resendOTP()} > Did not receive code? {disable ? `Resend OTP in ${timerCount}s` : " Resend OTP"}</a> 
-          </form>
+      <div className={styles['verify-otp-main-div']}>
+        <div className={styles['verify-otp-title-div']}>
+          <h2 className={styles['verify-otp-title-h2']}>Email Verification</h2>
         </div>
-      );
+        {alertMessage && (<AlertMessageCard message={"We have sent a verification code to your email."} showAlertMessage={showAlertMessage}></AlertMessageCard>)}
+        <div className={styles['verify-otp-sub-div']}>
+            <div className={styles['verify-otp-label-div']}>
+              <label className={styles['verify-otp-label']}>Enter OTP</label>
+            </div>
+            <div className={styles['verify-otp-input-div']}>
+              <input className={styles['verify-otp-input']} type="text" placeholder="example: 12345" value={OTPinput} onChange={(e) => { setOTPinput(e.target.value) }} /> 
+            </div>
+        </div>
+            <div className={styles['verify-otp-button-div']}>
+              <button className={styles['verify-otp-button']} onClick={() => verifyOTP()}>Verify Account</button> 
+            </div>
+            <div className={styles['verify-otp-a-div']}>
+              <a className={styles['resend-otp-a']} onClick={() => resendOTP()} > Did not receive code? {disable ? `Resend OTP in ${timerCount}s` : " Resend OTP"}</a> 
+            </div>
+      </div>
+    );
 }

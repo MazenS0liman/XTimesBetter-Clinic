@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import * as React from 'react';
 
 // Axios
@@ -14,7 +13,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Home Made Hooks
-import { useFetch } from '../hooks/useFetch';
 import { useUsername, useUserType } from '../hooks/useAuth';
 
 // Home Made Components
