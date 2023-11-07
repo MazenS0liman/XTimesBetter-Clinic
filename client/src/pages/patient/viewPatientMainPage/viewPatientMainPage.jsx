@@ -21,6 +21,7 @@ import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 
 export const ViewPatientMainPage = () => {
     const list = [
@@ -55,6 +56,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
+        },
+        {
+            url: "/patient/viewWalletNumber",
+            pageName: "View My Wallet",
         }
     ];
 
@@ -72,6 +77,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path="/viewWalletNumber" element={<ViewPatientWalletPage />} />
+
                 </Routes>
             </>
         </div>

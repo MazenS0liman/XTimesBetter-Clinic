@@ -107,7 +107,9 @@ app.use('/patient/viewFamilyMembers', require('./routes/patient/viewFamilyMember
 app.use('/patient/viewAppointments', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
+app.use('/patient/viewWalletNumber', require('./routes/patient/viewWallet'));
 
 
+app.use('/doctor/viewWallet', require('./routes/doctor/viewMyWallet'));
 
 
