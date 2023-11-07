@@ -14,6 +14,10 @@ const CheckEmail = asyncHandler(async (req, res) => {
         const patient = await patientModel.findOne({ email: email });
         const doctor = await doctorModel.findOne({ email: email });
         const admin = await adminModel.findOne({ email: email });
+        console.log(`Patient: ${patient}`);
+        console.log(`Doctor: ${doctor}`);
+        console.log(`Admin: ${admin}`);
+
 
         if ((patient && doctor) || (patient && admin) || (admin && doctor)) {
             return res.status(400).json({ message: 'Multiple users have same email address'});

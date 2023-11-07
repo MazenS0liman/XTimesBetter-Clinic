@@ -76,6 +76,7 @@ app.use('/logout', require('./routes/login/logoutRoute'));
 // Authentication
 app.use('/authentication/checkAccessToken', require('./routes/authentication/checkAuthenticationRoute'));
 app.use('/authentication/getAccessToken', require('./routes/authentication/getAccessTokenRoute'));
+app.use('/authentication/changePassword', require('./routes/authentication/changePasswordRoute'));
 
 // Reset Password
 app.use('/resetPassword', require('./routes/authentication/resetPasswordRoute.js'));

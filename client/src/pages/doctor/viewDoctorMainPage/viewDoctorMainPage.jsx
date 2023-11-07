@@ -15,7 +15,7 @@ import { ViewPatients } from '../viewPatientsPage/viewPatientsPage';
 import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 import AppointmentsByStatusViewDoctor from '../FilterAppointmentsForDoctorByStatus/FilterAppointmentsForDoctorByStatus';
 import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDate/FilterAppointmentsForDoctorByDate';
-
+import { DoctorProfile } from '../DoctorProfile/DoctorProfile';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -25,6 +25,10 @@ export const ViewDoctorMainPage = () => {
     console.log("Doctor Access Token: ", accessToken);
 
     const list = [
+        {
+            url: "/doctor/profile",
+            pageName: "Profile",
+        },
         {
             url: "/doctor/viewPatientsPage",
             pageName: "Patients",
@@ -55,6 +59,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/updateInfoPage" element={<UpdateDoctorInfo />} ></Route>
                     <Route path="/FilterAppointmentByStatusDoctor" element={<AppointmentsByStatusViewDoctor />} />
                     <Route path="/FilterAppointmentByDateDoctor" element={<AppointmentsByDateViewDoctor />} />
+                    <Route path="/profile" element={<DoctorProfile />} />
                 </Routes>
             </>
         </div>

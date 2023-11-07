@@ -27,24 +27,43 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 // User Defined Hooks
-import { useFetch } from '../../../components/hooks/useFetch';
-import { useUsername } from '../../../components/hooks/useAuth';
+import { useAuth } from '../../../components/hooks/useAuth';
 
 export const PatientProfile = () => {
     const navigate = useNavigate();
-    const {username, setUsername} = useUsername();
+    const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [dob, setDOB] = useState('');
     const [mobile, setMobile] = useState('');
     const [image, setImage] = useState('');
-   
+    const {accessToken} = useAuth();
+
+    async function checkAuthentication() {
+      await axios ({
+          method: 'get',
+          url: `http://localhost:5000/authentication/checkAccessToken`,
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'patient',
+          },
+      })
+      .then((response) => {
+          console.log(response);
+      })
+      .catch((error) => {
+        navigate('/');
+      });
+    }
+    
     const getPatientInfo = async () => {
       await axios ({
         method: 'get',
-        url: `http://localhost:5000/patient/info?username=${username}`,
+        url: `http://localhost:5000/patient/info`,
         headers: {
             "Content-Type": "application/json",
+            'Authorization': accessToken,
         },
       })
       .then((response) => {
@@ -69,6 +88,7 @@ export const PatientProfile = () => {
           patient.name = arr.join(" ");
         }
 
+        setUsername(patient.username);
         setName(patient.name);
         setEmail(patient.email);
         setMobile(patient.mobile);
@@ -79,7 +99,7 @@ export const PatientProfile = () => {
       })
     };
 
-    // Get Patient Info
+    checkAuthentication();
     getPatientInfo();
     
     return (

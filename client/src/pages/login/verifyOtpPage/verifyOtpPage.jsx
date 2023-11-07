@@ -23,18 +23,17 @@ export const VerifyOtpPage = () => {
     const [OTPinput, setOTPinput] = useState();
     const [disable, setDisable] = useState(true);
     const [timerCount, setTimer] = useState(60);
-    const [alertMessage, showAlertMessage] = useState(true);
+    const [showMessage, setShowMessage] = useState(true);
+    const [alertMessage, setAlertMessage] = useState('');
     const navigate = useNavigate();
 
     function verifyOTP() {
-      console.log(parseInt(OTPinput));
-      console.log(otp);
-      if (parseInt(OTPinput) === otp) {
-          navigate('/resetPassword');
+      if (!isNaN(parseInt(OTPinput)) && parseInt(OTPinput) === otp) {
+        navigate('/resetPassword');
       }
       else {
-
-          console.log("The code you have entered is not correct, try again re-send the link");
+        setShowMessage(true);
+        setAlertMessage("The code you have entered is not correct, try again re-send the link");
       }
     }
 
@@ -50,7 +49,10 @@ export const VerifyOtpPage = () => {
         recipientEmail: email,
       })
       .then(() => setDisable(true))
-      .then(() => alert("A new OTP has succesfully been sent to your email."))
+      .then(() => {
+        showMessage(true);
+        setAlertMessage("A new OTP has succesfully been sent to your email.");
+      })
       .then(() => setTimer(60))
       .catch(console.log);
 
@@ -73,7 +75,6 @@ export const VerifyOtpPage = () => {
         <div className={styles['verify-otp-title-div']}>
           <h2 className={styles['verify-otp-title-h2']}>Email Verification</h2>
         </div>
-        {alertMessage && (<AlertMessageCard message={"We have sent a verification code to your email."} showAlertMessage={showAlertMessage}></AlertMessageCard>)}
         <div className={styles['verify-otp-sub-div']}>
             <div className={styles['verify-otp-label-div']}>
               <label className={styles['verify-otp-label']}>Enter OTP</label>
@@ -82,12 +83,13 @@ export const VerifyOtpPage = () => {
               <input className={styles['verify-otp-input']} type="text" placeholder="example: 12345" value={OTPinput} onChange={(e) => { setOTPinput(e.target.value) }} /> 
             </div>
         </div>
-            <div className={styles['verify-otp-button-div']}>
-              <button className={styles['verify-otp-button']} onClick={() => verifyOTP()}>Verify Account</button> 
-            </div>
-            <div className={styles['verify-otp-a-div']}>
-              <a className={styles['resend-otp-a']} onClick={() => resendOTP()} > Did not receive code? {disable ? `Resend OTP in ${timerCount}s` : " Resend OTP"}</a> 
-            </div>
+        <div className={styles['verify-otp-button-div']}>
+          <button className={styles['verify-otp-button']} onClick={() => verifyOTP()}>Verify Account</button> 
+        </div>
+        <div className={styles['verify-otp-a-div']}>
+          <a className={styles['resend-otp-a']} onClick={() => resendOTP()} > Did not receive code? {disable ? `Resend OTP in ${timerCount}s` : " Resend OTP"}</a> 
+        </div>
+        {showMessage && (<AlertMessageCard message={alertMessage} showAlertMessage={setShowMessage} ></AlertMessageCard>)}
       </div>
     );
 }

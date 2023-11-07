@@ -18,6 +18,7 @@ import RemoveAdmin from '../RemoveAdminPage/removeadmin';
 import RemovePatient from '../RemovePatient/removepatient';
 import RemoveDoctor from '../RemoveDoctor/removedoctor';
 import ViewRequestedDoctorsInfo from '../viewRequestedDoctorsInfo/viewRequestedDoctorsInfo';
+import { AdminProfile } from '../AdminProfile/AdminProfile';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -27,6 +28,10 @@ export const ViewAdminMainPage = () => {
     console.log("Admin Access Token: ", accessToken);
 
     const list = [
+        {
+            url: "/admin/profile",
+            pageName: "Profile",
+        },
         {
             url: "/admin/addadmin",
             pageName: "Add Admin",
@@ -43,8 +48,6 @@ export const ViewAdminMainPage = () => {
             url: "/admin/removedoctor",
             pageName: "Remove Doctor",
         },
-
-
         {
             url: "/admin/AddPackage",
             pageName: "Add Package",
@@ -70,6 +73,7 @@ export const ViewAdminMainPage = () => {
             <Navbar name="Admin" list={list} />
             <>
             <Routes>
+            <Route path="/profile" element={<AdminProfile />} />
             <Route path="/addadmin" element={<AddAdmin/>}/>
             <Route path="/removeadmin" element={<RemoveAdmin/>}/>
             <Route path="/removepatient" element={<RemovePatient/>}/>

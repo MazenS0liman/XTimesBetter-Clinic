@@ -36,7 +36,6 @@ export const ResponsiveAppBar = () => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [displayLogOutMessage, setDisplayLogOutMessage] = useState(false);
   const navigate = useNavigate();
-  const {userType, setUserType} = useUserType();
   const {accessToken, refreshToken} = useAuth();
 
   useEffect(() => {
@@ -259,18 +258,6 @@ export const ResponsiveAppBar = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {/* Patient Profile */}
-                {
-                  userType === "patient" && (
-                    <MenuItem key={'Profile'} onClick={handleCloseRegisterMenu} component='a' href='/patient/profile'>
-                      <Typography 
-                          textAlign="center"
-                      >
-                          {'Profile'}
-                      </Typography>
-                    </MenuItem>
-                  )
-                }
 
                 {/* Change Password */}
                 <MenuItem key={'Change Password'} onClick={() => {

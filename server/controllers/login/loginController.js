@@ -51,7 +51,7 @@ const loginUser = asyncHandler(async (req, res) => {
         }
         
         // Create Access Token
-        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 86400 });
+        const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
 
         if (!accessToken) {
             return res.status(403).json({ message: "Invalid Username or password", loggingIn: false });

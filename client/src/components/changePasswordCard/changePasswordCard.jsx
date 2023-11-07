@@ -9,11 +9,8 @@ import styles from './changePasswordCard.module.css';
 // Hooks
 import { useState } from 'react';
 
-// React Router DOM
-import { useNavigate } from 'react-router-dom';
-
 // Home Made Hooks
-import { useUsername, useUserType } from '../hooks/useAuth';
+import { useAuth } from '../hooks/useAuth';
 
 // Home Made Components
 import { AlertMessageCard } from '../alertMessageCard/alertMessageCard';
@@ -21,20 +18,22 @@ import { AlertMessageCard } from '../alertMessageCard/alertMessageCard';
 export const PasswordCard = () => {
     const [currentPassword, setCurrentPassword] =useState('');
     const [newPassword, setNewPassword] = useState('');
-    const {username, setUsername} = useUsername();
-    const {userType, setUserType} = useUserType();
     const [showAlertMessage, setShowAlertMessage] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
-    const navigate = useNavigate();
+    const {accessToken} = useAuth();
 
     async function handleClickChangePassword() {
         await axios ({
             method: 'put',
-            url: `http://localhost:5000/${userType}/changePassword?username=${username}`,
+            url: `http://localhost:5000/authentication/changePassword`,
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': accessToken,
             },
-            params: {currentPassword: currentPassword, newPassword: newPassword},
+            params: {
+                currentPassword: currentPassword,
+                newPassword: newPassword,
+            }
         })
         .then((response) => {
             setAlertMessage('Password changed successfully');

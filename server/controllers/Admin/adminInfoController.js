@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const adminModel = require('../../models/Admin.js');
 
 const getAdminInfo = asyncHandler(async (req, res) => {
-    const username = req.query.username;
+    const username = req.body.username;
 
     if (username === undefined) {
         return res.status(400).json({ message: 'Please enter a username',  admin: null, found: false });

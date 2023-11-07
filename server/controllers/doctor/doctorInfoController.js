@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler');
 const doctorModel = require('../../models/Doctor.js');
 
 const getDoctorInfo = asyncHandler(async (req, res) => {
-    const username = req.query.username;
+    const username = req.body.username;
 
     if (username === undefined) {
         return res.status(400).json({ message: 'Please enter a username', doctor: null, found: false });

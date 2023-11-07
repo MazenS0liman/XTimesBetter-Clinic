@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+// Axios
+import axios from 'axios';
+
 // Styles
 import styles from './DoctorProfile.module.css';
 
@@ -14,34 +17,106 @@ import { Button, Typography } from '@mui/joy';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
+// User Defined Components
+import { PasswordCard } from '../../../components/changePasswordCard/changePasswordCard';
+
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
 
-// Home Made Hooks
-import { useFetch } from '../../../components/hooks/useFetch';
-import { useUsername } from '../../../components/hooks/useAuth';
+// Hooks
+import { useState } from 'react';
+
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
 
 
 export const DoctorProfile = () => {
     const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [dob, setDOB] = useState('');
+    const [image, setImage] = useState('');
+    const {accessToken} = useAuth();
+
+    async function checkAuthentication() {
+      await axios ({
+          method: 'get',
+          url: `http://localhost:5000/authentication/checkAccessToken`,
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'doctor',
+          },
+      })
+      .then((response) => {
+          console.log(response);
+      })
+      .catch((error) => {
+        navigate('/');
+      });
+    }
+
+    const getDoctorInfo = async () => {
+        await axios ({
+          method: 'get',
+          url: `http://localhost:5000/doctor/info`,
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+          },
+        })
+        .then((response) => {
+          const doctor = response.data.doctor[0];
+  
+          // Choosing image based on the gender of the patient 
+          if (doctor !== null && doctor.gender === 'male') {
+            setImage(manImage);
+          } else {
+            setImage(womenImage);
+          }
+  
+          if(doctor) {
+            // Split the patients name string into an array of strings whenever a blank space is encountered
+            const arr = doctor.name.split(" ");
+            // Loop through each element of the array and capitalize the first letter.
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+            }
+            // Join all the elements of the array back into a string 
+            // using a blankspace as a separator 
+            doctor.name = arr.join(" ");
+          }
+  
+          setUsername(doctor.username);
+          setName(doctor.name);
+          setEmail(doctor.email);
+          setDOB(doctor.dob);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+      };
+
+    checkAuthentication();
+    getDoctorInfo();
 
     return (
-        <div className={styles['patient-info-main-div']}>
-            <div className={styles['patient-info-top-div']}>
-            <div className={styles['patient-info-left-div']}>
-                <img className={styles['patient-info-img']}></img>
+        <div className={styles['doctor-info-main-div']}>
+            <div className={styles['doctor-info-top-div']}>
+            <div className={styles['doctor-info-left-div']}>
+                <img className={styles['doctor-info-img']} src={image}></img>
             </div>
-            <div className={styles['patient-info-right-div']}>
-                <div className={styles['patient-information-div']}>
-                <Typography level="h1" component="h1">{"Doctor Name"}</Typography>
-                <div className={styles['patient-information-sub-div']}>
-                    <div className={styles['patient-information-left-div']}>
-                    <Typography level="title-sm">username: {"Doctor Username"}</Typography>
-                    <Typography level="title-sm">email: {"Doctor Email"}</Typography>
+            <div className={styles['doctor-info-right-div']}>
+                <div className={styles['doctor-information-div']}>
+                <Typography level="h1" component="h1">{name}</Typography>
+                <div className={styles['doctor-information-sub-div']}>
+                    <div className={styles['doctor-information-left-div']}>
+                    <Typography level="title-sm">username: {username}</Typography>
+                    <Typography level="title-sm">email: {email}</Typography>
                     </div>
                     <div className={styles['patient-information-right-div']}>
-                    <Typography level="title-sm">data of birth: {"Doctor DOB"}</Typography>
-                    <Typography level="title-sm">mobile: {"Doctor Mobile"}</Typography>
+                    <Typography level="title-sm">data of birth: {dob}</Typography>
                     </div>
                 </div>
                 </div>
@@ -52,6 +127,9 @@ export const DoctorProfile = () => {
             </div>
             <div className={styles['patient-info-bottom-div']}>
             </div>
+
+            {/* Change Password Card */}
+            <PasswordCard></PasswordCard>
         </div>
     );
 }
