@@ -55,18 +55,16 @@ const ContractView = () => {
                     <p>Doctor Fees: {Contract.doctorFees}</p>
                     <p>Markup Rate: {Contract.markupRate}</p>
                     <p>Status: {Contract.accepted ? 'Accepted' : 'Pending'}</p>
+
+                    {Contract.accepted !== true && (
+                        <button onClick={handleAcceptContract}>Accept Contract</button>
+                    )}
                 </p>
             ))
 
             }
 
-            <button
-                disabled={contract.accepted}
-                style={{ opacity: contract.accepted ? 0.5 : 1 }}
-                onClick={contract.accepted ? null : handleAcceptContract}
-            >
-                Accept Contract
-            </button>
+
 
 
         </div>
