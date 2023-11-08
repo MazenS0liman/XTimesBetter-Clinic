@@ -115,17 +115,17 @@ export const DoctorProfile = () => {
                     <Typography level="title-sm">username: {username}</Typography>
                     <Typography level="title-sm">email: {email}</Typography>
                     </div>
-                    <div className={styles['patient-information-right-div']}>
+                    <div className={styles['doctor-information-right-div']}>
                     <Typography level="title-sm">data of birth: {dob}</Typography>
                     </div>
                 </div>
                 </div>
-                <div className={styles['patient-settings-div']}>
+                <div className={styles['doctor-settings-div']}>
                 <Button onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
                 </div>
             </div>
             </div>
-            <div className={styles['patient-info-bottom-div']}>
+            <div className={styles['doctor-info-bottom-div']}>
             </div>
 
             {/* Change Password Card */}

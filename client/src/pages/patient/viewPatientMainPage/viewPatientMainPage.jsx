@@ -6,7 +6,7 @@ import styles from './viewPatientMainPage.module.css'
 // React Router Dom Components
 import { Routes, Route, Navigate } from 'react-router-dom';
 
-// Hooks
+// User Defined Hooks
 import { useAuth, useUsername } from '../../../components/hooks/useAuth'; 
 
 // Pages

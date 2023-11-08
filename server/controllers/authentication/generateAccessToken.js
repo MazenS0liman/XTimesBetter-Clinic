@@ -23,7 +23,7 @@ async function generateAccessToken(username) {
         username: username,
     }
         
-    return await jwt.sign(payload,  process.env.ACCESS_TOKEN_SECRET, { expiresIn: 86400 });
+    return await jwt.sign(payload,  process.env.ACCESS_TOKEN_SECRET);
 }
 
 module.exports = { changeAccessToken };
