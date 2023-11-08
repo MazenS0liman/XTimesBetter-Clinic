@@ -82,13 +82,14 @@ const SendEmail = (req, res) => {
             pass: process.env.APP_PASSWORD,
         },
         tls:{
-            rejectUnAuthorized:true
+            rejectUnAuthorized:false
         }
     });
     const otp = req.body.otp;
     const recipientEmail = req.body.recipientEmail;
-    console.log(otp);
-    console.log(recipientEmail);
+    console.log(`OTP: ${otp}`);
+    console.log(`FROM: ${process.env.MY_EMAIL}`);
+    console.log(`TO: ${recipientEmail}`);
     const mailOptions = {
       from: process.env.MY_EMAIL,
       to: recipientEmail,

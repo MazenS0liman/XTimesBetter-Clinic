@@ -128,6 +128,7 @@ export const PasswordCard = () => {
                         <PasswordValidation newPassword={newPassword} />
                     </div>
                 )}
+                
                 <div className={styles['change-password-sub3-div']}>
                     <button className={styles['change-password-button']} onClick={handleClickChangePassword}>Change Password</button>
                 </div>
