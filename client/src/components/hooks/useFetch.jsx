@@ -3,7 +3,7 @@ import axios from 'axios';
 // Hooks
 import { useState, useEffect } from 'react';
 
-function useFetch(method, url, params, body) {
+function useFetch(method, url, params, body, options) {
   const [data, setData] = useState([]);
 
   async function fetchUrl() {
@@ -13,6 +13,7 @@ function useFetch(method, url, params, body) {
         url: url,
         headers: {
             "Content-Type": "application/json",
+            'Authorization': options.accessToken,
         },
         params: params,
         data: body

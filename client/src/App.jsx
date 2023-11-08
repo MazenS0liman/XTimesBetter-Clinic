@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 
 // Pages
-import { MainPage } from './Temp';
+import { MainPage } from './pages/default/DefaultPage';
 
 // Login Page
 import { LoginPage } from './pages/login/loginPage/loginPage';

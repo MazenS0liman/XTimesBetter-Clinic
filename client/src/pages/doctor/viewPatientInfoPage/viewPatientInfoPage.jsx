@@ -1,5 +1,8 @@
 import React from 'react'
 
+// Axios
+import axios from 'axios';
+
 // Styles
 import styles from './viewPatientInfoPage.module.css';
 
@@ -7,7 +10,7 @@ import styles from './viewPatientInfoPage.module.css';
 import manImage from '../../../assets/img/man.png';
 import womenImage from '../../../assets/img/woman.png';
 
-// Components
+// User Defined Components
 import { PatientBoard } from '../../../components/patientBoard/PatientBoard';
 
 // MUI Joy Components
@@ -20,10 +23,35 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 // Hooks
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
 export function ViewPatientInfo() {
     const location = useLocation();
     const navigate = useNavigate();
+    const {accessToken} = useAuth();
     const patient = location.state;
+
+    async function checkAuthentication() {
+      await axios ({
+          method: 'get',
+          url: `http://localhost:5000/authentication/checkAccessToken`,
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'doctor',
+          },
+      })
+      .then((response) => {
+          console.log(response);
+      })
+      .catch((error) => {
+        navigate('/');
+      });
+    }
+
+    // Check that user is authenticated to view this page
+    checkAuthentication();
 
     // Choosing image based on the gender of the patient 
     let image = null;

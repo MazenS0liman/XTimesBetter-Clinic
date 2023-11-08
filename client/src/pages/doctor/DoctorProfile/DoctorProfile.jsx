@@ -69,12 +69,7 @@ export const DoctorProfile = () => {
         .then((response) => {
           const doctor = response.data.doctor[0];
   
-          // Choosing image based on the gender of the patient 
-          if (doctor !== null && doctor.gender === 'male') {
-            setImage(manImage);
-          } else {
-            setImage(womenImage);
-          }
+          setImage(manImage);
   
           if(doctor) {
             // Split the patients name string into an array of strings whenever a blank space is encountered
@@ -98,7 +93,10 @@ export const DoctorProfile = () => {
         })
       };
 
+    // Check that user is authenticated to view this page
     checkAuthentication();
+
+    // Get doctor info
     getDoctorInfo();
 
     return (

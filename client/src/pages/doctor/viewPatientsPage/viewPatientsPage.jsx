@@ -1,19 +1,50 @@
 import React from 'react';
 
+// Axios
+import axios from 'axios';
+
 // Styles
 import styles from './viewPatientsPage.module.css';
 
-// Components
+// User Defined Components
 import { PatientCard } from '../../../components/patientCard/patientCard';
 import { SearchBar } from '../../../components/searchBar/searchBar';
+
+// React Router DOM
 import { useNavigate } from 'react-router-dom';
 
 // Hooks
 import { useFetch } from '../../../components/hooks/useFetch';
 import { useState, useEffect } from 'react';
 
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
 export const ViewPatients = () => {
-    const [response] = useFetch('get', 'http://localhost:5000/doctor/patients', {doctor_username:"mohameds0liman"}); // To store the response of the request
+    const {accessToken} = useAuth();
+
+    async function checkAuthentication() {
+        await axios ({
+            method: 'get',
+            url: `http://localhost:5000/authentication/checkAccessToken`,
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'doctor',
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+          navigate('/');
+        });
+    }
+
+    // Check that user is authenticated to view this page
+    checkAuthentication();
+
+    const [response] = useFetch('get', 'http://localhost:5000/doctor/patients', {}, {}, {accessToken: accessToken}); // To store the response of the request
     const [patients, setPatients] = useState([]); // To store the patients that will be displayed in cards
     const [patientInfo, setPatientInfo] = useState(""); // To store the patient that was clicked
     const [startAppointmentsDate, setStartAppointmentsDate] = useState(new Date(-8640000000000000));
