@@ -39,7 +39,6 @@ const rejectDoctor = asyncHandler(async(req, res)=>{
                 if (!doctor) {
                     return res.status(404).json({ message: 'Doctor not found' });
                 }
-        await doctor.deleteOne();
                 return res.status(200).json({ message: 'Doctor request is rejected successfully', doctor });
             } catch (error) {
                 console.error('Error:', error);

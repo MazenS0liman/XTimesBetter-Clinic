@@ -86,6 +86,7 @@ app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
 app.use('/doctor/profile', require('./routes/doctor/profileRoute'));
 app.use('/doctor/filterAppointmentsByDateForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
 app.use('/doctor/filterAppointmentsByStatusForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
+app.use('/doctor/viewWalletNumber', require('./routes/doctor/viewMyWallet'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -110,6 +111,5 @@ app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patie
 app.use('/patient/viewWalletNumber', require('./routes/patient/viewWallet'));
 
 
-app.use('/doctor/viewWallet', require('./routes/doctor/viewMyWallet'));
 
 

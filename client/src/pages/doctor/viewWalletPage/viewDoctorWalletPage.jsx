@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import styles from './WalletInfo.module.css'; // Import your CSS for styling
+import styles from './WalletDrInfo.module.css'; // Import your CSS for styling
 import moneyImage from '../../../assets/img/money.png';
 
-const ViewPatientWalletPage = () => {
+const ViewDoctorWalletPage = () => {
     const [walletNumber, setWalletNumber] = useState(null);
 
     useEffect(() => {
         const fetchWalletDetails = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/patient/viewWalletNumber', {
+                const response = await axios.get('http://localhost:5000/doctor/viewWalletNumber', {
                     headers: {
                         'Content-Type': 'application/json',
                     },
@@ -31,7 +31,7 @@ const ViewPatientWalletPage = () => {
           <h1>Wallet Amount</h1>
           <div className={styles.walletContainer}>
             <div className={styles.walletAmount}>
-            <p className={styles.largeText}>Your Balance: ${walletNumber} </p>
+            <p className={styles.largeText}>Your Balance: ${walletNumber} EGP </p>
             <div className={styles.walletAmount}>
               <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
             </div>
@@ -46,4 +46,4 @@ const ViewPatientWalletPage = () => {
 };
     
 
-export default ViewPatientWalletPage;
+export default ViewDoctorWalletPage;

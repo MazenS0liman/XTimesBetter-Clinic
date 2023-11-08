@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 
 function ViewRequestedDoctorsInfo() {
       const [requestedDoctors, setRequestedDoctors] = useState([]);
+      const [rejected, setRejected] = useState(false);
+
       const fetchRequestedDoctors = () => {
         const url = 'http://localhost:5000/admin/viewREQDoctors';
     
@@ -27,6 +29,10 @@ function ViewRequestedDoctorsInfo() {
     
       // Function to handle accepting a doctor
       const acceptDoctor = (doctorId) => {
+        const confirmed = window.confirm('Are you sure you want to accept this doctor request?');
+        if (!confirmed) {
+          return;
+        }
         const url = `http://localhost:5000/admin/viewREQDoctors/accept/${doctorId}`;
     
         fetch(url, { method: 'GET' })
@@ -44,10 +50,15 @@ function ViewRequestedDoctorsInfo() {
             alert('Error accepting doctor');
 
           });
+          !(setAcceptClicked(true));
       };
     
       // Function to handle rejecting a doctor
       const rejectDoctor = (doctorId) => {
+        const confirmed = window.confirm('Are you sure you want to reject this doctor request?');
+        if (!confirmed) {
+          return;
+        }
         const url = `http://localhost:5000/admin/viewREQDoctors/reject/${doctorId}`;
       
         fetch(url, { method: 'GET' })
@@ -65,6 +76,8 @@ function ViewRequestedDoctorsInfo() {
             alert('Error rejecting doctor');
 
           });
+          setRejectClicked(true);
+
       };
       
     
@@ -76,6 +89,7 @@ function ViewRequestedDoctorsInfo() {
           headers: {
             'Content-Type': 'application/json',
           }
+
           // body: JSON.stringify(requestBody),
         }).then((response) => {
             if (!response.ok) {
@@ -112,7 +126,6 @@ function ViewRequestedDoctorsInfo() {
                 <th>Speciality</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Date of Birth</th>
                 <th>Hourly Rate</th>
                 <th>Affiliation</th>
@@ -127,17 +140,27 @@ function ViewRequestedDoctorsInfo() {
                   <td>{doctor.speciality}</td>
                   <td>{doctor.username}</td>
                   <td>{doctor.email}</td>
-                  <td>{doctor.password}</td>
                   <td>{doctor.dob}</td>
                   <td>{doctor.hourly_rate}</td>
                   <td>{doctor.affiliation}</td>
                   <td>{doctor.educational_background}</td>
                   <td>{doctor.status}</td>
                   <td>
-      <button onClick={() => acceptDoctor(doctor._id)}>Accept</button>
-      <br       />
-      <button onClick={() => rejectDoctor(doctor._id)}>Reject</button>
-    </td>
+                  <button
+  onClick={() => acceptDoctor(doctor._id)}
+  disabled={doctor.status === 'accepted' || doctor.status === 'rejected'}
+>
+  Accept
+</button>
+<br />
+<button
+  onClick={() => rejectDoctor(doctor._id)}
+  disabled={doctor.status === 'accepted' || doctor.status === 'rejected'}
+>
+  Reject
+</button>
+                
+              </td>
                 </tr>
               ))}
             </tbody>
