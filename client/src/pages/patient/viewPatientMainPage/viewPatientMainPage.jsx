@@ -22,6 +22,11 @@ import { PatientProfile } from '../PatientProfile/PatientProfile';
 import LinkPatientWithAnotherByEmail from '../LinkPatientWithAnother/LinkPatientWithAnotherByEmail';
 import LinkPatientWithAnotherByMobile from '../LinkPatientWithAnother/LinkPatientWithAnotherByMobile';
 
+//Salma sprint 2
+import PackagesDetails from '../ViewPackagesDetails/ViewPackagesDetails';
+import SubsDetails from '../UnsubscribePackage/UnsubscribePackage';
+
+
 
 
 // Components
@@ -71,7 +76,16 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/LinkPatientWithAnotherByMobile",
             pageName: "Link Member By PhoneNumber",
+        },
+        {
+            url: "/patient/ViewPackagesDetails",
+            pageName: "Packages Details",
+        },
+        {
+            url: "/patient/ViewSubscribedPackages",
+            pageName: "Subscription Details",
         }
+        
     ];
 
     if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
@@ -92,6 +106,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/profile" element={<PatientProfile />} />
                     <Route path="/LinkPatientWithAnotherByEmail" element={<LinkPatientWithAnotherByEmail />} />
                     <Route path="/LinkPatientWithAnotherByMobile" element={<LinkPatientWithAnotherByMobile />} />
+                    <Route path='/ViewPackagesDetails' element={<PackagesDetails/>} />
+                    <Route path='/ViewSubscribedPackages' element={<SubsDetails/>} />
                 </Routes>
             </>
         </div>
