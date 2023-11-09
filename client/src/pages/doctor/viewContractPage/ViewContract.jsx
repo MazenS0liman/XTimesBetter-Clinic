@@ -14,10 +14,11 @@ const ContractView = () => {
     const accessToken = localStorage.getItem('accessToken');
     const [contract, setContract] = useState([]);
     const [accepted, setAccepted] = useState(false);
+    const [rejected, setRejected] = useState(false);
     const navigate = useNavigate();
 
     async function checkAuthentication() {
-        await axios ({
+        await axios({
             method: 'get',
             url: `http://localhost:5000/authentication/checkAccessToken`,
             headers: {
@@ -26,13 +27,13 @@ const ContractView = () => {
                 'User-type': 'doctor',
             },
         })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
-      }
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                navigate('/login');
+            });
+    }
 
     checkAuthentication();
 
@@ -73,7 +74,31 @@ const ContractView = () => {
             if (response.ok) {
                 console.log("accepted");
                 setAccepted(true);
-                // window.location.reload();
+                window.location.reload();
+            }
+            else {
+                // Handle any errors from the backend
+                console.error('Error accepting contract:', response.statusText);
+            }
+        }
+
+    };
+    const handleRejectContract = async () => {
+        if (!rejected) {
+            const response = await fetch('http://localhost:5000/doctor/rejectContract/rejectContract', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+            });
+            // console.log("anaaaaaaaaaaaa")
+            //  const newcontract = await response.json();
+
+            if (response.ok) {
+                console.log("rejected");
+                setRejected(true);
+                window.location.reload();
             }
             else {
                 // Handle any errors from the backend
@@ -98,12 +123,16 @@ const ContractView = () => {
                     <p>Termination Date: {Contract.terminationDate}</p>
                     <p>Doctor Fees: {Contract.doctorFees}</p>
                     <p>Markup Rate: {Contract.markupRate}</p>
-                    <p>Status: {accepted ? 'Accepted' : 'Pending'}</p>
+                    <p>Status: {Contract.status}</p>
 
-                    {accepted !== true && (
+                    {(Contract.accepted !== true || Contract.status == "Pending") && (
                         <button onClick={handleAcceptContract}>Accept Contract</button>
                     )}
+                    {(Contract.accepted == true || Contract.status == "Pending") && (
+                        <button onClick={handleRejectContract}>Reject Contract</button>
+                    )}
                 </p>
+
             ))
 
             }

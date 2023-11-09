@@ -24,6 +24,11 @@ const contractSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    status: {
+        type: String,
+        required: true,
+    },
+
 });
 
 const Contract = mongoose.model('Contract', contractSchema);

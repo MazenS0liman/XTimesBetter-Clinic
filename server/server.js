@@ -92,6 +92,7 @@ app.use('/doctor/viewContract', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/addContract', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/viewDoctors', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/acceptContract', require('./routes/doctor/viewContractRoute'));
+app.use('/doctor/rejectContract', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/viewWalletNumber', require('./routes/doctor/viewMyWallet'));
 
 // Admin
