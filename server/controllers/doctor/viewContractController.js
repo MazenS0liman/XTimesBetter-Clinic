@@ -27,7 +27,7 @@ const acceptContract = async (req, res) => {
         if (!contract) {
             return res.status(404).json({ error: 'Doctor has no contract yet' });
         }
-        const newContract = await contractModel.findOneAndUpdate({ doctorName: username.username }, { accepted: false }, { new: true })
+        const newContract = await contractModel.findOneAndUpdate({ doctorName: username.username }, { accepted: true }, { new: true })
         res.status(200).json(newContract);
     } catch (error) {
         res.status(500).json({ error: "Can't get your contract" });
