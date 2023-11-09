@@ -17,6 +17,11 @@ import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
 
+//Salma sprint 2
+import PackagesDetails from '../ViewPackagesDetails/ViewPackagesDetails';
+import SubsDetails from '../UnsubscribePackage/UnsubscribePackage';
+
+
 
 
 // Components
@@ -55,7 +60,19 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
+        },
+         //Salma sprint 2
+        {
+            url: "/patient/ViewPackagesDetails",
+            pageName: "Packages Details",
+        },
+        {
+            url: "/patient/ViewSubscribedPackages",
+            pageName: "Subscription Details",
         }
+        
+       
+
     ];
 
     return (
@@ -72,6 +89,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path='/ViewPackagesDetails' element={<PackagesDetails/>} />
+                    <Route path='/ViewSubscribedPackages' element={<SubsDetails/>} />
                 </Routes>
             </>
         </div>

@@ -109,5 +109,15 @@ app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
 
 
+//Salma sprint 2
+app.use('/patient/ViewPackages', require('./routes/patient/packagesRoute'));
+app.use('/patient/ViewFamily', require('./routes/patient/packagesRoute'));
+app.use('/patient/Subscribe', require('./routes/patient/packagesRoute'));
+app.use('/patient/Unsubscribe', require('./routes/patient/packagesRoute'));
 
+app.use('/patient/Famsubs', require('./routes/patient/packagesRoute'));
+app.use('/patient/Allsubs', require('./routes/patient/packagesRoute'));
+app.use('/patient/Allpatients', require('./routes/patient/packagesRoute'));
 
+app.use('/patient/Subs1', require('./routes/patient/packagesRoute'));
+app.use('/patient/Subs2', require('./routes/patient/packagesRoute'));
