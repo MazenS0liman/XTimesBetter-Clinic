@@ -19,6 +19,10 @@ import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
 import { PatientProfile } from '../PatientProfile/PatientProfile';
+import LinkPatientWithAnotherByEmail from '../LinkPatientWithAnother/LinkPatientWithAnotherByEmail';
+import LinkPatientWithAnotherByMobile from '../LinkPatientWithAnother/LinkPatientWithAnotherByMobile';
+
+
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -59,6 +63,14 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
+        },
+        {
+            url: "/patient/LinkPatientWithAnotherByEmail",
+            pageName: "Link Family Member By Email",
+        },
+        {
+            url: "/patient/LinkPatientWithAnotherByMobile",
+            pageName: "Link Member By PhoneNumber",
         }
     ];
 
@@ -78,6 +90,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
                     <Route path="/profile" element={<PatientProfile />} />
+                    <Route path="/LinkPatientWithAnotherByEmail" element={<LinkPatientWithAnotherByEmail />} />
+                    <Route path="/LinkPatientWithAnotherByMobile" element={<LinkPatientWithAnotherByMobile />} />
                 </Routes>
             </>
         </div>
