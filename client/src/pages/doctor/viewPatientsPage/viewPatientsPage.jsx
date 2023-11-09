@@ -35,10 +35,13 @@ export const ViewPatients = () => {
             },
         })
         .then((response) => {
+            console.log(`Username: ${localStorage.getItem("username")}`);
+            console.log(`User Type: ${localStorage.getItem("userType")}`);
+
             console.log(response);
         })
         .catch((error) => {
-          navigate('/');
+          navigate('/login');
         });
     }
 

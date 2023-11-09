@@ -42,8 +42,7 @@ import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 export const ViewPatientMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
     const accessToken = localStorage.getItem('accessToken');
-    const navigate = useNavigate();
-    console.log("Doctor Access Token: ", accessToken);
+    const navigate = useNavigate();    
 
     async function checkAuthentication() {
         await axios ({

@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config();
 const patientModel = require('../../models/Patient');
@@ -9,29 +10,30 @@ const checkAccessToken = asyncHandler( async (req, res) => {
     const authHeader = req.headers['authorization'];
     const accessToken = authHeader && authHeader.split(' ')[1];
     const userType = req.headers['user-type'];
+    console.log(`User Type: ${userType}`);
     
     if (accessToken == null) return res.status(401).json({ message: "No access token provided" });
 
-    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
+    jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, async (err, decoded) => {
         if (err) return res.status(403).json({ message: "Invalid access token" });
         const username = decoded.username;
 
-        if (userType == 'patient') {
-            const patient = patientModel.findOne({username: username});
+        if (userType === 'patient') {
+            const patient = await patientModel.find({username: username});
 
-            if (!patient) return res.status(400).json({ message: "User does not exist" })
+            if (patient.length === 0) return res.status(400).json({ message: "User does not exist" })
             else return res.status(200).json({ message: "Success", username: decoded.username });
         }
-        else if (userType == 'doctor') {
-            const doctor = doctorModel.findOne({username: username});
+        else if (userType === 'doctor') {
+            const doctor = await doctorModel.find({username: username});
 
-            if (!doctor) return res.status(400).json({ message: "User does not exist" })
+            if (doctor.length === 0) return res.status(400).json({ message: "User does not exist" })
             else return res.status(200).json({ message: "Success", username: decoded.username });
         }
-        else if (userType == 'admin') {
-            const admin = adminModel.findOne({username: username});
+        else if (userType === 'admin') {
+            const admin = await adminModel.find({username: username});
 
-            if (!admin) return res.status(400).json({ message: "User does not exist" })
+            if (admin.length === 0) return res.status(400).json({ message: "User does not exist" })
             else return res.status(200).json({ message: "Success", username: decoded.username });
         }
         else {
