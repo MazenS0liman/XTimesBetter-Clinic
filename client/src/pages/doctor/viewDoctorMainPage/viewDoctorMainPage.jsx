@@ -17,6 +17,7 @@ import AppointmentsByStatusViewDoctor from '../FilterAppointmentsForDoctorByStat
 import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDate/FilterAppointmentsForDoctorByDate';
 import { DoctorProfile } from '../DoctorProfile/DoctorProfile';
 import ContractView from '../viewContractPage/ViewContract';
+import ViewWalletPage from '../viewWalletPage/viewDoctorWalletPage';
 
 
 // Components
@@ -51,6 +52,10 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewContract",
             pageName: "Contract Info",
+        },
+        {
+            url: "/doctor/viewWalletNumber",
+            pageName: "View Wallet",
         }
     ];
 
@@ -68,6 +73,8 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/FilterAppointmentByDateDoctor" element={<AppointmentsByDateViewDoctor />} />
                     <Route path="/profile" element={<DoctorProfile />} />
                     <Route path="/viewContract" element={<ContractView />} />
+                    <Route path="/viewWalletNumber" element={<ViewWalletPage />} />
+
                 </Routes>
             </>
         </div>

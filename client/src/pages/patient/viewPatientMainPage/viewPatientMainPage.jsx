@@ -31,6 +31,7 @@ import SubsDetails from '../UnsubscribePackage/UnsubscribePackage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 
 export const ViewPatientMainPage = () => {
     const {accessToken, refreshToken} = useAuth();
@@ -84,6 +85,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/ViewSubscribedPackages",
             pageName: "Subscription Details",
+        },
+        {
+            url: "/patient/viewWalletNumber",
+            pageName: "View My Wallet",
         }
         
     ];
@@ -108,6 +113,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/LinkPatientWithAnotherByMobile" element={<LinkPatientWithAnotherByMobile />} />
                     <Route path='/ViewPackagesDetails' element={<PackagesDetails/>} />
                     <Route path='/ViewSubscribedPackages' element={<SubsDetails/>} />
+                    <Route path="/viewWalletNumber" element={<ViewPatientWalletPage />} />
                 </Routes>
             </>
         </div>

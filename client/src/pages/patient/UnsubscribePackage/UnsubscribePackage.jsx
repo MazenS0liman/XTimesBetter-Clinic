@@ -96,8 +96,9 @@ function SubsPackagesList(){
        
         if (response.ok) {
           const responseData = await response.json();
-          // window.location.reload();
-          setSubsPackages(responseData.data);
+           window.location.reload();
+          
+          // setSubsPackages(responseData.data);
           //console.log('Success:', responseData);
         } 
         

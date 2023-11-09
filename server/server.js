@@ -93,6 +93,7 @@ app.use('/doctor/addContract', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/viewDoctors', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/acceptContract', require('./routes/doctor/viewContractRoute'));
 
+app.use('/doctor/viewWalletNumber', require('./routes/doctor/viewMyWallet'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -127,3 +128,8 @@ app.use('/patient/Allsubs', require('./routes/patient/packagesRoute'));
 app.use('/patient/Allpatients', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subs1', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subs2', require('./routes/patient/packagesRoute'));
+app.use('/patient/viewWalletNumber', require('./routes/patient/viewWallet'));
+
+
+
+

@@ -1,0 +1,49 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import styles from './WalletDrInfo.module.css'; // Import your CSS for styling
+import moneyImage from '../../../assets/img/money.png';
+
+const ViewDoctorWalletPage = () => {
+    const [walletNumber, setWalletNumber] = useState(null);
+
+    useEffect(() => {
+        const fetchWalletDetails = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/doctor/viewWalletNumber', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (response && response.data) {
+                    setWalletNumber(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching wallet number:', error);
+            }
+        };
+
+        fetchWalletDetails();
+    }, []);
+
+    return (
+        <div>
+          <h1>Wallet Amount</h1>
+          <div className={styles.walletContainer}>
+            <div className={styles.walletAmount}>
+            <p className={styles.largeText}>Your Balance: ${walletNumber} EGP </p>
+            <div className={styles.walletAmount}>
+              <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
+            </div>
+              {/* <p className={styles.largeText}>${walletNumber}</p> Display the wallet amount here with larger text */}
+            </div>
+            <br />
+            <br />
+           
+          </div>
+        </div>
+    );
+};
+    
+
+export default ViewDoctorWalletPage;
