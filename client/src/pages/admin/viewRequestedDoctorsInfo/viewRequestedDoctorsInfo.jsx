@@ -1,8 +1,39 @@
 import React, { useEffect, useState } from 'react';
 
+// Axios
+import axios from 'axios';
+
+// React Router DOM
+import { useNavigate } from 'react-router-dom';
+
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
 function ViewRequestedDoctorsInfo() {
+      const { accessToken } = useAuth();
       const [requestedDoctors, setRequestedDoctors] = useState([]);
       const [rejected, setRejected] = useState(false);
+      const navigate = useNavigate();
+
+      async function checkAuthentication() {
+        await axios ({
+            method: 'get',
+            url: `http://localhost:5000/authentication/checkAccessToken`,
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+          navigate('/');
+        });
+      }
+
+    checkAuthentication();
 
       const fetchRequestedDoctors = () => {
         const url = 'http://localhost:5000/admin/viewREQDoctors';

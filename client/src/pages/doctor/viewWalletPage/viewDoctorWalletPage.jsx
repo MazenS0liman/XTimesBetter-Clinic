@@ -3,8 +3,36 @@ import axios from 'axios';
 import styles from './WalletDrInfo.module.css'; // Import your CSS for styling
 import moneyImage from '../../../assets/img/money.png';
 
+// React Router DOM
+import { useNavigate } from 'react-router-dom';
+
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
 const ViewDoctorWalletPage = () => {
+    const { accessToken } = useAuth();
     const [walletNumber, setWalletNumber] = useState(null);
+    const navigate = useNavigate();
+
+    async function checkAuthentication() {
+        await axios ({
+            method: 'get',
+            url: `http://localhost:5000/authentication/checkAccessToken`,
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+          navigate('/');
+        });
+    }
+
+    checkAuthentication();
 
     useEffect(() => {
         const fetchWalletDetails = async () => {
@@ -12,6 +40,7 @@ const ViewDoctorWalletPage = () => {
                 const response = await axios.get('http://localhost:5000/doctor/viewWalletNumber', {
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': accessToken,
                     },
                 });
 

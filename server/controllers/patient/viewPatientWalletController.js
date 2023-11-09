@@ -4,10 +4,10 @@ const patientModel = require('../../models/Patient');
 
 const viewWalletNumber = async (req, res) => {
 
-   // const username = req.query;
+   const username = req.body.username;
 
     try {
-        const patient = await patientModel.findOne({username: "john_doe123"});
+        const patient = await patientModel.findOne({username: username});
         if (patient) {
             const patientWalletNumber = patient.walletAmount;
             res.status(200).json(patientWalletNumber);

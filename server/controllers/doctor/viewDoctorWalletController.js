@@ -3,9 +3,9 @@ const asyncHandler = require('express-async-handler');
 const doctorModel = require('../../models/Doctor');
 
 const viewDoctorWalletNumber = async (req, res) => {
-    // const username = req.query;
+    const username = req.body.username;
      try {
-        const doctor = await doctorModel.findOne({username: req.query.username});
+        const doctor = await doctorModel.findOne({username: username});
          if (doctor) {
              const doctorWalletNumber = doctor.walletAmount;
              res.status(200).json(doctorWalletNumber);
@@ -18,6 +18,7 @@ const viewDoctorWalletNumber = async (req, res) => {
          res.status(500).json({ error: "Can't get your wallet Number" });
      }
  }
+ 
 module.exports = { viewDoctorWalletNumber };
 
 
