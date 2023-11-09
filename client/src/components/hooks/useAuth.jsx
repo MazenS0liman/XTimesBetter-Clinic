@@ -27,10 +27,17 @@ export function useRecoveryContext() {
 
 
 export function AuthProvider({ children }) {
-    const [accessToken, setAccessToken] = useState("Bearer  ");
+/*  const [accessToken, setAccessToken] = useState("Bearer  ");
     const [refreshToken, setRefreshToken] = useState("");
     const [username, setUsername] = useState("");
-    const [userType, setUserType] = useState("");
+    const [userType, setUserType] = useState(""); */
+
+    // Initializing the context using localStorage
+    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : "Bearer  ");
+    const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") ? localStorage.getItem("refreshToken") : "");
+    const [username, setUsername] = useState(localStorage.getItem("username") ? localStorage.getItem("username") : "");
+    const [userType, setUserType] = useState(localStorage.getItem("userType") ? localStorage.getItem("userType") : "");
+
     const [email, setEmail] = useState("");
     const [otp, setOTP] = useState("");
 

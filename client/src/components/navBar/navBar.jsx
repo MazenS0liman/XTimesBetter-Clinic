@@ -7,13 +7,26 @@ import { NavLink, Link } from 'react-router-dom';
 
 // Hooks
 import { useState } from 'react';
-import { useAuthUpdate } from '../hooks/useAuth';
+import { useAuthUpdate, useUsername, useUserType } from '../hooks/useAuth';
 
 export const Navbar = ({ className, name, list }) => { 
     const {updateAccessToken, updateRefreshToken} = useAuthUpdate();
+    const {setUsername} = useUsername();
+    const {setUserType} = useUserType();
 
     function handleClick() {
+        // clear access token and refresh token and username stored in the frontend
         updateAccessToken("Bearer  "); // fix that you need to add 2 spaces
+        updateRefreshToken("");
+        setUsername("");
+        setUserType("");
+
+        
+        // clear access token and refresh token and username stored in the browser
+        localStorage.setItem("accessToken", "Bearer  ");
+        localStorage.setItem("refreshToken", "");
+        localStorage.setItem("username", "");
+        localStorage.setItem("userType", "");
     }
 
     return (

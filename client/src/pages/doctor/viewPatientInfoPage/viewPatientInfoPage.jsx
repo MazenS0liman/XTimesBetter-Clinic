@@ -29,7 +29,8 @@ import { useAuth } from '../../../components/hooks/useAuth';
 export function ViewPatientInfo() {
     const location = useLocation();
     const navigate = useNavigate();
-    const {accessToken} = useAuth();
+    // const {accessToken} = useAuth();
+    const accessToken = localStorage.getItem("accessToken");
     const patient = location.state;
 
     async function checkAuthentication() {

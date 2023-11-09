@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../components/hooks/useAuth';
 
 function ViewRequestedDoctorsInfo() {
-      const { accessToken } = useAuth();
+      // const { accessToken } = useAuth();
+      const accessToken = localStorage.getItem('accessToken');
       const [requestedDoctors, setRequestedDoctors] = useState([]);
       const [rejected, setRejected] = useState(false);
       const navigate = useNavigate();
@@ -29,7 +30,7 @@ function ViewRequestedDoctorsInfo() {
             console.log(response);
         })
         .catch((error) => {
-          navigate('/');
+          navigate('/login');
         });
       }
 

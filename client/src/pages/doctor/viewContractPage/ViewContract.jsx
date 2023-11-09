@@ -10,7 +10,8 @@ import { useAuth } from '../../../components/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const ContractView = () => {
-    const {accessToken} = useAuth();
+    // const {accessToken} = useAuth();
+    const accessToken = localStorage.getItem('accessToken');
     const [contract, setContract] = useState([]);
     const [accepted, setAccepted] = useState(false);
     const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ContractView = () => {
             console.log(response);
         })
         .catch((error) => {
-          navigate('/');
+          navigate('/login');
         });
       }
 

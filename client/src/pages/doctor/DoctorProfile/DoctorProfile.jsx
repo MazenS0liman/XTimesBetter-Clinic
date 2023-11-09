@@ -37,7 +37,8 @@ export const DoctorProfile = () => {
     const [email, setEmail] = useState('');
     const [dob, setDOB] = useState('');
     const [image, setImage] = useState('');
-    const {accessToken} = useAuth();
+    // const {accessToken} = useAuth();
+    const accessToken = localStorage.getItem("accessToken");
 
     async function checkAuthentication() {
       await axios ({
@@ -53,7 +54,7 @@ export const DoctorProfile = () => {
           console.log(response);
       })
       .catch((error) => {
-        navigate('/');
+        navigate('/login');
       });
     }
 

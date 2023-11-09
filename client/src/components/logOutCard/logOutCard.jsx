@@ -41,6 +41,12 @@ export const LogOutCard = ({showLogOutCard}) => {
             updateAccessToken("Bearer  ");
             updateRefreshToken("");
             setUsername("");
+
+            // clear access token and refresh token and username stored in the browser
+            localStorage.setItem("accessToken", "Bearer  ");
+            localStorage.setItem("refreshToken", "");
+            localStorage.setItem("username", "");
+            localStorage.setItem("userType", "");
     
             // navigate to the home page of the website
             navigate('/');

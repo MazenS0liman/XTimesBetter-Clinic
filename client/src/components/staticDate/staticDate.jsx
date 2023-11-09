@@ -10,7 +10,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 export const StaticDate = ({ label, date, setDate }) => {
-        
     return(
         <div className={styles['staticdate-main-div']}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>

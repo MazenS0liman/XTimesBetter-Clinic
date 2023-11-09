@@ -16,7 +16,8 @@ import { useAuth } from '../../../components/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 function SubsPackagesList(){
-  const {accessToken} = useAuth();
+  // const {accessToken} = useAuth();
+  const accessToken = localStorage.getItem('accessToken');
   // Define state to store the fetched data
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);

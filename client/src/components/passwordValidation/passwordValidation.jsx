@@ -15,7 +15,6 @@ export const PasswordValidation = ({ newPassword }) => {
     const [passwordLength, setPasswordLength] = useState('password-validation-length-invalid-li');
 
     useEffect(() => {
-        console.log(newPassword);
         setPassword(newPassword);
         if (newPassword.match(/[a-z]/)) {
             setPasswordLowerCase('password-validation-lowercase-valid-li');

@@ -21,7 +21,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../../components/hooks/useAuth';
 
 export const ViewPatients = () => {
-    const {accessToken} = useAuth();
+    // const {accessToken} = useAuth();
+    const accessToken = localStorage.getItem('accessToken');
 
     async function checkAuthentication() {
         await axios ({

@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../components/hooks/useAuth';
 
 const ViewPatientWalletPage = () => {
-    const { accessToken } = useAuth();
+    // const { accessToken } = useAuth();
+    const accessToken = localStorage.getItem("accessToken");
     const [walletNumber, setWalletNumber] = useState(null);
     const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ const ViewPatientWalletPage = () => {
             console.log(response);
         })
         .catch((error) => {
-          navigate('/');
+          navigate('/login');
         });
     }
 

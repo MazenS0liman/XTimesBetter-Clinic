@@ -10,7 +10,8 @@ import { useAuth } from '../../../components/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 const LinkPatientWithAnotherByEmail = () => {
-    const { accessToken } = useAuth();
+    // const { accessToken } = useAuth();
+    const accessToken = localStorage.getItem('accessToken');
     const [email, setEmail] = useState('');
     const [relation, setRelation] = useState('');
     const [message, setMessage] = useState('');
@@ -32,7 +33,7 @@ const LinkPatientWithAnotherByEmail = () => {
             console.log(response);
         })
         .catch((error) => {
-          navigate('/');
+          navigate('/login');
         });
       }
 
