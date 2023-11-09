@@ -16,7 +16,9 @@ import { useAuth, useAuthUpdate, useUsername } from '../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 
 export const LogOutCard = ({showLogOutCard}) => {
-    const {accessToken, refreshToken} = useAuth();
+    // const {accessToken, refreshToken} = useAuth();
+    const accessToken = localStorage.getItem('accessToken');
+    const refreshToken = localStorage.getItem('refreshToken');
     const {updateAccessToken, updateRefreshToken} = useAuthUpdate();
     const {username, setUsername} = useUsername();
     const navigate = useNavigate(); // A hook that allow me to navigate between routes
