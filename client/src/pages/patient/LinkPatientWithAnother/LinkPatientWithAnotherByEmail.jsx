@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LinkPatientWithAnotherByEmail = () => {
     // const { accessToken } = useAuth();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     const [email, setEmail] = useState('');
     const [relation, setRelation] = useState('');
     const [message, setMessage] = useState('');

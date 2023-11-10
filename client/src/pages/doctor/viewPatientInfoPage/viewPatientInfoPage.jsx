@@ -30,7 +30,7 @@ export function ViewPatientInfo() {
     const location = useLocation();
     const navigate = useNavigate();
     // const {accessToken} = useAuth();
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = sessionStorage.getItem("accessToken");
     const patient = location.state;
 
     async function checkAuthentication() {

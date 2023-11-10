@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LinkPatientWithAnotherByMobile = () => {
     // const {accessToken} = useAuth();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     const [mobile, setMobile] = useState('');
     const [relation, setRelation] = useState('');
     const [message, setMessage] = useState('');

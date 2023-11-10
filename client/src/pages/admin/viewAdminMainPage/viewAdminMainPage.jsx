@@ -30,7 +30,7 @@ import { AdminProfile } from '../AdminProfile/AdminProfile';
 import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewAdminMainPage = () => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = sessionStorage.getItem("accessToken");
     console.log("Admin Access Token: ", accessToken);
     const navigate = useNavigate();
     console.log("Doctor Access Token: ", accessToken);

@@ -19,8 +19,8 @@ import { useNavigate } from 'react-router-dom';
 function PackagesList(){
   // const {accessToken} = useAuth();
   // const {username} = useUsername();
-  const accessToken = localStorage.getItem('accessToken');
-  const username = localStorage.getItem('username');
+  const accessToken = sessionStorage.getItem('accessToken');
+  const username = sessionStorage.getItem('username');
   // Define state to store the fetched data
   const [packages, setPackages] = useState([]);
   const [error, setError] = useState(null);

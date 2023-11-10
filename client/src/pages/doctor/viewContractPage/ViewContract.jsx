@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ContractView = () => {
     // const {accessToken} = useAuth();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     const [contract, setContract] = useState([]);
     const [accepted, setAccepted] = useState(false);
     const [rejected, setRejected] = useState(false);

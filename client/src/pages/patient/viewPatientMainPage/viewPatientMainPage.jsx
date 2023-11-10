@@ -27,21 +27,17 @@ import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate
 import { PatientProfile } from '../PatientProfile/PatientProfile';
 import LinkPatientWithAnotherByEmail from '../LinkPatientWithAnother/LinkPatientWithAnotherByEmail';
 import LinkPatientWithAnotherByMobile from '../LinkPatientWithAnother/LinkPatientWithAnotherByMobile';
-
-//Salma sprint 2
 import PackagesDetails from '../ViewPackagesDetails/ViewPackagesDetails';
 import SubsDetails from '../UnsubscribePackage/UnsubscribePackage';
-
-
-
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 
+
 export const ViewPatientMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     const navigate = useNavigate();    
 
     async function checkAuthentication() {

@@ -38,7 +38,7 @@ export const DoctorProfile = () => {
     const [dob, setDOB] = useState('');
     const [image, setImage] = useState('');
     // const {accessToken} = useAuth();
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = sessionStorage.getItem("accessToken");
 
     async function checkAuthentication() {
       await axios ({

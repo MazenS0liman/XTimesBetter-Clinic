@@ -22,7 +22,7 @@ import { useAuth } from '../../../components/hooks/useAuth';
 
 export const ViewPatients = () => {
     // const {accessToken} = useAuth();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
 
     async function checkAuthentication() {
         await axios ({
@@ -35,8 +35,8 @@ export const ViewPatients = () => {
             },
         })
         .then((response) => {
-            console.log(`Username: ${localStorage.getItem("username")}`);
-            console.log(`User Type: ${localStorage.getItem("userType")}`);
+            console.log(`Username: ${sessionStorage.getItem("username")}`);
+            console.log(`User Type: ${sessionStorage.getItem("userType")}`);
 
             console.log(response);
         })

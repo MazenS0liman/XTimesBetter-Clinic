@@ -32,11 +32,11 @@ export function AuthProvider({ children }) {
     const [username, setUsername] = useState("");
     const [userType, setUserType] = useState(""); */
 
-    // Initializing the context using localStorage
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") ? localStorage.getItem("accessToken") : "Bearer  ");
-    const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") ? localStorage.getItem("refreshToken") : "");
-    const [username, setUsername] = useState(localStorage.getItem("username") ? localStorage.getItem("username") : "");
-    const [userType, setUserType] = useState(localStorage.getItem("userType") ? localStorage.getItem("userType") : "");
+    // Initializing the context using sessionStorage
+    const [accessToken, setAccessToken] = useState(sessionStorage.getItem("accessToken") ? sessionStorage.getItem("accessToken") : "Bearer  ");
+    const [refreshToken, setRefreshToken] = useState(sessionStorage.getItem("refreshToken") ? sessionStorage.getItem("refreshToken") : "");
+    const [username, setUsername] = useState(sessionStorage.getItem("username") ? sessionStorage.getItem("username") : "");
+    const [userType, setUserType] = useState(sessionStorage.getItem("userType") ? sessionStorage.getItem("userType") : "");
 
     const [email, setEmail] = useState("");
     const [otp, setOTP] = useState("");

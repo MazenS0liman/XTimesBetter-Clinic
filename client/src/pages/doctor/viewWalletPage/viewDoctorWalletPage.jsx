@@ -11,7 +11,7 @@ import { useAuth } from '../../../components/hooks/useAuth';
 
 const ViewDoctorWalletPage = () => {
     // const { accessToken } = useAuth();
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = sessionStorage.getItem('accessToken');
     const [walletNumber, setWalletNumber] = useState(null);
     const navigate = useNavigate();
 
