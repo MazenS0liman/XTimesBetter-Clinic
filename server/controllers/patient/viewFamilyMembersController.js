@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 const familyModel = require('../../models/Family.js');
 const patientModel = require('../../models/Patient.js');
+const LinkedFamilyModel = require('../../models/LinkedFamily.js');
 
 const viewFamilyMembers = async (req, res) => {
 
@@ -19,7 +20,36 @@ const viewFamilyMembers = async (req, res) => {
         res.status(500).json({ error: "Can't get your family members" });
     }
 }
-module.exports = { viewFamilyMembers };
+
+const viewLinkedFamilyMembers = async (req, res) => {
+    const username = req.query;
+    try {
+        const familyMembers = await LinkedFamilyModel.find({ patient_username: username.username });
+        if (!familyMembers) {
+            return res.status(404).json({ error: 'Patient has no family members' });
+        }
+        res.status(200).json(familyMembers);
+    } catch (error) {
+        res.status(500).json({ error: "Can't get your family members" });
+    }
+}
+
+const viewUnlinkedFamilyMembers = async (req,res) => {
+    const username = req.query;
+    //console.log(username);
+    //retrieve family members for the passed patient username
+    try {
+        const familyMembers = await familyModel.find({ patient_username: username.username });
+        if (!familyMembers) {
+            return res.status(404).json({ error: 'Patient has no family members' });
+        }
+        //const familyMembers = await familyModel.find();
+        res.status(200).json(familyMembers);
+    } catch (error) {
+        res.status(500).json({ error: "Can't get your family members" });
+    }
+} 
+module.exports = { viewFamilyMembers , viewLinkedFamilyMembers , viewUnlinkedFamilyMembers };
 
 //retrieve all users from the database
 /*try {

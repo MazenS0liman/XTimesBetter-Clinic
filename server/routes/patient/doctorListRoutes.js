@@ -9,7 +9,9 @@ const {
     filterDoctorByTime,
     selectedDoctorDetails,
     getAppointments,
-    filterDoctorBySpecialityandTime
+    filterDoctorBySpecialityandTime,
+    selectedDoctorAppointments,
+    getDoctorsWithPackages
 } = require('../../controllers/patient/doctorListController.js');
 
 const router = express.Router();
@@ -41,5 +43,10 @@ router.get('/selected/:selectedDoctor', selectedDoctorDetails)
 // Get all appointments
 router.get('/appointments', getAppointments)
 
+// Get selected doctor appointments
+router.get('/DoctorAppointments', selectedDoctorAppointments)
+
+// Get doctors along with package prices
+router.get('/allDoctors', getDoctorsWithPackages)
 
 module.exports = router;    

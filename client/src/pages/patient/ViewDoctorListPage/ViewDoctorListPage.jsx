@@ -18,8 +18,6 @@ const ViewDoctorList = () => {
 
     // Get All doctors.
     const [doctors, setDoctors] = useState([])
-
-    const [response] = useFetch('get', 'http://localhost:5000/patient/doctorList')
     // To store the clicked doctor
     const [doctorInfo , setDoctorInfo] = useState("")
 
@@ -37,14 +35,23 @@ const ViewDoctorList = () => {
     const [doctorsToBeDisplayed, setDoctorsToBeDisplayed] = useState([]);
     const [selectedDate, setSelectedDate] = useState('')
 
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [hourlyRate, setHourlyRate] = useState("");
+
     const navigate = useNavigate();
 
-    
+    /*
     useEffect(() => {
         if (doctorInfo !== "") {
-            navigate('/patient/ViewDoctorInfoPage', { state: doctorInfo });
+            const stateInfo = {
+                doctorInfo : doctorInfo,
+            }
+            navigate('/patient/ViewDoctorInfoPage', { state: stateInfo });
         }
     },[doctorInfo]);
+    */
     
 
     useEffect(() => {
@@ -79,6 +86,21 @@ const ViewDoctorList = () => {
         };
 
         fetchAllDoctors();
+    }, []);
+
+    useEffect(() => {
+        // Fetch data from an API or source
+        fetch('http://localhost:5000/patient/allDoctors?patient_username=ahmed')
+        .then((response) => response.json())
+        .then((data) => {
+            setData(data.doctorsresult);
+            console.log(data.doctorsresult);
+            setLoading(false);
+        })
+        .catch((error) => {
+            setError(error);
+            setLoading(false);
+        });
     }, []);
 
      //search function
@@ -117,15 +139,15 @@ const ViewDoctorList = () => {
         setSelectedSpeciality(event.target.value)
     
         if (event.target.value === "") {
-            setDoctorsToBeDisplayed(doctors);
+            setData(data);
         }
         else {
             const filterResult = doctors.filter((doctor) => doctor.speciality.toLowerCase().startsWith(event.target.value.toLowerCase()));
-            setDoctorsToBeDisplayed(filterResult);
+            setData(filterResult);
             if (!(document.getElementById("datePicked").value == "")){
                 console.log(document.getElementById("datePicked").value)
                 const resultFinal = filterResult.filter((doctor)=> doctor.availableTimeSlots.includes(document.getElementById("datePicked").value) )
-                setDoctorsToBeDisplayed(resultFinal)
+                setData(resultFinal)
                 console.log(resultFinal)
             } 
         }
@@ -138,8 +160,8 @@ const ViewDoctorList = () => {
         console.log("You clicked on a row")
         let doctor = null;
         for (let i = 0; i < doctors.length; i++) {
-            if (doctors[i].username === doctor_username) {
-                doctor = doctors[i];
+            if (data[i].username === doctor_username) {
+                doctor = data[i];
                 break;
             }
         }
@@ -147,7 +169,16 @@ const ViewDoctorList = () => {
         
         if (doctor !== null || doctor.value != 0) {
             setDoctorInfo(doctor);
-        }       
+        }
+
+        if (doctor) {
+            const stateInfo = {
+                doctorInfo: doctor,
+                hourly_rate: doctor.hourly_rate, // Include the hourly rate in the state object
+            };
+            setDoctorInfo(stateInfo);
+            navigate('/patient/ViewDoctorInfoPage', { state: stateInfo });
+        }
               
         
     }
@@ -228,15 +259,18 @@ const ViewDoctorList = () => {
                         <tr >
                             <th>Name</th>
                             <th>Speciality</th>
-                            <th>Session Price</th>
+                            <th>Hourly Rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {
-                            doctorsToBeDisplayed && doctorsToBeDisplayed.map((doctor) => {
-                                return <DoctorList key={doctor._id} doctor={doctor} handleRowClick={handleRowClick}/>
-                            })
-                        }
+                    {data &&
+                            data.map((item) => (
+                            <tr key={item._id} onClick={() => handleRowClick(item.username)}>
+                                <td>{item.name}</td>
+                                <td>{item.speciality}</td>
+                                <td>{item.hourly_rate.toFixed(2)}</td>
+                            </tr>
+                            ))}
                     </tbody>
                 </table>
             </div >

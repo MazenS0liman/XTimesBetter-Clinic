@@ -16,6 +16,8 @@ import FamilyView from '../PatientHome/PatientHome';
 import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
+import Appointments from '../ViewAppointmentsPage/ViewAppointmentsPage'
+import BookAppointment from '../BookingFormPage/BookingFormPage'
 
 
 
@@ -55,6 +57,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
+        },
+        {
+            url: "/patient/ViewAppointments",
+            pageName: "Appointments"
         }
     ];
 
@@ -72,6 +78,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path="/ViewAppointments" element={<Appointments/>} />
+                    <Route path="/BookAppointment" element={<BookAppointment/>} /> 
                 </Routes>
             </>
         </div>

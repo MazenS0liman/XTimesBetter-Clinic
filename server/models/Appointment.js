@@ -22,6 +22,19 @@ const AppointmentSchema = mongoose.Schema({
         type: Date,
         required: true,
     },
+    name : {
+        type: String,
+        required: true
+    },
+    price : {
+        type : Number,
+        required: true
+    } ,
+    booked_by : {
+        type : String,
+        required: true
+    }
+
 }, { timestamps: true });
 
 

@@ -86,6 +86,7 @@ app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
 app.use('/doctor/profile', require('./routes/doctor/profileRoute'));
 app.use('/doctor/filterAppointmentsByDateForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
 app.use('/doctor/filterAppointmentsByStatusForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
+app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
