@@ -23,7 +23,7 @@ function ViewRequestedDoctorsInfo() {
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': accessToken,
-                'User-type': 'patient',
+                'User-type': 'admin',
             },
         })
         .then((response) => {

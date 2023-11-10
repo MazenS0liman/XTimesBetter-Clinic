@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 const doctorREQsModel = require('../../models/DoctorRequests');
+const doctorModel = require('../../models/Doctor');
 
 const viewReqDoctorsInfo = asyncHandler(async(req, res)=>{
     
@@ -30,6 +31,7 @@ const acceptDoctor = asyncHandler(async(req, res)=>{
             dob:doctor.dob,
             hourly_rate:doctor.hourly_rate,
             educational_background:doctor.educational_background,
+            affiliation:doctor.affiliation,
             speciality:doctor.speciality,
             availableTimeSlots:doctor.availableTimeSlots
         })
