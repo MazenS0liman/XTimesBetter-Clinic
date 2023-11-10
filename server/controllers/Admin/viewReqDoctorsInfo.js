@@ -22,7 +22,17 @@ const acceptDoctor = asyncHandler(async(req, res)=>{
         if (!doctor) {
             return res.status(404).json({ message: 'Doctor not found' });
         }
-
+        const newDoctor= await doctorModel.create({
+            username:doctor.username,
+            name:doctor.name,
+            email:doctor.email,
+            password:doctor.password,
+            dob:doctor.dob,
+            hourly_rate:doctor.hourly_rate,
+            educational_background:doctor.educational_background,
+            speciality:doctor.speciality,
+            availableTimeSlots:doctor.availableTimeSlots
+        })
         return res.status(200).json({ message: 'Doctor request is accepted successfully', doctor });
     } catch (error) {
         console.error('Error:', error);
