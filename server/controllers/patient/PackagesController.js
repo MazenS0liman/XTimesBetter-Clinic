@@ -299,13 +299,13 @@ const ViewPackage = async (req, res) => {
 
  //check if a certain user has a linked family member that has is subs to a package 
  const isMemberSubscribed = async (patient_username) => {
-    const members = await famMembersModel.find({ patient_username});
+    const members = await famMembersModel.find({ username: patient_username});
     var maxdiscount=0;
-    //console.log(members);
+    console.log(members);
     for (const member of members) {
        
-        const username=member.username;
-        const isSubs = await subsPackageModel.findOne({patient_username : username});
+        const username=member.patient_username;
+        const isSubs = await subsPackageModel.findOne({patient_username : username , status:'subscribed'});
         
         if (isSubs){
             const package_name=isSubs.package_name;
@@ -317,6 +317,7 @@ const ViewPackage = async (req, res) => {
         }
 
     }
+    console.log(maxdiscount);
     return maxdiscount;
   };
 
