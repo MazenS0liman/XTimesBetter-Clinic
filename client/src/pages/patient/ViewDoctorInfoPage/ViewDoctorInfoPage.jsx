@@ -24,6 +24,7 @@ const ViewDoctorInfo = () => {
     const navigate = useNavigate();
 
     const selectedDoctorUsername = location.state.doctorInfo.username;
+    const selectedDoctorName = location.state.doctorInfo.name;
 
     const [appointments, setAppointments] = useState([]);
     const [bookAppointment, setbookAppointment] = useState("")
@@ -35,6 +36,7 @@ const ViewDoctorInfo = () => {
       if ( currentPatient !== "" && bookAppointment !== "" ) {
           const stateInfo = {
           doctorUsername: selectedDoctorUsername ,
+          doctorName : selectedDoctorName,
           currentPatient : currentPatient ,
           bookAppointment : bookAppointment,
           hourly_rate : hourly_rate

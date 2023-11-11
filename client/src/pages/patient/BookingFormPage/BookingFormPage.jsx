@@ -23,6 +23,8 @@ const BookAppointmentForm = () => {
     
     const [doctors, setDoctors] = useState([])
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchUnlinkedFamilyMembers = async () => {
             const response = await fetch(`http://localhost:5000/patient/viewFamilyMembers//UnlinkedFamilyMembers?username=${patient_username}`);
@@ -58,7 +60,7 @@ const BookAppointmentForm = () => {
         setSelectedLinkedFamilyMember(event.target.value);
     };
 
-    const navigate = useNavigate();
+    
 
     const submitAppointment = async () => {
 
@@ -183,20 +185,28 @@ const BookAppointmentForm = () => {
             submitAppointment();
             console.log('Appointment Details for Self:', appointment);
             window.alert('Appointment successfully added!');
-            navigate(-1)
         } else  if (selectedOption === 'family'){
             // Add appointment for a family member
             submitUnlinkedFamilyMemberAppointment();
             console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
             window.alert('Appointment successfully added!');
-            navigate(-1)
         }  else {
             // Add appointment for a linked family member
             submitLinkedFamilyMemberAppointment();
             console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
             window.alert('Appointment successfully added!');
-            navigate(-1)
         }
+
+        const stateInfo = {
+            appointmentDate : appointment.bookAppointment.date ,
+            doctorName: appointment.doctorName ,
+            appointmentPrice : appointment.hourly_rate.toFixed(2) ,
+            patient_username : appointment.currentPatient
+          }
+            
+        navigate('/patient/appointmentPayment', { state: stateInfo });
+
+        console.log("State Info", stateInfo)
     };
     
 
@@ -204,6 +214,9 @@ const BookAppointmentForm = () => {
         <div>
             <h1>Book Appointment</h1>
             <div className={styles['appointment-patient-container']}>
+            <h2 className={styles['h2-book']}> Doctor Name : </h2>
+                <h3> {appointment.doctorName}</h3>
+
                 <h2 className={styles['h2-book']}> Appointment Date : </h2>
                 <h3> {appointment.bookAppointment.weekday}, {appointment.bookAppointment.date}</h3>
 

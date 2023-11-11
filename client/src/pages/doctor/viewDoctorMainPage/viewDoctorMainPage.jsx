@@ -14,7 +14,7 @@ import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 import AppointmentsByStatusViewDoctor from '../FilterAppointmentsForDoctorByStatus/FilterAppointmentsForDoctorByStatus';
 import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDate/FilterAppointmentsForDoctorByDate';
 import ViewAppointments from '../viewAppointmentsPage/viewAppointmentsPage';
-
+import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 
 
 // Components
@@ -46,7 +46,10 @@ export const ViewDoctorMainPage = () => {
             url: "/doctor/viewAppointmentsPage",
             pageName: "My Appointments",
         },
-        
+        {
+            url: "/doctor/scheduleFollowUpPage",
+            pageName: "Schedule Follow Up",
+        },
     ];
 
     return (
@@ -61,6 +64,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/FilterAppointmentByStatusDoctor" element={<AppointmentsByStatusViewDoctor />} />
                     <Route path="/FilterAppointmentByDateDoctor" element={<AppointmentsByDateViewDoctor />} />
                     <Route path="/viewAppointmentsPage" element={<ViewAppointments />} />
+                    <Route path="/scheduleFollowUpPage" element={<ScheduleFollowUp/>} />
                 </Routes>
             </>
         </div>
