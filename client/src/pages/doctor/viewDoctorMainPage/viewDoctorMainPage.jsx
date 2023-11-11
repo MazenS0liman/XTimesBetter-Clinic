@@ -24,6 +24,8 @@ import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDa
 import { DoctorProfile } from '../DoctorProfile/DoctorProfile';
 import ContractView from '../viewContractPage/ViewContract';
 import ViewWalletPage from '../viewWalletPage/viewDoctorWalletPage';
+import ViewAppointments from '../viewAppointmentsPage/viewAppointmentsPage';
+import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 
 
 // Components
@@ -34,7 +36,6 @@ export const ViewDoctorMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
     const accessToken = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
-    console.log("Doctor Access Token: ", accessToken);
 
     async function checkAuthentication() {
         await axios ({
@@ -84,7 +85,15 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewWalletNumber",
             pageName: "View Wallet",
-        }
+        }, 
+        {
+            url: "/doctor/viewAppointmentsPage",
+            pageName: "My Appointments",
+        },
+        {
+            url: "/doctor/scheduleFollowUpPage",
+            pageName: "Schedule Follow Up",
+        },
     ];
 
     if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
@@ -103,6 +112,8 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/viewContract" element={<ContractView />} />
                     <Route path="/viewWalletNumber" element={<ViewWalletPage />} />
 
+                    <Route path="/viewAppointmentsPage" element={<ViewAppointments />} />
+                    <Route path="/scheduleFollowUpPage" element={<ScheduleFollowUp/>} />
                 </Routes>
             </>
         </div>

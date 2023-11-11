@@ -1,12 +1,60 @@
 const Doctor = require('../../models/Doctor')
 const Appointment = require('../../models/Appointment')
+const asyncHandler = require('express-async-handler');
 const mongoose = require('mongoose')
 
 // Get all Doctors
 const getDoctors = async (req, res) => {
     const doctors = await Doctor.find({}).sort({createdAt : -1})
-    res.status(200).json(doctors)
+
+    res.status(200).json(doctors)    
 }
+
+const getDoctorsWithPackages = asyncHandler( async (req, res) => {
+    // Check if the patient username is provided
+    if (req.body.username === undefined) {
+        return res.status(400).json({ message: 'Please add a patient username!' });
+    }
+    //Check if patient name valid
+    const patient = await patientModel.findOne({ username: req.body.username });
+    if (!patient) {
+        return res.status(404).json({ message: 'Patient not found!' });
+    }
+
+    //Check if patient subscribed in any package 
+    const packages = await packageModel.find({ subscribed_patients: patient.username });
+    console.log(packages);
+
+    //Retrieve all Drs
+    const doctors = await doctorModel.find();
+    var doctorsresult=[];
+
+    
+    if (packages.length>0){
+
+     console.log(packages[0].doctor_discount);
+     doctorsresult = doctors.map((doctor) => ({
+      ...doctor.toObject(),
+      hourly_rate:
+        (doctor.hourly_rate + (doctor.hourly_rate * 0.1 ))-( (packages[0].doctor_discount/100.0) * doctor.hourly_rate),
+     }));
+
+      res.status(200).json({ message: 'Success', doctorsresult});
+
+
+    }
+    else {
+
+      doctorsresult= doctors.map((doctor) => ({...doctor.toObject(),
+            hourly_rate: (doctor.hourly_rate + doctor.hourly_rate*0.1)
+     }));
+    
+      res.status(200).json({ message: 'Success', doctorsresult});
+
+    }
+
+     
+    });
 
 
 
@@ -201,6 +249,20 @@ const selectedDoctorDetails = async (req,res) => {
     res.status(200).json(doctorDetails)
 }
 
+// Get Doctor Available Appointments
+const selectedDoctorAppointments = async(req,res) => {
+    const doctor = await Doctor.findOne({
+        username: req.query.doctor_username,
+    }).select('name availableTimeSlots');
+
+    
+    if (!doctor) {
+        return res.status(404).json('No');
+    }
+    res.status(200).json(doctor.availableTimeSlots); 
+}
+
+
 
 module.exports = {
     getDoctors,
@@ -211,5 +273,7 @@ module.exports = {
     filterDoctorByTime,
     filterDoctorBySpecialityandTime,
     selectedDoctorDetails,
-    getAppointments
+    selectedDoctorAppointments,
+    getAppointments,
+    getDoctorsWithPackages,
 }

@@ -29,6 +29,10 @@ import LinkPatientWithAnotherByEmail from '../LinkPatientWithAnother/LinkPatient
 import LinkPatientWithAnotherByMobile from '../LinkPatientWithAnother/LinkPatientWithAnotherByMobile';
 import PackagesDetails from '../ViewPackagesDetails/ViewPackagesDetails';
 import SubsDetails from '../UnsubscribePackage/UnsubscribePackage';
+import Appointments from '../ViewAppointmentsPage/ViewAppointmentsPage'
+import BookAppointment from '../BookingFormPage/BookingFormPage'
+
+
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -113,6 +117,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/viewWalletNumber",
             pageName: "View My Wallet",
+        },
+        {
+            url: "/patient/ViewAppointments",
+            pageName: "Appointments"
         }
         
     ];
@@ -138,6 +146,8 @@ export const ViewPatientMainPage = () => {
                     <Route path='/ViewPackagesDetails' element={<PackagesDetails/>} />
                     <Route path='/ViewSubscribedPackages' element={<SubsDetails/>} />
                     <Route path="/viewWalletNumber" element={<ViewPatientWalletPage />} />
+                    <Route path="/ViewAppointments" element={<Appointments/>} />
+                    <Route path="/BookAppointment" element={<BookAppointment/>} /> 
                 </Routes>
             </>
         </div>
