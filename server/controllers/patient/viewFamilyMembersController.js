@@ -4,7 +4,7 @@ const familyModel = require('../../models/Family.js');
 const LinkedFamilyModel = require('../../models/LinkedFamily.js');
 
 const patientModel = require('../../models/Patient.js');
-const LinkedFamilyModel = require('../../models/LinkedFamily.js');
+//const LinkedFamilyModel = require('../../models/LinkedFamily.js');
 
 // const viewFamilyMembers = async (req, res) => {
 
