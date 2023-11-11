@@ -1,10 +1,11 @@
 var router = require('express').Router();
-const {ViewPackage,ViewLinkedFam,Subscribe,Unsubscribe,Famsubs,Allsubs,Allpatients,Subscribe1,Subscribe2} = require('../../controllers/patient/PackagesController');
+const {ViewPackage,ViewLinkedFam,ViewDepFam,Subscribe,Unsubscribe,Famsubs,Allsubs,Allpatients,Subscribe1,Subscribe2} = require('../../controllers/patient/PackagesController');
 const { authenticateToken } = require('../../middleware/authenticateToken');
 // APIs
 
 router.get('/viewP', ViewPackage);
 router.get('/viewF', authenticateToken, ViewLinkedFam);
+router.get('/viewDepF', authenticateToken, ViewDepFam);
 router.get('/Allsubs', Allsubs);
 router.get('/Allpatients', Allpatients);
 router.get('/Famsubs', authenticateToken, Famsubs);

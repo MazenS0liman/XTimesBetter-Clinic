@@ -26,8 +26,10 @@ function PackagesList(){
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [familyMembers, setFamilyMembers] = useState([]); // State for family members
+  const [depFamilyMembers, setDepFamilyMembers] = useState([]); // State for family members
   const [selectedPackage, setSelectedPackage] = useState('');
   const [selectedFamilyMember, setSelectedFamilyMember] = useState(''); 
+  const [selectedDependFamilyMember, setSelectedDependFamilyMember] = useState(''); 
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
@@ -67,7 +69,7 @@ function PackagesList(){
       //supposed to get it from the session
       axios ({
         method: 'get',
-        url: 'http://localhost:5000/patient/ViewPackages/viewF',
+        url: 'http://localhost:5000/patient/ViewFamily/viewF',
         headers: {
             "Content-Type": "application/json",
             'Authorization': accessToken,
@@ -75,6 +77,23 @@ function PackagesList(){
       })
       .then((response) => {
         setFamilyMembers(response.data);
+        console.log(response);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
+
+      axios ({
+        method: 'get',
+        url: 'http://localhost:5000/patient/ViewFamily/viewDepF',
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': accessToken,
+        },
+      })
+      .then((response) => {
+        setDepFamilyMembers(response.data);
         console.log(response);
       })
       .catch((error) => {
@@ -92,21 +111,41 @@ function PackagesList(){
     setSelectedFamilyMember(event.target.value);
   };
 
+  
+
+  const handleDepFamilyMemberChange = (event) => {
+    setSelectedDependFamilyMember(event.target.value);
+  };
+
   const handleSubscribeClick = async (packageName) => {
     
-    if (selectedFamilyMember===""){
+    if (selectedFamilyMember==="" && selectedDependFamilyMember===""){
         setErrorMessage("Please choose a person to subscribe to");
     }
+   else if (selectedFamilyMember!=="" && selectedDependFamilyMember!==""){
+      setErrorMessage("Please choose only ONE  person to subscribe to");
+   }
     
     else{
     try {
         const apiUrl = 'http://localhost:5000/patient/Subscribe';
+        var requestData='hello';
   
         // Prepare the request data (customize as needed)
-        const requestData = {
+        if (selectedFamilyMember!==""){
+           requestData = {
             patient_username:selectedFamilyMember,
-            package_name:packageName
+            package_name:packageName,
+            exist:'true'
           };
+        }
+        else if (selectedDependFamilyMember!==""){
+            requestData = {
+            patient_username:selectedDependFamilyMember,
+            package_name:packageName,
+            exist:'false'
+          };
+        }
         console.log(requestData);
   
         // Make the API request using the Fetch API (POST request in this example)
@@ -168,7 +207,8 @@ function PackagesList(){
             <th className="table-header">Doctor Discount</th>
             <th className="table-header">Medicine Discount</th>
             <th className="table-header">Family Discount</th>
-            <th className="table-header">Subscribe For</th>
+            <th className="table-header">Subscribe For </th>
+            <th className="table-header">Subscribe For Depend</th>
             <th className="table-header">Subscribe</th>
 
            
@@ -193,6 +233,20 @@ function PackagesList(){
                   
                   {familyMembers.map((member) => (
                     <option key={member.id} value={member.username}>
+                      {member.name}
+                    </option>
+                  ))}
+                </select>
+              </td>
+
+              <td className="table-cell">
+                <select value={selectedDependFamilyMember} onChange={handleDepFamilyMemberChange}>
+                  <option value="">Select Family Member</option>
+                  {/*should get it from the session*/}
+                  
+                  
+                  {depFamilyMembers.map((member) => (
+                    <option key={member.id} value={member.national_id}>
                       {member.name}
                     </option>
                   ))}

@@ -119,6 +119,7 @@ app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patie
 app.use('/patient/info', require('./routes/patient/patientInfoRoute')); // Get information about logged in patient using his/her username
 app.use('/patient/linkByEmail', require('./routes/patient/linkPatientWithAnotherRoute'));
 app.use('/patient/linkByMobile', require('./routes/patient/linkPatientWithAnotherRoute'));
+
 app.use('/patient/ViewPackages', require('./routes/patient/packagesRoute'));
 app.use('/patient/ViewFamily', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subscribe', require('./routes/patient/packagesRoute'));
@@ -128,6 +129,7 @@ app.use('/patient/Allsubs', require('./routes/patient/packagesRoute'));
 app.use('/patient/Allpatients', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subs1', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subs2', require('./routes/patient/packagesRoute'));
+
 app.use('/patient/viewWalletNumber', require('./routes/patient/viewWallet'));
 
 

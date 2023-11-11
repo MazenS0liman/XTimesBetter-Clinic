@@ -2,6 +2,7 @@ const { default: mongoose } = require('mongoose');
 
 const packageModel = require('../../models/Package');
 const famMembersModel = require('../../models/LinkedFamily');
+const depFamMemberModel = require('../../models/Family');
 const subsPackageModel =  require('../../models/SubscribedPackages');
 const patientModel =  require('../../models/Patient');
 
@@ -20,12 +21,25 @@ const ViewPackage = async (req, res) => {
     res.status(200).json(members)
  }
 
+ //to get all dependant members to certain patient
+ const ViewDepFam = async (req, res) => {
+  const patient_username=req.body.username;
+  const members = await depFamMemberModel.find({ patient_username: patient_username });
+  res.status(200).json(members)
+}
+
+
+ 
 
 //to subscribe to a package
  const Subscribe = async (req, res) => {
 
     const patient_username=req.body.patient_username;
     const package_name=req.body.package_name;
+    const isExistingPatient=req.body.exist;
+    var patient_name="";
+    console.log(req.body);
+
 
     //check if already subscribed
     const isSubs = await subsPackageModel.findOne({patient_username : patient_username , status:'subscribed'});
@@ -39,8 +53,15 @@ const ViewPackage = async (req, res) => {
             const start_date= new Date();
             const end_date = new Date(start_date);
             end_date.setFullYear(end_date.getFullYear() + 1);
-            const patient = await patientModel.findOne({username:patient_username});
-            const patient_name=patient.name;
+
+            if (isExistingPatient==='true'){
+               const patient = await patientModel.findOne({username:patient_username});
+               patient_name=patient.name;
+            }
+            else {
+              const fam = await depFamMemberModel.findOne({national_id:patient_username});
+              patient_name=fam.name;
+            }
 
             
             const subspackage = await subsPackageModel.create({patient_username,patient_name,package_name,status:'subscribed',start_date,end_date});
@@ -51,7 +72,9 @@ const ViewPackage = async (req, res) => {
             package.save();
 
             //add to patient schema 
+            if (isExistingPatient=='true'){
             const updatedPatient = await patientModel.updateOne({username:patient_username},{subscribed_package:package_name});
+            }
 
             //get price of subscription
             const package2=await packageModel.findOne({name:package_name});
@@ -203,16 +226,26 @@ const ViewPackage = async (req, res) => {
 
     //get family members of this patient and extract their username and name
     const members = await famMembersModel.find({ patient_username});
-    const family_usernames = members.map((doc) => ({ username: doc.username, name: doc.name }));
+    var family_usernames1 = members.map((doc) => ({ username: doc.username, name: doc.name }));
+
+    //get family members dependant 
+    const Depmembers = await depFamMemberModel.find({ patient_username});
+    var family_usernames2 = Depmembers.map((doc) => ({ username: doc.national_id, name: doc.name }));
+
+    
+
 
     //get name of patient and inclde it n the array of users
     const orgpatient = await patientModel.findOne({ username:patient_username});
-    family_usernames.push({username:patient_username,name:orgpatient.name});
+    family_usernames1.push({username:patient_username,name:orgpatient.name});
+
+    //const family_usernames=family_usernames1+family_usernames2;
+    //console.log(family_usernames);
     
     const Allsubs=[];
 
     
-    for (const item of family_usernames) {
+    for (const item of family_usernames1) {
        
         const IsSubs = await subsPackageModel.find({patient_username:item.username});
        
@@ -233,6 +266,27 @@ const ViewPackage = async (req, res) => {
         
    }
       
+   for (const item of family_usernames2) {
+       
+    const IsSubs = await subsPackageModel.find({patient_username:item.username});
+   
+    if (IsSubs && IsSubs.length>0) {
+        Allsubs.push(...IsSubs);    
+    } 
+    else {
+    const object = {
+      patient_username: item.username,
+      patient_name : item.name ,
+      package_name : 'No Package',
+      status : 'unsubscribed',
+      start_date : new Date('0000-00-00'),
+      end_date : new Date('0000-00-00') 
+    };
+    Allsubs.push(object);   
+    }
+    
+}
+  
    
     res.status(200).json(Allsubs);
     
@@ -283,4 +337,4 @@ const ViewPackage = async (req, res) => {
 
 
 
-module.exports = {ViewPackage,ViewLinkedFam,Subscribe,Unsubscribe,Famsubs,Allpatients,Allsubs,Subscribe1,Subscribe2};
+module.exports = {ViewPackage,ViewLinkedFam,ViewDepFam,Subscribe,Unsubscribe,Famsubs,Allpatients,Allsubs,Subscribe1,Subscribe2};
