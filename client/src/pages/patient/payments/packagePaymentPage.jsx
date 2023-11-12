@@ -9,20 +9,20 @@ function PackagePayment() {
 
 
     //To test
-    const receivedInfo = {
+/*     const receivedInfo = {
         package_name: "Silver", // package_name
         priceAfter: 1,
         paying_username: "ali"  // paying_username
-    };
+    }; */
 
-    // const receivedInfo = {
-    //     patient_username: location.state.patient_username,   
-    //     paying_username: location.state.paying_username,  
-    //     package_name: location.state.package_name,
-    //     priceBefore : location.state.priceBefore,
-    //     priceAfter: location.state.priceAfter,
-    //     isExistingPatient: isExistingPatient
-    // };
+    const receivedInfo = {
+        patient_username: location.state.patient_username,   
+        paying_username: location.state.paying_username,  
+        package_name: location.state.package_name,
+        priceBefore : location.state.priceBefore,
+        priceAfter: location.state.priceAfter,
+        isExistingPatient: location.state.isExistingPatient
+    };
 
 
     // const receivedInfo = {
