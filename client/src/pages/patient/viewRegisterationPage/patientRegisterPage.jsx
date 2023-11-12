@@ -38,6 +38,7 @@ const PatientRegister = () => {
       //     [name]: value,
       //   });
       // };
+      const [emailError, setEmailError] = useState('');
 
       const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -59,10 +60,19 @@ const PatientRegister = () => {
           });
         }
       };
-
+      const validateEmail = (email) => {
+        const pattern = /^[a-zA-Z0-9._%+-]+@gmail.com$/;
+        return pattern.test(email);
+      };
     // Handle form submission
     const handleSubmit = async (e) => {
          e.preventDefault();
+         if (!validateEmail(formData.email)) {
+          setEmailError('Email must be in Gmail format (e.g., example@gmail.com)');
+        } 
+        else {
+        setEmailError(''); // Clear the error message if the email is valid
+    
         try {
              // Send the formData object to your backend API for registration
             const response = await fetch('http://localhost:5000/patient/register/', {
@@ -101,6 +111,7 @@ const PatientRegister = () => {
             console.error('An error occurred:', error);
             alert('An error occurred:', error);
         }
+      }
     };
 
     return ( 
@@ -137,6 +148,11 @@ const PatientRegister = () => {
             onChange={handleInputChange}
             required
           />
+          {emailError && (
+          <div className="error-message" style={{ color: 'red', fontSize: '1.2rem' }}>
+            {emailError}
+          </div>
+          )}        
         </div>
         <div>
           <label>Password:</label>

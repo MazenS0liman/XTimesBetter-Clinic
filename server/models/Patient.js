@@ -40,9 +40,8 @@ const PatientSchema = mongoose.Schema({
         type: String,
         required: false,
     },
-    medicalHistory: {
-        data: Buffer,
-        contentType: String,
+    medicalHistory: { //fileName
+        type: [String],
         //required: false,
     },
    

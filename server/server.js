@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/admin/adminRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
 const doctorListRoutes = require('./routes/patient/doctorListRoutes')
+const multer = require('multer');
+const path = require('path');
 
 mongoose.set('strictQuery', false);
 
@@ -30,8 +32,13 @@ const Port = process.env.PORT || 5000;
 const MongoURI = process.env.MONGO_URI;
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: true }));
+
+// Increase payload size limit (e.g., 50MB)
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
 
 const corsOptions = {
   origin: '*',
@@ -41,6 +48,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Middleware for allowing react to fetch() from server
 app.use(function (req, res, next) {
@@ -49,6 +58,7 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, OPTIONS');
   next();
 });
+
 
 // Connect to MongoDB
 mongoose.connect(MongoURI)
@@ -107,7 +117,7 @@ app.use('/patient/viewFamilyMembers', require('./routes/patient/viewFamilyMember
 app.use('/patient/viewAppointments', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
-
+app.use('/patient/viewMedicalHistory',require('./routes/patient/medicalHistoryRoute'));
 
 
 
