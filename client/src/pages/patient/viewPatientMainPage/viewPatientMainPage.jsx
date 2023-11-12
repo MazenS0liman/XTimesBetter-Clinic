@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 // User Defined Hooks
 import { useAuth, useUsername } from '../../../components/hooks/useAuth'; 
 
+// Side Bar
+import { ResponsiveSideBar } from '../../../components/responsiveSideBar/responsiveSideBar';
+
 // Pages
 import ViewAllDrs from '../ViewAllDrs/ViewAllDrs';
 import ViewDoctorsList from '../ViewDoctorListPage/ViewDoctorListPage'
@@ -37,11 +40,9 @@ import {SuccessPayment, SuccessPackagePayment} from '../payments/successPaymentP
 import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
 
-
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
-
 
 export const ViewPatientMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
@@ -136,7 +137,8 @@ export const ViewPatientMainPage = () => {
 
     return (
         <div className={styles['main-div']}>
-            <Navbar name="Patient" list={list} />
+            {/* <Navbar name="Patient" list={list} /> */}
+            <ResponsiveSideBar array={list}/>
             <>
                 <Routes>
                     <Route path='/ViewAllDrs' element={<ViewAllDrs />} />
