@@ -38,7 +38,10 @@ const PatientRegister = () => {
       //     [name]: value,
       //   });
       // };
+
       const [emailError, setEmailError] = useState('');
+      const [passError, setPassError] = useState('');
+
 
       const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -65,7 +68,7 @@ const PatientRegister = () => {
         return pattern.test(email);
       };
       const validatePass = (pass) =>{
-        const pattern = /^(?=.[a-z])(?=.[A-Z])(?=.*\d).{8,}$/;        ;
+        const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
         return pattern.test(pass);
       }
     // Handle form submission
@@ -176,6 +179,11 @@ const PatientRegister = () => {
             onChange={handleInputChange}
             required
           />
+          {passError && (
+          <div className="error-message" style={{ color: 'red', fontSize: '1.2rem' }}>
+            {passError}
+          </div>
+        )}  
         </div>
         <div>
           <label>Date Of Birth:</label>

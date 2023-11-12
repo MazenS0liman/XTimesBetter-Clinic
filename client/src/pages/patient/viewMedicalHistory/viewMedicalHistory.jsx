@@ -8,28 +8,42 @@ const viewMedicalHistory = () => {
     const [medicalHistoryRec, setMedicalHistoryRec] = useState([]);
     const [medicalHistoryUpload, setMedicalHistoryUpload] = useState(null);
 
-    const accessToken = sessionStorage.getItem('accessToken');
     const navigate = useNavigate();
 
-    async function checkAuthentication() {
-        await axios ({
-            method: 'get',
-            url: `http://localhost:5000/authentication/checkAccessToken`,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': accessToken,
-                'User-type': 'patient',
-            },
-        })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
-    }
+  //new part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  
+  console.log(accessToken);
+  useEffect(() => {
+      if (username.length != 0) {
+          setLoad(false);
+      }
+  }, [username]);
+  async function checkAuthentication() {
+      await axios({
+          method: 'get',
+          url: 'http://localhost:5000/authentication/checkAccessToken',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'patient',
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              setUsername(response.data.username);
+              //setLoad(false);
+          })
+          .catch((error) => {
+              //setLoad(false);
+              navigate('/login');
 
-    checkAuthentication();
+          });
+  }
+
+  const xTest = checkAuthentication();
 
     const baseURL='http://localhost:5000/uploads/';
     let medicalHistoryURL = null;
@@ -175,7 +189,9 @@ const deleteFile = (medicalHistoryPath) => {
   useEffect(() => {
     fetchMedicalHistory();
   }, []);
-      
+    if (load) {
+        return (<div>Loading</div>)
+    }
     return(
         <div>
       <h1>Medical History</h1>
