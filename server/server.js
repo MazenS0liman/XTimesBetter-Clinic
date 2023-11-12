@@ -130,8 +130,12 @@ app.use('/patient/Allsubs', require('./routes/patient/packagesRoute'));
 app.use('/patient/Allpatients', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subs1', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subs2', require('./routes/patient/packagesRoute'));
-
 app.use('/patient/viewWalletNumber', require('./routes/patient/viewWallet'));
+app.use('/patient/packagePaymentCreditCard', require('./routes/patient/payments/packageCreditCardPayment.js'));
+app.use('/patient/packagePaymentWallet', require('./routes/patient/payments/packageWalletPayment.js'));
+app.use('/patient/appointmentPaymentCreditCard', require('./routes/patient/payments/appointmentCreditCard.js'));
+app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/appointmentWallet.js'));
+
 
 
 

@@ -128,9 +128,9 @@ function PackagesList(){
     
     else{
     try {
-        const apiUrl = 'http://localhost:5000/patient/Subscribe';
+        const apiUrl = 'http://localhost:5000/patient/Subs1/subs1';
         var requestData='hello';
-  
+      
         // Prepare the request data (customize as needed)
         if (selectedFamilyMember!==""){
            requestData = {
@@ -160,7 +160,14 @@ function PackagesList(){
         // Check if the request was successful (status code 200)
         if (response.ok) {
           const responseData = await response.json();
+          responseData.paying_username = username;
           setErrorMessage("Subscribed Successfully");
+          navigate('/patient/packagePayment',{state:{patient_username: responseData.patient_username,
+            paying_username: responseData.paying_username,
+           package_name: responseData.package_name,
+           priceBefore: responseData.priceBefore,
+           priceAfter: responseData.priceAfter,
+           isExistingPatient: responseData.isExistingPatient}});
           console.log('Success:', responseData);
         } 
         else if (response.status===409){

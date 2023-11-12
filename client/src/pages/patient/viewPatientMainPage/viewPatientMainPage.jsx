@@ -31,7 +31,10 @@ import PackagesDetails from '../ViewPackagesDetails/ViewPackagesDetails';
 import SubsDetails from '../UnsubscribePackage/UnsubscribePackage';
 import Appointments from '../ViewAppointmentsPage/ViewAppointmentsPage'
 import BookAppointment from '../BookingFormPage/BookingFormPage'
-
+import AppointmentPayment from '../payments/appointmentPaymentPage'
+import PackagePayment from '../payments/packagePaymentPage'
+import {SuccessPayment, SuccessPackagePaymentWallet} from '../payments/successPaymentPage'
+import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 
 
 // Components
@@ -122,7 +125,6 @@ export const ViewPatientMainPage = () => {
             url: "/patient/ViewAppointments",
             pageName: "Appointments"
         }
-        
     ];
 
     if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
@@ -148,6 +150,12 @@ export const ViewPatientMainPage = () => {
                     <Route path="/viewWalletNumber" element={<ViewPatientWalletPage />} />
                     <Route path="/ViewAppointments" element={<Appointments/>} />
                     <Route path="/BookAppointment" element={<BookAppointment/>} /> 
+                    <Route path="/appointmentPayment" element={<AppointmentPayment />} />
+                    <Route path="/packagePayment" element={<PackagePayment />} />
+                    <Route path="/successPayment" element={<SuccessPayment />} />
+                    <Route path="/successPackPayWallet" element={<SuccessPackagePaymentWallet />} />
+                    <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
+
                 </Routes>
             </>
         </div>

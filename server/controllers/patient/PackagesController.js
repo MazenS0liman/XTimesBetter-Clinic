@@ -107,6 +107,7 @@ const ViewPackage = async (req, res) => {
 
     const patient_username=req.body.patient_username;
     const package_name=req.body.package_name;
+    const isExistingPatient=req.body.exist;
 
     //check if already subscribed
     const isSubs = await subsPackageModel.findOne({patient_username : patient_username , status:'subscribed'});
@@ -122,10 +123,14 @@ const ViewPackage = async (req, res) => {
             var price =package2.price-(package2.price*(discount/100));
 
             const packObject = {
+              /*the returned username of the subs one but i need to change it in the 
+              front end to the paying one for logy*/
                 patient_username:patient_username,
+                paying_username:"",
                 package_name:package_name,
                 priceBefore:package2.price,
-                priceAfter:price
+                priceAfter:price,
+                isExistingPatient:isExistingPatient
             };
            
             res.status(200).json(packObject);
@@ -146,16 +151,27 @@ const ViewPackage = async (req, res) => {
 
     const patient_username=req.body.patient_username;
     const package_name=req.body.package_name;
+    const isExistingPatient=req.body.exist;
+    
 
 
     try{
+      var patient_name="";
+
             //add to subspackage schema 
             const start_date= new Date();
             const end_date = new Date(start_date);
             end_date.setFullYear(end_date.getFullYear() + 1);
 
-            const patient = await patientModel.findOne({username:patient_username});
-            const patient_name=patient.name;
+            //get name of the patient 
+            if (isExistingPatient==='true'){
+              const patient = await patientModel.findOne({username:patient_username});
+              patient_name=patient.name;
+           }
+           else {
+             const fam = await depFamMemberModel.findOne({national_id:patient_username});
+             patient_name=fam.name;
+           }
 
             const subspackage = await subsPackageModel.create({patient_username,patient_name,package_name,status:'subscribed',start_date,end_date});
             
@@ -165,7 +181,10 @@ const ViewPackage = async (req, res) => {
             package.save();
 
             //add to patient schema 
-            const updatedPatient = await patientModel.updateOne({username:patient_username},{subscribed_package:package_name});
+            if (isExistingPatient=='true'){
+              const updatedPatient = await patientModel.updateOne({username:patient_username},{subscribed_package:package_name});
+            }
+
             res.status(200).json(subspackage);
         }
 
@@ -299,39 +318,41 @@ const ViewPackage = async (req, res) => {
 
  //check if a certain user has a linked family member that has is subs to a package 
  const isMemberSubscribed = async (patient_username) => {
-  const members = await famMembersModel.find({ username: patient_username});
-  var maxdiscount=0;
-  console.log(members);
-  for (const member of members) {
-     
-      const username=member.patient_username;
+    const members = await famMembersModel.find({ username: patient_username});
+    var maxdiscount=0;
+    console.log(members);
+    for (const member of members) {
+       
+        const username=member.patient_username;
 
-      const today = new Date();
-      today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
 
-      const isSubs = await subsPackageModel
-      .find({
-            patient_username: username,
-            status: { $in: ['subscribed', 'cancelled'] },
-            end_date: { $gte: today } })
-      .sort({ start_date: -1 })
-      .limit(1);
+        const isSubs = await subsPackageModel
+        .find({
+              patient_username: username,
+              status: { $in: ['subscribed', 'cancelled'] },
+              end_date: { $gte: today } })
+        .sort({ start_date: -1 })
+        .limit(1);
 
-      console.log(isSubs);
-      //const isSubs = await subsPackageModel.findOne({patient_username : username , status:'subscribed'});
-      
-      if (isSubs.length>0){
-          const package_name=isSubs[0].package_name;
-          const package =  await packageModel.findOne({name:package_name});
+        console.log("hisalma");
+        console.log(isSubs);
+        //const isSubs = await subsPackageModel.findOne({patient_username : username , status:'subscribed'});
+        
+        if (isSubs.length>0){
+            const package_name=isSubs[0].package_name;
+            const package =  await packageModel.findOne({name:package_name});
 
-          if (package.family_discount>maxdiscount){
-              maxdiscount=package.family_discount;
-          }
-      }
-  }
-  console.log(maxdiscount);
-  return maxdiscount;
-};
+            if (package.family_discount>maxdiscount){
+                maxdiscount=package.family_discount;
+            }
+        }
+
+    }
+    console.log(maxdiscount);
+    return maxdiscount;
+  };
 
 //get all patients
   const Allpatients = async (req, res) => {
