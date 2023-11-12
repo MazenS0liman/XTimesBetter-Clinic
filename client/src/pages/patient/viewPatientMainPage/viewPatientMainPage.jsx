@@ -16,8 +16,7 @@ import FamilyView from '../PatientHome/PatientHome';
 import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
-
-
+import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -72,6 +71,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path="/viewHealthRecords" element={<ViewHealthRecords />} />
                 </Routes>
             </>
         </div>

@@ -45,6 +45,11 @@ const PatientSchema = mongoose.Schema({
         contentType: String,
         //required: false,
     },
+    healthRecords: {
+        type: [String],
+        default: [],
+        required: false,
+    }
    
 }, { timestamps: true });
 

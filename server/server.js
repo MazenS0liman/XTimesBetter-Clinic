@@ -6,11 +6,12 @@ const cors = require('cors');
 var bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const adminRoutes = require('./routes/admin/adminRoute.js');
+const adminRoutes = require('./routes/Admin/adminRoute.js');
+const doctorRoutes = require('./routes/doctor/timeSlotsRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
-const doctorListRoutes = require('./routes/patient/doctorListRoutes')
-
+const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 mongoose.set('strictQuery', false);
+const path=require('path');
 
 // Express app
 const app = express();
@@ -39,7 +40,8 @@ const corsOptions = {
   optionSuccessStatus: 200,
 }
 
-app.use(cors(corsOptions))
+app.use(cors(corsOptions));
+app.use('/uploads', express.static(path.join(__dirname,'uploads')));
 
 
 // Middleware for allowing react to fetch() from server
@@ -86,6 +88,9 @@ app.use('/doctor/patients', require('./routes/doctor/patientsRoute'));
 app.use('/doctor/profile', require('./routes/doctor/profileRoute'));
 app.use('/doctor/filterAppointmentsByDateForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
 app.use('/doctor/filterAppointmentsByStatusForDoctor', require('./routes/doctor/filterAppointmentsRoute'));
+app.use('/doctor/addTimeSlot', doctorRoutes);
+app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
+app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -107,6 +112,7 @@ app.use('/patient/viewFamilyMembers', require('./routes/patient/viewFamilyMember
 app.use('/patient/viewAppointments', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
+app.use('/patient/viewHealthRecords', require('./routes/patient/viewHealthRecordsRoute'));
 
 
 

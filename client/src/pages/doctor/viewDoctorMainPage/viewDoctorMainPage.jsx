@@ -13,7 +13,9 @@ import DoctorRequest from '../viewDoctorRequestPage/doctorRequestPage';
 import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 import AppointmentsByStatusViewDoctor from '../FilterAppointmentsForDoctorByStatus/FilterAppointmentsForDoctorByStatus';
 import AppointmentsByDateViewDoctor from '../viewFilterAppointmentsForDoctorByDate/FilterAppointmentsForDoctorByDate';
-
+import TimeSlots from'../timeSlotsPage/timeSlots';
+import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
+import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -53,6 +55,9 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/updateInfoPage" element={<UpdateDoctorInfo />} ></Route>
                     <Route path="/FilterAppointmentByStatusDoctor" element={<AppointmentsByStatusViewDoctor />} />
                     <Route path="/FilterAppointmentByDateDoctor" element={<AppointmentsByDateViewDoctor />} />
+                    <Route path="/addTimeSlot" element={<TimeSlots />} />
+                    <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
+                    <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
                 </Routes>
             </>
         </div>
