@@ -65,7 +65,7 @@ export const LoginPage = () => {
                 updateRefreshToken(response.data.refreshToken);
                 setUsername(name);
 
-                // Setting local storage
+                // Setting Session storage
                 sessionStorage.setItem("accessToken", response.data.accessToken);
                 sessionStorage.setItem("refreshToken", response.data.refreshToken);
                 sessionStorage.setItem("username", name);

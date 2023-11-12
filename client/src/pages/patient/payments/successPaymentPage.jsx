@@ -40,6 +40,7 @@ function SuccessPayment(){
         navigate('/login');
       });
     }
+    checkAuthentication();
 
     if (!load) {
         return (<div>Loading</div>);
@@ -58,9 +59,11 @@ function SuccessPayment(){
     );
 
 }
-function SuccessPackagePaymentWallet(){
+function SuccessPackagePayment(){
+
     const location= useLocation();
-    const packObject= location.state.packObject;
+    const packObject=JSON.parse(sessionStorage.getItem("receivedInfo"));
+    console.log("packObject session", packObject);
 
     const [username, setUsername] = useState("");
     const [load, setLoad] = useState(false);
@@ -91,6 +94,7 @@ function SuccessPackagePaymentWallet(){
         navigate('/login');
       });
     }
+    checkAuthentication();
 
     if (!load) {
         return (<div>Loading</div>);
@@ -98,9 +102,39 @@ function SuccessPackagePaymentWallet(){
 
     console.log("In success package payment bt wallet: ", packObject);
     
-    const handleSubmit =()=>{
-        // Call subscribe2
-        window.location.href = 'http://localhost:5173/patient/';
+    const handleSubmit =async()=>{
+        try {
+            const apiUrl = 'http://localhost:5000/patient/Subs2/subs2';
+            var requestData=packObject;
+
+            
+          
+            // // Prepare the request data (customize as needed)
+            console.log("Pack Object",requestData);
+      
+            // Make the API request using the Fetch API (POST request in this example)
+            const response = await fetch(apiUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(requestData),
+            });
+            
+            // Check if the request was successful (status code 200)
+            if (response.ok) {
+              const responseData = await response.json();
+              console.log('Success:', responseData);
+
+              window.location.href = 'http://localhost:5173/patient/';
+            } 
+            else {
+              console.error('API Error:', response.statusText);
+            }
+          } catch (error) {
+            // Handle any network or other errors
+            console.error('Network Error:', error);
+          }
     }
     return( 
         <div className="Success Payment">
@@ -111,4 +145,4 @@ function SuccessPackagePaymentWallet(){
 
 }
 
-export { SuccessPayment, SuccessPackagePaymentWallet}; 
+export { SuccessPayment, SuccessPackagePayment}; 

@@ -33,7 +33,7 @@ import Appointments from '../ViewAppointmentsPage/ViewAppointmentsPage'
 import BookAppointment from '../BookingFormPage/BookingFormPage'
 import AppointmentPayment from '../payments/appointmentPaymentPage'
 import PackagePayment from '../payments/packagePaymentPage'
-import {SuccessPayment, SuccessPackagePaymentWallet} from '../payments/successPaymentPage'
+import {SuccessPayment, SuccessPackagePayment} from '../payments/successPaymentPage'
 import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 
 
@@ -153,7 +153,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/appointmentPayment" element={<AppointmentPayment />} />
                     <Route path="/packagePayment" element={<PackagePayment />} />
                     <Route path="/successPayment" element={<SuccessPayment />} />
-                    <Route path="/successPackPayWallet" element={<SuccessPackagePaymentWallet />} />
+                    <Route path="/successPackagePay" element={<SuccessPackagePayment />} />
                     <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
 
                 </Routes>

@@ -10,13 +10,29 @@ function PackagePayment() {
     const [selectedButton, setSelectedButton] = useState(null);
 
     const [username, setUsername] = useState("");
-    const [load, setLoad] = useState(false);
+    const [load, setLoad] = useState(true);
     const accessToken = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
 
+    const receivedInfo = {
+        patient_username: location.state.patient_username,   
+        paying_username: location.state.paying_username,  
+        package_name: location.state.package_name,
+        priceBefore : location.state.priceBefore,
+        priceAfter: location.state.priceAfter,
+        isExistingPatient: location.state.isExistingPatient
+    };
+
+    // console.log(receivedInfo);
+    
+    // console.log("Payment package page line 17");
+
+    // setUsername(receivedInfo.paying_username);
+    // console.log("username", username);
+
     useEffect(() => {
         if(username.length != 0) {
-            setLoad(true);
+            setLoad(false);
         }
     }, [username]);
 
@@ -32,32 +48,26 @@ function PackagePayment() {
       })
       .then((response) => {
           console.log(response);
-          setUsername(response.data.username);
+          
+          setLoad(false);
+       
+           setUsername(response.data.username);
       })
-      .catch((error) => {
+      .catch((error) => { 
+        setLoad(false);
         navigate('/login');
+
       });
     }
+    checkAuthentication() ;
+    console.log(load);
 
-    if (!load) {
+    if (load) {
         return (<div>Loading</div>);
     }
-
-    //To test
-/*     const receivedInfo = {
-        package_name: "Silver", // package_name
-        priceAfter: 1,
-        paying_username: "ali"  // paying_username
-    }; */
-
-    const receivedInfo = {
-        patient_username: location.state.patient_username,   
-        paying_username: location.state.paying_username,  
-        package_name: location.state.package_name,
-        priceBefore : location.state.priceBefore,
-        priceAfter: location.state.priceAfter,
-        isExistingPatient: location.state.isExistingPatient
-    };
+    
+   
+    console.log("Received Info at package payment page",receivedInfo);
 
 
     // const receivedInfo = {
@@ -77,9 +87,12 @@ function PackagePayment() {
     };
 
     const handleSubmit = async (buttonId) => {
+        sessionStorage.setItem("receivedInfo", JSON.stringify(receivedInfo));
 
         if (buttonId === "creditCard") {
-
+            console.log(receivedInfo);
+           
+            
             fetch('http://localhost:5000/patient/packagePaymentCreditCard', {
                 method: 'POST',
                 headers: {
@@ -88,8 +101,10 @@ function PackagePayment() {
                 body: JSON.stringify(receivedInfo)
 
             }).then(res => {
+
                 return res.json();
             }).then((data) => {
+                
                 window.location = data.url;
             })
         }
@@ -111,7 +126,7 @@ function PackagePayment() {
                     console.log(data.success);
                     console.log(data.packObject);
                     if (data.success) {
-                        navigate('/patient/successPackPayWallet', {state:{ packObject: data.packObject}})
+                        navigate('/patient/successPackagePay', {state:{ packObject: data.packObject}})
 
                        // window.location = 'http://localhost:5173/patient/successPackPayWallet';
                     }
@@ -126,6 +141,8 @@ function PackagePayment() {
             }
         }
     }
+    
+   
     return (
         <div className="payment">
             <div className="receipt-container">

@@ -38,6 +38,7 @@ function UnsuccessPayment() {
         navigate('/login');
       });
     }
+    checkAuthentication();
 
     if (!load) {
         return (<div>Loading</div>);

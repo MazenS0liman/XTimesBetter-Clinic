@@ -151,7 +151,7 @@ const ViewPackage = async (req, res) => {
 
     const patient_username=req.body.patient_username;
     const package_name=req.body.package_name;
-    const isExistingPatient=req.body.exist;
+    const isExistingPatient=req.body.isExistingPatient;
     
 
 

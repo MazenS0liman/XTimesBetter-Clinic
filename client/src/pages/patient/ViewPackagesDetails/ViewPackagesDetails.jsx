@@ -119,6 +119,7 @@ function PackagesList(){
 
   const handleSubscribeClick = async (packageName) => {
     
+    
     if (selectedFamilyMember==="" && selectedDependFamilyMember===""){
         setErrorMessage("Please choose a person to subscribe to");
     }
@@ -168,6 +169,7 @@ function PackagesList(){
            priceBefore: responseData.priceBefore,
            priceAfter: responseData.priceAfter,
            isExistingPatient: responseData.isExistingPatient}});
+          
           console.log('Success:', responseData);
         } 
         else if (response.status===409){

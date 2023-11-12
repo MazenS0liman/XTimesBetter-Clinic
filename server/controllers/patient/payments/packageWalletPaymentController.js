@@ -8,14 +8,14 @@ const payPackage = asyncHandler(async (req, res) => {
     const registeredPatient = await patients.findOne({ username: req.body.paying_username });
     
     const totalAmount = req.body.priceAfter;
-    console.log(totalAmount);
+    // console.log(totalAmount);
 
     if (registeredPatient) {
-        console.log(registeredPatient);
+       //  console.log(registeredPatient);
         
         
         const patientWallet = registeredPatient.walletAmount;
-        console.log(totalAmount <= patientWallet)
+       // console.log(totalAmount <= patientWallet)
         if (totalAmount > patientWallet) {
             return res.status(400).json({ message: ' No Sufficient Funds in the wallet! ', success: false })
         }
