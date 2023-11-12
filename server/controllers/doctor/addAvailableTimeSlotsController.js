@@ -18,15 +18,23 @@ else if (!contract || !contract.accepted) {
   return res.status(400).json({ message: 'Doctor not found, cannot add time slots', registeredIn: false });
 } else {
   const newTimeSlots = req.body.availableTimeSlots; // Array of dates
-
+  const allTimeSlots= await doctorModel.distinct('availabeTimeSlots', {username: myUsername});
+  const found=allTimeSlots.includes(newTimeSlots);
+  console.log(found);
+  if(!found){
   const updatedDoctor = await doctorModel.findOneAndUpdate(
     { username: myUsername, 'availableTimeSlots': { $ne: newTimeSlots[0] } },
     { $push: { availableTimeSlots: newTimeSlots[0] } },
     { new: true }
   );
+  res.status(200).json({ message: 'Time slots added successfully', registeredIn: true, updatedDoctor });
+  }
+  else{
+    return res.status(400).json({ message: 'Time slot already exists', registeredIn: false });
+  }
 
 
-    res.status(200).json({ message: 'Time slots added successfully', registeredIn: true, updatedDoctor });
+    //res.status(200).json({ message: 'Time slots added successfully', registeredIn: true, updatedDoctor });
   }
 });
   

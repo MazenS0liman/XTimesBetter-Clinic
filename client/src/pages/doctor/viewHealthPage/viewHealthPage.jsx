@@ -13,30 +13,31 @@ const PHealthRecords = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log({ username });
-    const requestdata={username:username}
+    //const requestdata={username:username}
     try {
-      const response = await fetch('http://localhost:5000/patient/viewPHealthRecords', {
-        method: 'GET', // Change method to GET
+      const response = await fetch(`http://localhost:5000/doctor/viewPHealthRecords/${username}`, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestdata), // GET requests don't have a request body
       });
-  
   
       if (response.ok) {
         const data = await response.json();
         console.log(data);
         console.log(data.healthRecords);
-
+  
         setHealthRecords(data.healthRecords);
-        //setHealthRecords(data);
-
       } else {
-        console.error('Error fetching health records:', response.statusText);
+        const errorMessage = await response.json(); // Extract error message from the response
+        console.error('Error fetching health records:', errorMessage);
+        alert(`Error: ${errorMessage.message}`);
+        setHealthRecords([]);
       }
     } catch (error) {
       console.error('Error fetching health records:', error);
+      alert(`Error: ${error.message}`);
+      setHealthRecords([]);
     }
   };
 
@@ -50,6 +51,7 @@ const PHealthRecords = () => {
   type="text" 
   value={username} 
   onChange={handleUsernameChange} 
+  required
 />
         </label>
         <button type="submit">Fetch Health Records</button>

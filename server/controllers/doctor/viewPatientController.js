@@ -31,4 +31,6 @@ const getPatients = asyncHandler( async (req, res) => {
     res.status(200).json({ message: 'Success', patients: modifiedPatients });
 });
 
+
+
 module.exports = { getPatients };

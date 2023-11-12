@@ -5,5 +5,5 @@ const { viewPHealthRecords} = require('../../controllers/doctor/viewHealthContro
 // const {removePatient} = require('../../controllers/patient/patientcontroller.js');
 
 // APIs
-router.get('/', viewPHealthRecords);
+router.get('/:user', viewPHealthRecords);
 module.exports = router;

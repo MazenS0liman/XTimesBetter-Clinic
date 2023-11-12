@@ -27,7 +27,7 @@ const AddTimeSlots = () => {
         body: JSON.stringify(formData),
       });
       console.log(response);
-      if (response.status==200) {
+      if (response.status == 200) {
         // Registration was successful, handle success scenario
         console.log('Time Slots added!');
         alert('Time Slots added!');
@@ -38,11 +38,11 @@ const AddTimeSlots = () => {
       } else {
         // Registration failed, handle error scenario
         console.error('Can not add time slots');
-        alert('Can not add time slots');
+        alert(`Error: ${errorMessage.message}`);
       }
     } catch (error) {
       console.error('An error occurred:', error);
-      alert('An error occurred:', error);
+      alert('An error occurred:', error); // Here, you should use `error`, not `errorMessage`
     }
   };
 

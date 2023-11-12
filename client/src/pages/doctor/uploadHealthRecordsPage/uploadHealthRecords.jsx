@@ -69,7 +69,7 @@ const UploadRecords = () => {
       } else {
         // Registration failed, handle error scenario
         console.error('Upload failed');
-        alert('Upload failed ');
+        alert(`Error: ${errorMessage.message}`);
       }
     } catch (error) {
       console.error('An error occurred:', error);
