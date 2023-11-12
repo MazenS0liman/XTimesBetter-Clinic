@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 // Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
 
+// Side Bar
+import { ResponsiveSideBar } from '../../../components/responsiveSideBar/responsiveSideBar';
+
 // Pages
 import  AddPackage  from '../AddPackage/AddPackage';
 import  UpdatePackage  from '../UpdatePackage/UpdatePackage';
@@ -114,7 +117,8 @@ export const ViewAdminMainPage = () => {
     }
     return (
         <div className={styles['main-div']}>
-            <Navbar name="Admin" list={list} />
+            {/* <Navbar name="Admin" list={list} /> */}
+            <ResponsiveSideBar array={list}/>
             <>
             <Routes>
             <Route path="/profile" element={<AdminProfile />} />

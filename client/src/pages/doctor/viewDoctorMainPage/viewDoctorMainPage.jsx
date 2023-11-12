@@ -15,6 +15,9 @@ import { useNavigate } from 'react-router-dom';
 // Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
 
+// Side Bar
+import { ResponsiveSideBar } from '../../../components/responsiveSideBar/responsiveSideBar';
+
 // Pages
 import { ViewPatientInfo } from '../viewPatientInfoPage/viewPatientInfoPage';
 import { ViewPatients } from '../viewPatientsPage/viewPatientsPage';
@@ -117,7 +120,8 @@ export const ViewDoctorMainPage = () => {
     }
     return (
         <div className={styles['main-div']}>
-            <Navbar name="Doctor" list={list} />
+            {/* <Navbar name="Doctor" list={list} /> */}
+            <ResponsiveSideBar array={list}/>
             <>
                 <Routes>
                     <Route path='/viewPatientsPage' element={<ViewPatients />} />
