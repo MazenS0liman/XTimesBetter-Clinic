@@ -33,7 +33,10 @@ const acceptDoctor = asyncHandler(async(req, res)=>{
             educational_background:doctor.educational_background,
             affiliation:doctor.affiliation,
             speciality:doctor.speciality,
-            availableTimeSlots:doctor.availableTimeSlots
+            availableTimeSlots:doctor.availableTimeSlots,
+            nationalID:doctor.nationalID,
+            medicalLicense:doctor.medicalLicense,
+            medicalDegree:doctor.medicalDegree
         })
         return res.status(200).json({ message: 'Doctor request is accepted successfully', doctor });
     } catch (error) {

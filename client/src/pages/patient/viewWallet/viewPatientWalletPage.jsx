@@ -11,29 +11,44 @@ import { useAuth } from '../../../components/hooks/useAuth';
 
 const ViewPatientWalletPage = () => {
     // const { accessToken } = useAuth();
-    const accessToken = sessionStorage.getItem("accessToken");
     const [walletNumber, setWalletNumber] = useState(null);
     const navigate = useNavigate();
 
-    async function checkAuthentication() {
-        await axios ({
-            method: 'get',
-            url: `http://localhost:5000/authentication/checkAccessToken`,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': accessToken,
-                'User-type': 'patient',
-            },
-        })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
-    }
+  //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  
+  console.log(accessToken);
+  useEffect(() => {
+      if (username.length != 0) {
+          setLoad(false);
+      }
+  }, [username]);
+  async function checkAuthentication() {
+      await axios({
+          method: 'get',
+          url: 'http://localhost:5000/authentication/checkAccessToken',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'patient',
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              setUsername(response.data.username);
+              //setLoad(false);
+          })
+          .catch((error) => {
+              //setLoad(false);
+              navigate('/login');
 
-    checkAuthentication();
+          });
+  }
+
+  const xTest = checkAuthentication();
+//Authenticate part
 
     useEffect(() => {
         const fetchWalletDetails = async () => {
@@ -55,7 +70,9 @@ const ViewPatientWalletPage = () => {
 
         fetchWalletDetails();
     }, []);
-
+    if (load) {
+        return (<div>Loading</div>)
+    }
     return (
         <div>
           <h1>Wallet Amount</h1>

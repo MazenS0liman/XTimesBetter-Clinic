@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Axios
 import axios from 'axios';
@@ -36,37 +36,53 @@ import PackagePayment from '../payments/packagePaymentPage'
 import {SuccessPayment, SuccessPackagePayment} from '../payments/successPaymentPage'
 import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
+import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
-import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 
 
 export const ViewPatientMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
-    const accessToken = sessionStorage.getItem('accessToken');
     const navigate = useNavigate();    
 
-    async function checkAuthentication() {
-        await axios ({
-            method: 'get',
-            url: `http://localhost:5000/authentication/checkAccessToken`,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': accessToken,
-                'User-type': 'patient',
-            },
-        })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
-    }
+  //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  
+  console.log(accessToken);
+  useEffect(() => {
+      if (username.length != 0) {
+          setLoad(false);
+      }
+  }, [username]);
+  async function checkAuthentication() {
+      await axios({
+          method: 'get',
+          url: 'http://localhost:5000/authentication/checkAccessToken',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'patient',
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              setUsername(response.data.username);
+              //setLoad(false);
+          })
+          .catch((error) => {
+              //setLoad(false);
+              navigate('/login');
 
-    checkAuthentication();
+          });
+  }
+
+  const xTest = checkAuthentication();
+//Authenticate part
+
     
     const list = [
         {
@@ -84,19 +100,19 @@ export const ViewPatientMainPage = () => {
         },
         {
             url: "/patient/prescriptionTable",
-            pageName: "Prescription Page",
+            pageName: "Prescript pg",
         },
         {
             url: "/patient/FamilyInformation",
-            pageName: "Family Info",
+            pageName: "Fam Info",
         },
         {
             url: "/patient/AddFamily",
-            pageName: "Add Family Member",
+            pageName: "Add FamMem",
         },
         {
             url: "/patient/FilterAppointmentByStatusPatient",
-            pageName: "Filter Status",
+            pageName: "Filter Stat",
         },
         {
             url: "/patient/FilterAppointmentByDatePatient",
@@ -104,36 +120,38 @@ export const ViewPatientMainPage = () => {
         },
         {
             url: "/patient/LinkPatientWithAnotherByEmail",
-            pageName: "Link Family Member By Email",
+            pageName: "Link Fam Email",
         },
         {
             url: "/patient/LinkPatientWithAnotherByMobile",
-            pageName: "Link Member By PhoneNumber",
+            pageName: "Link Fam Phone",
         },
         {
             url: "/patient/ViewPackagesDetails",
-            pageName: "Packages Details",
+            pageName: "Pack Details",
         },
         {
             url: "/patient/ViewSubscribedPackages",
-            pageName: "Subscription Details",
+            pageName: "Subs Details",
         },
         {
             url: "/patient/viewWalletNumber",
-            pageName: "View My Wallet",
+            pageName: "Wallet",
         },
         {
             url: "/patient/ViewAppointments",
-            pageName: "Appointments"
+            pageName: "Appoints"
         },
         {
             url: "/patient/viewMedicalHistory",
-            pageName: "Medical History",
+            pageName: "Med History",
         }
     ];
 
     if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
-
+    if (load) {
+        return (<div>Loading</div>)
+    }
     return (
         <div className={styles['main-div']}>
             <Navbar name="Patient" list={list} />
