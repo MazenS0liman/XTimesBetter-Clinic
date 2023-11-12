@@ -23,7 +23,7 @@ const viewMedicalHistory = async (req, res) => {
     const medicalHistoryRecords = patient.medicalHistory;
 
     // Check if there are health records
-    if (!medicalHistoryRecords || medicalHistoryRecords.length === 0) {
+    if (!medicalHistoryRecords ) {
       return res.status(404).json({ message: 'No health records found for the patient' });
     }
 
@@ -40,7 +40,7 @@ const deleteFile = asyncHandler(async (req, res) =>{
 
     const medicalHistoryPath = req.params.path;
 
-    console.log(medicalHistoryPath);
+    //console.log(medicalHistoryPath);
     const myUsername = 'NewKay';
     try {
         const patient = await patientModel.findOne({username: myUsername});
@@ -63,7 +63,7 @@ const deleteFile = asyncHandler(async (req, res) =>{
 const addFile = asyncHandler(async (req, res) =>{
     
     try{
-        console.log("ADD FILE HIT");
+        //console.log("ADD FILE HIT");
         // Use multer to handle file uploads
         const uploadMiddleware = multer({ storage: storage, fileFilter: fileFilter }).fields([
             { name: 'medicalHistoryUpload', maxCount: 1 },

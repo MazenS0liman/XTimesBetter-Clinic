@@ -55,6 +55,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
+        },
+        {
+            url: "/patient/viewMedicalHistory",
+            pageName: "Medical History",
         }
     ];
 

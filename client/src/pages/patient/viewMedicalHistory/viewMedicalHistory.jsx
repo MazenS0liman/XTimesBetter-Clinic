@@ -8,7 +8,7 @@ const viewMedicalHistory = () => {
     const baseURL='http://localhost:5000/uploads/';
     let medicalHistoryURL = null;
 
-    const fetchMedicalHistory = () => {
+    /*const fetchMedicalHistory = () => {
         const url = 'http://localhost:5000/patient/viewMedicalHistory';
       
         fetch(url)
@@ -19,7 +19,9 @@ const viewMedicalHistory = () => {
             return response.json();
           })
           .then((data) => {
+            console.log(data.medicalHistoryRecords);
             // Ensure that data is an object with medicalHistoryRecords property
+            setMedicalHistoryRec(data.medicalHistoryRecords);
             if (data && Array.isArray(data.medicalHistoryRecords)) {
               setMedicalHistoryRec(data.medicalHistoryRecords);
             } 
@@ -31,7 +33,37 @@ const viewMedicalHistory = () => {
           .catch((error) => {
             console.error('Error viewing MedicalHistory:', error);
           });
-      };
+      };*/
+      const fetchMedicalHistory = () => {
+        const url = 'http://localhost:5000/patient/viewMedicalHistory';
+    
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        // No medical history found, set an empty array
+                        setMedicalHistoryRec([]);
+                    } else {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                } else {
+                    return response.json();
+                }
+            })
+            .then((data) => {
+                if (data && Array.isArray(data.medicalHistoryRecords)) {
+                    setMedicalHistoryRec(data.medicalHistoryRecords);
+                }
+            })
+            .catch((error) => {
+                // Catching the error here prevents it from being logged to the console
+                if (error.message !== 'No medical history found') {
+                    console.error('Error viewing MedicalHistory:', error);
+                }
+            });
+    };
+    
+    
       const handleFileInputChange = (e) => {
         const { files } = e.target;
         setMedicalHistoryUpload(files[0]);
@@ -60,8 +92,9 @@ const uploadFile = async (e) => {
             alert('upload successful!');
             //e.target.value= null;
             setMedicalHistoryUpload(null);
-            fetchMedicalHistory();
+            //fetchMedicalHistory();
             window.location.reload();
+            
 
         }else {
               throw new Error(`HTTP error! Status: ${response.status}`);
@@ -90,8 +123,9 @@ const deleteFile = (medicalHistoryPath) => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         // Fetch the updated Patient data again to reflect the changes
-        fetchMedicalHistory();
         alert(' Medical History File removed successfully');
+        fetchMedicalHistory()
+        //window.location.reload();
       })
       .catch((error) => {
         console.error('Error removing file:', error);
@@ -119,7 +153,6 @@ const deleteFile = (medicalHistoryPath) => {
         <button onClick={(e) => uploadFile(e)}>
         Upload
         </button>
-
         </div>
       <table>
         <thead>
@@ -128,8 +161,10 @@ const deleteFile = (medicalHistoryPath) => {
             <th>Delete</th>
           </tr>
         </thead>  
-    <tbody>
-  {medicalHistoryRec.map((record, index) => (
+        <tbody>
+
+        {medicalHistoryRec.length > 0 ? (
+    medicalHistoryRec.map((record, index) => (
     <tr key={index}>
         <td><a href={baseURL + record} target="_blank" rel="noopener noreferrer">View Medical History </a></td>
             <td>
@@ -141,8 +176,14 @@ const deleteFile = (medicalHistoryPath) => {
              </button>
         </td>
      </tr>
-    ))}
-    </tbody>
+     
+    ))
+    ) : (
+      <tr>
+        <td colSpan="2">No History to show </td>
+      </tr>
+    )}
+        </tbody>
       </table>
     </div>
     );
