@@ -299,27 +299,39 @@ const ViewPackage = async (req, res) => {
 
  //check if a certain user has a linked family member that has is subs to a package 
  const isMemberSubscribed = async (patient_username) => {
-    const members = await famMembersModel.find({ username: patient_username});
-    var maxdiscount=0;
-    console.log(members);
-    for (const member of members) {
-       
-        const username=member.patient_username;
-        const isSubs = await subsPackageModel.findOne({patient_username : username , status:'subscribed'});
-        
-        if (isSubs){
-            const package_name=isSubs.package_name;
-            const package =  await packageModel.findOne({name:package_name});
+  const members = await famMembersModel.find({ username: patient_username});
+  var maxdiscount=0;
+  console.log(members);
+  for (const member of members) {
+     
+      const username=member.patient_username;
 
-            if (package.family_discount>maxdiscount){
-                maxdiscount=package.family_discount;
-            }
-        }
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
 
-    }
-    console.log(maxdiscount);
-    return maxdiscount;
-  };
+      const isSubs = await subsPackageModel
+      .find({
+            patient_username: username,
+            status: { $in: ['subscribed', 'cancelled'] },
+            end_date: { $gte: today } })
+      .sort({ start_date: -1 })
+      .limit(1);
+
+      console.log(isSubs);
+      //const isSubs = await subsPackageModel.findOne({patient_username : username , status:'subscribed'});
+      
+      if (isSubs.length>0){
+          const package_name=isSubs[0].package_name;
+          const package =  await packageModel.findOne({name:package_name});
+
+          if (package.family_discount>maxdiscount){
+              maxdiscount=package.family_discount;
+          }
+      }
+  }
+  console.log(maxdiscount);
+  return maxdiscount;
+};
 
 //get all patients
   const Allpatients = async (req, res) => {

@@ -3,6 +3,8 @@ const asyncHandler = require('express-async-handler');
 const patientModel = require('../../models/Patient');
 const doctorModel = require('../../models/Doctor');
 const appointmentModel = require('../../models/Appointment');
+const subsPackageModel = require('../../models/SubscribedPackages')
+const packageModel = require('../../models/Package')
 
 // Add a new appointment to the database
 const createAppointment = asyncHandler(async (req, res) => {
@@ -21,6 +23,7 @@ const createAppointment = asyncHandler(async (req, res) => {
         res.status(400).json({ message: 'Doctor not found', createdAppointment: false });
         return;
     }
+
     
     /*
     if (!patient) {
@@ -59,8 +62,11 @@ const createAppointment = asyncHandler(async (req, res) => {
 
     //console.log(doctor.availableTimeSlots)
     await doctor.save();
+
+    console.log(newAppointment)
+    console.log(newAppointment._id)
     
-    res.status(200).json({ message: 'Success', appointment: newAppointment, createdAppointment: true });
+    res.status(200).json({ message: 'Success', appointment: newAppointment, createdAppointment: true, rowAppointmentID : newAppointment._id  });
 });
 
 
@@ -90,6 +96,95 @@ const getPastAppointments = asyncHandler( async (req, res) =>
     res.status(200).json(upcomingAppointments);
 });
 
+
+const getHourlyRateByUsername = async (req, res) => {
+    const patientUsername = req.query.patient_username;
+    //console.log("Patient", patientUsername)
+    const doctorUsername = req.query.doctor_username;
+    //console.log("Doctor", doctorUsername)
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+
+    const isSubs = await subsPackageModel
+        .find({
+            patient_username: patientUsername,
+            status: { $in: ['subscribed', 'cancelled'] },
+            end_date: { $gte: today }
+        })
+        .sort({ start_date: -1 })
+        .limit(1);
+    
+    //console.log(isSubs)
+    //console.log(isSubs.length)
+    // All doctors
+    let patient_hourlyRate = 0; // Initialize with a default value
+
+    if (isSubs.length > 0) { // Check the length of the array
+        const package_name = isSubs[0].package_name;
+        //console.log("Package Name" ,package_name)
+        const package = await packageModel.findOne({ name: package_name });
+        //console.log("Package" ,package)
+
+        const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
+        //console.log(doctor_hourlyRate.hourly_rate)
+        //console.log(package.doctor_discount)
+
+        patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1 ))-( (package.doctor_discount/100.0) * doctor_hourlyRate.hourly_rate)
+    } else {
+        const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
+        patient_hourlyRate = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate*0.1
+    }
+
+    console.log("Hourly", patient_hourlyRate);
+    //console.log(res.status(200).json(patient_hourlyRate))
+    res.status(200).json(patient_hourlyRate);
+}
+
+const getHourlyRateByNationalID = async (req, res) => {
+    const patientUsername = req.query.nationalID;
+    console.log("Patient", patientUsername)
+    const doctorUsername = req.query.doctor_username;
+    console.log("Doctor", doctorUsername)
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+
+    const isSubs = await subsPackageModel
+        .find({
+            patient_username: patientUsername,
+            status: { $in: ['subscribed', 'cancelled'] },
+            end_date: { $gte: today }
+        })
+        .sort({ start_date: -1 })
+        .limit(1);
+    
+    //console.log(isSubs)
+    //console.log(isSubs.length)
+    // All doctors
+    let patient_hourlyRate = 0; // Initialize with a default value
+
+    if (isSubs.length > 0) { // Check the length of the array
+        const package_name = isSubs[0].package_name;
+        //console.log("Package Name" ,package_name)
+        const package = await packageModel.findOne({ name: package_name });
+        //console.log("Package" ,package)
+
+        const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
+        //console.log(doctor_hourlyRate.hourly_rate)
+        //console.log(package.doctor_discount)
+
+        patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1 ))-( (package.doctor_discount/100.0) * doctor_hourlyRate.hourly_rate)
+    } else {
+        const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
+        patient_hourlyRate = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate*0.1
+    }
+
+    //console.log("Hourly", patient_hourlyRate);
+    //console.log(res.status(200).json(patient_hourlyRate))
+    res.status(200).json(patient_hourlyRate);
+}
+
 // Get all appointments
 const getAppointments = asyncHandler( async (req, res) => {
     const appointments = await appointmentModel.find({});
@@ -97,4 +192,4 @@ const getAppointments = asyncHandler( async (req, res) => {
 });
 
 
-module.exports = {createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments};
+module.exports = {createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getHourlyRateByUsername, getHourlyRateByNationalID};

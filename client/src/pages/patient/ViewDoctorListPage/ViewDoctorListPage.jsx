@@ -29,8 +29,6 @@ const ViewDoctorList = () => {
     const [doctorSpecialityFilter, setDoctorSpecialityFilter] = useState([])
     const [selectedSpeciality , setSelectedSpeciality ] = useState('')
     
-    
-
     // For Display :
     const [doctorsToBeDisplayed, setDoctorsToBeDisplayed] = useState([]);
     const [selectedDate, setSelectedDate] = useState('')
@@ -109,9 +107,10 @@ const ViewDoctorList = () => {
         fetchAllDoctors();
     }, []);
 
+    /*
     useEffect(() => {
         // Fetch data from an API or source
-        fetch('http://localhost:5000/patient/allDoctors', {
+        fetch('http://localhost:5000/patient/doctorList/allDoctors', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,6 +128,7 @@ const ViewDoctorList = () => {
             setLoading(false);
         });
     }, []);
+    */
 
      //search function
      // Searching 
@@ -166,15 +166,15 @@ const ViewDoctorList = () => {
         setSelectedSpeciality(event.target.value)
     
         if (event.target.value === "") {
-            setData(data);
+            setDoctorsToBeDisplayed(doctors);
         }
         else {
             const filterResult = doctors.filter((doctor) => doctor.speciality.toLowerCase().startsWith(event.target.value.toLowerCase()));
-            setData(filterResult);
+            setDoctorsToBeDisplayed(filterResult);
             if (!(document.getElementById("datePicked").value == "")){
                 console.log(document.getElementById("datePicked").value)
                 const resultFinal = filterResult.filter((doctor)=> doctor.availableTimeSlots.includes(document.getElementById("datePicked").value) )
-                setData(resultFinal)
+                setDoctorsToBeDisplayed(resultFinal)
                 console.log(resultFinal)
             } 
         }
@@ -187,8 +187,8 @@ const ViewDoctorList = () => {
         console.log("You clicked on a row")
         let doctor = null;
         for (let i = 0; i < doctors.length; i++) {
-            if (data[i].username === doctor_username) {
-                doctor = data[i];
+            if (doctors[i].username === doctor_username) {
+                doctor = doctors[i];
                 break;
             }
         }
@@ -290,12 +290,12 @@ const ViewDoctorList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                    {data &&
-                            data.map((item) => (
-                            <tr key={item._id} onClick={() => handleRowClick(item.username)}>
-                                <td>{item.name}</td>
-                                <td>{item.speciality}</td>
-                                <td>{item.hourly_rate.toFixed(2)}</td>
+                    {doctors &&
+                            doctors.map((doctor) => (
+                            <tr key={doctor._id} onClick={() => handleRowClick(doctor.username)}>
+                                <td>{doctor.name}</td>
+                                <td>{doctor.speciality}</td>
+                                <td>{doctor.hourly_rate}</td>
                             </tr>
                             ))}
                     </tbody>

@@ -1,5 +1,6 @@
 const Doctor = require('../../models/Doctor')
 const Appointment = require('../../models/Appointment')
+const Patient = require('../../models/Patient')
 const asyncHandler = require('express-async-handler');
 const mongoose = require('mongoose')
 
@@ -26,7 +27,7 @@ const getDoctorsWithPackages = asyncHandler( async (req, res) => {
     console.log(packages);
 
     //Retrieve all Drs
-    const doctors = await doctorModel.find();
+    const doctors = await Doctor.find();
     var doctorsresult=[];
 
     
