@@ -38,6 +38,7 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(cors(corsOptions))
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 
 // Middleware for allowing react to fetch() from server

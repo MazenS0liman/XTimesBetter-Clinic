@@ -11,30 +11,45 @@ import { useAuth } from '../../../components/hooks/useAuth';
 
 function ViewRequestedDoctorsInfo() {
       // const { accessToken } = useAuth();
-      const accessToken = sessionStorage.getItem('accessToken');
       const [requestedDoctors, setRequestedDoctors] = useState([]);
       const [rejected, setRejected] = useState(false);
       const navigate = useNavigate();
 
-      async function checkAuthentication() {
-        await axios ({
-            method: 'get',
-            url: `http://localhost:5000/authentication/checkAccessToken`,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': accessToken,
-                'User-type': 'admin',
-            },
-        })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
+  //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  
+  console.log(accessToken);
+  useEffect(() => {
+      if (username.length != 0) {
+          setLoad(false);
       }
+  }, [username]);
+  async function checkAuthentication() {
+      await axios({
+          method: 'get',
+          url: 'http://localhost:5000/authentication/checkAccessToken',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'admin',
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              setUsername(response.data.username);
+              //setLoad(false);
+          })
+          .catch((error) => {
+              //setLoad(false);
+              navigate('/login');
 
-    checkAuthentication();
+          });
+  }
+
+  const xTest = checkAuthentication();
+//Authenticate part
 
       const fetchRequestedDoctors = () => {
         const url = 'http://localhost:5000/admin/viewREQDoctors';
@@ -142,6 +157,9 @@ function ViewRequestedDoctorsInfo() {
           fetchRequestedDoctors();
 
       },[]);
+      if (load) {
+        return (<div>Loading</div>)
+    }
       return (
    
         <div>
@@ -158,10 +176,14 @@ function ViewRequestedDoctorsInfo() {
                 <th>Hourly Rate</th>
                 <th>Affiliation</th>
                 <th>Educational Background</th>
+                <th>National ID</th>
+                <th>Medical License</th>
+                <th>Medical Degree</th>
                 <th>Status</th>
               </tr>
             </thead>
             <tbody>
+
               {requestedDoctors.map((doctor) => (
                 <tr key={doctor._id}>
                   <td>{doctor.name}</td>
@@ -172,6 +194,9 @@ function ViewRequestedDoctorsInfo() {
                   <td>{doctor.hourly_rate}</td>
                   <td>{doctor.affiliation}</td>
                   <td>{doctor.educational_background}</td>
+                  <td><a href={`http://localhost:5000/uploads/${doctor.nationalID.name}`} target="_blank" rel="noopener noreferrer">View National ID </a></td>
+                  <td><a href={`http://localhost:5000/uploads/${doctor.medicalLicense.name}`} target="_blank" rel="noopener noreferrer">View Medical License </a></td>
+                  <td><a href={`http://localhost:5000/uploads/${doctor.medicalDegree.name}`} target="_blank" rel="noopener noreferrer">View Medical Degree </a></td>
                   <td>{doctor.status}</td>
                   <td>
                   <button
