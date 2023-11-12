@@ -20,7 +20,7 @@ const LinkPatientWithAnotherByMobile = () => {
     const navigate = useNavigate();
 
     async function checkAuthentication() {
-        await axios ({
+        await axios({
             method: 'get',
             url: `http://localhost:5000/authentication/checkAccessToken`,
             headers: {
@@ -29,13 +29,13 @@ const LinkPatientWithAnotherByMobile = () => {
                 'User-type': 'patient',
             },
         })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
-      }
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                navigate('/login');
+            });
+    }
 
     checkAuthentication();
 
@@ -80,6 +80,11 @@ const LinkPatientWithAnotherByMobile = () => {
                 //setMessage('Patient does not exist.');
 
                 setError('Patient To Be Linked does not exist.');
+            }
+            else if (response.status === 400) {
+                //setMessage('Patient does not exist.');
+
+                setError('Patient is already Linked.');
             }
             else {
 

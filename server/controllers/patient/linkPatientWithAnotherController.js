@@ -12,9 +12,13 @@ const linkFamilyMemberByEmail = async (req, res) => {
     try {
 
         const patient = await patientModel.findOne({ email: req.body.email });
+        const linked = await LinkedFamilyModel.findOne({ email: req.body.email });
 
         if (!patient) {
             return res.status(404).json('Patient doesnot exist!');
+        }
+        if (linked) {
+            return res.status(400).json('Patient is already linked!');
         }
         const Linkedmember = {
             username: patient.username, name: patient.name, email: patient.email, password: patient.password, dob: patient.dob,
@@ -34,10 +38,15 @@ const linkFamilyMemberByMobile = async (req, res) => {
     try {
 
         const patient = await patientModel.findOne({ mobile: req.body.mobile });
+        const linked = await LinkedFamilyModel.findOne({ mobile: req.body.mobile });
 
         if (!patient) {
             return res.status(404).json('Patient doesnot exist!');
         }
+        if (linked) {
+            return res.status(400).json('Patient is already linked!');
+        }
+
         const Linkedmember = {
             username: patient.username, name: patient.name, email: patient.email, password: patient.password, dob: patient.dob,
             gender: patient.gender, mobile: patient.mobile, emergency_contact: patient.emergency_contact, subscribed_package: patient.subscribed_package,

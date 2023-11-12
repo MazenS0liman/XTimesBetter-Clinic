@@ -211,12 +211,12 @@ const FamilyView = () => {
                 familyMembers.map((member) => (
                     <p key={member._id}>
                         <h2>{member.name}</h2>
-                        <p>Age: {member.age}</p>
                         <p>Relation: {member.relation}</p>
                     </p>
                 ))
 
             }
+
         </div>
     );
 };

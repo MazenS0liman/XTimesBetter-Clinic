@@ -29,11 +29,15 @@ const viewFamilyMembers = async (req, res) => {
     //console.log(username);
     //retrieve family members for the passed patient username
     try {
-        const familyMembers = await LinkedFamilyModel.find({ patient_username: username.username });
-        if (!familyMembers) {
+        const addedFamilyMembers = await familyModel.find({ patient_username: username.username });
+        const linkedFamilyMembers = await LinkedFamilyModel.find({ patient_username: username.username });
+        if (!addedFamilyMembers && !linkedFamilyMembers) {
             return res.status(404).json({ error: 'Patient has no family members' });
         }
-        //const familyMembers = await familyModel.find();
+        const familyMembers = [...addedFamilyMembers, ...linkedFamilyMembers].map((member) => {
+            return { name: member.name, relation: member.relation };
+        });
+
         res.status(200).json(familyMembers);
     } catch (error) {
         res.status(500).json({ error: "Can't get your family members" });
@@ -53,7 +57,7 @@ const viewLinkedFamilyMembers = async (req, res) => {
     }
 }
 
-const viewUnlinkedFamilyMembers = async (req,res) => {
+const viewUnlinkedFamilyMembers = async (req, res) => {
     const username = req.body.username;
     //console.log(username);
     //retrieve family members for the passed patient username
@@ -67,8 +71,8 @@ const viewUnlinkedFamilyMembers = async (req,res) => {
     } catch (error) {
         res.status(500).json({ error: "Can't get your family members" });
     }
-} 
-module.exports = { viewFamilyMembers , viewLinkedFamilyMembers , viewUnlinkedFamilyMembers };
+}
+module.exports = { viewFamilyMembers, viewLinkedFamilyMembers, viewUnlinkedFamilyMembers };
 
 //retrieve all users from the database
 /*try {
