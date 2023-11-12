@@ -24,7 +24,7 @@ import { PasswordCard } from '../../../components/changePasswordCard/changePassw
 import { useNavigate } from 'react-router-dom';
 
 // Hooks
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 // User Defined Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
@@ -32,13 +32,20 @@ import { useAuth } from '../../../components/hooks/useAuth';
 
 export const DoctorProfile = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [dob, setDOB] = useState('');
     const [image, setImage] = useState('');
     // const {accessToken} = useAuth();
     const accessToken = sessionStorage.getItem("accessToken");
+    const [username, setUsername] = useState('');
+    const [load, setLoad] = useState(true);
+
+    useEffect(() => {
+      if (username.length != 0) {
+        setLoad(false);
+      }
+    }, [username]);
 
     async function checkAuthentication() {
       await axios ({
@@ -52,10 +59,17 @@ export const DoctorProfile = () => {
       })
       .then((response) => {
           console.log(response);
+          setUsername(response.data.username);
       })
       .catch((error) => {
         navigate('/login');
       });
+    }
+
+    checkAuthentication();
+
+    if (load) {
+      return(<div>Loading</div>)
     }
 
     const getDoctorInfo = async () => {
@@ -84,7 +98,6 @@ export const DoctorProfile = () => {
             doctor.name = arr.join(" ");
           }
   
-          setUsername(doctor.username);
           setName(doctor.name);
           setEmail(doctor.email);
           setDOB(doctor.dob);
@@ -93,9 +106,6 @@ export const DoctorProfile = () => {
           console.log(error);
         })
       };
-
-    // Check that user is authenticated to view this page
-    checkAuthentication();
 
     // Get doctor info
     getDoctorInfo();

@@ -39,6 +39,23 @@ const DoctorSchema = mongoose.Schema({
         type: String,
         required: true
     },
+
+    nationalID: {
+        name: String,
+        path: String,
+        contentType: String,
+    },
+    medicalLicense: {
+        name: String,
+        path: String,
+        contentType: String,
+    },
+    medicalDegree: {
+        name: String,
+        path: String,
+        contentType: String,
+    },
+    
     availableTimeSlots: {
         type: [Date],
         required: false,

@@ -261,18 +261,6 @@ export const ResponsiveAppBar = () => {
                 onClose={handleCloseUserMenu}
               >
 
-                {/* Change Password */}
-                <MenuItem key={'Change Password'} onClick={() => {
-                  handleCloseRegisterMenu();
-                  navigate('/changePassword');
-                }}>
-                  <Typography 
-                      textAlign="center"
-                  >
-                      {'Change Password'}
-                  </Typography>
-                </MenuItem>
-
                 {/* Log Out */}
                 <MenuItem key={'Log Out'} onClick={() => {
                   handleCloseUserMenu();

@@ -35,6 +35,7 @@ import AppointmentPayment from '../payments/appointmentPaymentPage'
 import PackagePayment from '../payments/packagePaymentPage'
 import {SuccessPayment, SuccessPackagePayment} from '../payments/successPaymentPage'
 import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
+import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
 
 
 // Components
@@ -124,6 +125,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/ViewAppointments",
             pageName: "Appointments"
+        },
+        {
+            url: "/patient/viewMedicalHistory",
+            pageName: "Medical History",
         }
     ];
 
@@ -155,7 +160,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/successPayment" element={<SuccessPayment />} />
                     <Route path="/successPackagePay" element={<SuccessPackagePayment />} />
                     <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
-
+                    <Route path="/viewMedicalHistory" element={<ViewMedicalHistory />} />
                 </Routes>
             </>
         </div>

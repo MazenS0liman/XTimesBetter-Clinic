@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/admin/adminRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
+const multer = require('multer');
+const path = require('path');
 
 mongoose.set('strictQuery', false);
 
@@ -18,16 +20,25 @@ const app = express();
 // App variables
 const Port = process.env.PORT || 5000;
 const MongoURI = process.env.MONGO_URI;
+
 const corsOptions = {
   origin: '*',
-  credentials: true,
+  credentials: true,            //access-control-allow-credentials:true
   optionSuccessStatus: 200,
 }
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+//app.use(express.json());
+//app.use(express.urlencoded({ extended: true }));
+
+// Increase payload size limit (e.g., 50MB)
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
 app.use(cors(corsOptions))
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 // Middleware for allowing react to fetch() from server
 app.use(function (req, res, next) {
@@ -36,6 +47,7 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, OPTIONS');
   next();
 });
+
 
 // Connect to MongoDB
 mongoose.connect(MongoURI)
@@ -120,7 +132,6 @@ app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patie
 app.use('/patient/info', require('./routes/patient/patientInfoRoute')); // Get information about logged in patient using his/her username
 app.use('/patient/linkByEmail', require('./routes/patient/linkPatientWithAnotherRoute'));
 app.use('/patient/linkByMobile', require('./routes/patient/linkPatientWithAnotherRoute'));
-
 app.use('/patient/ViewPackages', require('./routes/patient/packagesRoute'));
 app.use('/patient/ViewFamily', require('./routes/patient/packagesRoute'));
 app.use('/patient/Subscribe', require('./routes/patient/packagesRoute'));
@@ -135,8 +146,7 @@ app.use('/patient/packagePaymentCreditCard', require('./routes/patient/payments/
 app.use('/patient/packagePaymentWallet', require('./routes/patient/payments/packageWalletPayment.js'));
 app.use('/patient/appointmentPaymentCreditCard', require('./routes/patient/payments/appointmentCreditCard.js'));
 app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/appointmentWallet.js'));
-
-
+app.use('/patient/viewMedicalHistory',require('./routes/patient/medicalHistoryRoute'));
 
 
 
