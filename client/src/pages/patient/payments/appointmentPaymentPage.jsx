@@ -40,6 +40,7 @@ function AppointmentPayment() {
         navigate('/login');
       });
     }
+    checkAuthentication() ;
 
     if (!load) {
         return (<div>Loading</div>);
@@ -48,10 +49,13 @@ function AppointmentPayment() {
     const receivedInfo = {
         appointmentDate: location.state.appointmentDate,
         doctorName: location.state.doctorName,
-        appointmentPrice: location.state.appointementPrice,
+        doctorUsername: location.state.doctorUsername, 
+        appointmentPrice: location.state.appointmentPrice,
+        appointmentSlot : location.state.appointmentSlot,
         username: location.state.patient_username,
         rowId : location.state.rowID
     };
+    // console.log("receivedInfo",receivedInfo);
 
     // For test
     // const receivedInfo = {
@@ -69,6 +73,7 @@ function AppointmentPayment() {
     };
 
     const handleSubmit = async (buttonId) => {
+        // console.log("receivedInfo",receivedInfo);
 
         if (buttonId === "creditCard") {
 

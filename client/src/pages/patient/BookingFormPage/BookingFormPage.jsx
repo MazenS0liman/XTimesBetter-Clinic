@@ -116,7 +116,7 @@ const BookAppointmentForm = () => {
     
             if (response.ok) {
                 const data = await response.json();
-                console.log("Hourly Rate Data:", data); // Add this line for debugging
+                // console.log("Hourly Rate Data:", data); // Add this line for debugging
     
                 // Ensure that data.hourlyRate is a valid number
                 const hourlyRate = parseFloat(data);
@@ -146,7 +146,7 @@ const BookAppointmentForm = () => {
     
             if (response.ok) {
                 const data = await response.json();
-                console.log("Hourly Rate Data:", data); // Add this line for debugging
+                // console.log("Hourly Rate Data:", data); // Add this line for debugging
     
                 // Ensure that data.hourlyRate is a valid number
                 const hourlyRate = parseFloat(data);
@@ -174,12 +174,12 @@ const BookAppointmentForm = () => {
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
             // To be edited to include the patient name , which in this case is the currently logged in client
-            name: "Ahmed Ahmed" ,
+            name: username ,
             price: hourlyRate,
             booked_by: username
         };
 
-        console.log("appointment data",appointmentData)
+        // console.log("appointment data",appointmentData)
 
         try {
             const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
@@ -192,20 +192,23 @@ const BookAppointmentForm = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log("from fE" , result.rowAppointmentID)
+                // console.log("from fE" , result.rowAppointmentID)
                 setRowID(result.rowAppointmentID)
+                
                 console.log(result);
                 const stateInfo = {
                     appointmentDate : appointment.bookAppointment.date ,
                     doctorName: appointment.doctorName ,
+                    doctorUsername: appointment.doctorUsername,
                     appointmentPrice : hourlyRate ,
+                    appointmentSlot :appointment.bookAppointment.appointment,
                     patient_username : username ,
                     rowID : result.rowAppointmentID
                   }
                     
                 navigate('/patient/appointmentPayment', { state: stateInfo });
         
-                console.log("State Info", stateInfo)
+                // console.log("State Info", stateInfo)
                 
             } else {
                 const errorData = await response.json();
@@ -235,7 +238,7 @@ const BookAppointmentForm = () => {
             booked_by: username
         };
 
-        console.log(appointmentData)
+        // console.log(appointmentData)
         try {
             const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
                 method: 'POST',
@@ -253,14 +256,16 @@ const BookAppointmentForm = () => {
                 const stateInfo = {
                     appointmentDate : appointment.bookAppointment.date ,
                     doctorName: appointment.doctorName ,
+                    doctorUsername: appointment.doctorUsername,
                     appointmentPrice : hourlyRate ,
+                    appointmentSlot :appointment.bookAppointment.appointment,
                     patient_username : username ,
                     rowID : result.rowAppointmentID
                   }
                     
                 navigate('/patient/appointmentPayment', { state: stateInfo });
         
-                console.log("State Info", stateInfo)
+                // console.log("State Info", stateInfo)
             } else {
                 const errorData = await response.json();
                 console.error('Error:', errorData.message);
@@ -301,13 +306,15 @@ const BookAppointmentForm = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log("from fE" , result.rowAppointmentID)
+                // console.log("from fE" , result.rowAppointmentID)
                 setRowID(result.rowAppointmentID)
-                console.log(result);
+                // console.log(result);
                 const stateInfo = {
                     appointmentDate : appointment.bookAppointment.date ,
                     doctorName: appointment.doctorName ,
+                    doctorUsername: appointment.doctorUsername,
                     appointmentPrice : hourlyRate ,
+                    appointmentSlot :appointment.bookAppointment.appointment,
                     patient_username : username ,
                     rowID : result.rowAppointmentID
                   }
@@ -327,18 +334,18 @@ const BookAppointmentForm = () => {
     const handleSubmit = () => {
         if (selectedOption === 'self') {
             submitAppointment();
-            console.log('Appointment Details for Self:', appointment);
-            window.alert('Appointment successfully added!');
+            // console.log('Appointment Details for Self:', appointment);
+            // window.alert('Appointment successfully added!');
         } else  if (selectedOption === 'family'){
             // Add appointment for a family member
             submitUnlinkedFamilyMemberAppointment();
-            console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
-            window.alert('Appointment successfully added!');
+            // console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
+            // window.alert('Appointment successfully added!');
         }  else {
             // Add appointment for a linked family member
             submitLinkedFamilyMemberAppointment();
-            console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
-            window.alert('Appointment successfully added!');
+            // console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
+            // window.alert('Appointment successfully added!');
         }
         /*
         const stateInfo = {

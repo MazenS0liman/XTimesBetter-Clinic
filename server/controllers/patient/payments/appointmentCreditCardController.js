@@ -29,7 +29,7 @@ const payAppointment = asyncHandler(async (req, res) => {
         cancel_url: 'http://localhost:5173/patient/unsuccessPayment'  // will change it
     })
     const registeredPatient = await patients.findOne({ username: req.body.username });
-    const doctorToPay = await doctors.findOne({username: req.body.doctorName});
+    const doctorToPay = await doctors.findOne({username: req.body.doctorUsername});
 
     const totalAmount = req.body.appointmentPrice;
     // console.log(totalAmount);
@@ -38,22 +38,15 @@ const payAppointment = asyncHandler(async (req, res) => {
         // console.log(registeredPatient);
 
 
-        const patientWallet = registeredPatient.walletAmount;
-        console.log(totalAmount <= patientWallet)
-        if (totalAmount > patientWallet) {
-            return res.status(400).json({ message: ' No Sufficient Funds in the wallet! ', success: false })
-        }
-        if (totalAmount <= patientWallet) {
-            const newWalletAmout = patientWallet - totalAmount;
-            const updatedPatient = await patients.findOneAndUpdate({ username: req.body.username }, { walletAmount: newWalletAmout });
+            
             const doctorAmount = doctorToPay.walletAmount+ 0.5* totalAmount;
-            const updatedDoctorWallet = await doctors.findOneAndUpdate({ username: req.body.doctorName }, { walletAmount: doctorAmount });
+            const updatedDoctorWallet = await doctors.findOneAndUpdate({ username: req.body.doctorUsername }, { walletAmount: doctorAmount });
 
             // console.log("patient amount,",newWalletAmout)
             // console.log("doctor amount,",doctorAmount)
 
         }
-    }
+    
 
 
     return res.status(201).json({ success: true, url: session.url, successURL: session.success_url });
