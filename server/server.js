@@ -8,7 +8,9 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/admin/adminRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
-const doctorListRoutes = require('./routes/patient/doctorListRoutes')
+const doctorListRoutes = require('./routes/patient/doctorListRoutes');
+
+
 
 mongoose.set('strictQuery', false);
 
@@ -107,6 +109,13 @@ app.use('/patient/viewFamilyMembers', require('./routes/patient/viewFamilyMember
 app.use('/patient/viewAppointments', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByDateForPatient', require('./routes/patient/filterAppointmentsRoute'));
 app.use('/patient/filterAppointmentsByStatusForPatient', require('./routes/patient/filterAppointmentsRoute'));
+
+
+app.use('/patient/packagePaymentCreditCard', require('./routes/patient/payments/packageCreditCardPayment.js'));
+app.use('/patient/packagePaymentWallet', require('./routes/patient/payments/packageWalletPayment.js'));
+app.use('/patient/appointmentPaymentCreditCard', require('./routes/patient/payments/appointmentCreditCard.js'));
+app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/appointmentWallet.js'));
+
 
 
 

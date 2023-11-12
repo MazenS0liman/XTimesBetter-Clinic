@@ -16,7 +16,10 @@ import FamilyView from '../PatientHome/PatientHome';
 import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
 import AppointmentsByStatusViewPatient from '../FilterAppointmentsForPatientByStatus/FilterAppointmentsForPatientByStatus';
 import AppointmentsByDateViewPatient from '../FilterAppointmentsForPatientByDate/FilterAppointmentsForPatientByDate';
-
+import AppointmentPayment from '../payments/appointmentPaymentPage'
+import PackagePayment from '../payments/packagePaymentPage'
+import {SuccessPayment, SuccessPackagePaymentWallet} from '../payments/successPaymentPage'
+import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 
 
 // Components
@@ -55,7 +58,8 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/FilterAppointmentByDatePatient",
             pageName: "Filter Date",
-        }
+        },
+       
     ];
 
     return (
@@ -72,6 +76,12 @@ export const ViewPatientMainPage = () => {
                     <Route path="/AddFamily" element={<AddFamilyMember />} />
                     <Route path="/FilterAppointmentByStatusPatient" element={<AppointmentsByStatusViewPatient />} />
                     <Route path="/FilterAppointmentByDatePatient" element={<AppointmentsByDateViewPatient />} />
+                    <Route path="/appointmentPayment" element={<AppointmentPayment />} />
+                    <Route path="/packagePayment" element={<PackagePayment />} />
+                    <Route path="/successPayment" element={<SuccessPayment />} />
+                    <Route path="/successPackPayWallet" element={<SuccessPackagePaymentWallet />} />
+                    <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
+
                 </Routes>
             </>
         </div>
