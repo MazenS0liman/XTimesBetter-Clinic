@@ -29,6 +29,11 @@ export const LoginPage = () => {
     const {username, setUsername} = useUsername();
     const {userType, setUserType} = useUserType();
     const navigate = useNavigate();
+    // clear access token and refresh token and username stored in the browser
+    sessionStorage.setItem("accessToken", "Bearer  ");
+    sessionStorage.setItem("refreshToken", "");
+    sessionStorage.setItem("username", "");
+    sessionStorage.setItem("userType", "");
 
     function handleUsernameChange(event) {
         setName(event.target.value);
