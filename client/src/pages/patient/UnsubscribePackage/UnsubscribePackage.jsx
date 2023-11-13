@@ -17,7 +17,8 @@ import { useNavigate } from 'react-router-dom';
 
 function SubsPackagesList(){
   // const {accessToken} = useAuth();
-  const accessToken = sessionStorage.getItem('accessToken');
+  //const accessToken = sessionStorage.getItem('accessToken');
+
   // Define state to store the fetched data
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,25 +26,41 @@ function SubsPackagesList(){
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  
+  
+  useEffect(() => {
+      if (username.length != 0) {
+          setLoad(false);
+      }
+  }, [username]);
   async function checkAuthentication() {
-    await axios ({
-        method: 'get',
-        url: `http://localhost:5000/authentication/checkAccessToken`,
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': accessToken,
-            'User-type': 'patient',
-        },
-    })
-    .then((response) => {
-        console.log(response);
-    })
-    .catch((error) => {
-      navigate('/login');
-    });
+      await axios({
+          method: 'get',
+          url: 'http://localhost:5000/authentication/checkAccessToken',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'patient',
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              setUsername(response.data.username);
+              //setLoad(false);
+          })
+          .catch((error) => {
+              //setLoad(false);
+              navigate('/login');
+
+          });
   }
 
-  checkAuthentication();
+  const xTest = checkAuthentication();
+//Authenticate part
 
   useEffect(() => {
     
@@ -115,10 +132,15 @@ function SubsPackagesList(){
   
 
  
-
+//loading 3ady lel data 
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  //Authenticate
+  if (load) {
+    return (<div>Loading</div>)
+}
 
   if (error) {
     return <div>Error: {error.message}</div>;

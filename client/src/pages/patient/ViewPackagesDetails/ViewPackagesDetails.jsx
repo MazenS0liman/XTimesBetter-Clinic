@@ -19,8 +19,9 @@ import { useNavigate } from 'react-router-dom';
 function PackagesList(){
   // const {accessToken} = useAuth();
   // const {username} = useUsername();
-  const accessToken = sessionStorage.getItem('accessToken');
-  const username = sessionStorage.getItem('username');
+  // const accessToken = sessionStorage.getItem('accessToken');
+  // const username = sessionStorage.getItem('username');
+
   // Define state to store the fetched data
   const [packages, setPackages] = useState([]);
   const [error, setError] = useState(null);
@@ -33,25 +34,43 @@ function PackagesList(){
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+
+
+ //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  
+  console.log(accessToken);
+  useEffect(() => {
+      if (username.length != 0) {
+          setLoad(false);
+      }
+  }, [username]);
   async function checkAuthentication() {
-    await axios ({
-        method: 'get',
-        url: `http://localhost:5000/authentication/checkAccessToken`,
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': accessToken,
-            'User-type': 'patient',
-        },
-    })
-    .then((response) => {
-        console.log(response);
-    })
-    .catch((error) => {
-      navigate('/login');
-    });
+      await axios({
+          method: 'get',
+          url: 'http://localhost:5000/authentication/checkAccessToken',
+          headers: {
+              "Content-Type": "application/json",
+              'Authorization': accessToken,
+              'User-type': 'patient',
+          },
+      })
+          .then((response) => {
+              console.log(response);
+              setUsername(response.data.username);
+              //setLoad(false);
+          })
+          .catch((error) => {
+              //setLoad(false);
+              navigate('/login');
+
+          });
   }
 
-  checkAuthentication();
+  const xTest = checkAuthentication();
+//Authenticate part
 
   useEffect(() => {
     // Make an API request to fetch the list of packages
@@ -193,10 +212,15 @@ function PackagesList(){
   
 
  
-
+//Loading 3ady lel data
   if (loading) {
     return <div>Loading...</div>;
   }
+
+//Authenticate
+  if (load) {
+    return (<div>Loading</div>)
+}
 
   if (error) {
     return <div>Error: {error.message}</div>;
