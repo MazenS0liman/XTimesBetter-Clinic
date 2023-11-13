@@ -6,7 +6,8 @@ const cors = require('cors');
 var bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const adminRoutes = require('./routes/admin/adminRoute.js');
+const adminRoutes = require('./routes/Admin/adminRoute.js');
+const doctorRoutes = require('./routes/doctor/timeSlotsRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 const multer = require('multer');
@@ -108,6 +109,9 @@ app.use('/doctor/acceptContract', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/rejectContract', require('./routes/doctor/viewContractRoute'));
 app.use('/doctor/viewWalletNumber', require('./routes/doctor/viewMyWallet'));
 app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
+app.use('/doctor/addTimeSlot', doctorRoutes);
+app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
+app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -148,6 +152,8 @@ app.use('/patient/packagePaymentWallet', require('./routes/patient/payments/pack
 app.use('/patient/appointmentPaymentCreditCard', require('./routes/patient/payments/appointmentCreditCard.js'));
 app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/appointmentWallet.js'));
 app.use('/patient/viewMedicalHistory',require('./routes/patient/medicalHistoryRoute'));
+app.use('/patient/viewHealthRecords', require('./routes/patient/viewHealthRecordsRoute'));
+
 
 
 

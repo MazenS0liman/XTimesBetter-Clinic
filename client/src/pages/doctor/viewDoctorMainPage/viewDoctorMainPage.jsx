@@ -29,7 +29,9 @@ import ContractView from '../viewContractPage/ViewContract';
 import ViewWalletPage from '../viewWalletPage/viewDoctorWalletPage';
 import ViewAppointments from '../viewAppointmentsPage/viewAppointmentsPage';
 import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
-
+import TimeSlots from'../timeSlotsPage/timeSlots';
+import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
+import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -112,6 +114,18 @@ export const ViewDoctorMainPage = () => {
             url: "/doctor/scheduleFollowUpPage",
             pageName: "Schedule Follow Up",
         },
+        {
+            url: "/doctor/addTimeSlot",
+            pageName: "Add Time Slot",
+        },
+        {
+            url: "/doctor/uploadHealthRecords",
+            pageName: "Upload Health Records",
+        },
+        {
+            url: "/doctor/viewHealthPage",
+            pageName: "Health Page",
+        }
     ];
 
     if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
@@ -134,6 +148,9 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/viewWalletNumber" element={<ViewWalletPage />} />
                     <Route path="/viewAppointmentsPage" element={<ViewAppointments />} />
                     <Route path="/scheduleFollowUpPage" element={<ScheduleFollowUp/>} />
+                    <Route path="/addTimeSlot" element={<TimeSlots />} />
+                    <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
+                    <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
                 </Routes>
             </>
         </div>
