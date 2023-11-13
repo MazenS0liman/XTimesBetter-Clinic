@@ -90,10 +90,18 @@ function AppointmentPayment() {
             }).then(res => {
                 return res.json();
             }).then((data) => {
+                console.log(data);
+                if(data.success){
                 // console.log(data.url);
                 // console.log(data.successURL);
                 // receiptCreditCard= data.orderInfo;
                 window.location = data.url;
+                }
+                else{
+
+                    alert(data.message);
+                    navigate('/patient/unsuccessPayment');
+                }
 
             })
 

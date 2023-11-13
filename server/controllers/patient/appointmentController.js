@@ -49,19 +49,19 @@ const createAppointment = asyncHandler(async (req, res) => {
 
     console.log('Available Time Slots Before:', doctor.availableTimeSlots);
 
-    const appointmentTimeAsString = new Date(appointment.time).toISOString();
+    // const appointmentTimeAsString = new Date(appointment.time).toISOString();
 
-    const remainingTimeSlots = doctor.availableTimeSlots.filter(slot => {
-        const slotAsString = new Date(slot).toISOString();
-        return slotAsString !== appointmentTimeAsString;
-    });
+    // const remainingTimeSlots = doctor.availableTimeSlots.filter(slot => {
+    //     const slotAsString = new Date(slot).toISOString();
+    //     return slotAsString !== appointmentTimeAsString;
+    // });
 
-    console.log('Available Time Slots After:', remainingTimeSlots);
+    // console.log('Available Time Slots After:', remainingTimeSlots);
 
-    doctor.availableTimeSlots = remainingTimeSlots;
+    // doctor.availableTimeSlots = remainingTimeSlots;
 
-    //console.log(doctor.availableTimeSlots)
-    await doctor.save();
+    // console.log("At tarnem: ",doctor.availableTimeSlots)
+    // await doctor.save();
 
     console.log(newAppointment)
     console.log(newAppointment._id)
