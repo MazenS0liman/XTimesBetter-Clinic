@@ -18,7 +18,15 @@ else if (!contract || !contract.accepted) {
   return res.status(400).json({ message: 'Doctor not found, cannot add time slots', registeredIn: false });
 } else {
   const newTimeSlots = req.body.availableTimeSlots; // Array of dates
-  const allTimeSlots= await doctorModel.distinct('availabeTimeSlots', {username: myUsername});
+const invalidDates = newTimeSlots.filter(date => {
+    const currentDate = new Date(date);
+    return currentDate.getFullYear() < 2023 || currentDate.toString() === 'Invalid Date';
+  });
+
+  if (invalidDates.length > 0) {
+    return res.status(400).json({ message: 'Invalid date(s) entered', registeredIn: false, invalidDates });
+  }
+  const allTimeSlots= await doctorModel.distinct('availableTimeSlots', {username: myUsername});
   const found=allTimeSlots.includes(newTimeSlots);
   console.log(found);
   if(!found){

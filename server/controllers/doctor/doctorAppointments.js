@@ -85,41 +85,57 @@ const getPastAppointments = asyncHandler( async (req, res) =>
   const scheduleFollowUpAppointment = asyncHandler(async (req, res) => {
     const appointment = req.body;
 
-    if (appointment.doctor_username === undefined || appointment.patient_username === undefined || appointment.appointmentDateTime === undefined 
-        || appointment.followUpDateTime == undefined) {
-        res.status(400).json({ message: 'Please provide doctor username, patient username, and appointment date', createdAppointment: false });
+    if (
+        appointment.doctor_username === undefined ||
+        appointment.patient_username === undefined ||
+        appointment.appointmentDateTime === undefined ||
+        appointment.followUpDateTime === undefined
+    ) {
+        res.status(400).json({
+            message: 'Please provide doctor username, patient username, and appointment date',
+            createdAppointment: false
+        });
         return;
     }
 
     const doctor = await doctorModel.findOne({ username: appointment.doctor_username });
     const patient = await patientModel.findOne({ username: appointment.patient_username });
 
-    /*
-    if (!doctor) {
-        res.status(400).json({ message: 'Doctor not found', createdAppointment: false });
-        return;
-    }
-    */
-    
     if (!patient) {
         res.status(400).json({ message: 'Patient not found', createdAppointment: false });
         return;
     }
 
     const followUpDateTime = new Date(appointment.followUpDateTime);
-    const currentDate = new Date().toLocaleDateString('en-GB');
+    const currentDate = new Date();
 
+    // Check if followUpDateTime is earlier than the current date and time
     if (followUpDateTime < currentDate) {
-        res.status(400).json({ message: 'Appointment date is in the past', createdAppointment: false });
+        res.status(400).json({
+            message: 'Appointment date and time are in the past',
+            createdAppointment: false
+        });
+        return;
+    }
+
+    // Check for duplicate follow-up appointments
+    const existingFollowUp = await followUpModel.findOne({
+        doctor_username: appointment.doctor_username,
+        patient_username: appointment.patient_username,
+        appointmentDateTime: appointment.appointmentDateTime,
+        followUpDateTime: appointment.followUpDateTime
+    });
+
+    if (existingFollowUp) {
+        const errorMessage = 'Duplicate follow-up appointment found';
+        console.log(errorMessage); // Log the error message
+        res.status(400).json({ message: errorMessage, createdAppointment: false });
         return;
     }
 
     appointment.status = "pending";
-    
-    const newAppointment = await followUpModel.create(appointment);
 
-    //console.log(typeof appointment.time);
-    //console.log('Appointment time', appointment.time);
+    const newAppointment = await followUpModel.create(appointment);
 
     console.log('Available Time Slots Before:', doctor.availableTimeSlots);
 
@@ -133,12 +149,12 @@ const getPastAppointments = asyncHandler( async (req, res) =>
     console.log('Available Time Slots After:', remainingTimeSlots);
 
     doctor.availableTimeSlots = remainingTimeSlots;
-
-    //console.log(doctor.availableTimeSlots)
     await doctor.save();
-    
+
     res.status(200).json({ message: 'Success', appointment: newAppointment, createdAppointment: true });
 });
+
+
   
   
 module.exports = {getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment};

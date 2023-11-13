@@ -76,7 +76,7 @@ const ScheduleFollowUp = () => {
             appointmentDateTime: appointmentTime,
             followUpDateTime: followUpTime,
         };
-
+    
         try {
             const response = await fetch('http://localhost:5000/doctor/appointments/scheduleFollowUp', {
                 method: 'POST',
@@ -85,18 +85,30 @@ const ScheduleFollowUp = () => {
                 },
                 body: JSON.stringify(followUpData),
             });
-
+    
             if (response.ok) {
                 const result = await response.json();
                 console.log('Follow-up created:', result);
+                return { success: true };
             } else {
                 const errorData = await response.json();
                 console.error('Error:', errorData.message);
+                console.log("error", errorData)
+                if (errorData.message === 'Duplicate follow-up appointment found') {
+                    return { success: false, message: 'You already sent a follow-up request with the same date and time' };
+                } else if (errorData.message === "Appointment date and time are in the past") {
+                    return { success: false, message: 'Follow-up date is in the past' };
+                } else {
+                    return { success: false, message: 'Unknown error' };
+                }
             }
         } catch (error) {
             console.error('Network error:', error.message);
+            return { success: false, message: 'Network error' };
         }
     };
+    
+    
 
     useEffect(() => {
         getPastAppointments();
@@ -111,13 +123,26 @@ const ScheduleFollowUp = () => {
         setFollowUpDateTime(e.target.value);
     };
 
-    const handleCreateFollowUp = () => {
+    const handleCreateFollowUp = async () => {
         const { patientUsername, appointmentTime } = selectedAppointment;
-        createFollowUp(patientUsername, appointmentTime, followUpDateTime);
+        const result = await createFollowUp(patientUsername, appointmentTime, followUpDateTime);
         setSelectedAppointment(null);
         setShowFollowUpSection(false);
-        window.alert("Appointment Successfully added")
+    
+        if (result.success) {
+            window.alert("Appointment Successfully added");
+        } else {
+            if (result.message === 'You already sent a follow-up request with the same date and time') {
+                window.alert(result.message);
+            } else if (result.message === 'Follow-up date is in the past') {
+                window.alert(result.message);
+            }
+        }
+    
+        setFollowUpDateTime('');
     };
+    
+    
 
     //Authenticate
     if (load) {
@@ -157,11 +182,9 @@ const ScheduleFollowUp = () => {
                 </tbody>
             </table>
             {showFollowUpSection && (
-                <div style={{ border: '1px solid #ccc', padding: '10px', margin: '10px', width:'800px',position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)' }}>
+                <div className={styles['div-schedule']}>
                     <h2>Follow Up Details</h2>
-                    <h4 style={{textAlign:'left'}}>Patient : </h4>
+                    <h4 >Patient : </h4>
                     <p> {selectedAppointment.patientUsername}</p>
                     <h4>Appointment Time:</h4>
                     <p> {selectedAppointment.appointmentTime}</p>
@@ -174,7 +197,7 @@ const ScheduleFollowUp = () => {
                     />
                     <br/>
                     <br/>
-                    <button style={{backgroundColor:'#052a51', color:"white"}} onClick={handleCreateFollowUp}>Submit Follow Up</button>
+                    <button className={styles['button-schedule']} onClick={handleCreateFollowUp}>Submit Follow Up</button>
                 </div>
             )}
         </div>
