@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+// Axios
+import axios from 'axios';
+
 
 const AppointmentsByDateViewDoctor = () => {
 
@@ -9,6 +13,45 @@ const AppointmentsByDateViewDoctor = () => {
     const [message, setMessage] = useState('');
     const [isSubmitClicked, setIsSubmitClicked] = useState(false);
     const [isDataFetched, setIsDataFetched] = useState(false);
+
+    const navigate = useNavigate();
+
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
+    
+    
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'doctor',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
+
+            });
+    }
+
+    const xTest = checkAuthentication();
+
+    //Authenticate part
 
     const buildFetchUrl = (chosenDate) => {
         return `http://localhost:5000/doctor/filterAppointmentsByDateForDoctor/filter?date=${chosenDate}`;
@@ -65,6 +108,11 @@ const AppointmentsByDateViewDoctor = () => {
         // Set showAppointments to true
         setShowAppointments(true);
     };
+
+    //Authenticate
+    if (load) {
+        return (<div>Loading</div>)
+    }
 
     // Render the component
     return (

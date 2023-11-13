@@ -34,10 +34,45 @@ const ViewDoctorInfo = () => {
     const [bookAppointment, setbookAppointment] = useState("")
     //const [doctorInfo , setDoctorInfo] = useState("")
     // const currentPatient = "ahmed";
-    const [username, setUsername] = useState("");
+    //const [username, setUsername] = useState("");
     const hourly_rate = doctor.hourly_rate;
 
+    //Authenticate part
     const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
+    
+    
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
+
+            });
+    }
+
+    const xTest = checkAuthentication();
+
+    //Authenticate part
 
     async function checkAuthentication() {
         await axios ({
@@ -140,6 +175,10 @@ const ViewDoctorInfo = () => {
       // console.log("doc info" , doctorInfo)
     }
 
+    //Authenticate
+    if (load) {
+      return (<div>Loading</div>)
+    }
 
     return (
       <div className={styles['patient-info-main-div']}>

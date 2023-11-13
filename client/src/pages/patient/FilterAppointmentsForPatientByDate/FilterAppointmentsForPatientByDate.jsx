@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
+// Axios
+import axios from 'axios';
+
 const AppointmentsByDateViewPatient = () => {
 
     // State variables
@@ -9,7 +12,44 @@ const AppointmentsByDateViewPatient = () => {
     const [message, setMessage] = useState('');
     const [isSubmitClicked, setIsSubmitClicked] = useState(false);
     const [isDataFetched, setIsDataFetched] = useState(false);
+    
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
+    
+    
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
 
+            });
+    }
+
+    const xTest = checkAuthentication();
+
+    //Authenticate part
+    
     const buildFetchUrl = (chosenDate) => {
         return `http://localhost:5000/patient/filterAppointmentsByDateForPatient/filter?date=${chosenDate}`;
     };
@@ -65,6 +105,12 @@ const AppointmentsByDateViewPatient = () => {
         // Set showAppointments to true
         setShowAppointments(true);
     };
+
+    //Authenticate
+    if (load) {
+        return (<div>Loading</div>)
+    }
+
 
     // Render the component
     return (

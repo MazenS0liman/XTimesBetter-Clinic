@@ -14,29 +14,44 @@ const ViewAppointments = () => {
     // State variables
     const [appointments, setAppointments] = useState([]);
     const [showAppointments, setShowAppointments] = useState(false);
-
-    const accessToken = sessionStorage.getItem("accessToken");
     const navigate = useNavigate();
 
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
+    
+    
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
     async function checkAuthentication() {
-        await axios ({
+        await axios({
             method: 'get',
-            url: `http://localhost:5000/authentication/checkAccessToken`,
+            url: 'http://localhost:5000/authentication/checkAccessToken',
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': accessToken,
                 'User-type': 'doctor',
             },
         })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-          navigate('/login');
-        });
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
+
+            });
     }
 
-    checkAuthentication();
+    const xTest = checkAuthentication();
+
+    //Authenticate part
 
     // function to filter appointments by status
     const getUpcomingAppointments = async (currentUser) => {
@@ -85,6 +100,11 @@ const ViewAppointments = () => {
         await getPastAppointments(currentUser);
         setShowAppointments(true);
     };
+
+    //Authenticate
+    if (load) {
+        return (<div>Loading</div>)
+    }
 
     // Render the component
     return (

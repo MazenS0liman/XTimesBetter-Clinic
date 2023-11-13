@@ -1,11 +1,51 @@
 import React, { useState, useEffect } from 'react';
 
+// Axios
+import axios from 'axios';
+
 const AppointmentsByStatusViewPatient = () => {
 
     // State variables
     const [appointments, setAppointments] = useState([]);
     const [showAppointments, setShowAppointments] = useState(false);
     const [status, setStatus] = useState('');
+
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
+    
+    
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
+
+            });
+    }
+
+    const xTest = checkAuthentication();
+
+    //Authenticate part
 
     const buildFetchUrl = (chosenStatus) => {
         return `http://localhost:5000/patient/filterAppointmentsByStatusForPatient/filterByStatus?status=${chosenStatus}`;
@@ -48,6 +88,11 @@ const AppointmentsByStatusViewPatient = () => {
         // Set showAppointments to true
         setShowAppointments(true);
     };
+
+    //Authenticate
+    if (load) {
+        return (<div>Loading</div>)
+    }
 
     // Render the component
     return (

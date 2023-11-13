@@ -30,6 +30,26 @@ const payAppointment = asyncHandler(async (req, res) => {
             const doctorAmount = doctorToPay.walletAmount+ 0.5*totalAmount;
             const updatedDoctorWallet = await doctors.findOneAndUpdate({ username: req.body.doctorUsername }, { walletAmount: doctorAmount });
             
+            // console.log('Available Time Slots Before:', doctorToPay.availableTimeSlots);
+
+            // const appointmentTimeAsString = new Date(req.body.appointmentSlot).toISOString();
+            
+            // const remainingTimeSlots = doctorToPay.availableTimeSlots.filter(slot => {
+            //     const slotAsString = new Date(slot).toISOString();
+            //     if (slotAsString === appointmentTimeAsString) {
+            //         return res.status(400).json({message: 'Appointment is already booked' , success: false});
+            //     }
+            //     return slotAsString !== appointmentTimeAsString;
+            // });
+
+            // const updatedDoctorSlots = await doctors.findOneAndUpdate({ username: req.body.doctorUsername }, {$push: { availableTimeSlots: req.body.appointmentSlot } },{ new: true } );
+        
+            // console.log('Available Time Slots After:', remainingTimeSlots);
+        
+            // doctorToPay.availableTimeSlots = remainingTimeSlots;
+        
+            // //console.log(doctor.availableTimeSlots)
+            // await doctorToPay.save();
             return res.status(201).json({message: ' Payment done' , success: true});
         }
     }
