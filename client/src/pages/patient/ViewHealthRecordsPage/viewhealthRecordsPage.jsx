@@ -56,6 +56,7 @@ const HealthRecords = () => {
       .then((response) => response.json())
       .then((data) => {
         setHealthRecords(data.healthRecords);
+        console.log(healthRecords);
       })
       .catch((error) => {
         console.error('Error fetching health records:', error);
@@ -69,7 +70,7 @@ const HealthRecords = () => {
   return (
     <div>
       <h2>Health Records</h2>
-{healthRecords.length > 0 ? (
+{ healthRecords && healthRecords.length > 0  ? (
   <ul>
     {healthRecords.map((record, index) => (
       <li key={index}>

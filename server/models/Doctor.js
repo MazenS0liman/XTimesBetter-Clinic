@@ -63,6 +63,7 @@ const DoctorSchema = mongoose.Schema({
     
     walletAmount:{
         type: Number,
+        default:0
 
     }
     

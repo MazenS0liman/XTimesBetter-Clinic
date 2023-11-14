@@ -10,7 +10,7 @@ const viewContract = async (req, res) => {
     const username = req.body.username;
     console.log(username);
     try {
-        const contract = await contractModel.find({ doctorName: username });
+        const contract = await contractModel.find({ username: username });
         if (!contract) {
             return res.status(404).json({ error: 'Doctor has no contract yet' });
         }
@@ -23,11 +23,11 @@ const viewContract = async (req, res) => {
 const acceptContract = async (req, res) => {
     const username = req.body.username;
     try {
-        const contract = await contractModel.find({ doctorName: username });
+        const contract = await contractModel.find({ username: username });
         if (!contract) {
             return res.status(404).json({ error: 'Doctor has no contract yet' });
         }
-        const newContract = await contractModel.findOneAndUpdate({ doctorName: username }, { accepted: true, status: "Accepted" }, { new: true })
+        const newContract = await contractModel.findOneAndUpdate({ username: username }, { accepted: true, status: "Accepted" }, { new: true })
         res.status(200).json(newContract);
     } catch (error) {
         res.status(500).json({ error: "Can't get your contract" });
@@ -37,11 +37,11 @@ const acceptContract = async (req, res) => {
 const rejectContract = async (req, res) => {
     const username = req.body.username;
     try {
-        const contract = await contractModel.find({ doctorName: username });
+        const contract = await contractModel.find({ username: username });
         if (!contract) {
             return res.status(404).json({ error: 'Doctor has no contract yet' });
         }
-        const newContract = await contractModel.findOneAndUpdate({ doctorName: username }, { accepted: false, status: "Rejected" }, { new: true })
+        const newContract = await contractModel.findOneAndUpdate({ username: username }, { accepted: false, status: "Rejected" }, { new: true })
         res.status(200).json(newContract);
     } catch (error) {
         res.status(500).json({ error: "Can't get your contract" });

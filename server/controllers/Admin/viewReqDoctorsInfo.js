@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 const doctorREQsModel = require('../../models/DoctorRequests');
 const doctorModel = require('../../models/Doctor');
-
+const contractModel= require('../../models/Contract');
 const viewReqDoctorsInfo = asyncHandler(async(req, res)=>{
     
     const requestedDoctors = await doctorREQsModel.find();
@@ -15,7 +15,14 @@ const viewReqDoctorsInfo = asyncHandler(async(req, res)=>{
 
 })
 const acceptDoctor = asyncHandler(async(req, res)=>{
+
     const doctorId = req.params.id;
+    const start_date= new Date();
+    const startDateStr=start_date.toISOString().split('T')[0];
+
+    const terminationDate=start_date;
+    terminationDate.setFullYear(terminationDate.getFullYear()+1);
+    const terminationDateStr=terminationDate.toISOString().split('T')[0];
     try {
         // Assuming you have a Mongoose model named "Doctor" representing doctors
         const doctor = await doctorREQsModel.findByIdAndUpdate(doctorId, { status: 'accepted' }, { new: true });
@@ -37,6 +44,17 @@ const acceptDoctor = asyncHandler(async(req, res)=>{
             nationalID:doctor.nationalID,
             medicalLicense:doctor.medicalLicense,
             medicalDegree:doctor.medicalDegree
+        })
+        const newContract= await contractModel.create({
+            doctorName:doctor.name,
+            username:doctor.username,
+            employmentDate:startDateStr,
+            terminationDate:terminationDateStr,
+            doctorFees:doctor.hourly_rate,
+            markupRate:10,
+            accepted:false,
+            status:"Pending"
+    
         })
         return res.status(200).json({ message: 'Doctor request is accepted successfully', doctor });
     } catch (error) {

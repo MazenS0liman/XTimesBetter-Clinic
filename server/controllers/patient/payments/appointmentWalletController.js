@@ -3,11 +3,13 @@ const patients = require('../../../models/Patient');
 const doctors = require('../../../models/Doctor');
 const appointment = require('../../../models/Appointment');
 const { default: mongoose } = require('mongoose');
+const contract = require('../../../models/Contract');
 
 const payAppointment = asyncHandler(async (req, res) => {
 
     const registeredPatient = await patients.findOne({ username: req.body.username });
     const doctorToPay = await doctors.findOne({ username: req.body.doctorUsername });
+    const doctorContract = await contract.findOne({username: req.body.doctorUsername});
 
     const totalAmount = req.body.appointmentPrice;
 
@@ -82,7 +84,7 @@ const payAppointment = asyncHandler(async (req, res) => {
 
             const newWalletAmout = patientWallet - totalAmount;
             const updatedPatient = await patients.findOneAndUpdate({ username: req.body.username }, { walletAmount: newWalletAmout });
-            const doctorAmount = doctorToPay.walletAmount + 0.5 * totalAmount;
+            const doctorAmount = doctorToPay.walletAmount + [1-(doctorContract.markupRate/100)] * totalAmount;
             const updatedDoctorWallet = await doctors.findOneAndUpdate({ username: req.body.doctorUsername }, { walletAmount: doctorAmount });
 
             return res.status(201).json({ message: ' Payment done', success: true });
