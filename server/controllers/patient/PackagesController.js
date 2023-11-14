@@ -111,14 +111,20 @@ const ViewPackage = async (req, res) => {
 
     //check if already subscribed
     const isSubs = await subsPackageModel.findOne({patient_username : patient_username , status:'subscribed'});
-    
+    var discount=0;
     try{
 
         if (!isSubs){
 
             //get price of subscription
             const package2=await packageModel.findOne({name:package_name});
-            const discount= await isMemberSubscribed(patient_username);
+
+            if (isExistingPatient=='true'){
+              discount= await isMemberSubscribed(patient_username);
+            }
+            else {
+              discount= await isMemberSubscribedDep(patient_username);
+            }
 
             var price =package2.price-(package2.price*(discount/100));
 
@@ -353,6 +359,45 @@ const ViewPackage = async (req, res) => {
     console.log(maxdiscount);
     return maxdiscount;
   };
+
+  //check if a certain user has a linked family member that has is subs to a package 
+ const isMemberSubscribedDep = async (patient_username) => {
+  const members = await depFamMemberModel.find({ national_id: patient_username});
+  var maxdiscount=0;
+  console.log(members);
+  for (const member of members) {
+     
+      const username=member.patient_username;
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set the time to the beginning of the day
+
+      const isSubs = await subsPackageModel
+      .find({
+            patient_username: username,
+            status: { $in: ['subscribed', 'cancelled'] },
+            end_date: { $gte: today } })
+      .sort({ start_date: -1 })
+      .limit(1);
+
+      console.log("hisalma");
+      console.log(isSubs);
+      //const isSubs = await subsPackageModel.findOne({patient_username : username , status:'subscribed'});
+      
+      if (isSubs.length>0){
+          const package_name=isSubs[0].package_name;
+          const package =  await packageModel.findOne({name:package_name});
+
+          if (package.family_discount>maxdiscount){
+              maxdiscount=package.family_discount;
+          }
+      }
+
+  }
+  console.log(maxdiscount);
+  return maxdiscount;
+};
+
 
 //get all patients
   const Allpatients = async (req, res) => {
