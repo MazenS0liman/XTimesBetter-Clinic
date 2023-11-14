@@ -91,11 +91,11 @@ const UploadRecords = () => {
     // formDataToSend.append('medicalDegree', medicalDegree);
      console.log(...formDataToSend)
     try {
-      const response = await fetch('http://localhost:5000/doctor/uploadHealthRecords', {
+      const response = await fetch(`http://localhost:5000/doctor/uploadHealthRecords/${formData.username}`, {
         method: 'POST',
-        // headers: {
-        //    'Content-Type': 'application/json',
-        // },
+        headers: {
+           'Authorization': accessToken,
+        },
         // body: JSON.stringify(formData),
         body: formDataToSend, // Use the FormData object
       });

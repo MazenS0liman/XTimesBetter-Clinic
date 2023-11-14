@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const patientModel = require('../../models/Patient');
+const AppointmentModel = require('../../models/Appointment');
 const asyncHandler = require('express-async-handler');
 const router = express.Router();
 
@@ -17,7 +18,11 @@ const storage = multer.diskStorage({
   });
 
   const uploadHealthRecord = asyncHandler(async (req, res) => {
-    console.log(req.body);
+    const username = req.params.user;
+    const doctorusername=req.body.username; // Retrieve the username from query parameters
+    //console.log(doctorusername);
+    console.log(`Patient Username: ${username}`);
+    console.log(`Doctor Username: ${doctorusername}`);
     console.log(req.files);
     try {
       // Use multer to handle file uploads
@@ -34,8 +39,11 @@ const storage = multer.diskStorage({
   
         // Your validation and registration logic here
         const patient = req.body;
+        const myPatients = await AppointmentModel.distinct('patient_username', { doctor_username: doctorusername, status: 'completed' });
+        const isFound= myPatients.includes(username);
+        console.log({username});
         const existingPatient = await patientModel.findOne({ username: patient.username });
-        if (!existingPatient) {
+        if (!existingPatient|| !isFound) {
           console.error('Patient not found');
           return res.status(400).json({ message: 'Patient not found', success: false });
         } else {
