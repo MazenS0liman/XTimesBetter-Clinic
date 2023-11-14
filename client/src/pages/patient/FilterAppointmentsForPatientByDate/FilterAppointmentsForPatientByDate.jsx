@@ -71,6 +71,7 @@ const AppointmentsByDateViewPatient = () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': accessToken,
             },
         });
 

@@ -15,7 +15,10 @@ const viewAppoinntments = async (req, res) => {
 const filterAppointmentsByDateForPatient = async (req, res) => {
     try {
         const entereddate = req.query.date
-        const appointmentsMade = await appointmentsModel.find({ date: entereddate })
+        //console.log(entereddate)
+        const appointments = req.body
+        //console.log("app" , appointments)
+        const appointmentsMade = await appointmentsModel.find({patient_username : appointments.username, date: entereddate })
         /*  if (appointmentsMade.length === 0) {
               return res.status(200).json({ message: "No appointments found for the entered date" });
           }*/
@@ -30,7 +33,12 @@ const filterAppointmentsByDateForPatient = async (req, res) => {
 const filterAppointmentsByStatusForPatient = async (req, res) => {
     try {
         const enteredstatus = req.query.status
-        const appointmentsFilteredByStatus = await appointmentsModel.find({ status: enteredstatus })
+        console.log("Status",enteredstatus)
+
+        const appointments = req.body
+        console.log("app" , appointments)
+
+        const appointmentsFilteredByStatus = await appointmentsModel.find({patient_username:appointments.username, status: enteredstatus })
         /* if (appointmentsFilteredByStatus.length === 0) {
              return res.status(200).json({ message: "No appointments found for the entered status" });
          }*/

@@ -43,7 +43,9 @@ const acceptDoctor = asyncHandler(async(req, res)=>{
             availableTimeSlots:doctor.availableTimeSlots,
             nationalID:doctor.nationalID,
             medicalLicense:doctor.medicalLicense,
-            medicalDegree:doctor.medicalDegree
+            medicalDegree:doctor.medicalDegree,
+            walletAmount:0
+
         })
         const newContract= await contractModel.create({
             doctorName:doctor.name,
