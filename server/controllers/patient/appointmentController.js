@@ -185,6 +185,15 @@ const getHourlyRateByNationalID = async (req, res) => {
     res.status(200).json(patient_hourlyRate);
 }
 
+// Get all appointments booked by me
+const getBookedAppointments = asyncHandler( async (req,res)=> {
+    const currentUser = req.body.username;
+    //console.log(currentUser)
+    const bookedAppointments = await appointmentModel.find({booked_by: currentUser})
+    //console.log(bookedAppointments)
+    res.status(200).json(bookedAppointments);
+})
+
 // Get all appointments
 const getAppointments = asyncHandler( async (req, res) => {
     const appointments = await appointmentModel.find({});
@@ -192,4 +201,4 @@ const getAppointments = asyncHandler( async (req, res) => {
 });
 
 
-module.exports = {createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getHourlyRateByUsername, getHourlyRateByNationalID};
+module.exports = {createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments,getBookedAppointments, getHourlyRateByUsername, getHourlyRateByNationalID};

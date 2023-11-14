@@ -96,7 +96,7 @@ const AddTimeSlots = () => {
       <form onSubmit={handleSubmit}>
         {/* Add form fields for each data attribute */}
         <div>
-          <label>Time slots (comma-separated):</label>
+          <label>Time slots (example if the date is 13/11 8 am: 2023-11-13T08:00:00):</label>
           <input
             type="text"
             name="availableTimeSlots"

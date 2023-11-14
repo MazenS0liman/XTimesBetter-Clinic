@@ -154,7 +154,14 @@ const getPastAppointments = asyncHandler( async (req, res) =>
     res.status(200).json({ message: 'Success', appointment: newAppointment, createdAppointment: true });
 });
 
+const getScheduledFollowUp = asyncHandler(async(req,res)=>{
+    const doctor = req.body.username
+    const followUps = await followUpModel.find({doctor_username:doctor})
+    //console.log(followUps)
+    res.status(200).json(followUps);
+})
+
 
   
   
-module.exports = {getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment};
+module.exports = {getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp};

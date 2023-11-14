@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const { createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getHourlyRateByUsername, getHourlyRateByNationalID } = require('../../controllers/patient/appointmentController');
+const { createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getHourlyRateByUsername, getHourlyRateByNationalID, getBookedAppointments } = require('../../controllers/patient/appointmentController');
 const { authenticateToken } = require('../../middleware/authenticateToken');
 
 // APIs
@@ -17,4 +17,8 @@ router.get('/getHourlyRateByUsername', getHourlyRateByUsername)
 
 //Get Hourly Rate By Patient Username
 router.get('/getHourlyRateByNationalID', getHourlyRateByNationalID)
+
+// Get all appointments booked by me 
+router.get('/bookedAppointments', authenticateToken, getBookedAppointments)
+
 module.exports = router;

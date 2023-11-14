@@ -17,14 +17,22 @@ else if (!contract || !contract.accepted) {
 } else if (!doctor) {
   return res.status(400).json({ message: 'Doctor not found, cannot add time slots', registeredIn: false });
 } else {
-  const newTimeSlots = req.body.availableTimeSlots; // Array of dates
-const invalidDates = newTimeSlots.filter(date => {
+ const newTimeSlots = req.body.availableTimeSlots; // Array of dates
+  const invalidDates = newTimeSlots.filter(date => {
     const currentDate = new Date(date);
-    return currentDate.getFullYear() < 2023 || currentDate.toString() === 'Invalid Date';
+  
+    // Check if the date is before today
+    const isPastDate = currentDate < new Date();
+  
+    return currentDate.getFullYear() < 2023 || currentDate.toString() === 'Invalid Date' || isPastDate;
   });
-
+  
   if (invalidDates.length > 0) {
-    return res.status(400).json({ message: 'Invalid date(s) entered', registeredIn: false, invalidDates });
+    return res.status(400).json({
+      message: 'Invalid date(s) entered. Dates should be today or in the future.',
+      registeredIn: false,
+      invalidDates,
+    });
   }
   const allTimeSlots= await doctorModel.distinct('availableTimeSlots', {username: myUsername});
   const found=allTimeSlots.includes(newTimeSlots);

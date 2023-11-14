@@ -13,6 +13,10 @@ const ScheduleFollowUp = () => {
     const [showFollowUpSection, setShowFollowUpSection] = useState(false);
     //const [username, setUsername] = useState(""); 
 
+    const [showTable, setShowTable] = useState(false);
+    const [scheduledFollowUps, setScheduled] = useState([]);
+    const [showAppointments, setShowAppointments] = useState(false);
+
     // const currentUser = "iaitchison1";
     const navigate = useNavigate();
     //Authenticate part
@@ -107,6 +111,24 @@ const ScheduleFollowUp = () => {
             return { success: false, message: 'Network error' };
         }
     };
+
+    // function to get past appointments
+    const getScheduledFollowUp = async (currentUser) => {
+        const response = await fetch(`http://localhost:5000/patient/appointment/FollowUpRequested`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': accessToken,
+            },
+        });
+
+        if (response.status === 200) {
+            const data = await response.json();
+            setAppointments(data);
+        } else {
+            throw new Error('Error filtering appointments by status');
+        }
+    };
     
     
 
@@ -142,7 +164,29 @@ const ScheduleFollowUp = () => {
         setFollowUpDateTime('');
     };
     
-    
+    const getScheduledAppointments = async (currentUser) => {
+        const response = await fetch(`http://localhost:5000/doctor/appointments/FollowUpRequested`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': accessToken,
+            },
+        });
+
+        if (response.status === 200) {
+            const data = await response.json();
+            setScheduled(data);
+            //console.log("data data", data)
+        } else {
+            throw new Error('Error filtering appointments by status');
+        }
+    };
+    const handleShowFollowUpBtn = async (event) => {
+        const currentUser = username
+        console.log(username)
+        await getScheduledAppointments(username);
+        setShowAppointments(true);
+    };
 
     //Authenticate
     if (load) {
@@ -153,6 +197,12 @@ const ScheduleFollowUp = () => {
     return (
         <div>
             <h2>Schedule Follow Up Appointment</h2>
+            <button className={styles['button-schedule']}  onClick={() => {
+                                handleShowFollowUpBtn();
+                                setShowTable(!showTable);
+                            }}> My Scheduled Follow Ups</button>
+            <br/>
+            <br/>
             <table>
                 <thead>
                     <tr>
@@ -171,7 +221,7 @@ const ScheduleFollowUp = () => {
                             <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
                             <td>{appointment.time}</td>
                             <td>
-                                <button
+                                <button className={styles['button-schedule']}
                                     onClick={() => handleScheduleFollowUp(appointment.patient_username, appointment.time)}
                                 >
                                     Schedule a Follow Up
@@ -179,8 +229,36 @@ const ScheduleFollowUp = () => {
                             </td>
                         </tr>
                     ))}
+                    
                 </tbody>
             </table>
+            <br/>
+            <br/>
+            {showTable && 
+                            <table>
+                            <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Patient</th>
+                                <th>Follow Up Date</th>
+                                <th>Appointment Date</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {scheduledFollowUps &&
+                                    scheduledFollowUps.map((followUp) => (
+                                        <tr key={followUp._id}>
+                                            <td>{followUp.doctor_username}</td>
+                                            <td>{followUp.patient_username}</td>
+                                            <td>{followUp.followUpDateTime}</td>
+                                            <td>{followUp.appointmentDateTime}</td>
+                                            <td>{followUp.status}</td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                        }
             {showFollowUpSection && (
                 <div className={styles['div-schedule']}>
                     <h2>Follow Up Details</h2>

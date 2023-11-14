@@ -54,9 +54,9 @@ const ViewAppointments = () => {
 
     //Authenticate part
 
-    // function to filter appointments by status
+    // function to get upcoming appointments
     const getUpcomingAppointments = async (currentUser) => {
-        const response = await fetch(`http://localhost:5000/patient/appointment//upcomingAppointments`, {
+        const response = await fetch(`http://localhost:5000/patient/appointment/upcomingAppointments`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -72,6 +72,7 @@ const ViewAppointments = () => {
         }
     };
 
+    // function to get past appointments
     const getPastAppointments = async (currentUser) => {
         const response = await fetch(`http://localhost:5000/patient/appointment/pastAppointments`, {
             method: 'GET',
@@ -89,18 +90,48 @@ const ViewAppointments = () => {
         }
     };
 
+    const getBookedAppointments = async (currentUser) => {
+        const response = await fetch(`http://localhost:5000/patient/appointment/bookedAppointments`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': accessToken,
+            },
+        });
+
+        if (response.status === 200) {
+            const data = await response.json();
+            setAppointments(data);
+        } else {
+            throw new Error('Error filtering appointments by status');
+        }
+    };
+
     // function to handle form submit
     const handleUpcomingAppointments = async (event) => {
-        const currentUser = "ahmed"
+        //const currentUser = "ahmed"
+        const currentUser = username
+        console.log(currentUser)
         await getUpcomingAppointments(currentUser);
+        
         setShowAppointments(true);
     };
 
     const handlePastAppointments = async (event) => {
-        const currentUser = "ahmed"
+        //const currentUser = "ahmed"
+        const currentUser = username
         await getPastAppointments(currentUser);
         setShowAppointments(true);
     };
+
+    const handleBookedAppointments = async (event) => {
+        //const currentUser = "ahmed"
+        const currentUser = username
+        await getBookedAppointments(currentUser);
+        setShowAppointments(true);
+    };
+
+   
 
     //Authenticate
     if (load) {
@@ -113,6 +144,7 @@ const ViewAppointments = () => {
             <h1>Appointments</h1>
             <button className={styles["button"]} type="submit" onClick={handleUpcomingAppointments}>Upcoming Appointments</button>
             <button className={styles["button-2"]} type="submit" onClick={handlePastAppointments}>Past Appointments</button>
+            <button className={styles["button-2"]} type="submit" onClick={handleBookedAppointments}>Booked Appointments</button>
             {showAppointments && 
                 
                 <table>
