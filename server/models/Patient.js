@@ -44,16 +44,20 @@ const PatientSchema = mongoose.Schema({
         type: [String],
         //required: false,
     },
-    walletAmount:{
+    walletAmount: {
         type: Number,
-        default:0
+        default: 0
     },
     healthRecords: {
         type: [String],
         default: [],
         required: false,
-    }
-   
+    },
+    deliveryAddress: {
+        type: [String],
+        default: [],
+    },
+
 }, { timestamps: true });
 
 
