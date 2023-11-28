@@ -32,7 +32,7 @@ import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 import TimeSlots from'../timeSlotsPage/timeSlots';
 import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
-
+import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/PrescriptionDoctorTable';
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 
@@ -128,7 +128,11 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewHealthPage",
             pageName: "Health Page",
-        }
+        },
+        {
+            url: "/doctor/PrescriptionDoctorTable",
+            pageName: "Prescript pg",
+        },
     ];
 
     if (load) {
@@ -153,6 +157,8 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/addTimeSlot" element={<TimeSlots />} />
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
+                    <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
+
                 </Routes>
             </>
         </div>

@@ -4,7 +4,7 @@ const { authenticateToken } = require('../../middleware/authenticateToken');
 // const { getPrescription } = require('../../controllers/patient/prescriptionsController');
 const { getMedicines,createPrescription,getPrescription,
     filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,
-    selectPrescriptionFromMyList} = require('../../controllers/patient/prescriptionsController');
+    selectPrescriptionFromMyList} = require('../../controllers/doctor/prescriptionsControllerDr');
 const router = express.Router()
 // router.get('/v', viewMyPrescriptions);
 //router.get('/:patient_username', getPrescription);

@@ -4,7 +4,7 @@ import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 import { useAuth } from '../../../components/hooks/useAuth';
 
-const PrescriptionTable = () => {
+const PrescriptionDoctorTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
   const [selectedPrescription, setSelectedPrescription] = useState([]);
@@ -51,7 +51,7 @@ const PrescriptionTable = () => {
   useEffect(() => {
     const fetchPrescriptionData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/patient/prescriptionDetails', {
+        const response = await axios.get('http://localhost:5000/doctor/prescriptionDetails', {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': accessToken,
@@ -145,7 +145,7 @@ const PrescriptionTable = () => {
         <table className={styles.prescriptionTable}>
           <thead>
             <tr>
-              {/* <th>Patient Username</th> */}
+              <th>Patient Username</th>
               <th>Doctor Username</th>
               <th>Visit Date</th>
               <th>Filled</th>
@@ -155,7 +155,7 @@ const PrescriptionTable = () => {
           <tbody>
         {prescriptionsToBeDisplay.map((prescription) => (
           <tr key={prescription._id}>
-            {/* <td>{prescription.patient_username}</td> */}
+            <td>{prescription.patient_username}</td>
             <td>{prescription.doctor_username}</td>
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
@@ -194,4 +194,4 @@ const PrescriptionTable = () => {
 </div>
 );
 }
-export default PrescriptionTable;
+export default PrescriptionDoctorTable;

@@ -9,6 +9,8 @@ const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/Admin/adminRoute.js');
 const doctorRoutes = require('./routes/doctor/timeSlotsRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
+const prescriptionDoctorRoutes= require('./routes/doctor/prescriptionsDr');
+
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 const multer = require('multer');
 const path = require('path');
@@ -112,6 +114,7 @@ app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
 app.use('/doctor/addTimeSlot', doctorRoutes);
 app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
 app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
+app.use('/doctor/prescriptionDetails', prescriptionDoctorRoutes);
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));

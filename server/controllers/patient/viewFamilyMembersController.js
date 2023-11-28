@@ -24,7 +24,6 @@ const patientModel = require('../../models/Patient.js');
 // }
 // module.exports = { viewFamilyMembers };
 const viewFamilyMembers = async (req, res) => {
-
     const username = req.query;
     //console.log(username);
     //retrieve family members for the passed patient username
