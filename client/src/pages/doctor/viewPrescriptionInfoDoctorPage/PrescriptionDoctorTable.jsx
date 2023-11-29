@@ -126,7 +126,7 @@ const PrescriptionDoctorTable = () => {
             <option value="all">No Filter</option>
             <option value="filled">Filled</option>
             <option value="unfilled">Unfilled</option>
-            <option value="doctor_username">Doctor Username</option>
+            {/* <option value="doctor_username">Doctor Username</option> */}
             <option value="visit_date">Visit Date</option>
           </select>
           &nbsp;&nbsp;
@@ -146,7 +146,7 @@ const PrescriptionDoctorTable = () => {
           <thead>
             <tr>
               <th>Patient Username</th>
-              <th>Doctor Username</th>
+              {/* <th>Doctor Username</th> */}
               <th>Visit Date</th>
               <th>Filled</th>
               <th>Select</th> {/* Add a column for selecting a prescription */}
@@ -156,7 +156,7 @@ const PrescriptionDoctorTable = () => {
         {prescriptionsToBeDisplay.map((prescription) => (
           <tr key={prescription._id}>
             <td>{prescription.patient_username}</td>
-            <td>{prescription.doctor_username}</td>
+            {/* <td>{prescription.doctor_username}</td> */}
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
