@@ -66,6 +66,7 @@ const PatientVisitLog = () => {
     const myPatientsList = myPatients;
 
     const redirectToWritePrescription = async (patientUsername, date, visitID) => {
+        sessionStorage.removeItem('prescriptionMeds');
         navigate('/doctor/addMedsToPrescription', { state: { patientUsername: patientUsername, visitDate: date, visitID: visitID } })
 
     };

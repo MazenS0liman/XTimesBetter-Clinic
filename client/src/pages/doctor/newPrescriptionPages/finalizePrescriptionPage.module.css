@@ -41,9 +41,31 @@
 
 .finalizeButtonContainer {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.backButton {
+    background-color: #88c1d4;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.finalizePrescriptionEditConfirm {
+    background-color: #dda600;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 8px;
 }
 
 .finalizePrescriptionSubmit {
@@ -61,7 +83,7 @@
 }
 
 .finalizePrescriptionEditConfirm {
-    background-color: rgb(124, 124, 124);
+    background-color: #dda600;
     color: white;
     border: none;
     padding: 10px 30px;

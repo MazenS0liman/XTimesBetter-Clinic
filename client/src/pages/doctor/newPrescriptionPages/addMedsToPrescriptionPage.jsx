@@ -55,10 +55,25 @@ const AddMedsToPrescription = () => {
     }, [location.state]);
 
     const [medicines, setMedicines] = useState([]);
-    const [prescriptionMeds, setPrescriptionMeds] = useState([]);
-    const [doseValues, setDoseValues] = useState({});
-    const [notesValues, setNotesValues] = useState({});
+    //const [prescriptionMeds, setPrescriptionMeds] = useState([]);
+    // const [doseValues, setDoseValues] = useState({});
+    // const [notesValues, setNotesValues] = useState({});
+    const prescriptionMedsFromSessionStorage = JSON.parse(sessionStorage.getItem('prescriptionMeds')) || [];
+    const [prescriptionMeds, setPrescriptionMeds] = useState(prescriptionMedsFromSessionStorage);
+    // Extract doseValues and notesValues from prescriptionMeds or use empty objects as default
+    const doseValuesFromSessionStorage = prescriptionMedsFromSessionStorage.reduce((acc, med) => {
+        acc[med.name] = med.dose;
+        return acc;
+    }, {});
 
+    const notesValuesFromSessionStorage = prescriptionMedsFromSessionStorage.reduce((acc, med) => {
+        acc[med.name] = med.timing;
+        return acc;
+    }, {});
+
+    // Set initial states using retrieved values
+    const [doseValues, setDoseValues] = useState(doseValuesFromSessionStorage);
+    const [notesValues, setNotesValues] = useState(notesValuesFromSessionStorage);
 
     useEffect(() => {
 
@@ -123,6 +138,8 @@ const AddMedsToPrescription = () => {
         navigate('/doctor/finalizePrescription', { state: { prescriptionMeds: prescriptionMeds, visitDate: visitDate, visitID: visitID, patientUsername: patientUsername } })
 
     };
+
+
 
     if (load) {
         return (<div>Loading</div>)

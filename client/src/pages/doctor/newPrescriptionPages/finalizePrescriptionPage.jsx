@@ -127,12 +127,17 @@ const FinalizePrescription = () => {
             }
             );
             console.log(response.data.message);
-            alert("Saved successfully!")
+            alert("Saved successfully!");
+            sessionStorage.removeItem('prescriptionMeds');
             navigate('/doctor/writePrescription');
 
         } catch (error) {
             console.error('Error saving prescription:', error.message);
         }
+    };
+
+    const redirectBack = () => {
+        navigate('/doctor/addMedsToPrescription', { state: { visitDate: visitDate, visitID: visitID, patientUsername: patientUsername } });
     };
 
     if (load) {
@@ -148,6 +153,8 @@ const FinalizePrescription = () => {
             </div>
             <div className={styles["finalizePrescriptionContainer"]}>
                 <div className={styles["finalizeButtonContainer"]}>
+                    <button className={styles["backButton"]} onClick={() => redirectBack()}>Back</button>
+
                     <button className={styles["finalizePrescriptionEditConfirm"]} onClick={() => setEditMode((prevMode) => !prevMode)}>
                         {editMode ? "Confirm" : "Edit"}
                     </button>
