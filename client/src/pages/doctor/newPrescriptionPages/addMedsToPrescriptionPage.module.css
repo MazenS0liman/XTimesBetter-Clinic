@@ -1,0 +1,69 @@
+.addMedsContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+
+.addMedsHeading {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.medsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tableHeader {
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align: left;
+}
+
+.tableCell {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: default;
+}
+
+
+.addButton {
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+.notesInput {
+    padding: 8px;
+}
+
+.outOfStock {
+    color: #FF0000;
+}
+
+.added {
+    color: rgb(2, 155, 51);
+}
+
+.addButton:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+
+}
+
+.redirectButton {
+    align-self: flex-end;
+}
+
+.detailsContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

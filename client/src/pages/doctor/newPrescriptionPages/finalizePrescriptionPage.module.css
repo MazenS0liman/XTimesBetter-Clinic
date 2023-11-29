@@ -1,0 +1,114 @@
+.finalizePrescriptionContainer {
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.finalizePrescriptionTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    cursor: default;
+
+}
+
+.finalizePrescriptionTable th,
+.finalizePrescriptionTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    cursor: default;
+
+}
+
+.finalizePrescriptionTable th {
+    background-color: #052c65;
+    color: white;
+    cursor: default;
+}
+
+
+.finalizePrescriptionInput {
+    padding: 8px;
+    width: 80%;
+    margin-right: 10px;
+}
+
+
+.finalizePrescriptionHeader {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.finalizeButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+
+}
+
+.finalizePrescriptionSubmit {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.finalizePrescriptionEditConfirm {
+    background-color: rgb(124, 124, 124);
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.finalizePrescriptionDelete {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 2px 2px;
+    cursor: pointer;
+}
+
+.finalizePrescriptionDeleteCell {
+    width: 1%;
+}
+
+.prescriptionReviewContainer {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    padding: 20px;
+}
+
+.prescriptionReviewTitle {
+    color: #052c65;
+    padding: 10px;
+    text-align: center;
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.prescriptionReviewItem {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    margin-left: 100px;
+    margin-bottom: 20px;
+}

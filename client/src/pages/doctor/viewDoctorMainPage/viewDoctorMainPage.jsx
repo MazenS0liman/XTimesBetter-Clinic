@@ -29,56 +29,62 @@ import ContractView from '../viewContractPage/ViewContract';
 import ViewWalletPage from '../viewWalletPage/viewDoctorWalletPage';
 import ViewAppointments from '../viewAppointmentsPage/viewAppointmentsPage';
 import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
-import TimeSlots from'../timeSlotsPage/timeSlots';
-import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
+import TimeSlots from '../timeSlotsPage/timeSlots';
+import UploadHealthRecords from '../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
+
+//Sprint3
+import PatientVisitLog from '../newPrescriptionPages/patientVisitLogPage';
+import AddMedsToPrescription from '../newPrescriptionPages/addMedsToPrescriptionPage';
+import FinalizePrescription from '../newPrescriptionPages/finalizePrescriptionPage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+
 
 
 export const ViewDoctorMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
     const navigate = useNavigate();
 
-     //Authenticate part
-  const accessToken = sessionStorage.getItem('accessToken');
-  const [load, setLoad] = useState(true);
-  const [username, setUsername] = useState('');
-  
-  console.log(accessToken);
-  useEffect(() => {
-      if (username.length != 0) {
-          setLoad(false);
-      }
-  }, [username]);
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
 
-  if (accessToken === undefined || accessToken === null || accessToken ===  "Bearer  " || accessToken === "" || accessToken === " " || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
+    console.log(accessToken);
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
 
-  async function checkAuthentication() {
-      await axios({
-          method: 'get',
-          url: 'http://localhost:5000/authentication/checkAccessToken',
-          headers: {
-              "Content-Type": "application/json",
-              'Authorization': accessToken,
-              'User-type': 'doctor',
-          },
-      })
-          .then((response) => {
-              console.log(response);
-              setUsername(response.data.username);
-              //setLoad(false);
-          })
-          .catch((error) => {
-              //setLoad(false);
-              navigate('/login');
+    if (accessToken === undefined || accessToken === null || accessToken === "Bearer  " || accessToken === "" || accessToken === " " || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
 
-          });
-  }
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'doctor',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
 
-  const xTest = checkAuthentication();
-//Authenticate part
+            });
+    }
+
+    const xTest = checkAuthentication();
+    //Authenticate part
 
     const list = [
         {
@@ -108,7 +114,7 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewWalletNumber",
             pageName: "View Wallet",
-        }, 
+        },
         {
             url: "/doctor/viewAppointmentsPage",
             pageName: "My Appointments",
@@ -128,7 +134,12 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewHealthPage",
             pageName: "Health Page",
-        }
+        },
+        //sprint3 ~ N
+        {
+            url: "/doctor/writePrescription",
+            pageName: "Write Prescription",
+        },
     ];
 
     if (load) {
@@ -137,7 +148,7 @@ export const ViewDoctorMainPage = () => {
     return (
         <div className={styles['main-div']}>
             {/* <Navbar name="Doctor" list={list} /> */}
-            <ResponsiveSideBar array={list}/>
+            <ResponsiveSideBar array={list} />
             <>
                 <Routes>
                     <Route path='/viewPatientsPage' element={<ViewPatients />} />
@@ -149,10 +160,13 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/viewContract" element={<ContractView />} />
                     <Route path="/viewWalletNumber" element={<ViewWalletPage />} />
                     <Route path="/viewAppointmentsPage" element={<ViewAppointments />} />
-                    <Route path="/scheduleFollowUpPage" element={<ScheduleFollowUp/>} />
+                    <Route path="/scheduleFollowUpPage" element={<ScheduleFollowUp />} />
                     <Route path="/addTimeSlot" element={<TimeSlots />} />
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
+                    <Route path="/writePrescription" element={<PatientVisitLog />} />
+                    <Route path="/addMedsToPrescription" element={<AddMedsToPrescription />} />
+                    <Route path="/finalizePrescription" element={<FinalizePrescription />} />
                 </Routes>
             </>
         </div>
