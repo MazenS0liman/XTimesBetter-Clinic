@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler');
 const patients = require('../../../models/Patient');
 const doctors = require('../../../models/Doctor');
-const appointment = require('../../../models/Appointment');
+const appointmentModel = require('../../../models/Appointment');
 const { default: mongoose } = require('mongoose');
 
 const stripe = require('stripe')(process.env.STRIPE_PRIV_KEY);
@@ -30,7 +30,7 @@ const payAppointment = asyncHandler(async (req, res) => {
             success_url: 'http://localhost:5173/patient/successPayment',
             cancel_url: 'http://localhost:5173/patient/unsuccessPayment'  // will change it
         })
-        const registeredPatient = await patients.findOne({ username: req.body.username });
+        const registeredPatient = await patients.findOne({ bookedUsername: req.body.username });
         const doctorToPay = await doctors.findOne({ username: req.body.doctorUsername });
 
         const totalAmount = req.body.appointmentPrice;
@@ -39,7 +39,7 @@ const payAppointment = asyncHandler(async (req, res) => {
         if (registeredPatient) {
             // console.log(registeredPatient);
 
-            console.log('Available Time Slots Before:', doctorToPay.availableTimeSlots);
+           // console.log('Available Time Slots Before:', doctorToPay.availableTimeSlots);
 
             const appointmentTimeAsString = new Date(req.body.appointmentSlot).toISOString();
 
@@ -65,7 +65,7 @@ const payAppointment = asyncHandler(async (req, res) => {
             // console.log("Flag: ", flag);
 
             if (!flag) {
-                const removeAppointment = await appointment.findOneAndDelete({ _id: new mongoose.Types.ObjectId(req.body.rowId) });
+               // const removeAppointment = await appointment.findOneAndDelete({ _id: new mongoose.Types.ObjectId(req.body.rowId) });
                 return res.status(400).json({ message: 'Appointment is unfortunately booked! ', success: false });
             }
             else {
@@ -78,7 +78,7 @@ const payAppointment = asyncHandler(async (req, res) => {
 
                 const updatedDoctorSlots = await doctors.findOneAndUpdate({ username: req.body.doctorUsername }, { $push: { availableTimeSlots: req.body.appointmentSlot } }, { new: true });
 
-                console.log('Available Time Slots After:', remainingTimeSlots);
+               // console.log('Available Time Slots After:', remainingTimeSlots);
 
                 doctorToPay.availableTimeSlots = remainingTimeSlots;
 
@@ -87,6 +87,19 @@ const payAppointment = asyncHandler(async (req, res) => {
 
                 const doctorAmount = doctorToPay.walletAmount + 0.5 * totalAmount;
                 const updatedDoctorWallet = await doctors.findOneAndUpdate({ username: req.body.doctorUsername }, { walletAmount: doctorAmount });
+                const appointment = {
+                    patient_username: req.body.patientUsername,
+                    doctor_username: req.body.doctorUsername,
+                    date: req.body.appointmentDate,
+                    status: 'upcoming',
+                    time: req.body.appointmentSlot,
+                    name:  req.body.name,
+                    price: req.body.appointmentPrice,
+                    booked_by: req.body.bookedUsername,
+                    
+    
+                 };
+                 const newAppointment = await appointmentModel.create(appointment);
 
                 // console.log("patient amount,",newWalletAmout)
                 // console.log("doctor amount,",doctorAmount)

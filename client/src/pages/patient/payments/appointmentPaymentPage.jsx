@@ -46,14 +46,17 @@ function AppointmentPayment() {
         return (<div>Loading</div>);
     }
 
+
     const receivedInfo = {
-        appointmentDate: location.state.appointmentDate,
+        appointmentDate: location.state.date,
         doctorName: location.state.doctorName,
-        doctorUsername: location.state.doctorUsername, 
-        appointmentPrice: location.state.appointmentPrice,
-        appointmentSlot : location.state.appointmentSlot,
-        username: location.state.patient_username,
-        rowId : location.state.rowID
+        doctorUsername: location.state.doctor_username, 
+        appointmentPrice: location.state.price,
+        appointmentSlot : location.state.time,
+        name:  location.state.name ,
+        patientUsername: location.state.patient_username,
+        bookedUsername: location.state.booked_by,
+       
     };
     // console.log("receivedInfo",receivedInfo);
 

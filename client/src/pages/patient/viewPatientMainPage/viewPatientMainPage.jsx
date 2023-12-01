@@ -154,7 +154,8 @@ export const ViewPatientMainPage = () => {
         }
     ];
 
-    if (accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
+    if (  accessToken=== null ||accessToken=== undefined || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
+    // if (  accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
     if (load) {
         return (<div>Loading</div>)
     }

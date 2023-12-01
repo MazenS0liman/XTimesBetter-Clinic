@@ -184,53 +184,68 @@ const BookAppointmentForm = () => {
 
         const appointmentData = {
             doctor_username: appointment.doctorUsername ,
+            doctorName: appointment.doctorName ,
             patient_username: username,
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
             // To be edited to include the patient name , which in this case is the currently logged in client
             name: username ,
             price: hourlyRate,
-            booked_by: username
+            booked_by: username, 
+            
         };
 
-        // console.log("appointment data",appointmentData)
+        navigate('/patient/appointmentPayment', { state: appointmentData });
 
-        try {
-            const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(appointmentData),
-            });
+        // const appointmentData = {
+        //     doctor_username: appointment.doctorUsername ,
+        //     patient_username: username,
+        //     date: appointment.bookAppointment.date,
+        //     time: appointment.bookAppointment.appointment,
+        //     // To be edited to include the patient name , which in this case is the currently logged in client
+        //     name: username ,
+        //     price: hourlyRate,
+        //     booked_by: username
+        // };
 
-            if (response.ok) {
-                const result = await response.json();
-                // console.log("from fE" , result.rowAppointmentID)
-                setRowID(result.rowAppointmentID)
+        // // console.log("appointment data",appointmentData)
+
+        // try {
+        //     const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(appointmentData),
+        //     });
+
+        //     if (response.ok) {
+        //         const result = await response.json();
+        //         // console.log("from fE" , result.rowAppointmentID)
+        //         setRowID(result.rowAppointmentID)
                 
-                console.log(result);
-                const stateInfo = {
-                    appointmentDate : appointment.bookAppointment.date ,
-                    doctorName: appointment.doctorName ,
-                    doctorUsername: appointment.doctorUsername,
-                    appointmentPrice : hourlyRate ,
-                    appointmentSlot :appointment.bookAppointment.appointment,
-                    patient_username : username ,
-                    rowID : result.rowAppointmentID
-                  }
+        //         console.log(result);
+        //         const stateInfo = {
+        //             appointmentDate : appointment.bookAppointment.date ,
+        //             doctorName: appointment.doctorName ,
+        //             doctorUsername: appointment.doctorUsername,
+        //             appointmentPrice : hourlyRate ,
+        //             appointmentSlot :appointment.bookAppointment.appointment,
+        //             patient_username : username ,
+        //             rowID : result.rowAppointmentID
+        //           }
                     
-                navigate('/patient/appointmentPayment', { state: stateInfo });
+        //         navigate('/patient/appointmentPayment', { state: stateInfo });
         
-                // console.log("State Info", stateInfo)
+        //         // console.log("State Info", stateInfo)
                 
-            } else {
-                const errorData = await response.json();
-                console.error('Error:', errorData.message);
-            }
-        } catch (error) {
-            console.error('Network error:', error.message);
-        }
+        //     } else {
+        //         const errorData = await response.json();
+        //         console.error('Error:', errorData.message);
+        //     }
+        // } catch (error) {
+        //     console.error('Network error:', error.message);
+        // }
     } 
 
     const submitUnlinkedFamilyMemberAppointment = async () => {
@@ -244,6 +259,7 @@ const BookAppointmentForm = () => {
         
         const appointmentData = {
             doctor_username: appointment.doctorUsername ,
+            doctorName: appointment.doctorName ,
             patient_username: fmNationalID,
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
@@ -252,41 +268,43 @@ const BookAppointmentForm = () => {
             booked_by: username
         };
 
-        // console.log(appointmentData)
-        try {
-            const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(appointmentData),
-            });
+        navigate('/patient/appointmentPayment', { state: appointmentData });
 
-            if (response.ok) {
-                const result = await response.json();
-                console.log("from fE" , result.rowAppointmentID)
-                setRowID(result.rowAppointmentID)
-                console.log(result);
-                const stateInfo = {
-                    appointmentDate : appointment.bookAppointment.date ,
-                    doctorName: appointment.doctorName ,
-                    doctorUsername: appointment.doctorUsername,
-                    appointmentPrice : hourlyRate ,
-                    appointmentSlot :appointment.bookAppointment.appointment,
-                    patient_username : username ,
-                    rowID : result.rowAppointmentID
-                  }
+        // console.log(appointmentData)
+        // try {
+        //     const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(appointmentData),
+        //     });
+
+        //     if (response.ok) {
+        //         const result = await response.json();
+        //         console.log("from fE" , result.rowAppointmentID)
+        //         setRowID(result.rowAppointmentID)
+        //         console.log(result);
+        //         const stateInfo = {
+        //             appointmentDate : appointment.bookAppointment.date ,
+        //             doctorName: appointment.doctorName ,
+        //             doctorUsername: appointment.doctorUsername,
+        //             appointmentPrice : hourlyRate ,
+        //             appointmentSlot :appointment.bookAppointment.appointment,
+        //             patient_username : username ,
+        //             rowID : result.rowAppointmentID
+        //           }
                     
-                navigate('/patient/appointmentPayment', { state: stateInfo });
+        //         navigate('/patient/appointmentPayment', { state: stateInfo });
         
-                // console.log("State Info", stateInfo)
-            } else {
-                const errorData = await response.json();
-                console.error('Error:', errorData.message);
-            }
-        } catch (error) {
-            console.error('Network error:', error.message);
-        }
+        //         // console.log("State Info", stateInfo)
+        //     } else {
+        //         const errorData = await response.json();
+        //         console.error('Error:', errorData.message);
+        //     }
+        // } catch (error) {
+        //     console.error('Network error:', error.message);
+        // }
     } 
 
     const submitLinkedFamilyMemberAppointment = async () => {
@@ -300,6 +318,7 @@ const BookAppointmentForm = () => {
         
         const appointmentData = {
             doctor_username: appointment.doctorUsername ,
+            doctorName: appointment.doctorName ,
             patient_username: linkedfmUsername,
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
@@ -308,41 +327,43 @@ const BookAppointmentForm = () => {
             booked_by: username
         };
 
-        console.log(appointmentData)
-        try {
-            const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(appointmentData),
-            });
+        navigate('/patient/appointmentPayment', { state: appointmentData });
 
-            if (response.ok) {
-                const result = await response.json();
-                // console.log("from fE" , result.rowAppointmentID)
-                setRowID(result.rowAppointmentID)
-                // console.log(result);
-                const stateInfo = {
-                    appointmentDate : appointment.bookAppointment.date ,
-                    doctorName: appointment.doctorName ,
-                    doctorUsername: appointment.doctorUsername,
-                    appointmentPrice : hourlyRate ,
-                    appointmentSlot :appointment.bookAppointment.appointment,
-                    patient_username : username ,
-                    rowID : result.rowAppointmentID
-                  }
+        // console.log(appointmentData)
+        // try {
+        //     const response = await fetch('http://localhost:5000/patient/appointment/createAppointment', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(appointmentData),
+        //     });
+
+        //     if (response.ok) {
+        //         const result = await response.json();
+        //         // console.log("from fE" , result.rowAppointmentID)
+        //         setRowID(result.rowAppointmentID)
+        //         // console.log(result);
+        //         const stateInfo = {
+        //             appointmentDate : appointment.bookAppointment.date ,
+        //             doctorName: appointment.doctorName ,
+        //             doctorUsername: appointment.doctorUsername,
+        //             appointmentPrice : hourlyRate ,
+        //             appointmentSlot :appointment.bookAppointment.appointment,
+        //             patient_username : username ,
+        //             rowID : result.rowAppointmentID
+        //           }
                     
-                navigate('/patient/appointmentPayment', { state: stateInfo });
+        //         navigate('/patient/appointmentPayment', { state: stateInfo });
         
-                console.log("State Info", stateInfo)
-            } else {
-                const errorData = await response.json();
-                console.error('Error:', errorData.message);
-            }
-        } catch (error) {
-            console.error('Network error:', error.message);
-        }
+        //         console.log("State Info", stateInfo)
+        //     } else {
+        //         const errorData = await response.json();
+        //         console.error('Error:', errorData.message);
+        //     }
+        // } catch (error) {
+        //     console.error('Network error:', error.message);
+        // }
     }
     
     const handleSubmit = () => {
