@@ -3,6 +3,7 @@ import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 import { useAuth } from '../../../components/hooks/useAuth';
+import { jsPDF } from "jspdf";
 
 const PrescriptionTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -44,6 +45,48 @@ const PrescriptionTable = () => {
 
          });
  }
+ const generatePDF = (prescription) => {
+  const doc = new jsPDF({
+    orientation: 'p',
+    unit: 'mm',
+    format: [310, 270]
+  });
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  // Title
+  doc.setFontSize(19);
+  doc.text('Prescription Details', pageWidth / 2, 20, { align: 'center' });
+
+  // Subtitle
+  doc.setFontSize(14);
+  doc.text(`Prescription From Dr.${prescription.doctor_username}`, pageWidth / 2, 30, { align: 'center' });
+
+  // Body
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+
+  const bodyStartY = 40;
+  // doc.text(`Doctor: ${prescription.doctor_username}`, 20, bodyStartY+10);
+  doc.text(`Visit Date: ${prescription.visit_date}`, 20, bodyStartY + 10);
+  doc.text(`Filled: ${prescription.filled ? 'Yes' : 'No'}`, 20, bodyStartY + 20);
+
+  // Medicines Section
+  doc.setFont(undefined, 'bold');
+  doc.text('Medicines:', 20, bodyStartY + 30);
+  doc.setFont(undefined, 'normal');
+
+  prescription.medicines.forEach((medicine, index) => {
+    const y = bodyStartY + 40 + (10 * index);
+    doc.text(`- ${medicine.name}`, 30, y);
+    doc.text(`Dose: ${medicine.dose}`, 80, y);
+    doc.text(`Timing: ${medicine.timing}`, 130, y);
+    doc.text(`Price: ${medicine.price}`, 230, y);
+  });
+
+  // Save the PDF
+  doc.save(`prescription_${prescription.patient_username}.pdf`);
+};
+
 
  const xTest = checkAuthentication();
 //Authenticate part
@@ -149,7 +192,9 @@ const PrescriptionTable = () => {
               <th>Doctor Username</th>
               <th>Visit Date</th>
               <th>Filled</th>
-              <th>Select</th> {/* Add a column for selecting a prescription */}
+              <th>Select</th> {/* selecting a prescription */}
+              <th>Download As PDF</th> {/* downloading prescription as pdf*/}
+
             </tr>
           </thead>
           <tbody>
@@ -161,6 +206,9 @@ const PrescriptionTable = () => {
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
               <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
+            </td>
+            <td>
+              <button onClick={() => generatePDF(prescription)}>Download</button>
             </td>
           </tr>
         ))}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 import { useAuth } from '../../../components/hooks/useAuth';
+import { jsPDF } from "jspdf";
 
 const PrescriptionDoctorTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -115,7 +116,66 @@ const PrescriptionDoctorTable = () => {
     setSelectedPrescription([]);
     setShowModal(false);
   };
+  // const generatePDF = (prescription) => {
+  //   const doc = new jsPDF();
+  
+  //   // Add content to the PDF
+  //   doc.text(`Patient Username: ${prescription.patient_username}`, 10, 10);
+  //   // doc.text(`Doctor Username: ${prescription.doctor_username}`, 10, 20);
+  //   doc.text(`Filled: ${prescription.filled ? 'Yes' : 'No'}`, 10, 30); 
+  //   doc.text(`Visit Date: ${prescription.visit_date}`, 10, 40); 
+  //   doc.text('Medicines:', 10, 50);
+  //   prescription.medicines.forEach((medicine, index) => {
+  //     const y = 60 + (10 * index); // Adjusted Y position to accommodate the new line
+  //     doc.text(`- ${medicine.name}, Dose: ${medicine.dose}, Timing: ${medicine.timing}, Price: ${medicine.price}`, 10, y);
+  //   });
+  
+  //   // Save the PDF
+  //   doc.save(`prescription_${prescription.patient_username}.pdf`);
+  // };
+  const generatePDF = (prescription) => {
+    const doc = new jsPDF({
+      orientation: 'p',
+      unit: 'mm',
+      format: [310, 270]
+    });
+    const pageWidth = doc.internal.pageSize.getWidth();
+  
+    // Title
+    doc.setFontSize(19);
+    doc.text('Prescription Details', pageWidth / 2, 20, { align: 'center' });
+  
+    // Subtitle
+    doc.setFontSize(14);
+    doc.text(`Prescription for ${prescription.patient_username}`, pageWidth / 2, 30, { align: 'center' });
+  
+    // Body
+    doc.setFontSize(12);
+    doc.setFont(undefined, 'normal');
+  
+    const bodyStartY = 40;
+    // doc.text(`Doctor: ${prescription.doctor_username}`, 20, bodyStartY);
+    doc.text(`Visit Date: ${prescription.visit_date}`, 20, bodyStartY + 10);
+    doc.text(`Filled: ${prescription.filled ? 'Yes' : 'No'}`, 20, bodyStartY + 20);
 
+    // Medicines Section
+    doc.setFont(undefined, 'bold');
+    doc.text('Medicines:', 20, bodyStartY + 30);
+    doc.setFont(undefined, 'normal');
+  
+    prescription.medicines.forEach((medicine, index) => {
+      const y = bodyStartY + 40 + (10 * index);
+      doc.text(`- ${medicine.name}`, 30, y);
+      doc.text(`Dose: ${medicine.dose}`, 80, y);
+      doc.text(`Timing: ${medicine.timing}`, 130, y);
+      doc.text(`Price: ${medicine.price}`, 230, y);
+    });
+  
+    // Save the PDF
+    doc.save(`prescription_${prescription.patient_username}.pdf`);
+  };
+  
+  
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -150,6 +210,9 @@ const PrescriptionDoctorTable = () => {
               <th>Visit Date</th>
               <th>Filled</th>
               <th>Select</th> {/* Add a column for selecting a prescription */}
+              <th>Download As PDF</th> {/* Add a column for downloading prescription as pdf*/}
+              {/* <th>Update</th> Add a column for downloading prescription as pdf */}
+
             </tr>
           </thead>
           <tbody>
@@ -162,6 +225,10 @@ const PrescriptionDoctorTable = () => {
             <td>
               <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
             </td>
+            <td>
+              <button onClick={() => generatePDF(prescription)}>Download</button>
+            </td>
+
           </tr>
         ))}
       </tbody>
