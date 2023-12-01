@@ -4,6 +4,7 @@ import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 import { useAuth } from '../../../components/hooks/useAuth';
 import { jsPDF } from "jspdf";
+import { useNavigate } from 'react-router-dom';
 
 const PrescriptionDoctorTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -17,7 +18,8 @@ const PrescriptionDoctorTable = () => {
  const accessToken = sessionStorage.getItem('accessToken');
  const [load, setLoad] = useState(true);
  const [username, setUsername] = useState('');
- 
+ const navigate = useNavigate();
+
  console.log(accessToken);
  useEffect(() => {
      if (username.length != 0) {
@@ -31,7 +33,7 @@ const PrescriptionDoctorTable = () => {
          headers: {
              "Content-Type": "application/json",
              'Authorization': accessToken,
-             'User-type': 'patient',
+             'User-type': 'doctor',
          },
      })
          .then((response) => {
@@ -175,7 +177,10 @@ const PrescriptionDoctorTable = () => {
     doc.save(`prescription_${prescription.patient_username}.pdf`);
   };
   
-  
+
+  const handleUpdateClick = (prescriptionId) => {
+    navigate(`/doctor/update-prescription/${prescriptionId}`);
+ };
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -211,7 +216,7 @@ const PrescriptionDoctorTable = () => {
               <th>Filled</th>
               <th>Select</th> {/* Add a column for selecting a prescription */}
               <th>Download As PDF</th> {/* Add a column for downloading prescription as pdf*/}
-              {/* <th>Update</th> Add a column for downloading prescription as pdf */}
+              <th>Update</th> {/*Add a column for downloading prescription as pdf*/}
 
             </tr>
           </thead>
@@ -228,6 +233,15 @@ const PrescriptionDoctorTable = () => {
             <td>
               <button onClick={() => generatePDF(prescription)}>Download</button>
             </td>
+            <td>
+            <button 
+              onClick={() => handleUpdateClick(prescription._id)}
+              disabled={prescription.filled} 
+            >
+              Update
+            </button>
+          </td>
+
 
           </tr>
         ))}
@@ -235,27 +249,36 @@ const PrescriptionDoctorTable = () => {
     </table>
   </div>
   {showModal && selectedPrescription && (
-    <div className={styles.modal}>
-      <div className={styles.modalContent}>
-        <span className={styles.closeButton} onClick={closePrescriptionModal}>
-          &times;
-        </span>
-        <div className={styles.additionalInfo}>
-          <p>Selected Successfully</p>
-        </div>
-        <h2>Prescription Details</h2>
-        <ul>
-          {selectedPrescription.medicines.map((medicine, index) => (
-            <li key={index}>
-      <span className={styles.label}>Name:</span> {medicine.name}<br />
-      <span className={styles.label}>Dose:</span> {medicine.dose}<br />
-      <span className={styles.label}>Timing:</span> {medicine.timing}<br />
-      <span className={styles.label}>Price:</span> {medicine.price}<br />
-
-    </li>
-          ))}
-        </ul>
+  <div className={styles.model}>
+    <div className={styles.modalContent}>
+      <span className={styles.closeButton} onClick={closePrescriptionModal}>
+        &times;
+      </span>
+      <div className={styles.additionalInfo}>
+        <p>Selected Successfully</p>
       </div>
+      <h2>Prescription Details</h2>
+      <table className={styles.prescriptionDetailsTable}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Dose</th>
+            <th>Timing</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedPrescription.medicines.map((medicine, index) => (
+            <tr key={index}>
+              <td>{medicine.name}</td>
+              <td>{medicine.dose}</td>
+              <td>{medicine.timing}</td>
+              <td>{medicine.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
     </div>
   )}
 </div>

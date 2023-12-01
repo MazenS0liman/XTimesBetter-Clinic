@@ -33,8 +33,10 @@ import TimeSlots from'../timeSlotsPage/timeSlots';
 import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
 import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/PrescriptionDoctorTable';
+// import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 
 
 export const ViewDoctorMainPage = () => {
@@ -158,7 +160,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
                     <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
-
+                    <Route path="/doctor/update-prescription" element={<UpdatePrescriptionPage />} />
                 </Routes>
             </>
         </div>
