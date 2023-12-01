@@ -281,6 +281,10 @@ const PrescriptionDoctorTable = () => {
               <td>{medicine.price}</td>
             </tr>
           ))}
+                <br />
+                <br />
+                <br />
+
         </tbody>
       </table>
     </div>
