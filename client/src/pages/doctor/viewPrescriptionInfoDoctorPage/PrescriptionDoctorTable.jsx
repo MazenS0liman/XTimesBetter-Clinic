@@ -251,9 +251,14 @@ const PrescriptionDoctorTable = () => {
   {showModal && selectedPrescription && (
   <div className={styles.model}>
     <div className={styles.modalContent}>
-      <span className={styles.closeButton} onClick={closePrescriptionModal}>
+      {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
         &times;
-      </span>
+      </span> */}
+      <br />
+
+      <button className={styles.closeButton} onClick={closePrescriptionModal}>
+        Close
+      </button>
       <div className={styles.additionalInfo}>
         <p>Selected Successfully</p>
       </div>
