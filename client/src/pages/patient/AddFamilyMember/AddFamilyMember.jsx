@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from 'react';
+// Axios
 import axios from 'axios';
+
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
+// React Router DOM
+import { useNavigate } from 'react-router-dom';
 
 const AddFamilyMember = () => {
 
+    const accessToken = sessionStorage.getItem('accessToken');
     const [name, setName] = useState('');
     const [national_id, setnational_id] = useState('');
     const [age, setAge] = useState('');
@@ -12,13 +20,35 @@ const AddFamilyMember = () => {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const navigate = useNavigate();
+
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: `http://localhost:5000/authentication/checkAccessToken`,
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                navigate('/login');
+            });
+    }
+
+    checkAuthentication();
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setMessage('');
         setError('');
 
-        if (!name || !national_id || !age || !gender || !relation || !patient_username) {
+        if (!name || !national_id || !age || !gender || !relation) {
             setError('Please fill in all of the required fields.');
 
             return;
@@ -30,13 +60,14 @@ const AddFamilyMember = () => {
             age,
             gender,
             relation,
-            patient_username,
+
         };
         try {
             const response = await fetch('http://localhost:5000/patient/addFamilyMember', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': accessToken,
                 },
                 body: JSON.stringify(familyMember),
 
@@ -53,7 +84,7 @@ const AddFamilyMember = () => {
                 setAge('');
                 setGender('');
                 setRelation('');
-                setpatient_username('');
+                // setpatient_username('');
 
                 const data = await response.json();
                 if (data.length === 0) {
@@ -119,12 +150,6 @@ const AddFamilyMember = () => {
                     <option value="children">Children</option>
                 </select>
 
-                <input
-                    type="text"
-                    placeholder="Patient Username"
-                    value={patient_username}
-                    onChange={(e) => setpatient_username(e.target.value)}
-                />
 
                 <button type="submit">Submit</button>
             </form>

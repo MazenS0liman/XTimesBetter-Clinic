@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './FilterAppointmentsForDoctorByDate.module.css'
 import { useLocation, useNavigate } from 'react-router-dom';
 // Axios
 import axios from 'axios';
@@ -20,8 +21,8 @@ const AppointmentsByDateViewDoctor = () => {
     const accessToken = sessionStorage.getItem('accessToken');
     const [load, setLoad] = useState(true);
     const [username, setUsername] = useState('');
-    
-    
+
+
     useEffect(() => {
         if (username.length != 0) {
             setLoad(false);
@@ -54,8 +55,17 @@ const AppointmentsByDateViewDoctor = () => {
     //Authenticate part
 
     const buildFetchUrl = (chosenDate) => {
-        return `http://localhost:5000/doctor/filterAppointmentsByDateForDoctor/filter?date=${chosenDate}`;
+        const formattedDate = formatDate(chosenDate);
+        return `http://localhost:5000/doctor/filterAppointmentsByDateForDoctor/filter?date=${encodeURIComponent(formattedDate)}`;
     };
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
+
 
     // useEffect hook to fetch appointments when showAppointments is true
     useEffect(() => {
@@ -120,31 +130,30 @@ const AppointmentsByDateViewDoctor = () => {
         <div>
             <h1>Filter Appointments by Date</h1>
 
-
             <form onSubmit={handleSubmit}>
-                <h2>Enter Date        :
-
+                <h2>
+                    Enter Date:
                     <input
-                        type="text"
-                        placeholder="dd/mm/yyyy"
+                        type="date" // Change to date type
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-
                     />
+
                     <button type="submit">Filter</button>
                 </h2>
-
-
             </form>
+
             {message && <p>{message}</p>}
-            {isDataFetched && showAppointments && appointments.map((appointment) => (
-                <p key={appointment._id}>
-                    <h2>Patient:{appointment.patient_username}</h2>
-                    <p>Doctor: {appointment.doctor_username}</p>
-                    <p>Date: {appointment.date}</p>
-                    <p>Status: {appointment.status}</p>
-                </p>
-            ))}
+            {isDataFetched &&
+                showAppointments &&
+                appointments.map((appointment) => (
+                    <p key={appointment._id}>
+                        <h2>Patient:{appointment.patient_username}</h2>
+                        <p>Doctor: {appointment.doctor_username}</p>
+                        <p>Date: {appointment.date}</p>
+                        <p>Status: {appointment.status}</p>
+                    </p>
+                ))}
         </div>
     );
 };

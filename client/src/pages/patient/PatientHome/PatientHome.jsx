@@ -177,15 +177,52 @@ export default FamilyView;*/
 
 import React, { useState, useEffect } from 'react';
 
-const FamilyView = () => {
+// Axios
+import axios from 'axios';
 
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
+// React Router DOM
+import { useNavigate } from 'react-router-dom';
+
+
+const FamilyView = () => {
+    const accessToken = sessionStorage.getItem('accessToken');
     const [familyMembers, setFamilyMembers] = useState([]);
     const [showFamilyMembers, setShowFamilyMembers] = useState(false);
+    const navigate = useNavigate();
+
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: `http://localhost:5000/authentication/checkAccessToken`,
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                navigate('/login');
+            });
+    }
+
+    checkAuthentication();
 
     useEffect(() => {
         const fetchFamilyMembers = async () => {
-            const response = await fetch('http://localhost:5000/patient/viewFamilyMembers?username=NayeraMahran');
-            console.log("anaaaaaaaaaaaa")
+            const response = await fetch('http://localhost:5000/patient/viewFamilyMembers/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+            });
+            // console.log("anaaaaaaaaaaaa")
             const familyMembers = await response.json();
 
             if (response.ok) {

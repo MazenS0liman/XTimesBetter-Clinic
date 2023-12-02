@@ -25,12 +25,12 @@ const patientModel = require('../../models/Patient.js');
 // module.exports = { viewFamilyMembers };
 const viewFamilyMembers = async (req, res) => {
 
-    const username = req.query;
+    const username = req.body.username;
     //console.log(username);
     //retrieve family members for the passed patient username
     try {
-        const addedFamilyMembers = await familyModel.find({ patient_username: username.username });
-        const linkedFamilyMembers = await LinkedFamilyModel.find({ patient_username: username.username });
+        const addedFamilyMembers = await familyModel.find({ patient_username: username });
+        const linkedFamilyMembers = await LinkedFamilyModel.find({ patient_username: username });
         if (!addedFamilyMembers && !linkedFamilyMembers) {
             return res.status(404).json({ error: 'Patient has no family members' });
         }

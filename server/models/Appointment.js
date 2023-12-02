@@ -22,18 +22,24 @@ const AppointmentSchema = mongoose.Schema({
         type: Date,
         required: true,
     },
-    name : {
+    name: {
         type: String,
         required: true
     },
-    price : {
-        type : Number,
+    price: {
+        type: Number,
         required: true
-    } ,
-    booked_by : {
-        type : String,
+    },
+    booked_by: {
+        type: String,
         required: true
+    },
+    isFollowUp: {
+        type: String,
+        default: ''
+
     }
+
 
 }, { timestamps: true });
 

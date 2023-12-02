@@ -112,6 +112,7 @@ app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
 app.use('/doctor/addTimeSlot', doctorRoutes);
 app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
 app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
+app.use('/doctor/acceptRejectFollowUp', require('./routes/doctor/acceptRejectFollowUpRoute'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -151,8 +152,9 @@ app.use('/patient/packagePaymentCreditCard', require('./routes/patient/payments/
 app.use('/patient/packagePaymentWallet', require('./routes/patient/payments/packageWalletPayment.js'));
 app.use('/patient/appointmentPaymentCreditCard', require('./routes/patient/payments/appointmentCreditCard.js'));
 app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/appointmentWallet.js'));
-app.use('/patient/viewMedicalHistory',require('./routes/patient/medicalHistoryRoute'));
+app.use('/patient/viewMedicalHistory', require('./routes/patient/medicalHistoryRoute'));
 app.use('/patient/viewHealthRecords', require('./routes/patient/viewHealthRecordsRoute'));
+app.use('/patient/requestFollowUp', require('./routes/patient/requestFollowUpRoute'));
 
 
 
