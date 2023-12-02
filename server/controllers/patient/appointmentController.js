@@ -3,8 +3,8 @@ const asyncHandler = require('express-async-handler');
 const patientModel = require('../../models/Patient');
 const doctorModel = require('../../models/Doctor');
 const appointmentModel = require('../../models/Appointment');
-const subsPackageModel = require('../../models/SubscribedPackages')
-const packageModel = require('../../models/Package')
+const subsPackageModel = require('../../models/SubscribedPackages');
+const packageModel = require('../../models/Package');
 
 // Add a new appointment to the database
 const createAppointment = asyncHandler(async (req, res) => {
@@ -24,7 +24,6 @@ const createAppointment = asyncHandler(async (req, res) => {
         return;
     }
 
-    
     /*
     if (!patient) {
         res.status(400).json({ message: 'Patient not found', createdAppointment: false });
