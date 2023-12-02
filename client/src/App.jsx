@@ -55,7 +55,7 @@ function App() {
           <Route path="/resetPassword" element={<ResetPasswordPage />} />
           {/* Default Path */}
           {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
-          <Route path="/doctor/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
+          {/* <Route path="/doctor/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} /> */}
 
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>

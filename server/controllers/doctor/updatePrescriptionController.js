@@ -47,7 +47,7 @@ const updateCartItemQuantity = async (req, res) => {
         return res.status(404).json({ error: "Cart item not found" });
    
     } else {
-        cartItem.dose += 1;
+        cartItem.dose = parseInt(cartItem.dose, 10) + 1;
         res.status(200).json(cartItem);
         console.log( cartItems)
     }
@@ -65,7 +65,7 @@ const decrementCartItemQuantity = async (req, res) => {
     if (!cartItem) {
         return res.status(404).json({ error: "Cart item not found" });
     } else {
-        cartItem.dose -= 1;
+        cartItem.dose = parseInt(cartItem.dose, 10) - 1;
         res.status(200).json(cartItem);
         console.log( cartItems)
     }

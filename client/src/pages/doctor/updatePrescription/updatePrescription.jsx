@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 //const prescriptionId = '65668660eb56032a95d0010e'
 const updatePrescription = () => {
+  const navigate = useNavigate();
     const [cartItems, setCartItems] = useState([]);
     const { prescriptionId } = useParams();
 
@@ -95,6 +97,8 @@ const updatePrescription = () => {
     
                 // Update the stored cart items in sessionStorage
                 sessionStorage.setItem('cartItems', JSON.stringify(cartItems.filter((item) => item.medName !== prescriptionId)));
+                alert("Prescription Updated SUCCESSFULLY")
+                navigate('/doctor/PrescriptionDoctorTable')
             })
             .catch((error) => console.error('Error updating prescription:', error));
     };

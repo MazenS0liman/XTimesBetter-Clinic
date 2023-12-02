@@ -162,7 +162,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
                     <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
                     {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
-                    <Route path="/doctor/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
+                    <Route path="/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
 
                 </Routes>
             </>
