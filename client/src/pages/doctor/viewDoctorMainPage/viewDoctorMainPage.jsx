@@ -36,8 +36,9 @@ import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/Prescript
 // import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
-import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
+// import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 
+import UpdatePrescription from '../updatePrescription/updatePrescription';
 
 export const ViewDoctorMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
@@ -160,7 +161,9 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
                     <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
-                    <Route path="/doctor/update-prescription" element={<UpdatePrescriptionPage />} />
+                    {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
+                    <Route path="/doctor/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
+
                 </Routes>
             </>
         </div>

@@ -29,8 +29,8 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 
 // MUI Components
 import { ResponsiveAppBar } from './components/responsiveNavBar/responsiveNavBar';
+import UpdatePrescription from './pages/doctor/updatePrescription/updatePrescription';
 
-import UpdatePrescriptionPage from './pages/doctor/viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 function App() {
 
   return (
@@ -54,7 +54,8 @@ function App() {
           <Route path="/verifyOTP" element={<VerifyOtpPage />} />
           <Route path="/resetPassword" element={<ResetPasswordPage />} />
           {/* Default Path */}
-          <Route path="/doctor/update-prescription/:id" element={<UpdatePrescriptionPage />} />
+          {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
+          <Route path="/doctor/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
 
           <Route path='*' element={<Navigate to='/' />} />
         </Routes>

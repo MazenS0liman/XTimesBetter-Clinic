@@ -176,11 +176,23 @@ const PrescriptionDoctorTable = () => {
     // Save the PDF
     doc.save(`prescription_${prescription.patient_username}.pdf`);
   };
-  
-
   const handleUpdateClick = (prescriptionId) => {
-    navigate(`/doctor/update-prescription/${prescriptionId}`);
- };
+    const appData = { prescriptionId: prescriptionId };
+    console.log('updating Prescriptions with ID:', prescriptionId);
+  
+    // Navigate to the second component and pass prescriptionId as a URL parameter
+    navigate(`/doctor/UpdatePrescription/${prescriptionId}`);
+  };
+
+//   const handleUpdateClick = (prescriptionId) => {
+//     const appData = { prescriptionId: prescriptionId };
+//     console.log('updating Prescriptions with ID:', prescriptionId);
+//     const { prescriptionId } = location.state;
+//     navigate('/doctor/UpdatePrescription', { state: { prescriptionId } });
+
+//     // navigate('/doctor/UpdatePrescription', { state: appData });
+//     // navigate(`/doctor/getPrescriptionById/${prescriptionId}`);
+//  };
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -222,6 +234,7 @@ const PrescriptionDoctorTable = () => {
           </thead>
           <tbody>
         {prescriptionsToBeDisplay.map((prescription) => (
+          
           <tr key={prescription._id}>
             <td>{prescription.patient_username}</td>
             {/* <td>{prescription.doctor_username}</td> */}
@@ -233,14 +246,18 @@ const PrescriptionDoctorTable = () => {
             <td>
               <button onClick={() => generatePDF(prescription)}>Download</button>
             </td>
+            {/* return <AppointmentList key={appointment._id} appointment={appointment}  onReschedule={handleRescheduleAppointment}/> */}
+
             <td>
+
             <button 
+
               onClick={() => handleUpdateClick(prescription._id)}
-              disabled={prescription.filled} 
+              disabled={prescription.filled}
             >
               Update
             </button>
-          </td>
+            </td>
 
 
           </tr>
