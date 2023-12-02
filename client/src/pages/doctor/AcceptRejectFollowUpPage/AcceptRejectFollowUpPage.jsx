@@ -92,7 +92,10 @@ const AcceptRejectFollowUp = () => {
                     },
                 });
 
+
+                console.log('API Response:', response.data);
                 setFamMem(response.data);
+
                 console.log("kokooooooo", response.data)
                 setLoading(false);
             } catch (error) {
@@ -265,7 +268,6 @@ const AcceptRejectFollowUp = () => {
         }
     };
     const getPatientName = (patientUsername) => {
-
         if (!famMem || !Array.isArray(famMem)) {
             // If famMem is not defined or not an array, handle it accordingly
             console.error('Family members data is not available.');
@@ -273,17 +275,14 @@ const AcceptRejectFollowUp = () => {
         }
 
         const familyMember = famMem.find((member) => member.national_id === patientUsername);
-        console.log('patientUsername:', patientUsername);
-        console.log('famMem:', famMem);
-        console.log(familyMember)
-        console.log("aaaaaaa", familyMember)
-        // if (familyMember) {
-        //     return familyMember.name;
-        // }
-        // else {
-        //     return patientUsername;
-        // }
-        return familyMember ? familyMember.name : patientUsername;
+
+        // Check if the family member with the given username is found
+        if (familyMember) {
+            return familyMember.name;
+        } else {
+            // If not found, return the original username
+            return patientUsername;
+        }
     };
     //Authenticate
     if (load || loading) {

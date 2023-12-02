@@ -3,13 +3,12 @@ const asyncHandler = require('express-async-handler');
 const appointmentModel = require('../../models/Appointment.js');
 const doctorModel = require('../../models/Doctor.js')
 const followUpModel = require('../../models/FollowUp.js')
+const familyModel = require('../../models/Family.js');
 
 const viewUnlinkedFamilyMembers = async (req, res) => {
-    const username = req.body.username;
-    //console.log(username);
-    //retrieve family members for the passed patient username
     try {
-        const familyMembers = await familyModel.find({ patient_username: username });
+
+        const familyMembers = await familyModel.find();
         if (!familyMembers) {
             return res.status(404).json({ error: 'Patient has no family members' });
         }
