@@ -12,6 +12,7 @@ const prescriptionRoutes = require('./routes/patient/prescriptions');
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 const multer = require('multer');
 const path = require('path');
+const updatePrescriptions = require('./routes/doctor/updatePrescriptionRoute.js')
 
 mongoose.set('strictQuery', false);
 
@@ -112,6 +113,11 @@ app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
 app.use('/doctor/addTimeSlot', doctorRoutes);
 app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
 app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
+app.use('/doctor/updatePrescriptions', require('./routes/doctor/updatePrescriptionRoute'));
+
+
+
+
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
