@@ -3,24 +3,25 @@ const asyncHandler = require('express-async-handler');
 const messageModel = require('../../models/Message.js');
 const doctorModel = require('../../models/Doctor.js');
 const appointmentModel = require('../../models/Appointment.js');
+const pharmacistModel = require('../../models/Pharmacist.js');
 
 const getMessages = asyncHandler(async (req, res) => {
-    const patient_username = req.body.username;
-    const doctor_username = req.params.user_username;
+    const username1 = req.body.username;
+    const username2 = req.params.user_username;
 
-    const patient_messages = await messageModel.find({ sender_username: patient_username, receiver_username: doctor_username });
-    const doctor_messages = await messageModel.find({ sender_username: doctor_username, receiver_username: patient_username });
+    const messages1 = await messageModel.find({ sender_username: username1, receiver_username: username2 });
+    const messages2 = await messageModel.find({ sender_username: username2, receiver_username: username1 });
 
     let messages = [];
     
-    if (patient_messages && doctor_messages) {
-        messages = patient_messages.concat(doctor_messages);
+    if (messages1 && messages2) {
+        messages = messages1.concat(messages2);
     }
-    else if (patient_messages) {
-        messages = patient_messages;
+    else if (messages1) {
+        messages = messages1;
     }
-    else if (doctor_messages) {
-        messages = doctor_messages;
+    else if (messages2) {
+        messages = messages2;
     }
 
     messages.sort((a, b) => a.timestamp - b.timestamp); // sort messages in ascending order
@@ -30,14 +31,14 @@ const getMessages = asyncHandler(async (req, res) => {
 });
 
 const postMessage = asyncHandler(async (req, res) => {
-    const patient_username = req.body.username;
-    const doctor_username = req.params.user_username;
+    const username1 = req.body.username;
+    const username2 = req.params.user_username;
     const message = req.body.message;
     console.log(req.body);
 
     await messageModel.create({
-        sender_username: patient_username,
-        receiver_username: doctor_username,
+        sender_username: username1,
+        receiver_username: username2,
         message: message,
     })
 
@@ -48,12 +49,19 @@ const getUsers = asyncHandler(async (req, res) => {
     const username = req.body.username;
 
     let doctorResults = await appointmentModel.find({patient_username: username}).select("doctor_username");
+    let pharmacistResults = await pharmacistModel.find({}).select("username");
+
     doctorResults = doctorResults.map((doctor) => doctor.doctor_username);
     doctorResults = new Set(doctorResults);    
     doctorResults = [...doctorResults];
-    console.log(doctorResults);
 
-    return res.status(200).json({ users: doctorResults });
+    pharmacistResults = pharmacistResults.map((pharmacist) => pharmacist.username);
+    pharmacistResults = new Set(pharmacistResults);
+    pharmacistResults = [...pharmacistResults];
+
+    let results = doctorResults.concat(pharmacistResults);
+
+    return res.status(200).json({ users: results });
 });
 
 module.exports = { getMessages, postMessage, getUsers };

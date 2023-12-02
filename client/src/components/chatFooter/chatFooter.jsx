@@ -22,6 +22,7 @@ export const ChatFooter = ({ socket, userUsername, userType }) => {
 
     useEffect(() => {
       if (userUsername !== undefined && userUsername !== null && userUsername !== "") {
+        console.log("talking to new user")
         setMessages([]);
         getMessages();
       }
@@ -29,20 +30,18 @@ export const ChatFooter = ({ socket, userUsername, userType }) => {
 
     useEffect(() => {
       if (socket) {
-        socket.on('message', async (data) => {
-          console.log("Batates");
-          console.log(data);
-          console.log(messages);
-          const tmp = [...messages, {name: data.name, text: data.text}];
-          console.log(tmp);
-          setMessages(tmp);
-        });
+        const handleMessage = (data) => {
+          setMessages(prevMessages => [...prevMessages, {name: data.name, text: data.text}]);
+          console.log("got a message");
+        };
+     
+        socket.on('message', handleMessage);
+     
+        return () => {
+          socket.off('message', handleMessage);
+        }
       }
-    }, [socket, userUsername]);
-
-    useEffect(() => {
-
-    }, [messages]);
+    }, [socket]);
 
     const handleLeaveChat = () => {
       navigate('/');
@@ -87,7 +86,7 @@ export const ChatFooter = ({ socket, userUsername, userType }) => {
           return;
         }
 
-        setMessages([...messages, { name: sessionStorage.getItem('username'), text: text }]);
+        setMessages(prevMessages => [...prevMessages, {name: sessionStorage.getItem('username'), text: text}]);
 
         // Store the message in the database
         postMessages(text);
