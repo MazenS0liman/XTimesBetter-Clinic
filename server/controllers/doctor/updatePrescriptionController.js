@@ -11,7 +11,6 @@ let cartItems = []; // Shared variable for cartItems
 
 // get prescriptionID  from sarah and CREATE cartitems
 const getPrescriptionById = async (req, res) => {
-
    // prescriptionId = '65668660eb56032a95d0010e';
     try {
         const prescription = await Prescription.findById(prescriptionId);

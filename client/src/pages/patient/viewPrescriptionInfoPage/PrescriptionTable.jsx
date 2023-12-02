@@ -158,7 +158,12 @@ const PrescriptionTable = () => {
     setSelectedPrescription([]);
     setShowModal(false);
   };
-
+  const handleUpdateClick = (prescriptionId) => {
+    const appData = { prescriptionId: prescriptionId };
+  
+    // Navigate to the second component and pass prescriptionId as a URL parameter
+    navigate(`/doctor/UpdatePrescription/${prescriptionId}`);
+  };
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -194,7 +199,7 @@ const PrescriptionTable = () => {
               <th>Filled</th>
               <th>Select</th> {/* selecting a prescription */}
               <th>Download As PDF</th> {/* downloading prescription as pdf*/}
-
+              <th>Buy</th>
             </tr>
           </thead>
           <tbody>
@@ -210,6 +215,13 @@ const PrescriptionTable = () => {
             <td>
               <button onClick={() => generatePDF(prescription)}>Download</button>
             </td>
+            <td>
+              <button 
+              onClick={() => handleUpdateClick(prescription._id)}
+              >
+                Buy
+                </button>
+                </td>
           </tr>
         ))}
       </tbody>
