@@ -228,27 +228,45 @@ const PrescriptionTable = () => {
     </table>
   </div>
   {showModal && selectedPrescription && (
-    <div className={styles.modal}>
-      <div className={styles.modalContent}>
-        <span className={styles.closeButton} onClick={closePrescriptionModal}>
-          &times;
-        </span>
-        <div className={styles.additionalInfo}>
-          <p>Selected Successfully</p>
-        </div>
-        <h2>Prescription Details</h2>
-        <ul>
-          {selectedPrescription.medicines.map((medicine, index) => (
-            <li key={index}>
-      <span className={styles.label}>Name:</span> {medicine.name}<br />
-      <span className={styles.label}>Dose:</span> {medicine.dose}<br />
-      <span className={styles.label}>Timing:</span> {medicine.timing}<br />
-      <span className={styles.label}>Price:</span> {medicine.price}<br />
+  <div className={styles.model}>
+    <div className={styles.modalContent}>
+      {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
+        &times;
+      </span> */}
+      <br />
 
-    </li>
-          ))}
-        </ul>
+      <button className={styles.closeButton} onClick={closePrescriptionModal}>
+        Close
+      </button>
+      <div className={styles.additionalInfo}>
+        <p>Selected Successfully</p>
       </div>
+      <h2>Prescription Details</h2>
+      <table className={styles.prescriptionDetailsTable}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Dose</th>
+            <th>Timing</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedPrescription.medicines.map((medicine, index) => (
+            <tr key={index}>
+              <td>{medicine.name}</td>
+              <td>{medicine.dose}</td>
+              <td>{medicine.timing}</td>
+              <td>{medicine.price}</td>
+            </tr>
+          ))}
+                <br />
+                <br />
+                <br />
+
+        </tbody>
+      </table>
+    </div>
     </div>
   )}
 </div>
