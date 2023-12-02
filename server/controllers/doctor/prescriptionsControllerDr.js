@@ -2,7 +2,7 @@
 const presModel = require('../../models/Prescription');
 const { default: mongoose } = require('mongoose');
 const asyncHandler = require('express-async-handler');
-const patient = require('../../models/Patient');
+const doctor = require('../../models/Doctor');
 const { use } = require('express/lib/router');
 
 const createPrescription = asyncHandler(async (req, res) => {
@@ -21,7 +21,7 @@ const getMedicines = async (req, res) => {
   const prescriptions = req.body
 
   try {
-    const medicines = await presModel.find({patient_username : prescriptions.username})
+    const medicines = await presModel.find({doctor_username : prescriptions.username})
       .sort({ createdAt: -1 })
       .select('patient_username doctor_username visit_date filled medicines');
 

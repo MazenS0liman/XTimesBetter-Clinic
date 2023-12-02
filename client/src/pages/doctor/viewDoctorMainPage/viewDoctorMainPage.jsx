@@ -38,9 +38,13 @@ import PatientVisitLog from '../newPrescriptionPages/patientVisitLogPage';
 import AddMedsToPrescription from '../newPrescriptionPages/addMedsToPrescriptionPage';
 import FinalizePrescription from '../newPrescriptionPages/finalizePrescriptionPage';
 
+import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/PrescriptionDoctorTable';
+// import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+// import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 
+import UpdatePrescription from '../updatePrescription/updatePrescription';
 
 
 export const ViewDoctorMainPage = () => {
@@ -140,6 +144,10 @@ export const ViewDoctorMainPage = () => {
             url: "/doctor/writePrescription",
             pageName: "Write Prescription",
         },
+        {
+            url: "/doctor/PrescriptionDoctorTable",
+            pageName: "Prescript pg",
+        },
     ];
 
     if (load) {
@@ -167,8 +175,12 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/writePrescription" element={<PatientVisitLog />} />
                     <Route path="/addMedsToPrescription" element={<AddMedsToPrescription />} />
                     <Route path="/finalizePrescription" element={<FinalizePrescription />} />
-                </Routes>
+                    <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
+                    {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
+                    <Route path="/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
+
+                </Routes >
             </>
-        </div>
+        </div >
     )
 }

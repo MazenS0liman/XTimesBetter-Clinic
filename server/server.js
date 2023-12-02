@@ -9,11 +9,14 @@ const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/Admin/adminRoute.js');
 const doctorRoutes = require('./routes/doctor/timeSlotsRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
+const prescriptionDoctorRoutes= require('./routes/doctor/prescriptionsDr');
+
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 const multer = require('multer');
 const path = require('path');
-
+const updatePrescriptions = require('./routes/doctor/updatePrescriptionRoute.js')
 mongoose.set('strictQuery', false);
+
 
 // Express app
 const app = express();
@@ -112,6 +115,8 @@ app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
 app.use('/doctor/addTimeSlot', doctorRoutes);
 app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
 app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
+app.use('/doctor/prescriptionDetails', prescriptionDoctorRoutes);
+app.use('/doctor/updatePrescriptions', require('./routes/doctor/updatePrescriptionRoute'));
 
 //sprint3 ~Nour
 app.use('/doctor/newPrescription', require('./routes/doctor/newPrescriptionRoute'));
