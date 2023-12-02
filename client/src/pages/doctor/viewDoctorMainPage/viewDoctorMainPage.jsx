@@ -32,6 +32,7 @@ import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 import TimeSlots from'../timeSlotsPage/timeSlots';
 import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
+import RescheduleTimeSlots from '../rescheduleTimeSlotsDoc/rescheduleTimeSlotsDoc'
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -153,6 +154,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/addTimeSlot" element={<TimeSlots />} />
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
+                    <Route path='/rescheduleTimeSlots' element={<RescheduleTimeSlots/>} />
                 </Routes>
             </>
         </div>

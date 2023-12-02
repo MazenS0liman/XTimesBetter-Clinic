@@ -101,6 +101,34 @@ const ViewAppointments = () => {
         setShowAppointments(true);
     };
 
+    const handleCancelAppointment = async (appointmentId) => {
+        try {
+            // Call your cancelAppointment API endpoint with the appointment ID
+            const response = await axios.post('http://localhost:5000/doctor/appointments/cancelAppointment',
+             { appointmentID: appointmentId }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+            });
+
+            if (response.status === 200) {
+                setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment._id !== appointmentId));
+                console.log('Appointment canceled successfully');
+            } else {
+                console.error('Error canceling appointment');
+            }
+        } catch (error) {
+            console.error('Error canceling appointment:', error.message);
+        }
+    }
+
+    const handleRescheduleAppointment = async (appointmentId) => {
+        const appData = { appointmentID: appointmentId };
+        console.log('Rescheduling Appointment with ID:', appointmentId);
+        navigate('/doctor/rescheduleTimeSlots', { state: appData });
+    };
+
     //Authenticate
     if (load) {
         return (<div>Loading</div>)
@@ -122,12 +150,14 @@ const ViewAppointments = () => {
                     <th>Date</th>
                     <th>Status</th>
                     <th>Time</th>
+                    <th>Cancel</th>
+                    <th>Reschedule</th>
                   </tr>
                 </thead>
                 <tbody>
                     {
                         appointments.map((appointment) => {
-                                return <AppointmentList key={appointment._id} appointment={appointment} />
+                                return <AppointmentList key={appointment._id} appointment={appointment} onCancel={handleCancelAppointment} onReschedule={handleRescheduleAppointment} />
                         })
                     }
                 </tbody>

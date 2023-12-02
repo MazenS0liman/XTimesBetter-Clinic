@@ -161,7 +161,102 @@ const getScheduledFollowUp = asyncHandler(async(req,res)=>{
     res.status(200).json(followUps);
 })
 
+const rescheduleAppointment = asyncHandler(async (req, res) => {
+    const { appointmentId, newDate, newTime } = req.body;
 
+    if (!appointmentId || !newDate || !newTime) {
+        res.status(400).json({ message: 'Please provide appointment ID, new date, and new time', rescheduledAppointment: false });
+        return;
+    }
+
+    const existingAppointment = await appointmentModel.findById(appointmentId);
+
+    if (!existingAppointment) {
+        res.status(404).json({ message: 'Appointment not found', rescheduledAppointment: false });
+        return;
+    }
+
+    const currentDate = new Date().toLocaleDateString('en-GB');
+    const newAppointmentDate = new Date(newDate);
+
+    if (newAppointmentDate < currentDate) {
+        res.status(400).json({ message: 'New appointment date is in the past', rescheduledAppointment: false });
+        return;
+    }
+
+    // Mark existing appointment as "reschedule"
+    existingAppointment.status = 'reschedule';
+    await existingAppointment.save();
+
+    // Create a new appointment with updated date and time
+    const updatedAppointment = await appointmentModel.create({
+        doctor_username: existingAppointment.doctor_username,
+        patient_username: existingAppointment.patient_username,
+        date: newDate,
+        time: newTime,
+        name: existingAppointment.name,
+        price: existingAppointment.price,
+        booked_by: existingAppointment.booked_by,
+        status: 'upcoming',
+    });
+
+    // Get the doctor and remove the chosen time slot from available time slots
+    const doctor = await doctorModel.findOne({ username: existingAppointment.doctor_username });
+
+    if (doctor) {
+        const chosenTimeSlot = new Date(newTime);
+        doctor.availableTimeSlots = doctor.availableTimeSlots.filter(slot => {
+            return slot.getTime() !== chosenTimeSlot.getTime() ;
+        });
+        await doctor.save();
+    }
+
+    res.status(200).json({ message: 'Success', rescheduledAppointment: true, updatedAppointment });
+});
+
+
+
+const cancelAppointment = asyncHandler(async (req, res) => {
+    const { appointmentID } = req.body;
+
+    if (!appointmentID) {
+        res.status(400).json({ message: 'Please provide appointment ID', canceledAppointment: false });
+        return;
+    }
+
+    const existingAppointment = await appointmentModel.findById(appointmentID);
+
+    if (!existingAppointment) {
+        res.status(404).json({ message: 'Appointment not found', canceledAppointment: false });
+        return;
+    }
+
+    // Cancelled before 24 hours , so refund
+    existingAppointment.status = 'canceled';
+        
+    const refund = existingAppointment.price;
+        
+     // Update patient's wallet balance (assuming you have a Patient model with a walletBalance field)
+    try {
+        const patient = await patientModel.findOne({username: existingAppointment.booked_by});
+        console.log("Before : ", patient.walletAmount);
+        if (!patient) {
+            throw new Error('Patient not found');
+         }
+        const newWalletBalance = patient.walletAmount + refund;
+            // Update the patient's wallet balance
+        patient.walletAmount = newWalletBalance;
+      
+            // Save the updated patient information
+        await patient.save();
+            console.log("After : ", patient.walletAmount);
+            console.log(`Refunded ${existingAppointment.price} to patient's wallet. New wallet balance: ${patient.walletAmount}`);
+        } catch (error) {
+            console.error(`Error refunding to patient's wallet: ${error.message}`);
+        }
+    await existingAppointment.save();
+
+    res.status(200).json({ message: 'Success', canceledAppointment: true, refundAmount: refund });
+});
   
-  
-module.exports = {getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp};
+module.exports = {getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, cancelAppointment};

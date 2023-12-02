@@ -33,6 +33,10 @@ const AppointmentSchema = mongoose.Schema({
     booked_by : {
         type : String,
         required: true
+    } ,
+    isFollowUp : {
+        default: '',
+        type : String
     }
 
 }, { timestamps: true });

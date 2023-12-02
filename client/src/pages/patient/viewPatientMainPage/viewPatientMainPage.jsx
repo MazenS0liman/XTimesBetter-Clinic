@@ -41,6 +41,7 @@ import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
 import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
+import RescheduleTimeSlots from '../rescheduleTimeSlots/rescheduleTimeSlots';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -189,6 +190,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
                     <Route path="/viewMedicalHistory" element={<ViewMedicalHistory />} />
                     <Route path="/viewHealthRecords" element={<ViewHealthRecords />} />
+                    <Route path="/rescheduleTimeSlots" element={<RescheduleTimeSlots/>} />
                 </Routes>
             </>
         </div>
