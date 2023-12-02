@@ -80,10 +80,23 @@ const updatePrescription = ({ prescriptionId }) => {
           .then(() => {
             setCartItems(cartItems.filter((item) => item.medName !== medName));
             console.log("after deletion--", cartItems.filter((item) => item.medName !== medName))
-            sessionStorage.setItem('cartItems', JSON.stringify(cartItems.filter((item) => item.medName !== medName))); //Added - Nour
+            sessionStorage.setItem('cartItems', JSON.stringify(cartItems.filter((item) => item.medName !== medName))); 
           })
           .catch((error) => console.error('Error deleting item:', error));
       };
+
+      const updateMedicineFromPrescription = (prescriptionId) => {
+        axios.put(`http://localhost:5000/doctor/updatePrescriptions/updatePrescription/${prescriptionId}`, { data: { prescriptionId, cartItems } })
+            .then(() => {
+                // Update the cart items on the frontend after a successful update
+                setCartItems(cartItems.filter((item) => item.medName !== prescriptionId));
+    
+                // Update the stored cart items in sessionStorage
+                sessionStorage.setItem('cartItems', JSON.stringify(cartItems.filter((item) => item.medName !== prescriptionId)));
+            })
+            .catch((error) => console.error('Error updating prescription:', error));
+    };
+    
 
 
    
@@ -132,6 +145,9 @@ const updatePrescription = ({ prescriptionId }) => {
                     ))}
                 </tbody>
             </table>
+            <button onClick={() => updateMedicineFromPrescription(prescriptionId)}>Update</button>
+           
+
             
         </div>
     );

@@ -21,6 +21,8 @@ const PrescriptionSchema = mongoose.Schema({
         name: String,
         dose: Number,
         timing: String,
+        price: Number,
+        note:String
     }],
 }, { timestamps: true });
 

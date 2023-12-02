@@ -12,7 +12,8 @@ const prescriptionRoutes = require('./routes/patient/prescriptions');
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 const multer = require('multer');
 const path = require('path');
-const updatePrescriptions = require('./routes/doctor/updatePrescriptionRoute.js')
+const updatePrescriptions = require('./routes/doctor/updatePrescriptionRoute.js');
+
 
 mongoose.set('strictQuery', false);
 

@@ -92,38 +92,37 @@ const deleteMedicineFromPrescription = async (req, res) => {
     console.log(cartItems);
 };
 
-const updatePrescription = async (res) => {
+const  updatePrescription = async (req, res) => {
     try {
-        // Fetch the prescription by ID
         const prescription = await Prescription.findById(prescriptionId);
 
         if (!prescription) {
             return res.status(404).json({ error: 'Prescription not found' });
         }
+        console.log("prescription:")
+        console.log(prescription)
+        console.log("cart items")
+        console.log(cartItems)
 
-        // Update each medicine in the prescription with the corresponding cartItem
-        cartItems.forEach(cartItem => {
-            const medicineIndex = prescription.medicines.findIndex(
-                medicine => medicine.name === cartItem.medName
-            );
-
-            if (medicineIndex !== -1) {
-                prescription.medicines[medicineIndex].dose = cartItem.dose;
-                prescription.medicines[medicineIndex].timing = cartItem.note;
-                // You may need to update other fields as needed
-            }
-        });
-
-        // Save the updated prescription to the database
+        // Clear existing medicines and replace with cartItems
+        prescription.medicines = cartItems.map(cartItem => ({
+            name: cartItem.medName,
+            price: cartItem.price_per_item,
+            dose: cartItem.dose,
+            timing: cartItem.note,
+            note:cartItems.note
+            // Add other fields as needed
+        }));
+       // console.log(prescription.medicines)
         const updatedPrescription = await prescription.save();
 
-        // Respond with the updated prescription
         res.status(200).json(updatedPrescription);
     } catch (error) {
         console.error('Error updating prescription medicines:', error);
         res.status(500).json({ message: 'Internal Server Error' });
     }
 };
+
 
 
 
