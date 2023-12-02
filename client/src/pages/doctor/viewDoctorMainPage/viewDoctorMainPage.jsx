@@ -32,6 +32,7 @@ import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 import TimeSlots from'../timeSlotsPage/timeSlots';
 import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
+import { ChatPage } from '../ChatPage/chatPage';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -128,6 +129,10 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewHealthPage",
             pageName: "Health Page",
+        },
+        {
+            url: "/doctor/ChatPage",
+            pageName: "Chat"
         }
     ];
 
@@ -153,6 +158,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/addTimeSlot" element={<TimeSlots />} />
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
+                    <Route path="/ChatPage" element={<ChatPage />} />
                 </Routes>
             </>
         </div>
