@@ -7,13 +7,13 @@ const packageModel = require('../../models/Package');
 const addPackage = async(req,res) => {
     const{name, price ,doctor_discount,medicine_discount,family_discount}  = req.body;
 
-    const package= await packageModel.findOne({name:name});
+    const package= await packageModel.findOne({name:name , valid : "valid"});
 
    
   try{
 
     if (!package){
-        const package = await packageModel.create({name, price ,doctor_discount,medicine_discount,family_discount});
+        const package = await packageModel.create({name, price ,doctor_discount,medicine_discount,family_discount,valid:"valid"});
         res.status(200).json(package)
     }
     else{
@@ -70,7 +70,7 @@ const updatePackage = async (req, res) => {
 
   try {
     // Find the package by ID and update its attributes
-    const package = await packageModel.findOne({ name: oldname }); 
+    const package = await packageModel.findOne({ name: oldname , valid : "valid"}); 
 
   if (package){
     const packageId = package._id;
@@ -106,7 +106,7 @@ const deletePackage = async (req, res) => {
 try{
 
     const name= req.body;
-    const foundPackage = await packageModel.findOne({ name: name.name }) ;
+    const foundPackage = await packageModel.findOne({ name: name.name , valid : "valid"}) ;
     
     if (!foundPackage) {
       console.log('Package not found');
@@ -115,7 +115,7 @@ try{
     } 
     else {
        packageId = foundPackage._id;
-       const deletedPackage = await packageModel.findByIdAndDelete(packageId);
+       const deletedPackage = await packageModel.findByIdAndUpdate(packageId , {valid : "invalid"});
        res.status(200).json({ message: 'Package deleted', package: deletedPackage });
     }
 }
@@ -128,7 +128,8 @@ catch(error){
 
 
 const viewPackage = async (req, res) => {
-    const package = await packageModel.find();
+    const package = await packageModel.find({valid : "valid"});
+    console.log("hiiii")
     res.status(200).json(package)
  }
 
