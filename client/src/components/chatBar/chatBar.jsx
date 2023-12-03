@@ -31,23 +31,24 @@ export const ChatBar = ({ selectedUser, userType }) => {
       })
       .then((res) => {
         setUsers(res.data.users);
+        console.log("users");
+        console.log(res.data.users);
       })
       .catch((err) => console.log(err));
   }
 
   return (
-    <div className="chat__sidebar">
-      <h2>Open Chat</h2>
-
+    <div className={styles['chat__sidebar']}>
       <div>
-        <h4 className="chat__header">ACTIVE USERS</h4>
+        <h4 className={styles['chat__header']}>USERS</h4>
         <div className="chat__users">
           {
-            users.map((username, id) => {
+            users.map((user, id) => {
               return (
                 <ChatTab
                   key={id}
-                  username={username}
+                  username={user.username}
+                  type={user.type}
                   onClick={selectedUser}
                 />
               );

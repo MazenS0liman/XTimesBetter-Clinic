@@ -51,11 +51,15 @@ const getUsers = asyncHandler(async (req, res) => {
     let doctorResults = await appointmentModel.find({patient_username: username}).select("doctor_username");
     let pharmacistResults = await pharmacistModel.find({}).select("username");
 
-    doctorResults = doctorResults.map((doctor) => doctor.doctor_username);
+    doctorResults = doctorResults.map((doctor) => {return {username: doctor.doctor_username, type: "doctor"}});
+    doctorResults = doctorResults.filter((arr, index, self) => index === self.findIndex((t) => (t.username === arr.username && t.type === arr.type)));    
     doctorResults = new Set(doctorResults);    
     doctorResults = [...doctorResults];
 
-    pharmacistResults = pharmacistResults.map((pharmacist) => pharmacist.username);
+    console.log(pharmacistResults);
+    pharmacistResults = pharmacistResults.map((pharmacist) => {return {username: pharmacist.username, type: "pharmacist"}});
+    pharmacistResults = pharmacistResults.filter((arr, index, self) => index === self.findIndex((t) => (t.username === arr.username && t.type === arr.type)));
+    console.log(pharmacistResults);
     pharmacistResults = new Set(pharmacistResults);
     pharmacistResults = [...pharmacistResults];
 

@@ -18,6 +18,7 @@ import { ChatBar } from '../../../components/chatBar/chatBar';
 
 export const ChatPage = () => {
     const [selectedUser, setSelectedUser] = useState('');
+    const [selectedUserType, setSelectedUserType] = useState('');
     const [username, setUsername] = useState('');
     const [load, setLoad] = useState(true);
     const [socket, setSocket] = useState(null);
@@ -55,17 +56,22 @@ export const ChatPage = () => {
       return(<div>Loading</div>)
     }
 
-    function selectUser(userUsername) {
+    function selectUser(userUsername, userType) {
       setSocket(socketIO.connect('http://localhost:5000'));
+      console.log(`Selected username: ${userUsername}`);
       setSelectedUser(userUsername);
+      console.log(`Selected user type: ${userType}`);
+      setSelectedUserType(userType);
     }
 
     return (
-        <div className="chat">
-        <ChatBar selectedUser={selectUser} userType={"patient"}/>
-        <div className="chat__main">
-          <ChatFooter socket={socket} userUsername={selectedUser} userType={"patient"} />
-        </div>
+        <div className={styles['chat']}>
+          <div className={styles['chat__bar']}>
+            <ChatBar selectedUser={selectUser} userType={"patient"}/>
+          </div>
+          <div className={styles['chat__main']}>
+            <ChatFooter socket={socket} userUsername={selectedUser} receiverUserType={selectedUserType} userType={"patient"} />
+          </div>
       </div>
     );
 }
