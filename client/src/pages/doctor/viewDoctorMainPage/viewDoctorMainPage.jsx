@@ -33,6 +33,9 @@ import TimeSlots from'../timeSlotsPage/timeSlots';
 import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
 
+//salma sprint 3
+import DoctorVideo from '../DVideoCall/DVideoCall';
+
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 
@@ -128,6 +131,10 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewHealthPage",
             pageName: "Health Page",
+        },
+        {
+            url: "/doctor/VideoCall",
+            pageName: "Start Video Call",
         }
     ];
 
@@ -153,6 +160,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/addTimeSlot" element={<TimeSlots />} />
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
+                    <Route path="/VideoCall" element={<DoctorVideo />} />
                 </Routes>
             </>
         </div>

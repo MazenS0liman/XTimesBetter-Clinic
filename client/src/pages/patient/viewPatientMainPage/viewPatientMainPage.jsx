@@ -42,6 +42,11 @@ import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
 import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
 
+
+//salma sprint 3
+import VideoCall from '../PVideoCall/PVideoCall';
+import Call from '../VideoCalling/VideoCalling';
+
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 
@@ -154,7 +159,15 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/viewHealthRecords",
             pageName: "Health Records",
-        }
+        },
+        {
+            url: "/patient/VideoCall",
+            pageName: "Start Video Call",
+        },
+        // {
+        //     url: "/patient/Call",
+        //     pageName: "Call",
+        // }
     ];
 
     if (load) {
@@ -189,6 +202,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
                     <Route path="/viewMedicalHistory" element={<ViewMedicalHistory />} />
                     <Route path="/viewHealthRecords" element={<ViewHealthRecords />} />
+                    <Route path="/VideoCall" element={<VideoCall/>} />
+                    <Route path="/Call" element={<Call/>} />
                 </Routes>
             </>
         </div>

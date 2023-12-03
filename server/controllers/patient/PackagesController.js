@@ -10,7 +10,7 @@ const patientModel =  require('../../models/Patient');
 
 //to get all packages details
 const ViewPackage = async (req, res) => {
-    const package = await packageModel.find();
+    const package = await packageModel.find({valid : "valid"});
     res.status(200).json(package)
  }
 
@@ -67,7 +67,7 @@ const ViewPackage = async (req, res) => {
             const subspackage = await subsPackageModel.create({patient_username,patient_name,package_name,status:'subscribed',start_date,end_date});
             
             //add to array in packages schema
-            const package=await packageModel.findOne({name:package_name});
+            const package=await packageModel.findOne({name:package_name , valid : "valid"});
             package.subscribed_patients.push(patient_username);
             package.save();
 
@@ -77,7 +77,7 @@ const ViewPackage = async (req, res) => {
             }
 
             //get price of subscription
-            const package2=await packageModel.findOne({name:package_name});
+            const package2=await packageModel.findOne({name:package_name , valid : "valid"});
             const discount= await isMemberSubscribed(patient_username);
             //console.log(discount);
 
@@ -117,7 +117,7 @@ const ViewPackage = async (req, res) => {
         if (!isSubs){
 
             //get price of subscription
-            const package2=await packageModel.findOne({name:package_name});
+            const package2=await packageModel.findOne({name:package_name , valid : "valid"});
 
             if (isExistingPatient=='true'){
               discount= await isMemberSubscribed(patient_username);
@@ -182,7 +182,7 @@ const ViewPackage = async (req, res) => {
             const subspackage = await subsPackageModel.create({patient_username,patient_name,package_name,status:'subscribed',start_date,end_date});
             
             //add to array in packages schema
-            const package=await packageModel.findOne({name:package_name});
+            const package=await packageModel.findOne({name:package_name , valid : "valid"});
             package.subscribed_patients.push(patient_username);
             package.save();
 
@@ -225,7 +225,7 @@ const ViewPackage = async (req, res) => {
             const updatedsubs = await subsPackageModel.findByIdAndUpdate(subs_id, update, { new: true });
             
             //remove from array in packages schema
-            const package=await packageModel.findOne({name:package_name});
+            const package=await packageModel.findOne({name:package_name , valid : "valid"});
             package.subscribed_patients.pop(patient_username);
             package.save();
 
@@ -348,7 +348,7 @@ const ViewPackage = async (req, res) => {
         
         if (isSubs.length>0){
             const package_name=isSubs[0].package_name;
-            const package =  await packageModel.findOne({name:package_name});
+            const package =  await packageModel.findOne({name:package_name , valid : "valid"});
 
             if (package.family_discount>maxdiscount){
                 maxdiscount=package.family_discount;
@@ -386,7 +386,7 @@ const ViewPackage = async (req, res) => {
       
       if (isSubs.length>0){
           const package_name=isSubs[0].package_name;
-          const package =  await packageModel.findOne({name:package_name});
+          const package =  await packageModel.findOne({name:package_name , valid : "valid"});
 
           if (package.family_discount>maxdiscount){
               maxdiscount=package.family_discount;

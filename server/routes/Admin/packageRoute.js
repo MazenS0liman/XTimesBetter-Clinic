@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const { addPackage,updatePackage,deletePackage,viewPackage } = require('../../controllers/admin/adjustPackagesController');
+const { addPackage,updatePackage,deletePackage,viewPackage } = require('../../controllers/Admin/adjustPackagesController');
 
 // APIs
 router.post('/', addPackage);

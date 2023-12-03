@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import './UpdatePackage.css';
 
 function UpdatePackage() {
@@ -10,6 +10,39 @@ function UpdatePackage() {
   const [attribute5, setAttribute5] = useState('');
   const [attribute6, setAttribute6] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [packages, setPackage] = useState([]);
+  const [selectedPackage, setSelectedPackage] = useState('');
+
+  useEffect(() => {
+    // Fetch the list of packages when the component mounts
+    fetchPackages();
+  }, []);
+
+  const fetchPackages = async () => {
+    try {
+      // Fetch the list of packages from the server
+      //const response = await fetch();
+      const response = await fetch('http://localhost:5000/admin/ViewPackage', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setPackage(data);
+      } else {
+        console.error('Failed to fetch packages:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  const handlePackageChange = (e) => {
+    setSelectedPackage(e.target.value);
+  };
 
   // Event handlers for input changes
   const handleAttribute1Change = (e) => {
@@ -46,7 +79,7 @@ function UpdatePackage() {
       "doctor_discount":attribute3,
       "medicine_discount":attribute4,
       "family_discount":attribute5,
-      "oldname":attribute6
+      "oldname":selectedPackage
     };
 
     try {
@@ -137,16 +170,18 @@ function UpdatePackage() {
          {/* Attribute 6 */}
          <div className="form-group">
           <label>Old Name:</label>
-          <input
-            type="text"
-            value={attribute6}
-            onChange={handleAttribute6Change}
-            required
-          />
+          <select value={selectedPackage} onChange={handlePackageChange}>
+        <option value="" disabled>Select a package</option>
+        {packages.map((item) => (
+          <option key={item.name} value={item.name}>
+            {item.name}
+          </option>
+        ))}
+      </select>
         </div>
 
         <button className="submit-button" type="submit">Update</button>
-        {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
+        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       </form>
     </div>
   );
