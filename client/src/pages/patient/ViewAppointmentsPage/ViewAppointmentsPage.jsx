@@ -14,6 +14,7 @@ const ViewAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const [showAppointments, setShowAppointments] = useState(false);
     const [doctorName,setDoctorName] = useState("");
+    const [patientDetails, setPatientDetails] = useState({});
 
     // To store the info of the appointment wanted to be rescheduled.
     const [selectedRescheduleAppointment, setSelectedRescheduleAppointment] = useState(null);

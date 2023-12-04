@@ -95,33 +95,35 @@ const RescheduleAppointment = () => {
             const data = await response.json();
             const formattedAppointments = data.map(appointment => {
                 const dateTime = new Date(appointment); // Assuming appointment is a valid DateTime string
-                const dateTimeCombined = dateTime.toLocaleDateString();
-                const date = dateTime.toLocaleDateString('en-GB', {
+            
+                const date = new Intl.DateTimeFormat('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
-                });
-
-                const timeSlotBegin = dateTime.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
+                }).format(dateTime);
+            
+                const timeSlotBegin = new Intl.DateTimeFormat('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
                     hour12: true,
-                }); // Format the time as needed
-
-                const weekday = dateTime.toLocaleDateString('en-GB', {
+                    timeZone: 'UTC', // Use UTC for the initial time
+                }).format(dateTime);
+            
+                const weekday = new Intl.DateTimeFormat('en-GB', {
                     weekday: 'long',
-                });
-
+                }).format(dateTime);
+            
                 const timeSlotEnd = new Date(dateTime.getTime() + (60 * 60 * 1000));
-                const timeSlotEndFormatted = timeSlotEnd.toLocaleTimeString('en-US', {
-                    hour: '2-digit',
-                    minute: '2-digit',
+                const timeSlotEndFormatted = new Intl.DateTimeFormat('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric',
                     hour12: true,
-                });
-
+                    timeZone: 'UTC', // Use UTC for the initial time
+                }).format(timeSlotEnd);
+            
                 // Combine current and next hour time
                 const combinedTime = `${timeSlotBegin} - ${timeSlotEndFormatted}`;
-
+            
                 return {
                     date,
                     combinedTime,
@@ -130,6 +132,7 @@ const RescheduleAppointment = () => {
                     appointment
                 };
             });
+            
             setAvailableSlots(formattedAppointments);
 
         } else {
@@ -220,7 +223,7 @@ const RescheduleAppointment = () => {
                             <td>{appointment.date}</td>
                             <td>{appointment.combinedTime}</td>
                             <td>
-                                <button onClick={() => handleRescheduleAppointment(appointment)}>
+                                <button className={styles["button-2"]} onClick={() => handleRescheduleAppointment(appointment)}>
                                     Reschedule
                                 </button>
                             </td>

@@ -3,8 +3,11 @@ const asyncHandler = require('express-async-handler');
 const patientModel = require('../../models/Patient');
 const doctorModel = require('../../models/Doctor');
 const appointmentModel = require('../../models/Appointment');
-const subsPackageModel = require('../../models/SubscribedPackages')
-const packageModel = require('../../models/Package')
+const subsPackageModel = require('../../models/SubscribedPackages');
+const packageModel = require('../../models/Package');
+const linkedFamilyModel = require('../../models/LinkedFamily');
+const familyModel = require('../../models/Family');
+
 
 // Add a new appointment to the database
 const createAppointment = asyncHandler(async (req, res) => {
@@ -93,6 +96,41 @@ const getPastAppointments = asyncHandler(async (req, res) => {
     const upcomingAppointments = await appointmentModel.find({ patient_username: patient.username, status: "completed" });
     res.status(200).json(upcomingAppointments);
 });
+
+const getPatientByUsername = async (req, res) => {
+    const patientUsername = req.query.patient_username;
+
+    try {
+        // Search in patientModel
+        const patient = await patientModel.findOne({ username: patientUsername });
+
+        // If patient is not found in patientModel, search in familyMemberSchema
+        if (!patient) {
+            const familyMember = await familyModel.findOne({ national_id: patientUsername });
+
+            // If patient is not found in familyMemberSchema, search in linkedFamilyMember with schema
+            if (!familyMember) {
+                const linkedFamilyMember = await linkedFamilyModel.findOne({ username: patientUsername });
+
+                if (linkedFamilyMember) {
+                    // Return linkedFamilyMember details
+                    res.status(200).json(linkedFamilyMember);
+                } else {
+                    res.status(404).json({ message: 'Patient not found' });
+                }
+            } else {
+                // Return familyMember details
+                res.status(200).json(familyMember);
+            }
+        } else {
+            // Return patient details
+            res.status(200).json(patient);
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
 
 
 const getHourlyRateByUsername = async (req, res) => {
@@ -346,4 +384,8 @@ const cancelAppointment = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Success', canceledAppointment: true, refundAmount: refund });
 });
 
-module.exports = { createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getBookedAppointments, getAppointmentById, getHourlyRateByUsername, getHourlyRateByNationalID, rescheduleAppointment, cancelAppointment };
+
+
+
+
+module.exports = { createAppointment, getAppointments, getUpcomingAppointments,getPatientByUsername, getPastAppointments, getBookedAppointments, getAppointmentById, getHourlyRateByUsername, getHourlyRateByNationalID, rescheduleAppointment, cancelAppointment };
