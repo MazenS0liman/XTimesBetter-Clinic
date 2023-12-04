@@ -32,6 +32,7 @@ import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 import TimeSlots from'../timeSlotsPage/timeSlots';
 import UploadHealthRecords from'../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
+import DoctorNotifications from '../viewNotifications/viewNotifications';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -125,6 +126,10 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/viewHealthPage",
             pageName: "Health Page",
+        },
+        {
+            url: "/doctor/viewNotifications",
+            pageName: "notifications",
         }
     ];
 
@@ -151,6 +156,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/addTimeSlot" element={<TimeSlots />} />
                     <Route path="/uploadHealthRecords" element={<UploadHealthRecords />} />
                     <Route path="/viewHealthPage" element={<ViewPHealthRecords />} />
+                    <Route path="/viewNotifications" element={<DoctorNotifications />} />
                 </Routes>
             </>
         </div>

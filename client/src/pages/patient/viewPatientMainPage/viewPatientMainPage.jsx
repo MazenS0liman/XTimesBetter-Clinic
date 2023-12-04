@@ -41,6 +41,7 @@ import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
 import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
+import PatientNotifications from '../viewNotifications/viewNotifications';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -151,6 +152,10 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/viewHealthRecords",
             pageName: "Health Records",
+        },
+        {
+            url: "/patient/viewNotifications",
+            pageName: "notifications",
         }
     ];
 
@@ -188,6 +193,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/unsuccessPayment" element={<UnsuccessPayment />} />
                     <Route path="/viewMedicalHistory" element={<ViewMedicalHistory />} />
                     <Route path="/viewHealthRecords" element={<ViewHealthRecords />} />
+                    <Route path="/viewNotifications" element={<PatientNotifications />} />
                 </Routes>
             </>
         </div>

@@ -64,6 +64,20 @@ const DoctorSchema = mongoose.Schema({
     walletAmount:{
         type: Number,
 
+    }, notifications: {
+        type: [
+            {
+                message: {
+                    type: String,
+                    required: true,
+                },
+                timestamp: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
+        default: [],
     }
     
 }, { timestamps: true });

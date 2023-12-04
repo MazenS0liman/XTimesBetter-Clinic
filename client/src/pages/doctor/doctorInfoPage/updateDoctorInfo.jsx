@@ -1,8 +1,43 @@
 import React, { useState } from 'react';
 
 function UpdateDoctorInfo() {
+  //new part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  const [notifications, setNotifications] = useState([]);
+  // console.log(accessToken);
+  useEffect(() => {
+    if (username.length != 0) {
+      setLoad(false);
+    }
+  }, [username]);
+  async function checkAuthentication() {
+    await axios({
+      method: 'get',
+      url: 'http://localhost:5000/authentication/checkAccessToken',
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': accessToken,
+        'User-type': 'doctor',
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setUsername(response.data.username);
+        //setLoad(false);
+      })
+      .catch((error) => {
+        //setLoad(false);
+        navigate('/login');
+
+      });
+  }
+
+  checkAuthentication();
+
   const [doctorInfo, setDoctorInfo] = useState({
-    username: '',
+    username: username,
     email:'',
     hourly_rate: 0,
     affiliation:'',
@@ -19,8 +54,6 @@ function UpdateDoctorInfo() {
     if (name === 'email' || name === 'affiliation' || name === 'hourly_rate') {
       // Only allow editing of email, affiliation, and hourly_rates fields
       setDoctorInfo({ ...doctorInfo, [name]: value });
-    }else if (name === 'username') {
-      setDoctorInfo({ ...doctorInfo, username: value });
     }
   };
   // console.log(doctorInfo)
@@ -56,7 +89,7 @@ function UpdateDoctorInfo() {
       return;
   }
     const requestBody = {
-        username: doctorInfo.username,
+        username: username,
         email: doctorInfo.email,
         hourly_rate: doctorInfo.hourly_rate,
         affiliation: doctorInfo.affiliation
@@ -96,7 +129,9 @@ function UpdateDoctorInfo() {
   };
  
     
-      
+  if (load) {
+    return (<div>Loading</div>)
+  }
 
 return (
     <div className="choose">
@@ -170,17 +205,7 @@ return (
           />
         </div>
       )}
-      <div className="username" id="username">
-          <label htmlFor="username"> Doctor username: </label>
-          <input
-            type="text"
-            name="username"
-            value={doctorInfo.username}
-            onChange={handleChange}
-            required="true"
-            
-          />
-        </div>
+ 
 
      <button type="button" onClick={handleSubmit}>
         Update Doctor Info

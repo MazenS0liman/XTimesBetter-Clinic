@@ -51,6 +51,20 @@ const PatientSchema = mongoose.Schema({
         type: [String],
         default: [],
         required: false,
+    }, notifications: {
+        type: [
+            {
+                message: {
+                    type: String,
+                    required: true,
+                },
+                timestamp: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
+        default: [],
     }
    
 }, { timestamps: true });
