@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 
-//import './AddPackage.module.css';
+// Axios
+import axios from 'axios';
+
+import './AddPackage.css';
 
 
 function AddPackage() {
@@ -13,7 +16,22 @@ function AddPackage() {
     text5: '',
   });
   const [errorMessage, setErrorMessage] = useState('');
+  const [packages, setPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Make an API request to fetch the list of packages
+    axios
+      .get('http://localhost:5000/admin/ViewPackage')
+      .then((response) => {
+        setPackages(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setErrorMessage(error);
+        setLoading(false);
+      });
+    }, []);
   // Function to handle input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,6 +77,7 @@ function AddPackage() {
       if (response.ok) {
         const responseData = await response.json();
         setErrorMessage('Package Added');
+        window.location.reload();
         // Handle the response data here
         console.log('API Response:', responseData);
       } 
@@ -77,9 +96,16 @@ function AddPackage() {
     
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
+    <div>
     <div className="add-package-container">
+    <h2>Add new Package</h2>
       <input
+      className="add-package-input"
         type="text"
         name="text1"
         value={inputs.text1}
@@ -87,6 +113,7 @@ function AddPackage() {
         placeholder="Name"
       />
       <input
+       className="add-package-input"
         type="Number"
         name="text2"
         value={inputs.text2}
@@ -94,6 +121,7 @@ function AddPackage() {
         placeholder="Price"
       />
       <input
+       className="add-package-input"
         type="Number"
         name="text3"
         value={inputs.text3}
@@ -101,6 +129,7 @@ function AddPackage() {
         placeholder="Doctor Discount"
       />
       <input
+       className="add-package-input"
         type="Number"
         name="text4"
         value={inputs.text4}
@@ -108,15 +137,48 @@ function AddPackage() {
         placeholder="Medicine Discount"
       />
       <input
+       className="add-package-input"
         type="Number"
         name="text5"
         value={inputs.text5}
         onChange={handleInputChange}
         placeholder="Family Discount"
       />
-      <button onClick={handleButtonClick}>Submit</button>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+       <div>
+      <button className="add-package-button" onClick={handleButtonClick}>Submit</button>
+      </div>
+      </div>
+
+  <div>
+      <table  className="add-package-data-table">
+        <thead>
+          <tr>
+            
+            <th className="add-package-table-header">Name</th>
+            <th className="add-package-table-header">Price</th>
+            <th className="add-package-table-header">Doctor Discount</th>
+            <th className="add-package-table-header">Medicine Discount</th>
+            <th className="add-package-table-header">Family Discount</th>
+           
+           
+           
+          </tr>
+        </thead>
+        <tbody>
+          {packages.map((item) => (
+            <tr key={item.name}>
+              <td className="add-package-table-cell">{item.name}</td>
+              <td className="add-package-table-cell">{item.price}</td>
+              <td className="add-package-table-cell">{item.doctor_discount}</td>
+              <td className="add-package-table-cell">{item.medicine_discount}</td>
+              <td className="add-package-table-cell">{item.family_discount}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {errorMessage && <p className="add-package-error-message">{errorMessage}</p>}
     </div>
+     </div>
   );
 }
 

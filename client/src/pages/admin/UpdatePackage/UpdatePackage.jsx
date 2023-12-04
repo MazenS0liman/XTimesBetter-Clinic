@@ -98,11 +98,16 @@ function UpdatePackage() {
         //console.log('Update Successful');
         setErrorMessage('Update Successful');
 
+        window.location.reload();
         
       }
       else if (response.status===404){
         setErrorMessage('No package with this name');
       }
+      else if (response.status===406){
+        setErrorMessage('Package New Name Already Exist');
+      }
+      
       else {
         // Handle API error (e.g., show an error message)
         console.error('API Error:', response.statusText);
@@ -118,7 +123,7 @@ function UpdatePackage() {
       <h2>Update Package</h2>
       <form onSubmit={handleUpdateSubmit}>
         {/* Attribute 1 */}
-        <div className="form-group">
+        <div className="update-form-group">
           <label>Name:</label>
           <input
             type="text"
@@ -128,7 +133,7 @@ function UpdatePackage() {
         </div>
 
         {/* Attribute 2 */}
-        <div className="form-group">
+        <div className="update-form-group">
           <label>Price:</label>
           <input
             type="Number"
@@ -138,7 +143,7 @@ function UpdatePackage() {
         </div>
 
         {/* Attribute 3 */}
-        <div className="form-group">
+        <div className="update-form-group">
           <label>Doctor discount:</label>
           <input
             type="Number"
@@ -148,7 +153,7 @@ function UpdatePackage() {
         </div>
 
         {/* Attribute 4 */}
-        <div className="form-group">
+        <div className="update-form-group">
           <label>Medicine discount:</label>
           <input
             type="Number"
@@ -158,7 +163,7 @@ function UpdatePackage() {
         </div>
 
          {/* Attribute 5 */}
-         <div className="form-group">
+         <div className="update-form-group">
           <label>Family discount:</label>
           <input
             type="Number"
@@ -168,7 +173,7 @@ function UpdatePackage() {
         </div>
 
          {/* Attribute 6 */}
-         <div className="form-group">
+         <div className="update-form-group">
           <label>Old Name:</label>
           <select value={selectedPackage} onChange={handlePackageChange}>
         <option value="" disabled>Select a package</option>
@@ -180,7 +185,7 @@ function UpdatePackage() {
       </select>
         </div>
 
-        <button className="submit-button" type="submit">Update</button>
+        <button className="update-submit-button" type="submit">Update</button>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       </form>
     </div>

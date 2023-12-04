@@ -7,24 +7,24 @@
     border-radius: 5px;
   }
   
-  .form-group {
+  .update-form-group {
     margin-bottom: 10px;
   }
   
-  .form-group label {
+  .update-form-group label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
   }
   
-  .form-group input {
+  .update-form-group input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 3px;
   }
   
-  .submit-button {
+  .update-submit-button {
     display: block;
     width: 100%;
     padding: 10px;

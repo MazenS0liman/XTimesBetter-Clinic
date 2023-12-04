@@ -71,6 +71,9 @@ const updatePackage = async (req, res) => {
   try {
     // Find the package by ID and update its attributes
     const package = await packageModel.findOne({ name: oldname , valid : "valid"}); 
+    const checkDup = await packageModel.findOne({ name: updatedData.name , valid : "valid"}); 
+
+    if (!checkDup){
 
   if (package){
     const packageId = package._id;
@@ -86,8 +89,13 @@ const updatePackage = async (req, res) => {
   }
   else{
     return res.status(404).json({ message: 'Package not found' });
+   }
+   }
+   else {
+    return res.status(406).json({ message: 'Package Name Already Exist' });
+   }
   }
-}
+  
  
    catch (error) {
     res.status(500).json({ error: 'Failed to update package', details: error.message });
