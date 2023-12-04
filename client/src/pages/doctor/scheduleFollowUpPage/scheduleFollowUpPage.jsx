@@ -57,7 +57,7 @@ const ScheduleFollowUp = () => {
     //Authenticate part
 
     const getPastAppointments = async () => {
-        const response = await fetch(`http://localhost:5000/doctor/appointments/pastAppointments`, {
+        const response = await fetch(`http://localhost:5000/doctor/appointments/getPastAppointmentsFollowUp`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,12 +73,12 @@ const ScheduleFollowUp = () => {
         }
     };
 
-    const createFollowUp = async (patientUsername, appointmentTime, followUpTime) => {
+    const createFollowUp = async (appointment, followUpDateTime, followUpDate) => {
         const followUpData = {
-            doctor_username: username,
-            patient_username: patientUsername,
-            appointmentDateTime: appointmentTime,
-            followUpDateTime: followUpTime,
+            appointment : appointment,
+            followUpDateTime: followUpDateTime,
+            followUpDate : followUpDate,
+            appointment_ID: appointment._id, 
         };
     
         try {
@@ -112,6 +112,7 @@ const ScheduleFollowUp = () => {
         }
     };
 
+    /*
     // function to get past appointments
     const getScheduledFollowUp = async (currentUser) => {
         const response = await fetch(`http://localhost:5000/patient/appointment/FollowUpRequested`, {
@@ -128,7 +129,7 @@ const ScheduleFollowUp = () => {
         } else {
             throw new Error('Error filtering appointments by status');
         }
-    };
+    };*/
     
     
 
@@ -136,8 +137,8 @@ const ScheduleFollowUp = () => {
         getPastAppointments();
     }, []);
 
-    const handleScheduleFollowUp = (patientUsername, appointmentTime) => {
-        setSelectedAppointment({ patientUsername, appointmentTime });
+    const handleScheduleFollowUp = (appointment) => {
+        setSelectedAppointment({appointment});
         setShowFollowUpSection(true);
     };
 
@@ -146,8 +147,14 @@ const ScheduleFollowUp = () => {
     };
 
     const handleCreateFollowUp = async () => {
-        const { patientUsername, appointmentTime } = selectedAppointment;
-        const result = await createFollowUp(patientUsername, appointmentTime, followUpDateTime);
+        const { appointment} = selectedAppointment;
+        const follow = new Date(followUpDateTime); // Assuming appointment is a valid DateTime string
+        const followUpDate = follow.toLocaleDateString('en-GB', { 
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+      });
+        const result = await createFollowUp(appointment, followUpDateTime, followUpDate);
         setSelectedAppointment(null);
         setShowFollowUpSection(false);
     
@@ -160,8 +167,8 @@ const ScheduleFollowUp = () => {
                 window.alert(result.message);
             }
         }
-    
         setFollowUpDateTime('');
+        await getPastAppointments();
     };
     
     const getScheduledAppointments = async (currentUser) => {
@@ -222,7 +229,7 @@ const ScheduleFollowUp = () => {
                             <td>{appointment.time}</td>
                             <td>
                                 <button className={styles['button-schedule']}
-                                    onClick={() => handleScheduleFollowUp(appointment.patient_username, appointment.time)}
+                                    onClick={() => handleScheduleFollowUp(appointment)}
                                 >
                                     Schedule a Follow Up
                                 </button>
@@ -241,7 +248,6 @@ const ScheduleFollowUp = () => {
                                 <th>Doctor</th>
                                 <th>Patient</th>
                                 <th>Follow Up Date</th>
-                                <th>Appointment Date</th>
                                 <th>Status</th>
                             </tr>
                             </thead>
@@ -251,8 +257,7 @@ const ScheduleFollowUp = () => {
                                         <tr key={followUp._id}>
                                             <td>{followUp.doctor_username}</td>
                                             <td>{followUp.patient_username}</td>
-                                            <td>{followUp.followUpDateTime}</td>
-                                            <td>{followUp.appointmentDateTime}</td>
+                                            <td>{followUp.time}</td>
                                             <td>{followUp.status}</td>
                                         </tr>
                                     ))}
@@ -263,9 +268,9 @@ const ScheduleFollowUp = () => {
                 <div className={styles['div-schedule']}>
                     <h2>Follow Up Details</h2>
                     <h4 >Patient : </h4>
-                    <p> {selectedAppointment.patientUsername}</p>
+                    <p> {selectedAppointment.appointment.patient_username}</p>
                     <h4>Appointment Time:</h4>
-                    <p> {selectedAppointment.appointmentTime}</p>
+                    <p> {selectedAppointment.appointment.time}</p>
                     <h2>Enter Follow Up Date and Time</h2>
                     <br/>
                     <input

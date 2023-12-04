@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const { getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, cancelAppointment } = require('../../controllers/doctor/doctorAppointments')
+const { getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, cancelAppointment, getPastAppointmentsFollowUp } = require('../../controllers/doctor/doctorAppointments')
 const { authenticateToken } = require('../../middleware/authenticateToken');
 
 // Get all doctor upcoming appointments
@@ -7,6 +7,8 @@ router.get('/upcomingAppointments', authenticateToken, getUpcomingAppointments)
 
 // Get all doctor past appointments
 router.get('/pastAppointments', authenticateToken, getPastAppointments)
+
+router.get('/getPastAppointmentsFollowUp', authenticateToken, getPastAppointmentsFollowUp)
 
 // Doctor schedules a follow up with a patient.
 router.post('/scheduleFollowUp', scheduleFollowUpAppointment)

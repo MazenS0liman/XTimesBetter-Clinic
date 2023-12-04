@@ -38,4 +38,7 @@
     background-color: #0A63B7; 
   }
 
-  
+  table {
+    width : 90%;
+    margin: 0 auto;
+  }

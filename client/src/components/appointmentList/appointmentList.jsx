@@ -13,12 +13,12 @@ const appointmentList = ({ appointment, onCancel, onReschedule }) => {
             <td>{appointment.time}</td>
             <td>
                 {appointment.status === 'upcoming' && (
-                    <button onClick={() => onCancel(appointment._id)}>Cancel</button>
+                    <button className={styles['button-red']} onClick={() => onCancel(appointment._id)}>Cancel</button>
                 )}
             </td>
             <td>
                 {appointment.status === 'upcoming' && (
-                    <button onClick={() => onReschedule(appointment._id)}>Reschedule</button>
+                    <button className={styles['button-blue']} onClick={() => onReschedule(appointment._id)}>Reschedule</button>
                 )}
             </td>
         </tr>

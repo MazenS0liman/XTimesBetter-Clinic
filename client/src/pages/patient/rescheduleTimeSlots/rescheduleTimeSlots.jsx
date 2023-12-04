@@ -73,7 +73,6 @@ const RescheduleAppointment = () => {
             }
         } catch (error) {
             console.error('Error fetching appointment by ID:', error.message);
-            // Handle errors as needed
         }
     };
 

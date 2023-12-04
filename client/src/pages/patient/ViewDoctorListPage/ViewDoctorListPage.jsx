@@ -151,6 +151,7 @@ const ViewDoctorList = () => {
         setDoctorName(name);
         const searchResult = doctors.filter((doctor) => doctor.name.toLowerCase().startsWith(name.toLowerCase()))
         setDoctorsToBeDisplayed(searchResult)
+        console.log("name search" ,searchResult);
         setDoctorName("")
     }
 
@@ -172,7 +173,8 @@ const ViewDoctorList = () => {
 
     const handleClearSearch = () => {
         setDoctorsToBeDisplayed(doctors)
-        setSelectedSpeciality();
+        setSelectedSpeciality('');
+        setSelectedDate('');
         
     }
 
@@ -259,70 +261,81 @@ const ViewDoctorList = () => {
 
     }
 
+    
+
     //Authenticate
     if (load) {
         return (<div>Loading</div>)
     }
 
     return (
-        <>
+        <div className={styles.container}>
             <h1 className={styles["list-title"]}>Doctors List</h1>
-            <DoctorSearchBar onSearch={handleSearchByName} onSearch2={handleSearchBySpeciality} onSearch3={handleSearchByNameandSpeciality} onClear={handleClearSearch} handleDatePickerClick={handleDatePickerClick}  />
-            
-            <div className={styles["ddl-container"]}>
-                <label className={styles["ddl-label"]}>Select Doctor Speciality:</label>
-                <select className={styles["ddl-select"]} id = "DDLSpeciality" value={selectedSpeciality} onChange={handleFilterBySpeciality}>
-                    <option value="">No filter</option>
-                    {
-                        doctorSpecialityFilter && doctorSpecialityFilter.map((speciality, index) => (
-                            <option key={index} value={speciality}>
-                                {speciality}
-                            </option>
-                        ))
-                    }
-                </select>
+    
+            <div className={styles["header-container"]}>
+                <div className={styles["search-container"]}>
+                    <DoctorSearchBar onSearch={handleSearchByName} onSearch2={handleSearchBySpeciality} onSearch3={handleSearchByNameandSpeciality} onClear={handleClearSearch} handleDatePickerClick={handleDatePickerClick} />
+                </div>
+    
+                <div className={styles["right-container"]}>
+                    <div className={styles["ddl-container"]}>
+                        <label className={styles["ddl-label"]}>Select Doctor Speciality:</label>
+                        <select className={styles["ddl-select"]} id="DDLSpeciality" value={selectedSpeciality} onChange={handleFilterBySpeciality}>
+                            <option value="">No filter</option>
+                            {doctorSpecialityFilter &&
+                                doctorSpecialityFilter.map((speciality, index) => (
+                                    <option key={index} value={speciality}>
+                                        {speciality}
+                                    </option>
+                                ))}
+                        </select>
+                    </div>
+                    <br></br>
+                    <br></br>
+                    <div className={styles["ddl-container"]}>
+                        <label className={styles["ddl-label"]}>Availability :</label>
+                        <input
+                            id="datePicked"
+                            className={styles["ddl-select"]}
+                            type="datetime-local"
+                            name="availability"
+                            value={selectedDate}
+                            onChange={(e) => {
+                                setSelectedDate(e.target.value);
+                                handleDatePickerClick(e);
+                            }}
+                            required
+                        />
+                    </div>
+                </div>
             </div>
-                
-            
-            <br></br>
-            <div>
-                <label className={styles["ddl-label"]}>Availability :</label>
-                <input id = "datePicked" className={styles["ddl-select"]}
-                    type = "datetime-local"
-                    name = "availability"
-                    value = {selectedDate}
-                    onChange = { (e) => {
-                        setSelectedDate(e.target.value);
-                        handleDatePickerClick(e)
-                    }
-                    }
-                    required
-                />
-            </div>
-
-            < div className={styles["result-container"]}>
+    
+            <div className={styles["result-container"]}>
                 <table>
                     <thead>
-                        <tr >
+                        <tr>
                             <th>Name</th>
                             <th>Speciality</th>
                             <th>Hourly Rate</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {doctors &&
-                            doctors.map((doctor) => (
-                            <tr key={doctor._id} onClick={() => handleRowClick(doctor.username)}>
-                                <td>{doctor.name}</td>
-                                <td>{doctor.speciality}</td>
-                                <td>{doctor.hourly_rate}</td>
-                            </tr>
+                        {doctorsToBeDisplayed &&
+                            doctorsToBeDisplayed.map((doctor) => (
+                                <tr key={doctor._id} onClick={() => handleRowClick(doctor.username)}>
+                                    <td>{doctor.name}</td>
+                                    <td>{doctor.speciality}</td>
+                                    <td>{doctor.hourly_rate}</td>
+                                </tr>
                             ))}
                     </tbody>
                 </table>
-            </div >
-        </>
+            </div>
+        </div>
     );
+    
+    
+
 }
 
 
