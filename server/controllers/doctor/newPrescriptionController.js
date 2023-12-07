@@ -1,6 +1,8 @@
 const Medicine = require('../../models/Medicine')
 const Appointment = require('../../models/Appointment')
 const Prescription = require('../../models/Prescription')
+const Patient = require('../../models/Patient')
+const Family = require('../../models/Family')
 const mongoose = require('mongoose')
 
 
@@ -21,7 +23,7 @@ const getMyPatientsCompleted = async (req, res) => {
 
 //get all medicines 
 const getAllMedicines = async (req, res) => {
-    const medicines = await Medicine.find({}).sort({ createdAt: -1 });
+    const medicines = await Medicine.find({ archived: false }).sort({ createdAt: -1 });
     res.status(200).json(medicines)
 }
 
@@ -30,26 +32,23 @@ const getAllMedicines = async (req, res) => {
 let prescriptionMeds = []
 
 const addMedToPrescription = async (req, res) => {
-    const { medName, dose, notes, price } = req.body;
-    prescriptionMeds = req.body.prescriptionMeds; //added so that I have the updated prescribed meds from session (solving 'back' issue)
+    const { medName, price, prescriptionMeds } = req.body;
     const existingItem = prescriptionMeds.find((prescribedMed) => prescribedMed.name === medName);
     const medicine = await Medicine.findOne({ name: medName });
+
     if (existingItem) {
-        console.log("Medicine already added!")
+        console.log("Medicine already added!");
         res.status(400).json({ message: 'Medicine already prescribed', prescriptionMeds });
-    }
-    else {
+    } else {
         const med = {
             name: medName,
-            dose: dose,
-            timing: notes,
-            price: price
+            price: price,
+            dosage: ""
         };
         prescriptionMeds.push(med);
         res.status(200).json({ success: true, message: 'Medicine added', prescriptionMeds });
     }
-}
-
+};
 
 //view prescription for finalizing
 const viewPrescription = async (req, res) => {
@@ -73,11 +72,40 @@ const savePrescription = async (req, res) => {
 
 }
 
+//get patient's details
+const getPatientDetails = async (req, res) => {
+    const { patientUsername } = req.params;
+
+    try {
+        const patient = await Patient.findOne({ username: patientUsername });
+        if (!patient) {
+            const familyMember = await Family.findOne({ national_id: patientUsername });
+            res.status(200).json(familyMember);
+        }
+        else {
+            const today = new Date();
+            const birthDate = new Date(patient.dob);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            let user = { ...patient._doc, age };
+            res.status(200).json(user);
+        }
+
+    } catch (error) {
+        console.error('Error fetching patient information:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     getMyPatientsCompleted,
     getAllMedicines,
     addMedToPrescription,
     viewPrescription,
-    savePrescription
+    savePrescription,
+    getPatientDetails
 
 }

@@ -40,39 +40,45 @@ const FinalizePrescription = () => {
 
     checkAuthentication();
 
-
     const [visitDate, setVisitDate] = useState('');
     const [patientUsername, SetPatientUsername] = useState('');
+    const [patientName, SetPatientName] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('');
     const [visitID, setVisitID] = useState('');
     const [prescriptionMeds, setPrescriptionMeds] = useState([]);
+
+    const [dosage, setdosage] = useState({});
     const location = useLocation();
     useEffect(() => {
-        const storedPrescriptionMeds = JSON.parse(sessionStorage.getItem('prescriptionMeds'));
+        const storedPrescriptionMeds = JSON.parse(sessionStorage.getItem('prescriptionMeds')) || [];
         const initialPrescription = storedPrescriptionMeds || [];
         setPrescriptionMeds(initialPrescription);
+        const initialDosage = {};
+        initialPrescription.forEach(medicine => {
+            initialDosage[medicine.name] = medicine.dosage || '';
+        });
+        setdosage(initialDosage);
 
-        if (location.state && location.state.visitDate && location.state.patientUsername && location.state.visitID && location.state.prescriptionMeds) {
+        if (location.state) {
             setVisitDate(location.state.visitDate);
             SetPatientUsername(location.state.patientUsername);
             setVisitID(location.state.visitID);
-            //setPrescriptionMeds(location.state.prescriptionMeds);
+            SetPatientName(location.state.patientName);
+            setAge(location.state.age);
+            setGender(location.state.gender);
         }
+
+
     }, [location.state]);
 
-    //console.log('prescription: ', prescriptionMeds)
-    const [doseValues, setDoseValues] = useState({});
-    const [notesValues, setNotesValues] = useState({});
-
-    const [editMode, setEditMode] = useState(false);
 
     const updatePrescriptionMeds = (type, medicineName, value) => {
         const storedPrescriptionMeds = JSON.parse(sessionStorage.getItem('prescriptionMeds')) || [];
         const updatedPrescriptionMeds = storedPrescriptionMeds.map(medicine => {
             if (medicine.name === medicineName) {
-                if (type === 'dose') {
-                    return { ...medicine, dose: value };
-                } else if (type === 'notes') {
-                    return { ...medicine, timing: value };
+                if (type === 'dosage') {
+                    return { ...medicine, dosage: value };
                 }
             }
             return medicine;
@@ -80,23 +86,18 @@ const FinalizePrescription = () => {
         sessionStorage.setItem('prescriptionMeds', JSON.stringify(updatedPrescriptionMeds));
     };
 
-    const handleNotesChange = (medicineName, newNotes) => {
-        if (editMode) {
-            setNotesValues({ ...notesValues, [medicineName]: newNotes });
-            const newNotesValues = { ...notesValues, [medicineName]: newNotes };
-            setNotesValues(newNotesValues);
-            updatePrescriptionMeds('notes', medicineName, newNotes);
+    const handleDosageChange = (medicineName, newDosage) => {
+        // If the new dosage is an empty string, remove the medicine from the dosage state
+        if (newDosage.trim() === '') {
+            const { [medicineName]: _, ...updatedDosage } = dosage;
+            setdosage(updatedDosage);
+        } else {
+            // Update the dosage state with the new value
+            setdosage((prevDosage) => ({ ...prevDosage, [medicineName]: newDosage }));
         }
-    };
 
-    const handleDoseChange = (medicineName, action) => {
-        if (editMode) {
-            const currentDose = doseValues[medicineName] || 1;
-            const updatedDose = action === 'increment' ? currentDose + 1 : Math.max(1, currentDose - 1);
-            const newDoseValues = { ...doseValues, [medicineName]: updatedDose };
-            setDoseValues(newDoseValues);
-            updatePrescriptionMeds('dose', medicineName, updatedDose);
-        }
+        // Update the prescriptionMeds in sessionStorage
+        updatePrescriptionMeds('dosage', medicineName, newDosage);
     };
 
 
@@ -112,6 +113,13 @@ const FinalizePrescription = () => {
             alert('Prescription is empty. Please add medicines before submitting.');
             return;
         }
+        const isDosageEmpty = Object.values(dosage).some(d => d.trim() === '');
+        //console.log("Dosage", dosage)
+        if (isDosageEmpty) {
+            alert('Please enter dosage for all medicines before submitting.');
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:5000/doctor/newPrescription/saveNewPrescription', {
                 patientUsername,
@@ -137,7 +145,9 @@ const FinalizePrescription = () => {
     };
 
     const redirectBack = () => {
-        navigate('/doctor/addMedsToPrescription', { state: { visitDate: visitDate, visitID: visitID, patientUsername: patientUsername } });
+        navigate('/doctor/addMedsToPrescription', {
+            state: { visitDate: visitDate, visitID: visitID, patientUsername: patientUsername, patientName: patientName, gender: gender, age: age }
+        });
     };
 
     if (load) {
@@ -146,24 +156,23 @@ const FinalizePrescription = () => {
     return (
         <>
 
-            <div className={styles["prescriptionReviewContainer"]}>
-                <h1 className={styles["prescriptionReviewTitle"]}>Prescription Review</h1>
-                <h1 className={styles["prescriptionReviewItem"]}>Patient Username: {patientUsername}</h1>
-                <h1 className={styles["prescriptionReviewItem"]}>Visit Date: {visitDate}</h1>
+            <div className={styles["prescriptionHeader"]}>
+                <div className={styles["prescriptionHeaderInfo"]}>
+                    <h2>Prescription</h2>
+                    <p>Issued On: {new Date().toLocaleDateString('en-GB')}</p>
+                </div>
+                <div className={styles["patientInfo"]}>
+                    <p>Patient Name: {patientName}</p>
+                    <p>Age: {age}</p>
+                    <p>Gender: {gender}</p>
+                    <p>Visit Date: {visitDate}</p>
+                </div>
             </div>
             <div className={styles["finalizePrescriptionContainer"]}>
-                <div className={styles["finalizeButtonContainer"]}>
-                    <button className={styles["backButton"]} onClick={() => redirectBack()}>Back</button>
-
-                    <button className={styles["finalizePrescriptionEditConfirm"]} onClick={() => setEditMode((prevMode) => !prevMode)}>
-                        {editMode ? "Confirm" : "Edit"}
-                    </button>
-                </div>
                 <table className={styles["finalizePrescriptionTable"]}>
                     <thead>
                         <th>Medicine</th>
-                        <th>Dose</th>
-                        <th>Note</th>
+                        <th>Dosage</th>
                         <th></th>
                     </thead>
                     <tbody>
@@ -172,27 +181,12 @@ const FinalizePrescription = () => {
                                 <tr key={medicine.name}>
                                     <td>{medicine.name}</td>
                                     <td>
-                                        {editMode ? (
-                                            <div>
-                                                <button onClick={() => handleDoseChange(medicine.name, 'decrement')}>-</button>
-                                                <span>{doseValues[medicine.name] || medicine.dose}</span>
-                                                <button onClick={() => handleDoseChange(medicine.name, 'increment')}>+</button>
-                                            </div>
-                                        ) : (
-                                            <span>{doseValues[medicine.name] || medicine.dose}</span>
-                                        )}
-                                    </td>
-                                    <td>
-                                        {editMode ? (
-                                            <input
-                                                type="text"
-                                                placeholder="Enter notes"
-                                                value={notesValues[medicine.name] || medicine.timing}
-                                                onChange={(e) => handleNotesChange(medicine.name, e.target.value)}
-                                            />
-                                        ) : (
-                                            <span>{notesValues[medicine.name] || medicine.timing}</span>
-                                        )}
+                                        <input
+                                            type="text"
+                                            placeholder="Enter Dosage"
+                                            value={dosage[medicine.name] || ""}
+                                            onChange={(e) => handleDosageChange(medicine.name, e.target.value)}
+                                        />
                                     </td>
                                     <td className={styles["finalizePrescriptionDeleteCell"]}>
                                         <button className={styles["finalizePrescriptionDelete"]} onClick={() => handleDelete(medicine.name)}>Delete</button>
@@ -204,8 +198,8 @@ const FinalizePrescription = () => {
                 </table>
             </div>
             <div>
+                <button className={styles["backButton"]} onClick={() => redirectBack()}>Back</button>
                 <button className={styles["finalizePrescriptionSubmit"]} onClick={() => handleSubmit()}>Submit</button>
-
             </div>
 
 

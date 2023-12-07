@@ -19,8 +19,7 @@ const PrescriptionSchema = mongoose.Schema({
     },
     medicines: [{
         name: String,
-        dose: String,
-        timing: String, //extra notes
+        dosage: String,
         price: Number
     }],
     visitID: {

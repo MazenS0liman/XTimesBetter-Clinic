@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import styles from './patientVisitLogPage.module.css';
 
+import backgroundImage from '../../../assets/img/patientLogBackground.jpg'
+
 import { redirect, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 const PatientVisitLog = () => {
@@ -65,9 +67,9 @@ const PatientVisitLog = () => {
 
     const myPatientsList = myPatients;
 
-    const redirectToWritePrescription = async (patientUsername, date, visitID) => {
+    const redirectToWritePrescription = async (patientUsername, date, visitID, patientName) => {
         sessionStorage.removeItem('prescriptionMeds');
-        navigate('/doctor/addMedsToPrescription', { state: { patientUsername: patientUsername, visitDate: date, visitID: visitID } })
+        navigate('/doctor/addMedsToPrescription', { state: { patientUsername: patientUsername, patientName: patientName, visitDate: date, visitID: visitID } })
 
     };
 
@@ -75,25 +77,26 @@ const PatientVisitLog = () => {
         return (<div>Loading</div>)
     }
     return (
-        <>
+        <div className={styles["patientVisitLogContainer"]} style={{ backgroundImage: `url(${backgroundImage})` }}>
             <h1 className={styles["patientLogTitle"]}>Patients Log</h1>
             <div className={styles["patientLogContainer"]}>
                 <table className={styles["patientLogTable"]}>
                     <thead>
                         <tr className={styles["patientLogTableHeader"]}>
-                            <th>Visit ID</th>
-                            <th>Patient Username</th>
-                            <th>Visit Date</th>
+                            {/* <th>Appointment ID</th> */}
+                            <th>Patient Name</th>
+                            <th>Appointment Date</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody className={styles["patientLogTableCell"]}>
                         {
                             myPatientsList && myPatientsList.map((record) => (
                                 <tr key={record.patient_username}>
-                                    <td className={styles["patientLogTableCell"]}>{record._id}</td>
-                                    <td className={styles["patientLogTableCell"]}>{record.patient_username}</td>
+                                    {/* <td className={styles["patientLogTableCell"]}>{record._id}</td> */}
+                                    <td className={styles["patientLogTableCell"]}>{record.name}</td>
                                     <td className={styles["patientLogTableCell"]}>{record.date}</td>
-                                    <td className={styles["patientLogTableCell"]}><button className={styles["addPrescriptionButton"]} onClick={() => redirectToWritePrescription(record.patient_username, record.date, record._id)}>Add Prescription</button></td>
+                                    <td className={styles["addPrescriptionCell"]}><button className={styles["addPrescriptionButton"]} onClick={() => redirectToWritePrescription(record.patient_username, record.date, record._id, record.name)}>Add Prescription</button></td>
                                 </tr>
                             ))
                         }
@@ -101,7 +104,7 @@ const PatientVisitLog = () => {
                 </table>
             </div >
 
-        </>
+        </div>
     );
 };
 

@@ -44,36 +44,45 @@ const AddMedsToPrescription = () => {
     const [visitDate, setVisitDate] = useState('');
     const [patientUsername, SetPatientUsername] = useState('');
     const [visitID, setVisitID] = useState('');
+    const [patientName, setPatientName] = useState('');
+    const [age, setAge] = useState('');
+    const [gender, setGender] = useState('');
     const location = useLocation();
     useEffect(() => {
-        if (location.state && location.state.visitDate && location.state.patientUsername && location.state.visitID) {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/doctor/newPrescription/getInfo/${location.state.patientUsername}`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': accessToken,
+                    },
+                });
+
+                if (response && response.data) {
+                    const { age, gender } = response.data;
+                    setAge(age);
+                    setGender(gender);
+                }
+            } catch (error) {
+                console.error('Error fetching patient information:', error);
+            }
+        };
+
+        if (location.state && location.state.visitDate && location.state.patientUsername && location.state.visitID && location.state.patientName) {
             setVisitDate(location.state.visitDate);
             SetPatientUsername(location.state.patientUsername);
             setVisitID(location.state.visitID);
-
+            setPatientName(location.state.patientName);
+            fetchData(); // Fetch additional information when the component mounts
         }
-    }, [location.state]);
+    }, [location.state, accessToken]);
 
     const [medicines, setMedicines] = useState([]);
-    //const [prescriptionMeds, setPrescriptionMeds] = useState([]);
-    // const [doseValues, setDoseValues] = useState({});
-    // const [notesValues, setNotesValues] = useState({});
     const prescriptionMedsFromSessionStorage = JSON.parse(sessionStorage.getItem('prescriptionMeds')) || [];
     const [prescriptionMeds, setPrescriptionMeds] = useState(prescriptionMedsFromSessionStorage);
-    // Extract doseValues and notesValues from prescriptionMeds or use empty objects as default
-    const doseValuesFromSessionStorage = prescriptionMedsFromSessionStorage.reduce((acc, med) => {
-        acc[med.name] = med.dose;
-        return acc;
-    }, {});
 
-    const notesValuesFromSessionStorage = prescriptionMedsFromSessionStorage.reduce((acc, med) => {
-        acc[med.name] = med.timing;
-        return acc;
-    }, {});
+    // Extract dosage from prescriptionMeds or use empty objects as default
 
-    // Set initial states using retrieved values
-    const [doseValues, setDoseValues] = useState(doseValuesFromSessionStorage);
-    const [notesValues, setNotesValues] = useState(notesValuesFromSessionStorage);
 
     useEffect(() => {
 
@@ -96,24 +105,12 @@ const AddMedsToPrescription = () => {
         fetchAllMedicines();
     }, []);
 
-    const handleNotesChange = (medicineName, newNotes) => {
-        setNotesValues({ ...notesValues, [medicineName]: newNotes });
-    };
-
-    const handleDoseChange = (medicineName, action) => {
-        const currentDose = doseValues[medicineName] || 1;
-        const updatedDose = action === 'increment' ? currentDose + 1 : Math.max(1, currentDose - 1);
-        setDoseValues({ ...doseValues, [medicineName]: updatedDose });
-    };
-
-    const addToPrescription = async (medicineName, dose, notes, price, prescriptionMeds) => {
+    const addToPrescription = async (medicineName, price, prescriptionMeds) => {
 
         try {
             //const prescriptionMeds = JSON.parse(sessionStorage.getItem('prescriptionMeds')) || [];
             const response = await axios.post('http://localhost:5000/doctor/newPrescription/addMed', {
                 medName: medicineName,
-                dose,
-                notes,
                 price,
                 prescriptionMeds: prescriptionMeds, // Pass the current prescriptionMeds
             });
@@ -132,12 +129,24 @@ const AddMedsToPrescription = () => {
 
         }
     };
+
+    const removeFromPrescription = (medicineName) => {
+        const updatedPrescriptionMeds = prescriptionMeds.filter((med) => med.name !== medicineName);
+        setPrescriptionMeds(updatedPrescriptionMeds);
+    };
+
     const redirectToFinalizePrescription = async () => {
 
         sessionStorage.setItem('prescriptionMeds', JSON.stringify(prescriptionMeds));
-        navigate('/doctor/finalizePrescription', { state: { prescriptionMeds: prescriptionMeds, visitDate: visitDate, visitID: visitID, patientUsername: patientUsername } })
+        navigate('/doctor/finalizePrescription', { state: { prescriptionMeds: prescriptionMeds, visitDate: visitDate, visitID: visitID, patientUsername: patientUsername, patientName: patientName, gender: gender, age: age } })
 
     };
+
+    const redirectToPatientsLog = async () => {
+        sessionStorage.removeItem('prescriptionMeds');
+        navigate('/doctor/writePrescription');
+
+    }
 
 
 
@@ -146,22 +155,33 @@ const AddMedsToPrescription = () => {
     }
     return (
         <>
-            <h1>Medicine List</h1>
             <div className={styles["detailsContainer"]}>
-                <h1 className={styles["addMedsHeading"]}>Patient: {patientUsername}</h1>
-                <h1 className={styles["addMedsHeading"]}>Visit Date: {visitDate}</h1>
-                <button className={styles["redirectButton"]} onClick={() => redirectToFinalizePrescription()}>Review Prescription</button>
+                <div className={styles["patientDetails"]}>
+                    <h2 className={styles["patientName"]}>Patient Info</h2>
+                    <div className={styles["patientInfo"]}>
+                        <p className={styles["label"]}>Name:</p>
+                        <p className={styles["patientValue"]}>{patientName}</p>
+                        <p className={styles["label"]}>Age:</p>
+                        <p className={styles["patientValue"]}>{age}</p>
+                        <p className={styles["label"]}>Gender:</p>
+                        <p className={styles["patientValue"]}>{gender}</p>
+                        <p className={styles["label"]}>Appointment Date:</p>
+                        <p className={styles["patientValue"]}>{visitDate}</p>
+                    </div>
+                </div>
+            </div>
+            <div className={styles["buttonContainer"]}>
+                <button className={styles["cancelButton"]} onClick={() => redirectToPatientsLog()}>Cancel Prescription</button>
+                <button className={styles["reviewButton"]} onClick={() => redirectToFinalizePrescription()}>Review Prescription</button>
             </div>
             <div className={styles["addMedsContainer"]}>
                 <table className={styles["medsTable"]}>
                     <thead className={styles["tableHeader"]}>
                         <tr>
-                            <th>Image</th>
-                            <th>Name</th>
+                            <th></th>
+                            <th>Medicine Name</th>
                             <th>Active Ingredients</th>
                             <th>Medicinal Uses</th>
-                            <th>Dose</th>
-                            <th>Note</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -178,37 +198,26 @@ const AddMedsToPrescription = () => {
                                         <li key={index}>{use}</li>
                                     ))}</td>
                                     <td className={styles["tableCell"]}>
-                                        <div>
-                                            <button
-                                                onClick={() => handleDoseChange(medicine.name, 'decrement')}
-                                                disabled={prescriptionMeds.some((med) => med.name === medicine.name)}
-                                            >-</button>
-                                            <span>{doseValues[medicine.name] || 1}</span>
-                                            <button
-                                                onClick={() => handleDoseChange(medicine.name, 'increment')}
-                                                disabled={prescriptionMeds.some((med) => med.name === medicine.name)}
-                                            >+</button>
-
-                                        </div>
-                                    </td>
-                                    <td className={styles["tableCell"]}>
-                                        <input className={styles["notesInput"]}
-                                            type="text"
-                                            placeholder="Enter notes"
-                                            value={notesValues[medicine.name] || ''}
-                                            onChange={(e) => handleNotesChange(medicine.name, e.target.value)}
-                                            disabled={prescriptionMeds.some((med) => med.name === medicine.name)}
-                                        />
-                                    </td>
-                                    <td className={styles["tableCell"]}>
-                                        {!medicine.availableQuantity ? <span className={styles["outOfStock"]}>Out of Stock</span> : (<button className={styles["addButton"]} onClick={() =>
-                                            addToPrescription(
-                                                medicine.name,
-                                                doseValues[medicine.name] || 1,
-                                                notesValues[medicine.name] || '',
-                                                medicine.price || 0,
-                                                prescriptionMeds)}
-                                            disabled={prescriptionMeds.some((med) => med.name === medicine.name)}>Add</button>)}
+                                        {!medicine.availableQuantity ? (
+                                            <span className={styles["outOfStock"]}>Out of Stock</span>
+                                        ) : (
+                                            <>
+                                                <button
+                                                    className={styles["addButton"]}
+                                                    onClick={() => addToPrescription(medicine.name, medicine.price || 0, prescriptionMeds)}
+                                                    disabled={prescriptionMeds.some((med) => med.name === medicine.name)}
+                                                >
+                                                    Add
+                                                </button>
+                                                <button
+                                                    className={styles["removeButton"]}
+                                                    onClick={() => removeFromPrescription(medicine.name)}
+                                                    disabled={!prescriptionMeds.some((med) => med.name === medicine.name)}
+                                                >
+                                                    Remove
+                                                </button>
+                                            </>
+                                        )}
                                     </td>
                                 </tr>
                             ))

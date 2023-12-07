@@ -1,6 +1,6 @@
 const express = require('express')
 const {
-    getMyPatientsCompleted, getAllMedicines, addMedToPrescription, viewPrescription, savePrescription
+    getMyPatientsCompleted, getAllMedicines, addMedToPrescription, viewPrescription, savePrescription, getPatientDetails
 } = require('../../controllers/doctor/newPrescriptionController');
 
 const { authenticateToken } = require('../../middleware/authenticateToken');
@@ -24,7 +24,8 @@ router.get('/viewPrescription', viewPrescription)
 router.post('/saveNewPrescription', authenticateToken, savePrescription)
 //router.post('/saveNewPrescription', savePrescription) //for testing
 
-
+//get more info
+router.get('/getInfo/:patientUsername', getPatientDetails);
 
 
 module.exports = router
