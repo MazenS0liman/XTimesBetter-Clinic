@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
@@ -10,7 +10,8 @@ const PrescriptionDoctorTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
   const [selectedPrescription, setSelectedPrescription] = useState([]);
-
+  const detailsRef = useRef(null); // Create a ref
+  const [selectedPrescriptionId, setSelectedPrescriptionId] = useState(null);
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
   const [showModal, setShowModal] = useState(false);
@@ -19,6 +20,11 @@ const PrescriptionDoctorTable = () => {
  const [load, setLoad] = useState(true);
  const [username, setUsername] = useState('');
  const navigate = useNavigate();
+ useEffect(() => {
+  if (showModal && detailsRef.current) {
+      detailsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}, [showModal]); // Dependency array includes showModal
 
  console.log(accessToken);
  useEffect(() => {
@@ -110,31 +116,22 @@ const PrescriptionDoctorTable = () => {
   };
 
   const handleSelectPrescription = (selectedPrescription) => {
-     setSelectedPrescription(selectedPrescription);
+    setSelectedPrescription(selectedPrescription);
+    setSelectedPrescriptionId(selectedPrescription._id); // Set the selected ID
     setShowModal(true);
-  };
+    // Scroll to the details section
+    if (detailsRef && detailsRef.current) {
+        detailsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+};
 
-  const closePrescriptionModal = () => {
-    setSelectedPrescription([]);
-    setShowModal(false);
-  };
-  // const generatePDF = (prescription) => {
-  //   const doc = new jsPDF();
-  
-  //   // Add content to the PDF
-  //   doc.text(`Patient Username: ${prescription.patient_username}`, 10, 10);
-  //   // doc.text(`Doctor Username: ${prescription.doctor_username}`, 10, 20);
-  //   doc.text(`Filled: ${prescription.filled ? 'Yes' : 'No'}`, 10, 30); 
-  //   doc.text(`Visit Date: ${prescription.visit_date}`, 10, 40); 
-  //   doc.text('Medicines:', 10, 50);
-  //   prescription.medicines.forEach((medicine, index) => {
-  //     const y = 60 + (10 * index); // Adjusted Y position to accommodate the new line
-  //     doc.text(`- ${medicine.name}, Dose: ${medicine.dose}, Timing: ${medicine.timing}, Price: ${medicine.price}`, 10, y);
-  //   });
-  
-  //   // Save the PDF
-  //   doc.save(`prescription_${prescription.patient_username}.pdf`);
-  // };
+const closePrescriptionModal = () => {
+  setSelectedPrescription([]);
+  setSelectedPrescriptionId(null); // Reset the selected ID
+  setShowModal(false);
+};
+
+ 
   const generatePDF = (prescription) => {
     const doc = new jsPDF({
       orientation: 'p',
@@ -227,8 +224,8 @@ const PrescriptionDoctorTable = () => {
               <th>Visit Date</th>
               <th>Filled</th>
               <th>Select</th> {/* Add a column for selecting a prescription */}
-              <th>Download As PDF</th> {/* Add a column for downloading prescription as pdf*/}
-              <th>Update</th> {/*Add a column for downloading prescription as pdf*/}
+             
+
 
             </tr>
           </thead>
@@ -241,14 +238,16 @@ const PrescriptionDoctorTable = () => {
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
-              <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
-            </td>
+            <button onClick={() => handleSelectPrescription(prescription)}>
+                {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
+            </button>
+        </td>
             <td>
               <button onClick={() => generatePDF(prescription)}>Download</button>
             </td>
             {/* return <AppointmentList key={appointment._id} appointment={appointment}  onReschedule={handleRescheduleAppointment}/> */}
 
-            <td>
+          <td>
 
             <button 
 
@@ -258,16 +257,14 @@ const PrescriptionDoctorTable = () => {
               Update
             </button>
             </td>
-
-
           </tr>
         ))}
       </tbody>
     </table>
   </div>
   {showModal && selectedPrescription && (
-  <div className={styles.model}>
-    <div className={styles.modalContent}>
+     <div className={styles.modal} ref={detailsRef}>
+       <div className={styles.modalContent}>
       {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
         &times;
       </span> */}
@@ -284,8 +281,7 @@ const PrescriptionDoctorTable = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Dose</th>
-            <th>Timing</th>
+            <th>Dosage</th>
             <th>Price</th>
           </tr>
         </thead>
@@ -293,8 +289,7 @@ const PrescriptionDoctorTable = () => {
           {selectedPrescription.medicines.map((medicine, index) => (
             <tr key={index}>
               <td>{medicine.name}</td>
-              <td>{medicine.dose}</td>
-              <td>{medicine.timing}</td>
+              <td>{medicine.dosage}</td>
               <td>{medicine.price}</td>
             </tr>
           ))}
