@@ -13,6 +13,7 @@ export const Navbar = ({ className, name, list }) => {
     const {updateAccessToken, updateRefreshToken} = useAuthUpdate();
     const {setUsername} = useUsername();
     const {setUserType} = useUserType();
+    
 
     function handleClick() {
         // clear access token and refresh token and username stored in the frontend

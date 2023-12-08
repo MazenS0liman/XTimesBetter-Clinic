@@ -14,7 +14,8 @@ function ViewRequestedDoctorsInfo() {
       const [requestedDoctors, setRequestedDoctors] = useState([]);
       const [rejected, setRejected] = useState(false);
       const navigate = useNavigate();
-
+      const [filteredDoctors, setFilteredDoctors] = useState([]);
+      const [filter, setFilter] = useState('all');
   //Authenticate part
   const accessToken = sessionStorage.getItem('accessToken');
   const [load, setLoad] = useState(true);
@@ -47,6 +48,26 @@ function ViewRequestedDoctorsInfo() {
 
           });
   }
+  const applyFilter = () => {
+    const filtered = requestedDoctors.filter(doctor => {
+      if (filter === 'accepted') {
+        return doctor.status === 'accepted';
+      } else if (filter === 'rejected') {
+        return doctor.status === 'rejected';
+      }
+      return true; // No filter or 'all' filter selected
+    });
+    setFilteredDoctors(filtered);
+  };
+  
+  useEffect(() => {
+    applyFilter();
+  }, [requestedDoctors, filter]); // Reapply filter when doctors list or filter changes
+  
+const handleFilterChange = (event) => {
+  setFilter(event.target.value);
+};
+
 
   const xTest = checkAuthentication();
 //Authenticate part
@@ -165,6 +186,18 @@ function ViewRequestedDoctorsInfo() {
         <div>
 
           <h1>Requested Doctors List</h1>
+          <div>
+  <label htmlFor="filterSelect">Filter By Status: </label>
+  <select id="filterSelect" value={filter} onChange={handleFilterChange}>
+    <option value="all">All</option>
+    <option value="accepted">Accepted</option>
+    <option value="rejected">Rejected</option>
+  </select>
+  &nbsp;
+</div>
+&nbsp;
+&nbsp;
+
           <table>
             <thead>
               <tr>
@@ -183,8 +216,9 @@ function ViewRequestedDoctorsInfo() {
               </tr>
             </thead>
             <tbody>
+            {filteredDoctors.map((doctor) => (
 
-              {requestedDoctors.map((doctor) => (
+              // {requestedDoctors.map((doctor) => (
                 <tr key={doctor._id}>
                   <td>{doctor.name}</td>
                   <td>{doctor.speciality}</td>
@@ -216,6 +250,8 @@ function ViewRequestedDoctorsInfo() {
               </td>
                 </tr>
               ))}
+              {/* ))} */}
+
             </tbody>
           </table>
         </div>
