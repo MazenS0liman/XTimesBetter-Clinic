@@ -16,10 +16,13 @@ const PrescriptionTable = () => {
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
   const [showModal, setShowModal] = useState(false);
+
  //Authenticate part
  const accessToken = sessionStorage.getItem('accessToken');
  const [load, setLoad] = useState(true);
  const [username, setUsername] = useState('');
+ const [password, setPassword] = useState('');
+
  const navigate = useNavigate();
 
  useEffect(() => {
@@ -47,6 +50,7 @@ const PrescriptionTable = () => {
          .then((response) => {
              console.log(response);
              setUsername(response.data.username);
+             setPassword(response.data.password);
              //setLoad(false);
          })
          .catch((error) => {
@@ -173,11 +177,14 @@ const closePrescriptionModal = () => {
   setSelectedPrescriptionId(null); // Reset the selected ID
   setShowModal(false);
 };
-const handleBuyClick = (prescriptionId) => {
-  // Full URL to the pharmacy app's specific page
-  const pharmacyUrl = `http://localhost:8000/patient/myPrescriptionRoute/getPrescriptionById/${prescriptionId}`;
-  window.location.href = pharmacyUrl;
+
+  
+
+  const handleBuyClick = (prescriptionId) => {
+    const accessToken = sessionStorage.getItem('accessToken');
+    window.location.href = `http://localhost:5174/patient/myPCart/${prescriptionId}?username=${username}&password=${password}&`;
 };
+
 
 
   return (

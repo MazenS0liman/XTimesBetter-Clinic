@@ -131,7 +131,7 @@ const closePrescriptionModal = () => {
   setShowModal(false);
 };
 
- 
+
   const generatePDF = (prescription) => {
     const doc = new jsPDF({
       orientation: 'p',
