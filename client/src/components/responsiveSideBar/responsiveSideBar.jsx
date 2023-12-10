@@ -47,7 +47,6 @@ export const ResponsiveSideBar = ({ array }) => {
   const list = (anchor) => (
     <Box
       sx={{ 
-        width: "50%",
         display: {
             xs: 'none',
             md: 'flex',
@@ -62,8 +61,13 @@ export const ResponsiveSideBar = ({ array }) => {
     >
       <List >
         {array.map((element, index) => (
-          <ListItem key={element.pageName} disablePadding>
-            <ListItemButton  component="a" href={`${element.url}`} >
+          <ListItem key={element.pageName} disablePadding sx={{
+          '&:hover': {
+            backgroundColor: "#e2ebf2",
+            color: "black",
+            textDecoration: "none",
+          },}}>
+            <ListItemButton  component="a" href={`${element.url}`}  sx={{textDecoration:"none"}}>
               <ListItemIcon  sx={{width: "20%"}}>
                 <ArrowForwardIosIcon />
               </ListItemIcon>
@@ -116,7 +120,7 @@ export const ResponsiveSideBar = ({ array }) => {
           <Drawer
             PaperProps={{
                 sx: { width: "250px" },
-                }}
+            }}
             anchor={"left"}
             open={state["left"]}
             onClose={toggleDrawer("left", false)}
