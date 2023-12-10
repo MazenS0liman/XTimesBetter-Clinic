@@ -219,11 +219,12 @@ const closePrescriptionModal = () => {
         <table className={styles.prescriptionTable}>
           <thead>
             <tr>
-              <th>Patient Username</th>
+            <th className={styles.lightBlueText}>Patient Username</th>
+
               {/* <th>Doctor Username</th> */}
-              <th>Visit Date</th>
-              <th>Filled</th>
-              <th>Select</th> {/* Add a column for selecting a prescription */}
+              <th className={styles.lightBlueText}>Visit Date</th>
+              <th className={styles.lightBlueText}>Filled</th>
+              {/* <th className={styles.lightBlueText}>Select</th> Add a column for selecting a prescription */}
              
 
 
@@ -238,20 +239,26 @@ const closePrescriptionModal = () => {
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
-            <button onClick={() => handleSelectPrescription(prescription)}>
+            <button 
+            className={styles.lightBlueButton}
+     
+            onClick={() => handleSelectPrescription(prescription)}>
                 {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
             </button>
         </td>
             <td>
-              <button onClick={() => generatePDF(prescription)}>Download</button>
+              <button
+                          className={styles.lightBlueButton}
+                          onClick={() => generatePDF(prescription)}>Download</button>
             </td>
             {/* return <AppointmentList key={appointment._id} appointment={appointment}  onReschedule={handleRescheduleAppointment}/> */}
 
           <td>
 
             <button 
+            className={styles.lightBlueButton}
 
-              onClick={() => handleUpdateClick(prescription._id)}
+            onClick={() => handleUpdateClick(prescription._id)}
               disabled={prescription.filled}
             >
               Update

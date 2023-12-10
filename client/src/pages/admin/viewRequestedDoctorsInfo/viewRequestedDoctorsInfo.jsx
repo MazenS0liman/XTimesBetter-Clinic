@@ -234,6 +234,7 @@ const handleFilterChange = (event) => {
                   <td>{doctor.status}</td>
                   <td>
                   <button
+                  
   onClick={() => acceptDoctor(doctor._id)}
   disabled={doctor.status === 'accepted' || doctor.status === 'rejected'}
 >

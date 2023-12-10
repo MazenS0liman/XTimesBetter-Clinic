@@ -217,10 +217,12 @@ const closePrescriptionModal = () => {
           <thead>
             <tr>
               {/* <th>Patient Username</th> */}
-              <th>Doctor Username</th>
-              <th>Visit Date</th>
-              <th>Filled</th>
-              <th>Select</th> {/* selecting a prescription */}
+              <th className={styles.lightBlueText}>Doctor Username</th>
+
+{/* <th>Doctor Username</th> */}
+<th className={styles.lightBlueText}>Visit Date</th>
+<th className={styles.lightBlueText}>Filled</th>
+              {/* <th>Select</th> selecting a prescription */}
               {/* <th>Download As PDF</th> downloading prescription as pdf */}
               {/* <th>Buy</th> */}
             </tr>
@@ -233,15 +235,24 @@ const closePrescriptionModal = () => {
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
-            <button onClick={() => handleSelectPrescription(prescription)}>
+
+            <button 
+              className={styles.lightBlueButton}
+ 
+            onClick={() => handleSelectPrescription(prescription)}>
                 {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
             </button>
               </td>
             <td>
-              <button onClick={() => generatePDF(prescription)}>Download</button>
+              <button 
+                className={styles.lightBlueButton}
+                onClick={() => generatePDF(prescription)}>Download</button>
             </td>
             <td>
-            <button onClick={() => handleBuyClick(prescription._id)}>Buy</button>
+            <button 
+            className={styles.lightBlueButton}
+
+            onClick={() => handleBuyClick(prescription._id)}>Buy</button>
 
                 </td>
           </tr>
@@ -257,7 +268,8 @@ const closePrescriptionModal = () => {
       </span> */}
       <br />
 
-      <button className={styles.closeButton} onClick={closePrescriptionModal}>
+      <button 
+      className={styles.closeButton} onClick={closePrescriptionModal}>
         Close
       </button>
       <div className={styles.additionalInfo}>
