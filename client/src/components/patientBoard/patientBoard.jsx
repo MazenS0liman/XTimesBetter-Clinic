@@ -17,7 +17,7 @@ export const PatientBoard = ({ appointments, emergencies }) => {
         <div className={styles['patient-appointments-div']}>
           <AppointmentTable appointments={appointments} />
           <HealthRecordTable />
-          <EmergencyTable emergencies={emergencies} />
+          {/* <EmergencyTable emergencies={emergencies} /> */}
         </div>
     </div>
   );

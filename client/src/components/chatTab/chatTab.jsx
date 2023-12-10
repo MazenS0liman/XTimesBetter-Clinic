@@ -14,8 +14,6 @@ export const ChatTab = ({ username, type, onClick }) => {
     const [userUsername, setUserUsername] = useState(username);
     const [userType, setUserType] = useState(type);
 
-    console.log(`ChatTab: ${username}`);
-
     if (userType === 'doctor') {
         return (
             <div className={styles['chat__sidebar']} onClick={() => onClick(username, type)}>

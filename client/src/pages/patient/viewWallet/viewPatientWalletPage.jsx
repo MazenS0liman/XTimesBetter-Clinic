@@ -76,17 +76,15 @@ const ViewPatientWalletPage = () => {
     return (
         <div>
           <h1>Wallet Amount</h1>
-          <div className={styles.walletContainer}>
-            <div className={styles.walletAmount}>
-            <p className={styles.largeText}>Your Balance: ${walletNumber} </p>
-            <div className={styles.walletAmount}>
-              <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
-            </div>
-              {/* <p className={styles.largeText}>${walletNumber}</p> Display the wallet amount here with larger text */}
+            <div className={styles.walletContainer}>
+                <div className={styles.walletAmount}>
+                <p className={styles.largeText}>Your Balance: ${walletNumber} </p>
+                <div className={styles.walletAmount}>
+                <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
+                </div>
             </div>
             <br />
             <br />
-           
           </div>
         </div>
     );

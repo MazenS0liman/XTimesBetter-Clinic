@@ -12,16 +12,26 @@
 }
 
 /* <DIV> Styles */
+.chat__div {
+  width: 30%;
+  height: 80%;
+  background-color: #94a0b3b0;
+    border: #000 solid 1px;
+  z-index: 1000;
+  top: 100px;
+  position: absolute;
+  left: 0;
+  transition: all 0.5s ease-in-out;
+  position: fixed;
+  margin: 10px 5px;
+  padding: 1px;
+}
+
 .messages__chat {
   width: 100%;
-  height: 410px;
-
-  padding: 0 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
-
-  
+  height: 63%;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .message__header {
@@ -40,18 +50,17 @@
 
 .message__receiver__title {
   width: 100%;
-  height: 70px;
+  height: 50px;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-  margin: 10px 0px;
+  margin: 0px 0px 10px 0px;
   padding: 0px 20px;
-  border-radius: 50px;
-  color: white;
-  /* background-image: linear-gradient(30deg, #ffffff 0%, #1d4e89 50%, #050e1a 100%); */
-  box-shadow: -2px -2px 6px rgba(#fff, .6), 2px 2px 12px #e7c8e3;
-  /* border-bottom: black solid 3px;*/
+  /* border-radius: 5px; */
+  /* background-image: linear-gradient(30deg, #0756a1 0%, #2a8ae5 50%, #d1e9ff 100%); */
+  /* box-shadow: -2px -2px 6px rgba(#fff, .6), 2px 2px 12px #e7c8e3; */
+  /* border-bottom: black solid 3px; */
 }
 
 .sender__main {
@@ -110,7 +119,8 @@
 .text__input__div {
   --top-shadow: inset 1px 1px 3px #ffffff, inset 2px 2px 6px #e2c5e3;
   --bottom-shadow: inset -2px -2px 4px rgba(95, 95, 95, 0.7);
-  width: 95%;
+  
+  width: 100%;
   height: 100px;
   display: flex;
   flex-direction: row;
@@ -124,6 +134,35 @@
   border: 1px solid #bdaeae;
 }
 
+.text__div {
+  height: 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+}
+
+.cross__div {
+  width: 25px;
+  display: flex;
+  flex-direction: row;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(30deg, #ffffff 0%, #dcdfe3 50%, #789bc9 100%);
+  color: red;
+  margin-bottom: 10px;
+  border-radius: 100%;
+  cursor: pointer;
+  margin: 1px;
+}
+
+.title_second_div {
+  width: 100%;
+  display: flex;
+  justify-items: flex-end;
+}
 
 /* <P> Styles */
 .title__name {
@@ -135,7 +174,7 @@
 
   font-size: 24px;
   font-weight: 600;
-  color: #ffffff;
+  color: #000;
 }
 
 .sender__name {
@@ -192,6 +231,11 @@
   height: 20px;
 }
 
+.cross__icon {
+  width: 20px;
+  height: 20px;
+}
+
 /* <INPUT> Styles */
 .text__input {
   width: 100%;
@@ -221,13 +265,6 @@
 
   margin: 10px;
   padding: 5px;
-}
-
-.sendBtn:hover {
-  cursor: pointer;
-  color: white;
-  background-color: #020202;
-  border: 1px solid #000;
 }
 
 /* <FORM> Styles */

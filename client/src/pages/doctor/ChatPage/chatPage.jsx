@@ -17,6 +17,7 @@ import { ChatFooter } from '../../../components/chatFooter/chatFooter';
 import { ChatBar } from '../../../components/chatBar/chatBar';
 
 export const ChatPage = () => {
+    const [searchedUser, setSearchedUser] = useState('');
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedUserType, setSelectedUserType] = useState('');
     const [username, setUsername] = useState('');
@@ -62,10 +63,14 @@ export const ChatPage = () => {
       setSelectedUserType(userType);
     }
 
+    function handleSearch(user) {
+      setSearchedUser(user);
+    }
+
     return (
         <div className={styles['chat']}>
           <div className={styles['chat__bar']}>
-            <ChatBar selectedUser={selectUser} userType={"doctor"}/>
+            <ChatBar selectedUser={selectUser} userType={"doctor"} handleSearch={handleSearch}/>
           </div>
           <div className={styles['chat__main']}>
             <ChatFooter socket={socket} userUsername={selectedUser} receiverUserType={selectedUserType} userType={"doctor"} />

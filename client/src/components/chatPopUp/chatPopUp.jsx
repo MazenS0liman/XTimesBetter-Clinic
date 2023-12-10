@@ -6,7 +6,7 @@ import axios from 'axios';
 
 // Styles
 // import './chatFooter.css';
-import styles from './chatFooter.module.css';
+import styles from './chatPopUp.module.css';
 
 // Hooks
 import { useState, useEffect } from 'react';
@@ -18,12 +18,15 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserDoctor, faUser, faUserNurse, faCircleArrowRight, faPaperPlane, faX } from '@fortawesome/free-solid-svg-icons';
 
-export const ChatFooter = ({ socket, userUsername, receiverUserType, userType }) => {
+export const ChatPopUp = ({ socket, userUsername, receiverUserType, userType, handleCloseChat }) => {
     const [text, setText] = useState("");
     const [messages, setMessages] = useState([]);
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem("accessToken");
     const username = sessionStorage.getItem("username");
+
+    console.log(`Receiver Username: ${userUsername}`);
+    console.log(`Receiver Name: ${userUsername}`);
 
     useEffect(() => {
       if (userUsername !== undefined && userUsername !== null && userUsername !== "") {
@@ -116,9 +119,9 @@ export const ChatFooter = ({ socket, userUsername, receiverUserType, userType })
     console.log(receiverUserType);
 
     return (
-      <>
-        <div className={styles['messages__chat']}>
-          <div className={styles['message__header']}>
+      <div className={styles['chat__div']}>
+        <div className={styles['message__header']}>
+          <div className={styles['title_second_div']}>
             <div className={styles['message__receiver__title']}>
               {
                 receiverUserType === 'doctor' ? 
@@ -146,9 +149,14 @@ export const ChatFooter = ({ socket, userUsername, receiverUserType, userType })
                       <></>
                     )
               }
-
-            </div>
+              </div>
+              <div className={styles['cross__div']} onClick={() => handleCloseChat(false)}>
+                <FontAwesomeIcon icon={faX} />
+              </div>
           </div>
+        </div>
+
+        <div className={styles['messages__chat']}>
           {messages.map((message) => {
 
             if (message.name === username) {
@@ -171,23 +179,25 @@ export const ChatFooter = ({ socket, userUsername, receiverUserType, userType })
             )}
           })}
         </div>
-        <div className={styles['text__input__div']}>
-          <form className={styles['text__form']} onSubmit={handleSendMessage}>
-            <input
-              type="text"
-              placeholder="Write message"
-              className={styles['text__input']}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <button className={styles['sendBtn']}>
-              <FontAwesomeIcon icon={faPaperPlane} className={styles['sendBtn__icon']} />
-            </button>
-          </form>
+        <div className={styles['text__div']}>
+          <div className={styles['text__input__div']}>
+            <form className={styles['text__form']} onSubmit={handleSendMessage}>
+              <input
+                type="text"
+                placeholder="Write message"
+                className={styles['text__input']}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+              />
+              <button className={styles['sendBtn']}>
+                <FontAwesomeIcon icon={faPaperPlane} className={styles['sendBtn__icon']} />
+              </button>
+            </form>
+          </div>
         </div>
-      </>
+      </div>
     );
 
 }
 
-export default ChatFooter;
+export default ChatPopUp;

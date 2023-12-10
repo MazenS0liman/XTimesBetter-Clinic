@@ -15,7 +15,6 @@ import AdbIcon from '@mui/icons-material/Adb';
 
 // Pages
 const pages = ['Products', 'About Us'];
-const settings = ['Profile', 'Logout'];
 
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +34,9 @@ export const ResponsiveAppBar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [displayLogOutMessage, setDisplayLogOutMessage] = useState(false);
+  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [userType, setUserType] = useState('');
   const navigate = useNavigate();
   // const {accessToken, refreshToken} = useAuth();
   const accessToken = sessionStorage.getItem('accessToken');
@@ -43,6 +45,9 @@ export const ResponsiveAppBar = () => {
   useEffect(() => {
     if (accessToken != null && accessToken != undefined && accessToken.split(' ')[1] != "") {
       setUserLoggedIn(true);
+      setUsername(sessionStorage.getItem('username'));
+      setName(sessionStorage.getItem('name'));
+      setUserType(sessionStorage.getItem('userType'));
     }
     else {
       setUserLoggedIn(false);
@@ -241,7 +246,7 @@ export const ResponsiveAppBar = () => {
               <Box sx={{ flexGrow: 0, display: {md: 'flex', justifyContent: 'right'} }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, justifyContent: 'right', alignItems: 'center'}}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar sx={{backgroundColor: "#213547"}} alt="Person" src="../../assets/img/male.svg" />
                 </IconButton>
               </Tooltip>
               <Menu
@@ -259,13 +264,36 @@ export const ResponsiveAppBar = () => {
                 }}
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
+                PaperProps={{  
+                  style: {  
+                    width: 100,  
+                  },  
+                }} 
               >
 
+              {/* Profile */}
+                <MenuItem 
+                  onClick={() => {
+                    handleCloseUserMenu();
+                  }}
+
+                  component="a" 
+                  href={`http://localhost:5173/${userType}/profile`}
+                >
+                  <Typography 
+                      textAlign="center"
+                  >
+                      {'Profile'}
+                  </Typography>
+                </MenuItem>
+
                 {/* Log Out */}
-                <MenuItem key={'Log Out'} onClick={() => {
-                  handleCloseUserMenu();
-                  setDisplayLogOutMessage(true);
-                }}>
+                <MenuItem 
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    setDisplayLogOutMessage(true);
+                  }}
+                >
                   <Typography 
                       textAlign="center"
                   >

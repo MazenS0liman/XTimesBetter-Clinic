@@ -20,8 +20,18 @@ import { useState, useEffect } from 'react';
 // User Defined Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
 
+// User Defined Components
+import { ChatPopUp } from '../../../components/chatPopUp/chatPopUp';
+
+// Socket.io
+import socketIO from 'socket.io-client';
+
 export const ViewPatients = () => {
     // const {accessToken} = useAuth();
+    const [showChat, setShowChat] = useState(false);
+    const [receiverUsername, setReceiverUsername] = useState("");
+    const [receiverName, setReceiverName] = useState("");
+    const [socket, setSocket] = useState(null);
     const accessToken = sessionStorage.getItem('accessToken');
 
     async function checkAuthentication() {
@@ -145,7 +155,7 @@ export const ViewPatients = () => {
 
     function handleStartDatePickerClick(date) {
         if (date > endAppointmentsDate) {
-            setErrorMessage("Start date must be before end date");
+            setErrorMessage("Start date must be before an end date");
             setShowError(true);
             setPatients([]);
         } else {
@@ -230,7 +240,20 @@ export const ViewPatients = () => {
             setPatients(response.patients);
         }
     }
-    
+
+    function handleChatClick(receiverName, receiverUsername) {
+        setReceiverName(receiverName);
+        setReceiverUsername(receiverUsername);
+        setShowChat(true);
+        setSocket(socketIO.connect('http://localhost:5000'));
+        console.log(`Receiver 2 Username: ${receiverName}`);
+        console.log(`Receiver 2 Name: ${receiverUsername}`);
+    }
+   
+    function handleCloseChat(state) {
+        setShowChat(state);
+    }
+
     return (
         <div className={styles['page-body-div']}>
             <div className={styles['page-search-div']}>
@@ -239,7 +262,7 @@ export const ViewPatients = () => {
             <div className={styles['page-cards-div']}>
                 {
                     patients && patients.map((patient, index) => {
-                        return <PatientCard key={index} patient={patient} handleCardClick={handleCardClick} />
+                        return <PatientCard key={index} patient={patient} handleCardClick={handleCardClick} handleChatClick={handleChatClick}/>
                     })
                 }
                 {
@@ -248,6 +271,9 @@ export const ViewPatients = () => {
                             <a className={styles['error-message-a']}>{errorMessage}</a>
                         </div>
                     )
+                }
+                {
+                    showChat && <ChatPopUp className={styles['popup']} socket={socket} userType={"doctor"} receiverUserType={"patient"} userUsername={receiverUsername} handleCloseChat={handleCloseChat}/>
                 }
             </div>
         </div>

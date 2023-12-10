@@ -77,10 +77,6 @@ export const ViewAdminMainPage = () => {
    
     const list = [
         {
-            url: "/admin/profile",
-            pageName: "Profile",
-        },
-        {
             url: "/admin/addadmin",
             pageName: "Add Admin",
         },

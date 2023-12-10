@@ -29,6 +29,9 @@ import { useState, useEffect } from 'react';
 // User Defined Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
 
+// User Defined Components
+import { DropDown } from '../../../components/dropDown/dropDown';
+import { Modal } from '../../../components/modalCard/modalCard';
 
 export const AdminProfile = () => {
     const navigate = useNavigate();
@@ -102,18 +105,25 @@ export const AdminProfile = () => {
             </div>
             <div className={styles['admin-info-right-div']}>
                 <div className={styles['admin-information-div']}>
-                    <Typography level="h1" component="h1">{username}</Typography>
-                </div>
-                <div className={styles['admin-settings-div']}>
-                <Button onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+                    <Typography level="h1" component="h1" sx={{color: 'lightskyblue'}}>{username}</Typography>
                 </div>
             </div>
             </div>
-            <div className={styles['admin-info-bottom-div']}>
-            </div>
-
-            {/* Change Password Card */}
-            <PasswordCard></PasswordCard>
+            <div className={styles['main__div']}>
+              <div className={styles['left__div']}>
+                <div className={styles['configurations__div']}>
+                  <DropDown title="change password" child={<PasswordCard />}></DropDown>
+                </div>
+              </div>
+              <div className={styles['middle__div']}>
+                <div className={styles['charts__div']}>
+                </div>
+              </div>
+              <div className={styles['right__div']}>
+                <div className={styles['wallet__div']}>
+                </div>
+              </div>
+          </div>
         </div>
     );
 }

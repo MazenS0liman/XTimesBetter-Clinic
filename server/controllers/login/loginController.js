@@ -62,7 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
         refreshtokenModel.create({token: refreshToken});
 
         // Send Access Token and Refresh Token
-        return res.status(200).json({ message: "Success", accessToken: "Bearer " + accessToken, refreshToken: refreshToken, userType: userType, loggingIn: true });
+        return res.status(200).json({ message: "Success", accessToken: "Bearer " + accessToken, refreshToken: refreshToken, userType: userType, loggingIn: true, name: userLoggedIn.name});
 
     } else {
         return res.status(401).json({

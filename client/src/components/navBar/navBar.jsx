@@ -9,6 +9,8 @@ import { NavLink, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuthUpdate, useUsername, useUserType } from '../hooks/useAuth';
 
+import ChatIcon from '@mui/icons-material/Chat';
+
 export const Navbar = ({ className, name, list }) => { 
     const {updateAccessToken, updateRefreshToken} = useAuthUpdate();
     const {setUsername} = useUsername();
@@ -20,7 +22,6 @@ export const Navbar = ({ className, name, list }) => {
         updateRefreshToken("");
         setUsername("");
         setUserType("");
-
         
         // clear access token and refresh token and username stored in the browser
         sessionStorage.setItem("accessToken", "Bearer  ");

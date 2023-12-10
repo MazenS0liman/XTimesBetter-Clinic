@@ -7,8 +7,8 @@ import axios from 'axios';
 import styles from './DoctorProfile.module.css';
 
 // Images
-import manImage from '../../../assets/img/man.png';
-import womenImage from '../../../assets/img/woman.png';
+import manImage from '../../../assets/img/male.svg';
+import womenImage from '../../../assets/img/female.svg';
 
 // MUI Joy Components
 import { Button, Typography } from '@mui/joy';
@@ -29,6 +29,11 @@ import { useState, useEffect } from 'react';
 // User Defined Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
 
+// User Defined Components
+import { DropDown } from '../../../components/dropDown/dropDown';
+import { CreditCard } from '../../../components/creditCard/creditCard';
+import { Modal, Example } from '../../../components/modalCard/modalCard';
+import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 
 export const DoctorProfile = () => {
     const navigate = useNavigate();
@@ -118,27 +123,39 @@ export const DoctorProfile = () => {
             </div>
             <div className={styles['doctor-info-right-div']}>
                 <div className={styles['doctor-information-div']}>
-                <Typography level="h1" component="h1">{name}</Typography>
+                <Typography level="h1" component="h1" sx={{color: 'lightskyblue'}}>{name}</Typography>
                 <div className={styles['doctor-information-sub-div']}>
                     <div className={styles['doctor-information-left-div']}>
-                    <Typography level="title-sm">username: {username}</Typography>
-                    <Typography level="title-sm">email: {email}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>username: {username}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>email: {email}</Typography>
                     </div>
                     <div className={styles['doctor-information-right-div']}>
-                    <Typography level="title-sm">data of birth: {dob}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>data of birth: {dob}</Typography>
                     </div>
                 </div>
-                </div>
-                <div className={styles['doctor-settings-div']}>
-                <Button onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
                 </div>
             </div>
             </div>
             <div className={styles['doctor-info-bottom-div']}>
-            </div>
-
-            {/* Change Password Card */}
-            <PasswordCard></PasswordCard>
+              
+          <div className={styles['main__div']}>
+              <div className={styles['left__div']}>
+                <div className={styles['configurations__div']}>
+                  <DropDown title="change password" child={<PasswordCard />}></DropDown>
+                  
+                </div>
+              </div>
+              <div className={styles['middle__div']}>
+                <div className={styles['charts__div']}>
+                </div>
+              </div>
+              <div className={styles['right__div']}>
+                <div className={styles['wallet__div']}>
+                  <CreditCard />
+                </div>
+              </div>
+          </div>
+          </div>
         </div>
     );
 }

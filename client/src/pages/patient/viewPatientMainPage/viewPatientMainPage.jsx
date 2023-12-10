@@ -92,11 +92,6 @@ export const ViewPatientMainPage = () => {
     
     const list = [
         {
-            url: "/patient/profile",
-            pageName: "Profile",
-        }
-        ,
-        {
             url: "/patient/ViewAllDrs",
             pageName: "Doctors",
         },
@@ -156,10 +151,6 @@ export const ViewPatientMainPage = () => {
             url: "/patient/viewHealthRecords",
             pageName: "Health Records",
         },
-        {
-            url: "/patient/ChatPage",
-            pageName: "Chat"
-        }
     ];
 
     if (load) {

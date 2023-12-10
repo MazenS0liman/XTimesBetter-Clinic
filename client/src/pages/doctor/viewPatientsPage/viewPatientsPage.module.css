@@ -17,8 +17,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    background: white;
 }
 
 .page-cards-div {
@@ -67,3 +65,6 @@
     color: white;
 }
 
+.popup {
+    z-index: 3000;
+}

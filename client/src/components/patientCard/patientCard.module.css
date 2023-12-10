@@ -1,22 +1,20 @@
 /* <DIV> Class Selectors */
 .main-card-div {
-    width: 20%;
-    height: 50%;
-
+    width: 25%;
+    height: 60%;
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    
+    justify-content: center;
+    align-items: center;
     padding: 2px;
     margin: 25px;
     box-sizing: border-box;
-
-    backdrop-filter: grayscale(50%);
+    /* backdrop-filter: grayscale(50%); */
     border: 1px solid #ffffff22;
-    background-image: linear-gradient(35deg, #0F2027 0%, #203A43 50%, #2C5364 100%);
+    background-image: linear-gradient(35deg, #0F2027 0%, #125590 50%, #2C5364 100%);
     border-radius: 0.7rem;
-    box-shadow: -2px 2px 2px #FFE, 0px 3px 10px 5px #00000088;
-
+    /* box-shadow: -2px 2px 2px #FFE, 0px 3px 10px 5px #00000088; */
     cursor: pointer;
     transition: 1s ease-in-out;
 }
@@ -24,13 +22,57 @@
 .main-card-div:hover {
     transform: scale(1.1);
     transition: 1s ease-in-out;
+    background-image: rgb(182, 182, 233);
+}
+
+.sub__div {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat__div {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px 10px;
+    
+    box-sizing: border-box;
+
+    /* backdrop-filter: grayscale(50%); */
+    border: 1px solid #ffffff22;
+    background-image: linear-gradient(35deg, #0d6b94 0%, #e2ebee 50%, #fdfdfd 100%);
+    border-radius: 100%;
+    /* box-shadow: -2px 2px 2px #FFE, 0px 3px 10px 5px #00000088; */
+
+    cursor: pointer;
+    transition: 1s ease-in-out;
 }
 
 .card-pic-div {
-    width: 100%;
-    height: 100%;
-    border-radius: 0.7rem;
+    width: 180px;
+    height: 180px;
+
+    border-radius: 100%;
     overflow: hidden;
+}
+
+
+.extra__div {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 10px;
 }
 
 .card-info-div {
@@ -47,9 +89,16 @@
 .main-card-img {
     width: 100%;
     height: 100%;
-
-    background: linear-gradient(0deg, rgba(255, 255, 255, 0.836) 0%, rgba(246, 241, 250, 0.178) 100%);
+    background-size: cover;
+    /* background-color: linear-gradient(0deg, rgba(255, 255, 255, 0.836) 0%, rgba(246, 241, 250, 0.178) 100%); */
+    background-color: rgba(255, 255, 255, 0.836);
     border-radius: 0.7rem;
+}
+
+.gender__img {
+    width: 180px;
+    height: 180px;
+    border-radius: 100%;
 }
 
 /* <A> Class Selectors */
@@ -68,4 +117,14 @@
 .card-email-a:hover,
 .card-mobile-a:hover {
     color: white;
+}
+
+
+.chat__icon {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+
+    color: rgb(48, 42, 42);
+    
 }
