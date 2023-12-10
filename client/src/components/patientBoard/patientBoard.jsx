@@ -8,7 +8,7 @@ import { AppointmentTable } from '../appointmentTable/appointmentTable';
 import { EmergencyTable } from '../emergencyContactTable/emergencyContactTable';
 import { HealthRecordTable } from '../healthRecordTable/healthRecordTable';
 
-export const PatientBoard = ({ appointments, emergencies }) => {
+export const PatientBoard = ({ appointments, emergency_contact }) => {
   return (
     <div className={styles['patient-board-main-div']}>
         <div className={styles['patient-board-info-div']}>
@@ -17,7 +17,7 @@ export const PatientBoard = ({ appointments, emergencies }) => {
         <div className={styles['patient-appointments-div']}>
           <AppointmentTable appointments={appointments} />
           <HealthRecordTable />
-          {/* <EmergencyTable emergencies={emergencies} /> */}
+          <EmergencyTable emergency_contact={emergency_contact} />
         </div>
     </div>
   );

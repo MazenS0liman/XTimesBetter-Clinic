@@ -119,6 +119,10 @@
     top: -2px;
 }
 
+.searchbar-input:focus {
+    outline: none;
+}
+
 /* <BUTTON> Class Selector */
 .searchbar-button, .searchfilter-button, .clearfilter-button {
     width: 10%;

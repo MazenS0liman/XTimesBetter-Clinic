@@ -16,7 +16,7 @@
   width: 30%;
   height: 80%;
   background-color: #94a0b3b0;
-    border: #000 solid 1px;
+  border: #000 solid 1px;
   z-index: 1000;
   top: 100px;
   position: absolute;
@@ -25,6 +25,7 @@
   position: fixed;
   margin: 10px 5px;
   padding: 1px;
+  border-radius: 10px;
 }
 
 .messages__chat {
@@ -150,8 +151,8 @@
   height: 25px;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(30deg, #ffffff 0%, #dcdfe3 50%, #789bc9 100%);
-  color: red;
+  /* background: linear-gradient(30deg, #ffffff 0%, #dcdfe3 50%, #789bc9 100%); */
+  color: rgb(0, 0, 0);
   margin-bottom: 10px;
   border-radius: 100%;
   cursor: pointer;
