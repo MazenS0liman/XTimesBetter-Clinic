@@ -116,5 +116,5 @@
 
 /* If you want to apply the color to specific elements like table headers */
 .prescriptionTable th {
-    color: #ADD8E6; /* Light blue font color for table headers */
+    color: #e5e5e5; /* Light blue font color for table headers */
 }

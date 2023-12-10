@@ -180,10 +180,15 @@ const closePrescriptionModal = () => {
 
   
 
-  const handleBuyClick = (prescriptionId) => {
-    const accessToken = sessionStorage.getItem('accessToken');
-    window.location.href = `http://localhost:5174/patient/myPCart/${prescriptionId}?username=${username}&password=${password}&`;
-};
+//   const handleBuyClick = (prescriptionId) => {
+//     // const accessToken = sessionStorage.getItem('accessToken');
+// const accessToken = sessionStorage.getItem('accessToken'); // Retrieve the access token
+// // const pharmacyUrl = 'http://localhost:5174/patient/myPCart'; // Replace with the actual URL of the pharmacy app
+// // const redirectUrl = `${pharmacyUrl}?accessToken=${accessToken}`;
+// // window.location.href = redirectUrl; // Redirect to the pharmacy app with the access token
+
+//     window.location.href = `http://localhost:5174/patient/myPCart/${prescriptionId}?accessToken=${accessToken}`;
+// };
 
 
 
@@ -248,13 +253,13 @@ const closePrescriptionModal = () => {
                 className={styles.lightBlueButton}
                 onClick={() => generatePDF(prescription)}>Download</button>
             </td>
-            <td>
-            <button 
+            {/* <td> */}
+            {/* <button 
             className={styles.lightBlueButton}
 
-            onClick={() => handleBuyClick(prescription._id)}>Buy</button>
+            onClick={() => handleBuyClick(prescription._id)}>Buy</button> */}
 
-                </td>
+                {/* </td> */}
           </tr>
         ))}
       </tbody>
