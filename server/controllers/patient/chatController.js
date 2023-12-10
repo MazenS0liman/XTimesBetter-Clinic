@@ -49,23 +49,29 @@ const getUsers = asyncHandler(async (req, res) => {
     const username = req.body.username;
 
     let doctorResults = await appointmentModel.find({patient_username: username}).select("doctor_username");
-    let pharmacistResults = await pharmacistModel.find({}).select("username");
+    let pharmacistResults = await pharmacistModel.find({}).select("username name");
+    let doctors = await doctorModel.find({}).select("username name");
 
-    doctorResults = doctorResults.map((doctor) => {return {username: doctor.doctor_username, type: "doctor"}});
-    doctorResults = doctorResults.filter((arr, index, self) => index === self.findIndex((t) => (t.username === arr.username && t.type === arr.type)));    
+    doctorResults = doctorResults.map((doctor) => doctor.doctor_username);
+    doctorResults = doctors.filter((doctor) => doctorResults.includes(doctor.username));
+    doctorResults = doctorResults.map((doctor) => {return {username: doctor.username, name: doctor.name, type: "doctor"}});
+    doctorResults = doctorResults.filter((arr, index, self) => index === self.findIndex((t) => (t.username === arr.username && t.name === arr.name && t.type === arr.type)));    
     doctorResults = new Set(doctorResults);    
     doctorResults = [...doctorResults];
 
     console.log(pharmacistResults);
-    pharmacistResults = pharmacistResults.map((pharmacist) => {return {username: pharmacist.username, type: "pharmacist"}});
-    pharmacistResults = pharmacistResults.filter((arr, index, self) => index === self.findIndex((t) => (t.username === arr.username && t.type === arr.type)));
+    pharmacistResults = pharmacistResults.map((pharmacist) => {return {username: pharmacist.username, name: pharmacist.name, type:"pharmacist"}});
+    pharmacistResults = pharmacistResults.filter((arr, index, self) => index === self.findIndex((t) => (t.username === arr.username && t.name === arr.name && t.type === arr.type)));
     console.log(pharmacistResults);
     pharmacistResults = new Set(pharmacistResults);
     pharmacistResults = [...pharmacistResults];
 
-    let results = doctorResults.concat(pharmacistResults);
+    let result = doctorResults.concat(pharmacistResults);
 
-    return res.status(200).json({ users: results });
+    console.log("Get Results:");
+    console.log(result);
+
+    return res.status(200).json({ users: result });
 });
 
 module.exports = { getMessages, postMessage, getUsers };

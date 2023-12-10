@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserDoctor, faUser, faUserNurse, faCircleArrowRight, faPaperPlane, faX } from '@fortawesome/free-solid-svg-icons';
 
-export const ChatFooter = ({ socket, userUsername, receiverUserType, userType }) => {
+export const ChatFooter = ({ socket, userUsername, receiverName, receiverUserType, userType }) => {
     const [text, setText] = useState("");
     const [messages, setMessages] = useState([]);
     const navigate = useNavigate();
@@ -125,21 +125,21 @@ export const ChatFooter = ({ socket, userUsername, receiverUserType, userType })
                     (
                       <>
                         <FontAwesomeIcon icon={faUserDoctor} className={styles['message__receiver__icon']} />
-                        <p className={styles['title__name']}>Doctor: {userUsername}</p>
+                        <p className={styles['title__name']}>Doctor: {receiverName}</p>
                       </>
                     ) :
                 receiverUserType === 'patient' ?
                     (
                       <>
                         <FontAwesomeIcon icon={faUser} className={styles['message__receiver__icon']} />
-                        <p className={styles['title__name']}>Patient: {userUsername}</p>
+                        <p className={styles['title__name']}>Patient: {receiverName}</p>
                       </>
                     ) :
                 receiverUserType === 'pharmacist' ?
                     (
                       <>
                         <FontAwesomeIcon icon={faUserNurse} className={styles['message__receiver__icon']} />
-                        <p className={styles['title__name']}>Pharmacist: {userUsername}</p>
+                        <p className={styles['title__name']}>Pharmacist: {receiverName}</p>
                       </>
                     ) :
                     (
@@ -163,7 +163,7 @@ export const ChatFooter = ({ socket, userUsername, receiverUserType, userType })
             else {
               return (
               <div className="receiver__main">
-                <p className={styles['receiver__name']}>{message.name}</p>
+                <p className={styles['receiver__name']}>{receiverName}</p>
                 <div className={styles["message__receiver"]}>
                   <p className={styles['receiver__message']}>{message.text}</p>
                 </div>

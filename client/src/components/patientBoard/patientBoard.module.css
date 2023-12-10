@@ -1,6 +1,6 @@
 /* <DIV> Class Selectors */
 .patient-board-main-div {
-width: 95%;
+    width: 95%;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -10,9 +10,9 @@ width: 95%;
     margin: 20px;
     padding: 10px;
     box-sizing: border-box;
-    background-image: linear-gradient(35deg, #6d7b85 0%, #2e83a1 20%, #FFFFFF 100%);
+    background-image: linear-gradient(35deg, #6d7b85 0%, #2e83a1 50%, #000000 100%);
     /* border: 1px solid #ffffff22; */
-    box-shadow: -2px -2px 6px rgba(#fff, .6), 0px 20px 10px 5px #00000088;
+    box-shadow: -9px -2px 6px rgba(#fff, .6), 0px 20px 10px 5px #00000088;
     border-radius: 50px;
     /* overflow: hidden;*/
 }

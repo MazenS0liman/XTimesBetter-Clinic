@@ -17,10 +17,10 @@ import { ChatFooter } from '../../../components/chatFooter/chatFooter';
 import { ChatBar } from '../../../components/chatBar/chatBar';
 
 export const ChatPage = () => {
-    const [searchedUser, setSearchedUser] = useState('');
     const [selectedUser, setSelectedUser] = useState('');
     const [selectedUserType, setSelectedUserType] = useState('');
     const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [load, setLoad] = useState(true);
     const [socket, setSocket] = useState(null);
     const accessToken = sessionStorage.getItem("accessToken");
@@ -57,23 +57,23 @@ export const ChatPage = () => {
       return(<div>Loading</div>)
     }
 
-    function selectUser(userUsername, userType) {
+    function selectUser(userUsername, name, userType) {
       setSocket(socketIO.connect('http://localhost:5000'));
+      console.log(`Selected name: ${name}`);
+      setName(name);
+      console.log(`Selected username: ${userUsername}`);
       setSelectedUser(userUsername);
+      console.log(`Selected user type: ${userType}`);
       setSelectedUserType(userType);
-    }
-
-    function handleSearch(user) {
-      setSearchedUser(user);
     }
 
     return (
         <div className={styles['chat']}>
           <div className={styles['chat__bar']}>
-            <ChatBar selectedUser={selectUser} userType={"doctor"} handleSearch={handleSearch}/>
+            <ChatBar selectedUser={selectUser} userType={"doctor"}/>
           </div>
           <div className={styles['chat__main']}>
-            <ChatFooter socket={socket} userUsername={selectedUser} receiverUserType={selectedUserType} userType={"doctor"} />
+            <ChatFooter socket={socket} userUsername={selectedUser} receiverName={name} receiverUserType={selectedUserType} userType={"doctor"} />
           </div>
       </div>
     );

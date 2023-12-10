@@ -189,6 +189,7 @@ export const ChatBar = ({ selectedUser, userType }) => {
                   key={user.username}
                   username={user.username}
                   type={user.type}
+                  name={user.name}
                   onClick={selectedUser}
                 />
                 )
