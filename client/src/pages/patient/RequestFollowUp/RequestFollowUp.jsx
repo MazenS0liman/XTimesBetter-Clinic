@@ -153,6 +153,7 @@ const RequestFollowUp = () => {
             if (response.ok) {
                 const result = await response.json();
                 console.log('Follow-up requested:', result);
+                window.location.reload();
                 return { success: true };
             } else {
                 const errorData = await response.json();

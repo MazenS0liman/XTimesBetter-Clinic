@@ -1,3 +1,130 @@
+
+import React, { useState, useEffect, useRef } from 'react';
+import styles from './PatientHome.module.css'
+import AddFamilyMember from '../AddFamilyMember/AddFamilyMember';
+import LinkPatientWithAnotherByEmail from '../LinkPatientWithAnother/LinkPatientWithAnotherByEmail';
+import LinkPatientWithAnotherByMobile from '../LinkPatientWithAnother/LinkPatientWithAnotherByMobile';
+// Axios
+import axios from 'axios';
+
+// User Defined Hooks
+import { useAuth } from '../../../components/hooks/useAuth';
+
+// React Router DOM
+import { useNavigate } from 'react-router-dom';
+
+
+const FamilyView = () => {
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [familyMembers, setFamilyMembers] = useState([]);
+    const [showFamilyMembers, setShowFamilyMembers] = useState(false);
+    const [showAddFamilyMember, setShowAddFamilyMember] = useState(false);
+    const navigate = useNavigate();
+
+    const addFamilyMemberRef = useRef(null);
+
+
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: `http://localhost:5000/authentication/checkAccessToken`,
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                navigate('/login');
+            });
+    }
+
+    checkAuthentication();
+
+    useEffect(() => {
+        const fetchFamilyMembers = async () => {
+            const response = await fetch('http://localhost:5000/patient/viewFamilyMembers/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+            });
+            // console.log("anaaaaaaaaaaaa")
+            const familyMembers = await response.json();
+
+            if (response.ok) {
+                setFamilyMembers(familyMembers);
+            }
+
+        };
+
+        fetchFamilyMembers();
+    }, []);
+
+    const handleViewFamilyMembers = async () => {
+        setShowFamilyMembers(true);
+    };
+
+    const handleToggleAddFamilyMember = () => {
+        setShowAddFamilyMember(!showAddFamilyMember);
+    };
+
+    useEffect(() => {
+        if (showAddFamilyMember && addFamilyMemberRef.current) {
+            // Scroll to the added family member form
+            window.scrollTo({
+                top: addFamilyMemberRef.current.offsetTop,
+                behavior: 'smooth',
+            });
+        }
+    }, [showAddFamilyMember]);
+    return (
+        <div className={styles['Nayerafamily-view-container']}>
+            <h1>Family Members</h1>
+
+            <button onClick={handleToggleAddFamilyMember}>
+                {showAddFamilyMember ? 'Hide Add Family Member' : 'Add Family Member'}
+            </button>
+            <table className={styles['family-table']}>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Relation</th>
+                        <th>Type</th> {/* Add this column for the type */}
+                    </tr>
+                </thead>
+                <tbody>
+                    {familyMembers.map((member) => (
+                        <tr key={member._id}>
+                            <td>
+                                <h2>{member.name}</h2>
+                            </td>
+                            <td>
+                                <p>{member.relation}</p>
+                            </td>
+                            <td>
+                                <p>{member.type}</p>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {showAddFamilyMember && (
+                <div className={styles['Nayeraadd-family-member-container']} ref={addFamilyMemberRef}>
+                    <AddFamilyMember />
+                </div>
+            )}
+        </div>
+    );
+
+};
+
+export default FamilyView;
+
 /*import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 const FamilyView = () => {
@@ -40,7 +167,7 @@ const FamilyView = () => {
 };
 
 export default FamilyView;*/
-// RESTORE UP 
+// RESTORE UP
 
 /*const FamilyView = () => {
 
@@ -174,88 +301,3 @@ export default FamilyView;*/
      </div>
  )}
 </div>*/
-
-import React, { useState, useEffect } from 'react';
-
-// Axios
-import axios from 'axios';
-
-// User Defined Hooks
-import { useAuth } from '../../../components/hooks/useAuth';
-
-// React Router DOM
-import { useNavigate } from 'react-router-dom';
-
-
-const FamilyView = () => {
-    const accessToken = sessionStorage.getItem('accessToken');
-    const [familyMembers, setFamilyMembers] = useState([]);
-    const [showFamilyMembers, setShowFamilyMembers] = useState(false);
-    const navigate = useNavigate();
-
-    async function checkAuthentication() {
-        await axios({
-            method: 'get',
-            url: `http://localhost:5000/authentication/checkAccessToken`,
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': accessToken,
-                'User-type': 'patient',
-            },
-        })
-            .then((response) => {
-                console.log(response);
-            })
-            .catch((error) => {
-                navigate('/login');
-            });
-    }
-
-    checkAuthentication();
-
-    useEffect(() => {
-        const fetchFamilyMembers = async () => {
-            const response = await fetch('http://localhost:5000/patient/viewFamilyMembers/', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': accessToken,
-                },
-            });
-            // console.log("anaaaaaaaaaaaa")
-            const familyMembers = await response.json();
-
-            if (response.ok) {
-                setFamilyMembers(familyMembers);
-            }
-
-        };
-
-        fetchFamilyMembers();
-    }, []);
-
-    const handleViewFamilyMembers = async () => {
-        setShowFamilyMembers(true);
-    };
-
-    return (
-        <div>
-            <h1>Family Members</h1>
-            <button onClick={handleViewFamilyMembers}>View Family Members</button>
-
-            {showFamilyMembers &&
-
-                familyMembers.map((member) => (
-                    <p key={member._id}>
-                        <h2>{member.name}</h2>
-                        <p>Relation: {member.relation}</p>
-                    </p>
-                ))
-
-            }
-
-        </div>
-    );
-};
-
-export default FamilyView;

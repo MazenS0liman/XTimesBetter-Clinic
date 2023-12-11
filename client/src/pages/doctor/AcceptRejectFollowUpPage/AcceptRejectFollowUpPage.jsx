@@ -301,8 +301,8 @@ const AcceptRejectFollowUp = () => {
                     <tr>
                         <th>Patient</th>
                         <th>Date time</th>
-                        <th>Accept</th>
-                        <th>Reject</th>
+                        <th></th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -318,8 +318,7 @@ const AcceptRejectFollowUp = () => {
                                 >
                                     Accept
                                 </button>
-                            </td>
-                            <td>
+                                &nbsp; {/* Non-breaking space */}
                                 <button
                                     className={styles['button-schedule']}
                                     onClick={() => handleRejectFollowUp(followUp._id, followUp.appointment_ID)}

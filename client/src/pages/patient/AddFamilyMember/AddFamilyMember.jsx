@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import styles from './AddFamilyMember.module.css';
 // Axios
 import axios from 'axios';
-
+import { useLocation } from 'react-router-dom';
 // User Defined Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
 
@@ -21,6 +22,7 @@ const AddFamilyMember = () => {
     const [error, setError] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     async function checkAuthentication() {
         await axios({
@@ -41,6 +43,10 @@ const AddFamilyMember = () => {
     }
 
     checkAuthentication();
+
+    if (location.pathname == '/add-family-member') {
+        return null; // Don't render the component
+    }
 
 
     const handleSubmit = async (event) => {
@@ -106,55 +112,81 @@ const AddFamilyMember = () => {
         }
     };
     return (
-        <div>
+        <div className={styles['ADDdiv-schedule']}>
             <h1>Add Family Member</h1>
 
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                />
+                <div>
+                    <label htmlFor="name">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className={styles['ADDinput']}
+                    />
+                </div>
 
-                <input
-                    type="text"
-                    placeholder="National ID"
-                    value={national_id}
-                    onChange={(e) => setnational_id(e.target.value)}
-                />
+                <div>
+                    <label htmlFor="national_id">National ID:</label>
+                    <input
+                        type="text"
+                        id="national_id"
+                        value={national_id}
+                        onChange={(e) => setnational_id(e.target.value)}
+                        className={styles['ADDinput']}
+                    />
+                </div>
 
-                <input
-                    type="Number"
-                    placeholder="Age"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
-                />
+                <div>
+                    <label htmlFor="age">Age:</label>
+                    <input
+                        type="number"
+                        id="age"
+                        value={age}
+                        onChange={(e) => setAge(e.target.value)}
+                        className={styles['ADDinput']}
+                    />
+                </div>
 
-                <select
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
+                <div>
+                    <label htmlFor="gender">Gender:</label>
+                    <select
+                        id="gender"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        className={styles['ADDselect']}
+                    >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label htmlFor="relation">Relation:</label>
+                    <select
+                        id="relation"
+                        value={relation}
+                        onChange={(e) => setRelation(e.target.value)}
+                        className={styles['ADDselect']}
+                    >
+                        <option value="">Select Relation</option>
+                        <option value="wife">Wife</option>
+                        <option value="husband">Husband</option>
+                        <option value="children">Children</option>
+                    </select>
+                </div>
+
+                <button
+                    type="submit"
+                    className={styles['ADDbutton-schedule']}
                 >
-                    <option value="">Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-
-                <select
-                    value={relation}
-                    onChange={(e) => setRelation(e.target.value)}
-                >
-                    <option value="">Relation</option>
-                    <option value="wife">Wife</option>
-                    <option value="husband">Husband</option>
-                    <option value="children">Children</option>
-                </select>
-
-
-                <button type="submit">Submit</button>
+                    Submit
+                </button>
             </form>
-            {message && <p>{message}</p>}
 
+            {message && <p>{message}</p>}
 
             {error && (
                 <div style={{ color: 'red' }}>{error}</div>
