@@ -120,7 +120,7 @@ app.use('/admin/addPackage', require('./routes/admin/packageRoute'));
 app.use('/admin/updatePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/deletePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/ViewPackage', require('./routes/admin/packageRoute'));
-app.use('/Admin/addremoveclinic', adminRoutes);
+app.use('/Admin/addremove', adminRoutes);
 app.use('/admin/info', require('./routes/admin/adminInfoRoute')); // Get information about logged in admin using his/her username
 
 // Patient

@@ -96,11 +96,11 @@ const AddTimeSlots = () => {
       <form onSubmit={handleSubmit}>
         {/* Add form fields for each data attribute */}
         <div>
-          <label>Time slots (example if the date is 13/11 8 am: 2023-11-13T08:00:00):</label>
+        <label>Select Date and Time:</label>
           <input
-            type="text"
+            type="datetime-local"
             name="availableTimeSlots"
-            value={formData.availableTimeSlots.join(', ')} // Convert array to comma-separated string
+            value={formData.availableTimeSlots.length > 0 ? formData.availableTimeSlots[0] : ''}
             onChange={handleInputChange}
             required
           />
