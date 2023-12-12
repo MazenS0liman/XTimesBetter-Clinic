@@ -7,8 +7,8 @@ import axios from 'axios';
 import styles from './AdminProfile.module.css';
 
 // Images
-import manImage from '../../../assets/img/man.png';
-import womenImage from '../../../assets/img/woman.png';
+import manImage from '../../../assets/img/male.svg';
+import womenImage from '../../../assets/img/female.svg';
 
 // MUI Joy Components
 import { Button, Typography } from '@mui/joy';

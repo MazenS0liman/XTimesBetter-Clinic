@@ -11,7 +11,6 @@ import { useState } from 'react';
 
 // Home Made Hooks
 import { useAuthUpdate, useUsername, useUserType, useRecoveryContext } from '../../../components/hooks/useAuth';
-import { useFetch } from '../../../components/hooks/useFetch';
 
 // React Router
 import { useNavigate } from 'react-router-dom';

@@ -23,6 +23,11 @@ import DehazeIcon from '@mui/icons-material/Dehaze';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ChatIcon from '@mui/icons-material/Chat';
+import HomeIcon from '@mui/icons-material/Home';
+
+// Tooltip
+import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip as Tool } from 'react-tooltip'
 
 export const ResponsiveSideBar = ({ array }) => {
   const [username, setUsername] = useState(sessionStorage.getItem('username'));
@@ -85,21 +90,47 @@ export const ResponsiveSideBar = ({ array }) => {
           <Button sx={{color: "white", '&:hover': {
                     backgroundColor: "#125594",
                     color: "white"
-                    }}} className={styles['view-button']} onClick={() => navigate(-1)}>
+                    }}} className={styles['view-button']} onClick={() => navigate(-1)}
+                    data-tooltip-id="back"
+                    data-tooltip-content="Back"
+                    data-tooltip-place="bottom"
+                    >
             <ArrowBackIcon></ArrowBackIcon>
           </Button>
           <Button sx={{color: "white", '&:hover': {
                     backgroundColor: "#125594",
                     color: "white"
-                    }}} className={styles['view-button']} onClick={() => navigate(1)}>
+                    }}} className={styles['view-button']} onClick={() => navigate(1)}
+                    data-tooltip-id="forward"
+                    data-tooltip-content="Forward"
+                    data-tooltip-place="bottom"
+                    >
             <ArrowForwardIcon></ArrowForwardIcon>
           </Button>
         <Button sx={{color: "white", '&:hover': {
                     backgroundColor: "#125594",
                     color: "white"
-                    }}} className={styles['view-button']} onClick={toggleDrawer("left", true)}>
+                    }}} className={styles['view-button']} onClick={toggleDrawer("left", true)}
+                    data-tooltip-id="side_bar"
+                    data-tooltip-content="Side Bar"
+                    data-tooltip-place="bottom"
+            >
             <DehazeIcon></DehazeIcon>
-          </Button>
+        </Button>
+        <Button sx={{color: "white", '&:hover': {
+                    backgroundColor: "#125594",
+                    color: "white"
+                    }}} 
+                    className={styles['view-button']}
+                    component="a"
+                    href={`/${userType}`}
+                    data-tooltip-id="home"
+                    data-tooltip-content="Home"
+                    data-tooltip-place="bottom"
+          >
+            <HomeIcon></HomeIcon>
+        </Button>
+            
 
           {
             sessionStorage.getItem("userType") === "admin" ? <></> :
@@ -112,7 +143,11 @@ export const ResponsiveSideBar = ({ array }) => {
                     }} 
                     className={styles['view-button']}                   
                     component="a"
-                    href={`http://localhost:5173/${userType}/ChatPage`}>
+                    href={`/${userType}/ChatPage`}
+                    data-tooltip-id="chat"
+                    data-tooltip-content="Chat"
+                    data-tooltip-place="bottom"
+              >
               <ChatIcon></ChatIcon>
             </Button>
           }
@@ -128,7 +163,12 @@ export const ResponsiveSideBar = ({ array }) => {
           >
             {list("left")}
           </Drawer>
-        </React.Fragment>   
+        </React.Fragment>  
+      <Tool id="back" />
+      <Tool id="forward" />   
+      <Tool id="side_bar" />  
+      <Tool id="home" />       
+      <Tool id="chat" />   
     </div>
   );
 }
