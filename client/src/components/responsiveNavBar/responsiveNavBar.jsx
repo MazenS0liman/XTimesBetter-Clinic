@@ -1,145 +1,314 @@
 import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
 
-// Styles
-import styles from './responsiveSideBar.module.css';
+// Pages
+const pages = ['Products', 'About Us'];
 
-// Hooks
-import { useState } from 'react';
+// React Router DOM
 import { useNavigate } from 'react-router-dom';
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import DehazeIcon from '@mui/icons-material/Dehaze';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import ChatIcon from '@mui/icons-material/Chat';
-import HomeIcon from '@mui/icons-material/Home';
+// Hooks
+import { useState, useEffect } from 'react';
 
-export const ResponsiveSideBar = ({ array }) => {
-  const [username, setUsername] = useState(sessionStorage.getItem('username'));
-  const [name, setName] = useState(sessionStorage.getItem('name'));
-  const [userType, setUserType] = useState(sessionStorage.getItem('userType'));
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+// Home Made Hooks
+import { useAuth, useUserType } from '../hooks/useAuth';
+
+// Home Made Components
+import { LogOutCard } from '../logOutCard/logOutCard';
+
+export const ResponsiveAppBar = () => {
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElRegister, setAnchorElRegister] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [displayLogOutMessage, setDisplayLogOutMessage] = useState(false);
+  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
+  const [userType, setUserType] = useState('');
   const navigate = useNavigate();
+  // const {accessToken, refreshToken} = useAuth();
+  const accessToken = sessionStorage.getItem('accessToken');
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
+
+  useEffect(() => {
+    if (accessToken != null && accessToken != undefined && accessToken.split(' ')[1] != "") {
+      setUserLoggedIn(true);
+      setUsername(sessionStorage.getItem('username'));
+      setName(sessionStorage.getItem('name'));
+      setUserType(sessionStorage.getItem('userType'));
     }
+    else {
+      setUserLoggedIn(false);
+    }
+  }, [accessToken]);
 
-    setState({ ...state, [anchor]: open });
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
   };
 
-  const list = (anchor) => (
-    <Box
-      sx={{ 
-        display: {
-            xs: 'none',
-            md: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          },
-        }}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List >
-        {array.map((element, index) => (
-          <ListItem key={element.pageName} disablePadding sx={{
-          '&:hover': {
-            backgroundColor: "#e2ebf2",
-            color: "black",
-            textDecoration: "none",
-          },}}>
-            <ListItemButton  component="a" href={`${element.url}`}  sx={{textDecoration:"none"}}>
-              <ListItemIcon  sx={{width: "20%"}}>
-                <ArrowForwardIosIcon />
-              </ListItemIcon>
-              <ListItemText primary={element.pageName}/>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  // Login
+  const handleLogin = () => {
+    navigate('/login');
+  }
+
+  // Register
+  const handleOpenRegisterMenu = (event) => {
+    setAnchorElRegister(event.currentTarget);
+  };
+  const handleCloseRegisterMenu = () => {
+    setAnchorElRegister(null);
+  }
 
   return (
-    <div className={styles['sidebar-main-div']}>
-        <React.Fragment key={"left"}>
-          <Button sx={{color: "white", '&:hover': {
-                    backgroundColor: "#125594",
-                    color: "white"
-                    }}} className={styles['view-button']} onClick={() => navigate(-1)}>
-            <ArrowBackIcon></ArrowBackIcon>
-          </Button>
-          <Button sx={{color: "white", '&:hover': {
-                    backgroundColor: "#125594",
-                    color: "white"
-                    }}} className={styles['view-button']} onClick={() => navigate(1)}>
-            <ArrowForwardIcon></ArrowForwardIcon>
-          </Button>
-        <Button sx={{color: "white", '&:hover': {
-                    backgroundColor: "#125594",
-                    color: "white"
-                    }}} className={styles['view-button']} onClick={toggleDrawer("left", true)}>
-            <DehazeIcon></DehazeIcon>
-        </Button>
-        <Button sx={{color: "white", '&:hover': {
-                    backgroundColor: "#125594",
-                    color: "white"
-                    }}} 
-                    className={styles['view-button']}
-                    component="a"
-                    href={`/${userType}`}>
-            <HomeIcon></HomeIcon>
-        </Button>
-            
+    <>
+      <AppBar position="static">
+        <Container maxWidth="xl" sx={{backgroundImage: 'linear-gradient(45deg, black, transparent)'}}>
+          <Toolbar disableGutters sx={{height: '1px !important'}}>
+            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 2,
+                display: {
+                  xs: 'none',
+                  md: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+                width: '50%',
+                height: '100%',
+              }}
+            >
+              X-Virtual Clinic
+            </Typography>
 
-          {
-            sessionStorage.getItem("userType") === "admin" ? <></> :
-            <Button 
-                    sx={{color: "white",
-                      '&:hover': {
-                      backgroundColor: "#125594",
-                      color: "white"
-                      }
-                    }} 
-                    className={styles['view-button']}                   
-                    component="a"
-                    href={`/${userType}/ChatPage`}>
-              <ChatIcon></ChatIcon>
-            </Button>
-          }
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'left',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left',
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: 'block', md: 'none' },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+            <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+            <Typography
+              variant="h5"
+              noWrap
+              component="a"
+              href="#app-bar-with-responsive-menu"
+              sx={{
+                mr: 2,
+                display: { xs: 'flex', md: 'none' },
+                flexGrow: 1,
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+                height: '50%',
+              }}
+            >
+              LOGO
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{ my: 2, color: 'white', display: 'block' }}
+                >
+                  {page}
+                </Button>
+              ))}
+            </Box>
 
-          <Drawer
-            PaperProps={{
-                sx: { width: "250px" },
-            }}
-            anchor={"left"}
-            open={state["left"]}
-            onClose={toggleDrawer("left", false)}
 
-          >
-            {list("left")}
-          </Drawer>
-        </React.Fragment>   
-    </div>
+          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, flexDirection: 'row', justifyContent: 'right' }}>
+              {/* Log In Button */}
+              {!userLoggedIn && (
+              <Button
+                  key={'Log In'}
+                  onClick={handleLogin}
+                  sx={{ my: 2, color: 'white', display: 'block', px: 2}}
+                >
+              LOGIN
+              </Button>)}
+
+              {/* Registeration Button */}
+              {!userLoggedIn && (
+              <Box sx={{ flexGrow: 0, width: 'auto' }}>
+                  <Button
+                  key={'Registration'}
+                  onClick={handleOpenRegisterMenu}
+                  sx={{ my: 2, color: 'white', display: 'block', px: 0, width: 'auto'}}
+                  >
+                  REGISTER
+                  </Button>
+                  
+                  <Menu
+                  sx={{ mt: '50px' }}
+                  id="menu-appbar"
+                  anchorEl={anchorElRegister}
+                  anchorOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                      vertical: 'top',
+                      horizontal: 'right',
+                  }}
+                  open={Boolean(anchorElRegister)}
+                  onClose={handleCloseRegisterMenu}
+                  >
+                      <MenuItem key={'Register As A Patient'} onClick={handleCloseRegisterMenu} component="a" href={"/patientRegister"}>
+                          <Typography 
+                              textAlign="center"
+                          >
+                              {'Register As A Patient'}
+                          </Typography>
+                      </MenuItem>
+
+                      <MenuItem key={'Register As A Doctor'} onClick={handleCloseRegisterMenu} component="a" href={"/doctorRequest"}>
+                          <Typography 
+                              textAlign="center"
+                          >
+                              {'Register As A Doctor'}
+                          </Typography>
+                      </MenuItem>
+                  </Menu>
+              </Box>
+              )}
+
+            {/* Logged In User Nav bar */}
+            {userLoggedIn && (
+              <Box sx={{ flexGrow: 0, display: {md: 'flex', justifyContent: 'right'} }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, justifyContent: 'right', alignItems: 'center'}}>
+                  <Avatar sx={{backgroundColor: "#213547"}} alt="Person" src="../../assets/img/male.svg" />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+                PaperProps={{  
+                  style: {  
+                    width: 100,  
+                  },  
+                }} 
+              >
+
+              {/* Profile */}
+                <MenuItem 
+                  onClick={() => {
+                    handleCloseUserMenu();
+                  }}
+
+                  component="a" 
+                  href={`http://localhost:5173/${userType}/profile`}
+                >
+                  <Typography 
+                      textAlign="center"
+                  >
+                      {'Profile'}
+                  </Typography>
+                </MenuItem>
+
+                {/* Log Out */}
+                <MenuItem 
+                  onClick={() => {
+                    handleCloseUserMenu();
+                    setDisplayLogOutMessage(true);
+                  }}
+                >
+                  <Typography 
+                      textAlign="center"
+                  >
+                      {'Log Out'}
+                  </Typography>
+                </MenuItem>
+              </Menu>
+            </Box>
+            )}
+          </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      {displayLogOutMessage && (<LogOutCard showLogOutCard={setDisplayLogOutMessage} ></LogOutCard>)}
+
+    </>
   );
 }
