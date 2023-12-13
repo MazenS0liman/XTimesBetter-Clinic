@@ -14,6 +14,8 @@ function ViewRequestedDoctorsInfo() {
       const [requestedDoctors, setRequestedDoctors] = useState([]);
       const [rejected, setRejected] = useState(false);
       const navigate = useNavigate();
+      const [currentPage, setCurrentPage] = useState(1);
+      const [itemsPerPage] = useState(6);
       const [filteredDoctors, setFilteredDoctors] = useState([]);
       const [filter, setFilter] = useState('all');
   //Authenticate part
@@ -181,12 +183,55 @@ const handleFilterChange = (event) => {
       if (load) {
         return (<div>Loading</div>)
     }
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentDrs = filteredDoctors.slice(indexOfFirstItem, indexOfLastItem);
+  
+    
+    const handlePrevPage = () => {
+      setCurrentPage(currentPage > 1 ? currentPage - 1 : 1);
+    };
+  
+    const handleNextPage = () => {
+      const totalItems = filteredDoctors.length;
+      const maxPage = Math.ceil(totalItems / itemsPerPage);
+      setCurrentPage(currentPage < maxPage ? currentPage + 1 : maxPage);
+    };
       return (
    
         <div>
 
           <h1>Requested Doctors List</h1>
+              {/* Pagination Controls */}
+    <div style={{ marginBottom: '10px' }}>
+    <div style={{ marginBottom: '10px' }}>
+      <button 
+        onClick={handlePrevPage} 
+        disabled={currentPage === 1}
+        style={{ marginRight: '10px' }}  // Adds space to the right of the 'Prev' button
+      >
+        Prev
+      </button>
+      <button 
+        onClick={handleNextPage} 
+        disabled={currentPage * itemsPerPage >= filteredDoctors.length}
+      >
+        Next
+      </button>
+      &nbsp; Page {currentPage}
+    </div>
+      &nbsp; Page {currentPage}
+      &nbsp;
+      &nbsp;
+
+    </div>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
           <div>
+
+
   <label htmlFor="filterSelect">Filter By Status: </label>
   <select id="filterSelect" value={filter} onChange={handleFilterChange}>
     <option value="all">All</option>
@@ -216,7 +261,7 @@ const handleFilterChange = (event) => {
               </tr>
             </thead>
             <tbody>
-            {filteredDoctors.map((doctor) => (
+            {currentDrs.map((doctor) => (
 
               // {requestedDoctors.map((doctor) => (
                 <tr key={doctor._id}>

@@ -5,7 +5,7 @@ const doctorModel = require('../../models/Doctor');
 const contractModel= require('../../models/Contract');
 const viewReqDoctorsInfo = asyncHandler(async(req, res)=>{
     
-    const requestedDoctors = await doctorREQsModel.find();
+    const requestedDoctors = await doctorREQsModel.find().sort({ createdAt: -1 });
     console.log(requestedDoctors);
     if(requestedDoctors){
         res.status(200).json(requestedDoctors); 
