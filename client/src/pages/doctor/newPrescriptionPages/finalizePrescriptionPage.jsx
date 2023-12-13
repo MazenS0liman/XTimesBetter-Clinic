@@ -109,6 +109,7 @@ const FinalizePrescription = () => {
 
     const handleSubmit = async () => {
         const prescriptionMeds = JSON.parse(sessionStorage.getItem('prescriptionMeds'));
+        console.log("Prescrpt: ", prescriptionMeds)
         if (!prescriptionMeds || prescriptionMeds.length === 0) {
             alert('Prescription is empty. Please add medicines before submitting.');
             return;
