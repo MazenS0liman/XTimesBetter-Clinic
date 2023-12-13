@@ -121,7 +121,9 @@ export const PatientProfile = () => {
         console.log(error);
       })
     };
-
+    if (load) {
+      return (<div>Loading</div>)
+  }
     getPatientInfo();
     
     return (

@@ -189,8 +189,14 @@ const PrescriptionDoctorTable = () => {
   //     // navigate('/doctor/UpdatePrescription', { state: appData });
   //     // navigate(`/doctor/getPrescriptionById/${prescriptionId}`);
   //  };
+  const isFilterEmpty = prescriptionsToBeDisplay.length === 0;
+  if (load) {
+    return (<div>Loading</div>)
+}
   return (
     <div className={styles.container}>
+                  <br />
+
       <h1 className={styles.listTitle}>Prescription List</h1>
       <div className={styles.resultContainer}>
         <div className={styles.filterContainer}>
@@ -215,8 +221,10 @@ const PrescriptionDoctorTable = () => {
           &nbsp;&nbsp;
           <button onClick={handleFilterClick}>Filter</button>
         </div>
-        <table className={styles.prescriptionTable}>
-          <thead>
+        {isFilterEmpty ? (
+          <p className={styles.noDataMessage}>No prescriptions found.</p>
+        ) : (
+          <table className={styles.prescriptionTable}>            <thead>
             <tr>
               <th className={styles.lightBlueText}>Patient Username</th>
 
@@ -267,6 +275,8 @@ const PrescriptionDoctorTable = () => {
             ))}
           </tbody>
         </table>
+               )}
+
       </div>
       {showModal && selectedPrescription && (
         <div className={styles.modal} ref={detailsRef}>

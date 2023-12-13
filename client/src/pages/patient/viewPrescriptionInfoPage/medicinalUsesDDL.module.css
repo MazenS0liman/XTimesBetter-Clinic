@@ -63,7 +63,14 @@
     background-color: #ccefff;
   
 } */
-
+.noDataMessage {
+    /* Style as needed, example: */
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #89CFF0;
+  }
+  
 .lightBlueButton {
     background-color: #77c4de;
     /* Light blue background */
