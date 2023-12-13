@@ -14,7 +14,10 @@ function ViewRequestedDoctorsInfo() {
       const [requestedDoctors, setRequestedDoctors] = useState([]);
       const [rejected, setRejected] = useState(false);
       const navigate = useNavigate();
-
+      const [currentPage, setCurrentPage] = useState(1);
+      const [itemsPerPage] = useState(6);
+      const [filteredDoctors, setFilteredDoctors] = useState([]);
+      const [filter, setFilter] = useState('all');
   //Authenticate part
   const accessToken = sessionStorage.getItem('accessToken');
   const [load, setLoad] = useState(true);
@@ -47,6 +50,32 @@ function ViewRequestedDoctorsInfo() {
 
           });
   }
+  const applyFilter = () => {
+    const filtered = requestedDoctors.filter(doctor => {
+      if (filter === 'accepted') {
+        return doctor.status === 'accepted';
+      } else if (filter === 'rejected') {
+        return doctor.status === 'rejected';
+      }
+      else if(filter === 'onhold'){
+        return doctor.status === 'onhold';
+
+      }
+      return true; // No filter or 'all' filter selected
+    });
+    setFilteredDoctors(filtered);
+  };
+  
+  useEffect(() => {
+    applyFilter();
+  }, [requestedDoctors, filter]); // Reapply filter when doctors list or filter changes
+  
+const handleFilterChange = (event) => {
+  setFilter(event.target.value);
+  setCurrentPage(1); // Reset to the first page when the filter changes
+
+};
+
 
   const xTest = checkAuthentication();
 //Authenticate part
@@ -160,11 +189,68 @@ function ViewRequestedDoctorsInfo() {
       if (load) {
         return (<div>Loading</div>)
     }
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentDrs = filteredDoctors.slice(indexOfFirstItem, indexOfLastItem);
+  
+    
+    const handlePrevPage = () => {
+      setCurrentPage(currentPage > 1 ? currentPage - 1 : 1);
+    };
+  
+    const handleNextPage = () => {
+      const totalItems = filteredDoctors.length;
+      const maxPage = Math.ceil(totalItems / itemsPerPage);
+      setCurrentPage(currentPage < maxPage ? currentPage + 1 : maxPage);
+    };
       return (
    
         <div>
 
           <h1>Requested Doctors List</h1>
+              {/* Pagination Controls */}
+    <div style={{ marginBottom: '10px' }}>
+    <div style={{ marginBottom: '10px' }}>
+      <button 
+        onClick={handlePrevPage} 
+        disabled={currentPage === 1}
+        style={{ marginRight: '10px' }}  // Adds space to the right of the 'Prev' button
+      >
+        Prev
+      </button>
+      <button 
+        onClick={handleNextPage} 
+        disabled={currentPage * itemsPerPage >= filteredDoctors.length}
+      >
+        Next
+      </button>
+      &nbsp; Page {currentPage}
+    </div>
+      &nbsp; Page {currentPage}
+      &nbsp;
+      &nbsp;
+
+    </div>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
+          <div>
+
+
+  <label htmlFor="filterSelect">Filter By Status: </label>
+  <select id="filterSelect" value={filter} onChange={handleFilterChange}>
+    <option value="all">All</option>
+    <option value="accepted">Accepted</option>
+    <option value="rejected">Rejected</option>
+    <option value ="onhold">Waiting</option>
+  </select>
+  &nbsp;
+</div>
+&nbsp;
+&nbsp;
+{filteredDoctors.length > 0 ? (
+
           <table>
             <thead>
               <tr>
@@ -183,8 +269,9 @@ function ViewRequestedDoctorsInfo() {
               </tr>
             </thead>
             <tbody>
+            {currentDrs.map((doctor) => (
 
-              {requestedDoctors.map((doctor) => (
+              // {requestedDoctors.map((doctor) => (
                 <tr key={doctor._id}>
                   <td>{doctor.name}</td>
                   <td>{doctor.speciality}</td>
@@ -200,13 +287,15 @@ function ViewRequestedDoctorsInfo() {
                   <td>{doctor.status}</td>
                   <td>
                   <button
+                  
   onClick={() => acceptDoctor(doctor._id)}
   disabled={doctor.status === 'accepted' || doctor.status === 'rejected'}
 >
   Accept
 </button>
 <br />
-<button
+<br />
+ <button
   onClick={() => rejectDoctor(doctor._id)}
   disabled={doctor.status === 'accepted' || doctor.status === 'rejected'}
 >
@@ -216,9 +305,16 @@ function ViewRequestedDoctorsInfo() {
               </td>
                 </tr>
               ))}
+              {/* ))} */}
+
             </tbody>
           </table>
+          ) : (
+            <div style={{ fontSize: '20px', textAlign: 'center', marginTop: '20px', color: '#89CFF0' }}>
+            No doctors Requests found matching the selected criteria.
+          </div>    )}
         </div>
+        
       );
 }
        

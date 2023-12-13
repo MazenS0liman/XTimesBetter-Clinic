@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef} from 'react';
 import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 import { useAuth } from '../../../components/hooks/useAuth';
 import { jsPDF } from "jspdf";
+import { useNavigate } from 'react-router-dom';
 
 const PrescriptionTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [prescriptionsToBeDisplay, setPrescriptionsToBeDisplay] = useState([]);
   const [selectedPrescription, setSelectedPrescription] = useState([]);
+  const [selectedPrescriptionId, setSelectedPrescriptionId] = useState(null);
 
+  const detailsRef = useRef(null); // Create a ref
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
   const [showModal, setShowModal] = useState(false);
+
  //Authenticate part
  const accessToken = sessionStorage.getItem('accessToken');
  const [load, setLoad] = useState(true);
  const [username, setUsername] = useState('');
- 
+ const [password, setPassword] = useState('');
+
+ const navigate = useNavigate();
+
+ useEffect(() => {
+  if (showModal && detailsRef.current) {
+      detailsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}, [showModal]); // Dependency array includes showModal
+
  console.log(accessToken);
  useEffect(() => {
      if (username.length != 0) {
@@ -37,6 +50,7 @@ const PrescriptionTable = () => {
          .then((response) => {
              console.log(response);
              setUsername(response.data.username);
+             setPassword(response.data.password);
              //setLoad(false);
          })
          .catch((error) => {
@@ -150,20 +164,34 @@ const PrescriptionTable = () => {
   };
 
   const handleSelectPrescription = (selectedPrescription) => {
-     setSelectedPrescription(selectedPrescription);
+    setSelectedPrescription(selectedPrescription);
+    setSelectedPrescriptionId(selectedPrescription._id); // Set the selected ID
     setShowModal(true);
-  };
+    // Scroll to the details section
+    if (detailsRef && detailsRef.current) {
+        detailsRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+};
+const closePrescriptionModal = () => {
+  setSelectedPrescription([]);
+  setSelectedPrescriptionId(null); // Reset the selected ID
+  setShowModal(false);
+};
 
-  const closePrescriptionModal = () => {
-    setSelectedPrescription([]);
-    setShowModal(false);
-  };
-  const handleUpdateClick = (prescriptionId) => {
-    const appData = { prescriptionId: prescriptionId };
   
-    // Navigate to the second component and pass prescriptionId as a URL parameter
-    navigate(`/doctor/UpdatePrescription/${prescriptionId}`);
-  };
+
+//   const handleBuyClick = (prescriptionId) => {
+//     // const accessToken = sessionStorage.getItem('accessToken');
+// const accessToken = sessionStorage.getItem('accessToken'); // Retrieve the access token
+// // const pharmacyUrl = 'http://localhost:5174/patient/myPCart'; // Replace with the actual URL of the pharmacy app
+// // const redirectUrl = `${pharmacyUrl}?accessToken=${accessToken}`;
+// // window.location.href = redirectUrl; // Redirect to the pharmacy app with the access token
+
+//     window.location.href = `http://localhost:5174/patient/myPCart/${prescriptionId}?accessToken=${accessToken}`;
+// };
+
+
+
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -194,12 +222,14 @@ const PrescriptionTable = () => {
           <thead>
             <tr>
               {/* <th>Patient Username</th> */}
-              <th>Doctor Username</th>
-              <th>Visit Date</th>
-              <th>Filled</th>
-              <th>Select</th> {/* selecting a prescription */}
-              <th>Download As PDF</th> {/* downloading prescription as pdf*/}
-              <th>Buy</th>
+              <th className={styles.lightBlueText}>Doctor Username</th>
+
+{/* <th>Doctor Username</th> */}
+<th className={styles.lightBlueText}>Visit Date</th>
+<th className={styles.lightBlueText}>Filled</th>
+              {/* <th>Select</th> selecting a prescription */}
+              {/* <th>Download As PDF</th> downloading prescription as pdf */}
+              {/* <th>Buy</th> */}
             </tr>
           </thead>
           <tbody>
@@ -210,32 +240,41 @@ const PrescriptionTable = () => {
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
-              <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
-            </td>
-            <td>
-              <button onClick={() => generatePDF(prescription)}>Download</button>
-            </td>
+
+            <button 
+              className={styles.lightBlueButton}
+ 
+            onClick={() => handleSelectPrescription(prescription)}>
+                {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
+            </button>
+              </td>
             <td>
               <button 
-              onClick={() => handleUpdateClick(prescription._id)}
-              >
-                Buy
-                </button>
-                </td>
+                className={styles.lightBlueButton}
+                onClick={() => generatePDF(prescription)}>Download</button>
+            </td>
+            {/* <td> */}
+            {/* <button 
+            className={styles.lightBlueButton}
+
+            onClick={() => handleBuyClick(prescription._id)}>Buy</button> */}
+
+                {/* </td> */}
           </tr>
         ))}
       </tbody>
     </table>
   </div>
   {showModal && selectedPrescription && (
-  <div className={styles.model}>
+     <div className={styles.modal} ref={detailsRef}>
     <div className={styles.modalContent}>
       {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
         &times;
       </span> */}
       <br />
 
-      <button className={styles.closeButton} onClick={closePrescriptionModal}>
+      <button 
+      className={styles.closeButton} onClick={closePrescriptionModal}>
         Close
       </button>
       <div className={styles.additionalInfo}>
@@ -243,11 +282,10 @@ const PrescriptionTable = () => {
       </div>
       <h2>Prescription Details</h2>
       <table className={styles.prescriptionDetailsTable}>
-        <thead>
+      <thead>
           <tr>
             <th>Name</th>
-            <th>Dose</th>
-            <th>Timing</th>
+            <th>Dosage</th>
             <th>Price</th>
           </tr>
         </thead>
@@ -255,8 +293,7 @@ const PrescriptionTable = () => {
           {selectedPrescription.medicines.map((medicine, index) => (
             <tr key={index}>
               <td>{medicine.name}</td>
-              <td>{medicine.dose}</td>
-              <td>{medicine.timing}</td>
+              <td>{medicine.dosage}</td>
               <td>{medicine.price}</td>
             </tr>
           ))}
