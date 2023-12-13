@@ -278,7 +278,7 @@ export const ResponsiveAppBar = () => {
                   }}
 
                   component="a" 
-                  href={`http://localhost:5173/${userType}/profile`}
+                  href={`/${userType}/profile`}
                 >
                   <Typography 
                       textAlign="center"

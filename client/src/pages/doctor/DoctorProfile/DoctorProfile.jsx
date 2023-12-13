@@ -142,7 +142,6 @@ export const DoctorProfile = () => {
               <div className={styles['left__div']}>
                 <div className={styles['configurations__div']}>
                   <DropDown title="change password" child={<PasswordCard />}></DropDown>
-                  
                 </div>
               </div>
               <div className={styles['middle__div']}>
