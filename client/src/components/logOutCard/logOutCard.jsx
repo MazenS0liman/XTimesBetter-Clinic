@@ -63,13 +63,15 @@ export const LogOutCard = ({showLogOutCard}) => {
     return (
         <div className={styles['logout-message-div']}>
             <div className={styles['confirm-message-div']}>
-                <h3>Are you sure you want to log out?</h3>
+                <div className={styles['logout__message__div']}>
+                    <h3>Are you sure you want to log out?</h3>
+                </div>
                 <div className={styles['cross-div']}>
                     <img className={styles['cross-message-img']} src={crossImage} onClick={handleExitLogOutCard}></img>
                 </div>
             </div>
             <div className={styles['confirm-logout-div']}>
-                <button className={styles['confirm-logout-button']} type="button" onClick={handleLogOut}>Log Out</button>
+                <button className={styles['confirm-logout-button']} onClick={handleLogOut}>Log Out</button>
             </div>
         </div>
     )

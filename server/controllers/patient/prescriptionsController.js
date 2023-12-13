@@ -18,10 +18,10 @@ const createPrescription = asyncHandler(async (req, res) => {
 // }
 
 const getMedicines = async (req, res) => {
+  const prescriptions = req.body
+
   try {
-    const medicines = await presModel.find({
-      patient_username: "Mayan", // Specify the desired patient username
-    })
+    const medicines = await presModel.find({patient_username : prescriptions.username})
       .sort({ createdAt: -1 })
       .select('patient_username doctor_username visit_date filled medicines');
 
@@ -50,7 +50,9 @@ const getMedicines = async (req, res) => {
 //   };
 const getPrescription = async (req, res) => {
   //const appointments = await appointmentModel.find({ doctor_username: req.query.doctor_username });
-  const prescription = await presModel.findOne({ username: req.query.patient_username });
+  const username = req.body.username;
+
+  const prescription = await presModel.findOne({ patient_username: username });
   if (!prescription) {
     return res.status(404).json({ error: 'No such prescription' });
   }

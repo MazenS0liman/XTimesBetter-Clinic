@@ -14,6 +14,10 @@ import { StaticDate } from '../staticDate/staticDate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch, faFilter, faCalendarCheck, faFilterCircleXmark, faCalendarPlus, faCalendarMinus, faCalendar } from '@fortawesome/free-solid-svg-icons';
 
+// Tooltip
+import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip } from 'react-tooltip'
+
 export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePickerClick, handleEndDatePickerClick, handleClearSearchFilter, handleUpcomingAppointmentsClick}) => {
     // Input
     const [inputValue, setInputValue] = useState("");
@@ -79,44 +83,85 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePicke
 
     return (
         <div className={styles['searchbar-main-div']}>
-            <a>Search for your patient</a>
             <div className={styles['searchbar-sub-div']}>
                 <div className={styles['searchbar-input-div']}>
                     <input className={styles['searchbar-input']} value={inputValue} placeholder="Search for ..." type="text" onChange={handleChange}/>
                 </div>
                 
                 <div className={styles['searchbar-icon-div']}>
-                    <button className={styles['searchbar-button']} onClick={handleClick}>
+                    <button 
+                        data-tooltip-id="my__search__icon"
+                        data-tooltip-content="Search"
+                        data-tooltip-place="top"
+                        className={styles['searchbar-button']} 
+                        onClick={handleClick}
+                    >
                         <FontAwesomeIcon icon={faSearch} />
                     </button>
                 </div>
 
                 <div className={styles['searchfilter-icon-div']}>
-                    <button className={styles['searchfilter-button']} onClick={handleFilterClick}>
+                    <button 
+                        className={styles['searchfilter-button']} 
+                        onClick={handleFilterClick}
+                        data-tooltip-id="my__filter__new__icon"
+                        data-tooltip-content="Filter New Appointments"
+                        data-tooltip-place="top"
+                    >
                         <FontAwesomeIcon icon={faCalendarCheck} />
                     </button>
                 </div>
 
                 <div className={styles['searchfilter-icon-div']}>
-                    <button className={styles['searchfilter-button']} onClick={() => setShowStartDatePicker(!showStartDatePicker)}>
+                    <button 
+                        className={styles['searchfilter-button']} 
+                        onClick={() => {
+                            setShowStartDatePicker(!showStartDatePicker);
+                            setShowEndDatePicker(false);
+                         }}
+                        data-tooltip-id="my__start__date__icon"
+                        data-tooltip-content="Pick Start Date"
+                        data-tooltip-place="top"
+                    >
                         <FontAwesomeIcon icon={faCalendarPlus} />
                     </button>
                 </div>
 
                 <div className={styles['searchfilter-icon-div']}>
-                    <button className={styles['searchfilter-button']} onClick={() => setShowEndDatePicker(!showEndDatePicker)}>
+                    <button 
+                        className={styles['searchfilter-button']} 
+                        onClick={() => {
+                            setShowEndDatePicker(!showEndDatePicker);
+                            setShowStartDatePicker(false);
+                        }}
+                        data-tooltip-id="my__end__date__icon"
+                        data-tooltip-content="Pick End Date"
+                        data-tooltip-place="top"
+                    >
                         <FontAwesomeIcon icon={faCalendarMinus} />
                     </button>
                 </div>
 
                 <div className={styles['searchfilter-icon-div']}>
-                    <button className={styles['searchfilter-button']} onClick={handleUpcomingAppointmentsClick}>
+                    <button 
+                        className={styles['searchfilter-button']}
+                        onClick={handleUpcomingAppointmentsClick}
+                        data-tooltip-id="my__end__date__icon"
+                        data-tooltip-content="Pick Upcoming Appointments"
+                        data-tooltip-place="top"
+                    >
                         <FontAwesomeIcon icon={faCalendar} />
                     </button>
                 </div>
 
                 <div className={styles['clearfilter-icon-div']}>
-                    <button className={styles['clearfilter-button']} onClick={handleClearSearchFilter}>
+                    <button 
+                        className={styles['clearfilter-button']} 
+                        onClick={handleClearSearchFilter}
+                        data-tooltip-id="my__clear__filter__icon"
+                        data-tooltip-content="Clear Filters"
+                        data-tooltip-place="top"
+                    >
                         <FontAwesomeIcon icon={faFilterCircleXmark} />
                     </button>
                 </div>
@@ -133,6 +178,12 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePicke
                     </div>
                 )}
             </div>
+            <Tooltip id="my__search__icon" />
+            <Tooltip id="my__filter__new__icon" />   
+            <Tooltip id="my__start__date__icon" />  
+            <Tooltip id="my__end__date__icon" />       
+            <Tooltip id="my__filter__upcoming__icon" />   
+            <Tooltip id="my__clear__filter__icon" />           
         </div>
     )
 }

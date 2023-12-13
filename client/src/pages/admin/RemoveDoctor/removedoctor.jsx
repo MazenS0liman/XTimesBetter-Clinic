@@ -1,92 +1,130 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Axios
+import axios from 'axios';
+
+// React Router DOM
+import { useNavigate } from 'react-router-dom';
 
 function RemoveDoctor() {
+  const [doctors, setDoctors] = useState([]);
   const [doctorInfo, setDoctorInfo] = useState({
     username: ''
-    
   });
 
-  const [selectedRadio, setSelectedRadio] = useState(null);
-  const [requestBody, setRequestBody] = useState({}); 
-  // const [username, setUsername] = useState({}); 
+  const fetchDoctors = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/Admin/addremove/gett/');
+      const data = await response.json();
+      setDoctors(data);
+    } catch (error) {
+      console.error('Error fetching doctors:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDoctors();
+  }, []);
+
+  const accessToken = sessionStorage.getItem("accessToken");
+  const [username, setUsername] = useState('');
+  const [load, setLoad] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (username.length != 0) {
+      setLoad(false);
+    }
+  }, [username]);
+
+  async function checkAuthentication() {
+    await axios ({
+        method: 'get',
+        url: `http://localhost:5000/authentication/checkAccessToken`,
+        headers: {
+            "Content-Type": "application/json",
+            'Authorization': accessToken,
+            'User-type': 'admin',
+        },
+    })
+    .then((response) => {
+        console.log(response);
+        setUsername(response.data.username);
+    })
+    .catch((error) => {
+      navigate('/login');
+    });
+  }
+
+  checkAuthentication();
+
+  if (load) {
+    return(<div>Loading</div>)
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-      setDoctorInfo({ ...doctorInfo, username: value });
+    setDoctorInfo({ ...doctorInfo, [name]: value });
   };
-  console.log(doctorInfo)
 
-  const handleRadioChange = (val) => {
-    setSelectedRadio(val);
-
-    // Prepare the request body based on selectedRadio
-    const body = {};
-    
-    // Update the state with the request body
-    setRequestBody(body);
-  };
-  
-  const handleSubmit = () => {
-    const requestBody = {
-        username: doctorInfo.username
-      };
-
-    // Make an HTTP PATCH request to send the data to the backend using the requestBody
-    fetch('http://localhost:5000/admin/addremoveclinic/removedoctor', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    }).then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      }).then((data) => {
-       // console.log(data.success);
-        if (data) {
-            console.log('Doctor removed', data);
-            alert('Doctor removed');
-           
-          } else {
-            console.error('Can not remove doctor', data);
-            alert('Can not remove doctor');
-           
-          }
-      })
-      .catch((error) => {
-        console.error('Error removing doctor', error);
-        console.log('This doctor does not exist');
-        alert('This doctor does not exist');
-        
+  const handleRemoveDoctor = async (username) => {
+    try {
+      const response = await fetch(`http://localhost:5000/Admin/addremove/removeDoctor`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data) {
+        console.log('Doctor removed', data);
+        alert('Doctor removed');
+        fetchDoctors(); // Refresh the patient list after removal
+      } else {
+        console.error('Can not remove doctor', data);
+        alert('Can not remove doctor');
+      }
+    } catch (error) {
+      console.error('Error removing doctor', error);
+      alert('An error occurred while removing the doctor');
+    }
   };
- 
-    
-      
 
-return (
-    <div className="choose">
-      
-      <div className="username" id="username">
-          <label htmlFor="username"> Doctor username: </label>
-          <input
-            type="text"
-            name="username"
-            value={doctorInfo.username}
-            onChange={handleChange}
-            
-          />
-        </div>
+  return (
+    <div>
+      <h2>Doctors List</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {doctors.map((doctor) => (
+            <tr key={doctor.username}>
+              <td>{doctor.name}</td>
+              <td>{doctor.username}</td>
+              <td>{doctor.email}</td>
+              <td>
+                <button onClick={() => handleRemoveDoctor(doctor.username)}style={{ backgroundColor: 'red', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Remove</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-     <button type="button" onClick={handleSubmit}>
-        Remove doctor
-      </button>
-    </div>
+</div>
   );
-
 }
 
-export default RemoveDoctor; 
+export default RemoveDoctor;

@@ -9,11 +9,17 @@ const bcrypt = require('bcrypt');
 const adminRoutes = require('./routes/Admin/adminRoute.js');
 const doctorRoutes = require('./routes/doctor/timeSlotsRoute.js');
 const prescriptionRoutes = require('./routes/patient/prescriptions');
+const prescriptionDoctorRoutes = require('./routes/doctor/prescriptionsDr');
+
 const doctorListRoutes = require('./routes/patient/doctorListRoutes');
 const multer = require('multer');
 const path = require('path');
+const updatePrescriptions = require('./routes/doctor/updatePrescriptionRoute.js')
+const Server = require('socket.io').Server;
+const roomModel = require('./models/Room');
 
 mongoose.set('strictQuery', false);
+
 
 // Express app
 const app = express();
@@ -57,9 +63,8 @@ mongoose.connect(MongoURI)
     console.log("MongoDB is now connected!")
 
     const allowedOrigins = ['http://localhost:5173'];
+
     // Set up CORS options.
-
-
     const corsOptions = {
       origin: (origin, callback) => {
         if (allowedOrigins.includes(origin) || !origin) {
@@ -74,8 +79,61 @@ mongoose.connect(MongoURI)
     app.use(cors(corsOptions));
 
     // Starting server
-    app.listen(Port, () => {
+    const expressServer = app.listen(Port, () => {
       console.log(`Listening to requests on http://localhost:${Port}`);
+    });
+
+    const socketIO = new Server(expressServer, {
+      cors: {
+        origin: '*',
+        credentials: true,            //access-control-allow-credentials:true
+        optionSuccessStatus: 200,
+      }
+    });
+
+    socketIO.on('connection', (socket) => {
+      console.log(`⚡: ${socket.id} user just connected!`);
+
+      socket.on('room', async data => {
+        console.log(data);
+        const temp = data.room.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
+        console.log(`Temp: ${temp}`);
+        const reverseRoom = await roomModel.find({ room_id: temp });
+        console.log(reverseRoom);
+        if (reverseRoom.length != 0) {
+          socket.join(temp)
+          console.log('joined room', temp)
+          //socket.emit('joined',{room:temp})
+          // Emit message to all users in the room
+          socket.to(temp).emit('message', { name: data.name, text: data.text });
+        } else {
+          data.room.split('!@!@2@!@!').reverse().join('!@!@2@!@!');
+          console.log(`Data Room: ${data.room}`);
+          const room = await roomModel.find({ room_id: data.room });
+          console.log(room);
+          if (room.length != 0) {
+            socket.join(data.room)
+            console.log('joined room', data.room)
+            //socket.emit('joined', { room: data.room})
+            console.log(room);
+            // Emit message to all users in the room
+            socket.to(data.room).emit('message', { name: data.name, text: data.text });
+          }
+          else {
+            socket.join(data.room);
+            await roomModel.create({ room_id: data.room });
+            console.log('joined room', data.room);
+            //socket.emit('joined', { room: data.room });
+            console.log(room);
+            // Emit message to all users in the room
+            socket.to(data.room).emit('message', { name: data.name, text: data.text });
+          }
+        }
+      });
+
+      socket.on('disconnect', () => {
+        console.log('🔥: A user disconnected');
+      });
     })
   })
   .catch(err => console.log(err));
@@ -112,9 +170,12 @@ app.use('/doctor/appointments', require('./routes/doctor/appointmentsRoute.js'))
 app.use('/doctor/addTimeSlot', doctorRoutes);
 app.use('/doctor/uploadHealthRecords', require('./routes/doctor/healthRecordRoute'));
 app.use('/doctor/viewPHealthRecords', require('./routes/doctor/viewHealthRoute'));
+app.use('/doctor/prescriptionDetails', prescriptionDoctorRoutes);
+app.use('/doctor/updatePrescriptions', require('./routes/doctor/updatePrescriptionRoute'));
 
 //sprint3 ~Nour
 app.use('/doctor/newPrescription', require('./routes/doctor/newPrescriptionRoute'));
+app.use('/doctor/chat', require('./routes/doctor/chatRoute.js'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -123,7 +184,7 @@ app.use('/admin/addPackage', require('./routes/admin/packageRoute'));
 app.use('/admin/updatePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/deletePackage', require('./routes/admin/packageRoute'));
 app.use('/admin/ViewPackage', require('./routes/admin/packageRoute'));
-app.use('/Admin/addremoveclinic', adminRoutes);
+app.use('/Admin/addremove', adminRoutes);
 app.use('/admin/info', require('./routes/admin/adminInfoRoute')); // Get information about logged in admin using his/her username
 
 // Patient
@@ -156,7 +217,4 @@ app.use('/patient/appointmentPaymentCreditCard', require('./routes/patient/payme
 app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/appointmentWallet.js'));
 app.use('/patient/viewMedicalHistory', require('./routes/patient/medicalHistoryRoute'));
 app.use('/patient/viewHealthRecords', require('./routes/patient/viewHealthRecordsRoute'));
-
-
-
-
+app.use('/patient/chat', require('./routes/patient/chatRoute.js'));

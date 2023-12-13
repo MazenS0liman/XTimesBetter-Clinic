@@ -69,7 +69,7 @@ export const ViewAdminMainPage = () => {
                  //setLoad(false);
                  navigate('/login');
    
-             });
+        });
      }
    
      const xTest = checkAuthentication();
@@ -77,24 +77,16 @@ export const ViewAdminMainPage = () => {
    
     const list = [
         {
-            url: "/admin/profile",
-            pageName: "Profile",
-        },
-        {
             url: "/admin/addadmin",
-            pageName: "Add Admin",
-        },
-        {
-            url: "/admin/removeadmin",
-            pageName: "Remove Admin",
+            pageName: "Admins",
         },
         {
             url: "/admin/removepatient",
-            pageName: "Remove Patient",
+            pageName: "Patients",
         },
         {
             url: "/admin/removedoctor",
-            pageName: "Remove Doctor",
+            pageName: "Doctors",
         },
         {
             url: "/admin/AddPackage",

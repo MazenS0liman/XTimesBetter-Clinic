@@ -5,9 +5,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
 
-    background-image: linear-gradient(35deg, #C9D6FF 0%, #E2E2E2 100%);
+    background-image: linear-gradient(35deg, #252525 0%, #252525 100%);
 
     position: relative;
 

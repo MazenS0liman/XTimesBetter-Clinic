@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
+import { useAuth } from '../../../components/hooks/useAuth';
+import { jsPDF } from "jspdf";
 
 const PrescriptionTable = () => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -11,6 +13,83 @@ const PrescriptionTable = () => {
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
   const [showModal, setShowModal] = useState(false);
+ //Authenticate part
+ const accessToken = sessionStorage.getItem('accessToken');
+ const [load, setLoad] = useState(true);
+ const [username, setUsername] = useState('');
+ 
+ console.log(accessToken);
+ useEffect(() => {
+     if (username.length != 0) {
+         setLoad(false);
+     }
+ }, [username]);
+ async function checkAuthentication() {
+     await axios({
+         method: 'get',
+         url: 'http://localhost:5000/authentication/checkAccessToken',
+         headers: {
+             "Content-Type": "application/json",
+             'Authorization': accessToken,
+             'User-type': 'patient',
+         },
+     })
+         .then((response) => {
+             console.log(response);
+             setUsername(response.data.username);
+             //setLoad(false);
+         })
+         .catch((error) => {
+             //setLoad(false);
+             navigate('/login');
+
+         });
+ }
+ const generatePDF = (prescription) => {
+  const doc = new jsPDF({
+    orientation: 'p',
+    unit: 'mm',
+    format: [310, 270]
+  });
+  const pageWidth = doc.internal.pageSize.getWidth();
+
+  // Title
+  doc.setFontSize(19);
+  doc.text('Prescription Details', pageWidth / 2, 20, { align: 'center' });
+
+  // Subtitle
+  doc.setFontSize(14);
+  doc.text(`Prescription From Dr.${prescription.doctor_username}`, pageWidth / 2, 30, { align: 'center' });
+
+  // Body
+  doc.setFontSize(12);
+  doc.setFont(undefined, 'normal');
+
+  const bodyStartY = 40;
+  // doc.text(`Doctor: ${prescription.doctor_username}`, 20, bodyStartY+10);
+  doc.text(`Visit Date: ${prescription.visit_date}`, 20, bodyStartY + 10);
+  doc.text(`Filled: ${prescription.filled ? 'Yes' : 'No'}`, 20, bodyStartY + 20);
+
+  // Medicines Section
+  doc.setFont(undefined, 'bold');
+  doc.text('Medicines:', 20, bodyStartY + 30);
+  doc.setFont(undefined, 'normal');
+
+  prescription.medicines.forEach((medicine, index) => {
+    const y = bodyStartY + 40 + (10 * index);
+    doc.text(`- ${medicine.name}`, 30, y);
+    doc.text(`Dose: ${medicine.dose}`, 80, y);
+    doc.text(`Timing: ${medicine.timing}`, 130, y);
+    doc.text(`Price: ${medicine.price}`, 230, y);
+  });
+
+  // Save the PDF
+  doc.save(`prescription_${prescription.patient_username}.pdf`);
+};
+
+
+ const xTest = checkAuthentication();
+//Authenticate part
 
   useEffect(() => {
     const fetchPrescriptionData = async () => {
@@ -18,7 +97,8 @@ const PrescriptionTable = () => {
         const response = await axios.get('http://localhost:5000/patient/prescriptionDetails', {
           headers: {
             'Content-Type': 'application/json',
-          },
+            'Authorization': accessToken,
+        },
         });
 
         if (response && response.data) {
@@ -78,7 +158,12 @@ const PrescriptionTable = () => {
     setSelectedPrescription([]);
     setShowModal(false);
   };
-
+  const handleUpdateClick = (prescriptionId) => {
+    const appData = { prescriptionId: prescriptionId };
+  
+    // Navigate to the second component and pass prescriptionId as a URL parameter
+    navigate(`/doctor/UpdatePrescription/${prescriptionId}`);
+  };
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -108,48 +193,80 @@ const PrescriptionTable = () => {
         <table className={styles.prescriptionTable}>
           <thead>
             <tr>
-              <th>Patient Username</th>
+              {/* <th>Patient Username</th> */}
               <th>Doctor Username</th>
               <th>Visit Date</th>
               <th>Filled</th>
-              <th>Select</th> {/* Add a column for selecting a prescription */}
+              <th>Select</th> {/* selecting a prescription */}
+              <th>Download As PDF</th> {/* downloading prescription as pdf*/}
+              <th>Buy</th>
             </tr>
           </thead>
           <tbody>
         {prescriptionsToBeDisplay.map((prescription) => (
           <tr key={prescription._id}>
-            <td>{prescription.patient_username}</td>
+            {/* <td>{prescription.patient_username}</td> */}
             <td>{prescription.doctor_username}</td>
             <td>{prescription.visit_date}</td>
             <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
             <td>
               <button onClick={() => handleSelectPrescription(prescription)}>Select</button>
             </td>
+            <td>
+              <button onClick={() => generatePDF(prescription)}>Download</button>
+            </td>
+            <td>
+              <button 
+              onClick={() => handleUpdateClick(prescription._id)}
+              >
+                Buy
+                </button>
+                </td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
   {showModal && selectedPrescription && (
-    <div className={styles.modal}>
-      <div className={styles.modalContent}>
-        <span className={styles.closeButton} onClick={closePrescriptionModal}>
-          &times;
-        </span>
-        <div className={styles.additionalInfo}>
-          <p>Selected Successfully</p>
-        </div>
-        <h2>Prescription Details</h2>
-        <ul>
-          {selectedPrescription.medicines.map((medicine, index) => (
-            <li key={index}>
-      <span className={styles.label}>Name:</span> {medicine.name}<br />
-      <span className={styles.label}>Dose:</span> {medicine.dose}<br />
-      <span className={styles.label}>Timing:</span> {medicine.timing}<br />
-    </li>
-          ))}
-        </ul>
+  <div className={styles.model}>
+    <div className={styles.modalContent}>
+      {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
+        &times;
+      </span> */}
+      <br />
+
+      <button className={styles.closeButton} onClick={closePrescriptionModal}>
+        Close
+      </button>
+      <div className={styles.additionalInfo}>
+        <p>Selected Successfully</p>
       </div>
+      <h2>Prescription Details</h2>
+      <table className={styles.prescriptionDetailsTable}>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Dose</th>
+            <th>Timing</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {selectedPrescription.medicines.map((medicine, index) => (
+            <tr key={index}>
+              <td>{medicine.name}</td>
+              <td>{medicine.dose}</td>
+              <td>{medicine.timing}</td>
+              <td>{medicine.price}</td>
+            </tr>
+          ))}
+                <br />
+                <br />
+                <br />
+
+        </tbody>
+      </table>
+    </div>
     </div>
   )}
 </div>

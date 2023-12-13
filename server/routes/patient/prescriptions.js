@@ -1,4 +1,6 @@
 const express = require('express')
+const { authenticateToken } = require('../../middleware/authenticateToken');
+
 // const { getPrescription } = require('../../controllers/patient/prescriptionsController');
 const { getMedicines,createPrescription,getPrescription,
     filterPrescriptionByDate,filterPrescriptionByDoctor,filterPrescriptionByfilled,
@@ -7,8 +9,8 @@ const router = express.Router()
 // router.get('/v', viewMyPrescriptions);
 //router.get('/:patient_username', getPrescription);
 
+router.get('/', authenticateToken, getMedicines);
 //router.get('/viewMyPrescriptionInfo/:username', viewMyPrescriptionInfo);
-router.get('/', getMedicines)
 router.post('/create', createPrescription);
 router.get('/filter/date/:visitDate',filterPrescriptionByDate);
 router.get('/filter/doctor/:name',filterPrescriptionByDoctor);

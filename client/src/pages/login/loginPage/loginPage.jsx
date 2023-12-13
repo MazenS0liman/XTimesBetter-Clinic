@@ -11,13 +11,16 @@ import { useState } from 'react';
 
 // Home Made Hooks
 import { useAuthUpdate, useUsername, useUserType, useRecoveryContext } from '../../../components/hooks/useAuth';
-import { useFetch } from '../../../components/hooks/useFetch';
 
 // React Router
 import { useNavigate } from 'react-router-dom';
 
 // User Defined Components
 import { AlertMessageCard } from '../../../components/alertMessageCard/alertMessageCard';
+
+// Font Awesome
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
 export const LoginPage = () => {
     const [name, setName] = useState("");
@@ -69,7 +72,7 @@ export const LoginPage = () => {
                 sessionStorage.setItem("accessToken", response.data.accessToken);
                 sessionStorage.setItem("refreshToken", response.data.refreshToken);
                 sessionStorage.setItem("username", name);
-
+                sessionStorage.setItem("name", response.data.name);
     
                 if (response.data.userType === "patient") {
                     setError(false);
@@ -102,7 +105,9 @@ export const LoginPage = () => {
     return (
         <div className={styles['login-main-div']}>
             <div className={styles['login-back-button-div']}>
-                <button className={styles['login-back-button']} onClick={handleGoBackButtonClicked}>Home Page</button>
+                <button className={styles['login-back-button']} onClick={handleGoBackButtonClicked}>
+                    <FontAwesomeIcon icon={faHouse} />
+                </button>
             </div>
             <div className={styles['login-sub-div']}>
                 <h2 className={styles['login-title-h2']}>Login Here</h2>
@@ -126,6 +131,9 @@ export const LoginPage = () => {
                 </div>
                 <a className={styles['reset-password-a']} href={"/sendOTP"}>Reset Password</a>
                 <button className={styles['login-button']} onClick={handleLogInClick}>Log In</button>
+                <div className={styles['register__div']}>
+                    <a className={styles['register-a']} href={"/patientRegister"}>Don't have an account yet?</a>
+                </div>
             </div>
             {error && (<AlertMessageCard message={"Invalid username or password"} showAlertMessage={setError}></AlertMessageCard>)}
         </div>

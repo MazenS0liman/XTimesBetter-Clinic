@@ -7,8 +7,8 @@ import axios from 'axios';
 import styles from './viewPatientInfoPage.module.css';
 
 // Images
-import manImage from '../../../assets/img/man.png';
-import womenImage from '../../../assets/img/woman.png';
+import manImage from '../../../assets/img/male.svg';
+import womenImage from '../../../assets/img/female.svg';
 
 // User Defined Components
 import { PatientBoard } from '../../../components/patientBoard/PatientBoard';
@@ -32,6 +32,8 @@ export function ViewPatientInfo() {
     // const {accessToken} = useAuth();
     const accessToken = sessionStorage.getItem("accessToken");
     const patient = location.state;
+    console.log("Patient Info:");
+    console.log(patient);
 
     async function checkAuthentication() {
       await axios ({
@@ -87,26 +89,23 @@ export function ViewPatientInfo() {
             </div>
             <div className={styles['patient-info-right-div']}>
               <div className={styles['patient-information-div']}>
-                <Typography level="h1" component="h1">{patient.name}</Typography>
+                <Typography level="h1" component="h1" sx={{color: 'lightskyblue'}}>{patient.name}</Typography>
                 <div className={styles['patient-information-sub-div']}>
                   <div className={styles['patient-information-left-div']}>
-                    <Typography level="title-sm">username: {patient.username}</Typography>
-                    <Typography level="title-sm">email: {patient.email}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>username: {patient.username}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>email: {patient.email}</Typography>
                   </div>
                   <div className={styles['patient-information-right-div']}>
-                    <Typography level="title-sm">data of birth: {patient.dob}</Typography>
-                    <Typography level="title-sm">mobile: {patient.mobile}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>data of birth: {patient.dob}</Typography>
+                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>mobile: {patient.mobile}</Typography>
                   </div>
                 </div>
 
               </div>
-              <div className={styles['patient-settings-div']}>
-                <Button onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
-              </div>
             </div>
           </div>
           <div className={styles['patient-info-bottom-div']}>
-            <PatientBoard appointments={patient.appointments} emergencies={patient.emergency_contact}/>
+            <PatientBoard appointments={patient.appointments} emergency_contact={patient.emergency_contact}/>
           </div>
       </div>
 

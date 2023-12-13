@@ -3,6 +3,10 @@ import * as React from 'react';
 // Styles
 import styles from './responsiveSideBar.module.css';
 
+// Hooks
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
@@ -16,14 +20,26 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import DehazeIcon from '@mui/icons-material/Dehaze';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ChatIcon from '@mui/icons-material/Chat';
+import HomeIcon from '@mui/icons-material/Home';
+
+// Tooltip
+import 'react-tooltip/dist/react-tooltip.css'
+import { Tooltip as Tool } from 'react-tooltip'
 
 export const ResponsiveSideBar = ({ array }) => {
+  const [username, setUsername] = useState(sessionStorage.getItem('username'));
+  const [name, setName] = useState(sessionStorage.getItem('name'));
+  const [userType, setUserType] = useState(sessionStorage.getItem('userType'));
   const [state, setState] = React.useState({
     top: false,
     left: false,
     bottom: false,
     right: false,
   });
+  const navigate = useNavigate();
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -36,7 +52,6 @@ export const ResponsiveSideBar = ({ array }) => {
   const list = (anchor) => (
     <Box
       sx={{ 
-        width: "50%",
         display: {
             xs: 'none',
             md: 'flex',
@@ -51,8 +66,13 @@ export const ResponsiveSideBar = ({ array }) => {
     >
       <List >
         {array.map((element, index) => (
-          <ListItem key={element.pageName} disablePadding>
-            <ListItemButton  component="a" href={`${element.url}`} >
+          <ListItem key={element.pageName} disablePadding sx={{
+          '&:hover': {
+            backgroundColor: "#e2ebf2",
+            color: "black",
+            textDecoration: "none",
+          },}}>
+            <ListItemButton  component="a" href={`${element.url}`}  sx={{textDecoration:"none"}}>
               <ListItemIcon  sx={{width: "20%"}}>
                 <ArrowForwardIosIcon />
               </ListItemIcon>
@@ -67,13 +87,75 @@ export const ResponsiveSideBar = ({ array }) => {
   return (
     <div className={styles['sidebar-main-div']}>
         <React.Fragment key={"left"}>
-          <Button sx={{color: "black"}} className={styles['view-button']} onClick={toggleDrawer("left", true)}>
-            <DehazeIcon></DehazeIcon>
+          <Button sx={{color: "white", '&:hover': {
+                    backgroundColor: "#125594",
+                    color: "white"
+                    }}} className={styles['view-button']} onClick={() => navigate(-1)}
+                    data-tooltip-id="back"
+                    data-tooltip-content="Back"
+                    data-tooltip-place="bottom"
+                    >
+            <ArrowBackIcon></ArrowBackIcon>
           </Button>
+          <Button sx={{color: "white", '&:hover': {
+                    backgroundColor: "#125594",
+                    color: "white"
+                    }}} className={styles['view-button']} onClick={() => navigate(1)}
+                    data-tooltip-id="forward"
+                    data-tooltip-content="Forward"
+                    data-tooltip-place="bottom"
+                    >
+            <ArrowForwardIcon></ArrowForwardIcon>
+          </Button>
+        <Button sx={{color: "white", '&:hover': {
+                    backgroundColor: "#125594",
+                    color: "white"
+                    }}} className={styles['view-button']} onClick={toggleDrawer("left", true)}
+                    data-tooltip-id="side_bar"
+                    data-tooltip-content="Side Bar"
+                    data-tooltip-place="bottom"
+            >
+            <DehazeIcon></DehazeIcon>
+        </Button>
+        <Button sx={{color: "white", '&:hover': {
+                    backgroundColor: "#125594",
+                    color: "white"
+                    }}} 
+                    className={styles['view-button']}
+                    component="a"
+                    href={`/${userType}`}
+                    data-tooltip-id="home"
+                    data-tooltip-content="Home"
+                    data-tooltip-place="bottom"
+          >
+            <HomeIcon></HomeIcon>
+        </Button>
+            
+
+          {
+            sessionStorage.getItem("userType") === "admin" ? <></> :
+            <Button 
+                    sx={{color: "white",
+                      '&:hover': {
+                      backgroundColor: "#125594",
+                      color: "white"
+                      }
+                    }} 
+                    className={styles['view-button']}                   
+                    component="a"
+                    href={`/${userType}/ChatPage`}
+                    data-tooltip-id="chat"
+                    data-tooltip-content="Chat"
+                    data-tooltip-place="bottom"
+              >
+              <ChatIcon></ChatIcon>
+            </Button>
+          }
+
           <Drawer
             PaperProps={{
                 sx: { width: "250px" },
-                }}
+            }}
             anchor={"left"}
             open={state["left"]}
             onClose={toggleDrawer("left", false)}
@@ -81,7 +163,12 @@ export const ResponsiveSideBar = ({ array }) => {
           >
             {list("left")}
           </Drawer>
-        </React.Fragment>   
+        </React.Fragment>  
+      <Tool id="back" />
+      <Tool id="forward" />   
+      <Tool id="side_bar" />  
+      <Tool id="home" />       
+      <Tool id="chat" />   
     </div>
   );
 }

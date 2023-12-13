@@ -32,15 +32,20 @@ import ScheduleFollowUp from '../scheduleFollowUpPage/scheduleFollowUpPage';
 import TimeSlots from '../timeSlotsPage/timeSlots';
 import UploadHealthRecords from '../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
+import { ChatPage } from '../ChatPage/chatPage';
 
 //Sprint3
 import PatientVisitLog from '../newPrescriptionPages/patientVisitLogPage';
 import AddMedsToPrescription from '../newPrescriptionPages/addMedsToPrescriptionPage';
 import FinalizePrescription from '../newPrescriptionPages/finalizePrescriptionPage';
 
+import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/PrescriptionDoctorTable';
+// import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+// import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 
+import UpdatePrescription from '../updatePrescription/updatePrescription';
 
 
 export const ViewDoctorMainPage = () => {
@@ -87,10 +92,6 @@ export const ViewDoctorMainPage = () => {
     //Authenticate part
 
     const list = [
-        {
-            url: "/doctor/profile",
-            pageName: "Profile",
-        },
         {
             url: "/doctor/viewPatientsPage",
             pageName: "Patients",
@@ -140,6 +141,10 @@ export const ViewDoctorMainPage = () => {
             url: "/doctor/writePrescription",
             pageName: "Write Prescription",
         },
+        {
+            url: "/doctor/PrescriptionDoctorTable",
+            pageName: "Prescript pg",
+        },
     ];
 
     if (load) {
@@ -167,8 +172,13 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/writePrescription" element={<PatientVisitLog />} />
                     <Route path="/addMedsToPrescription" element={<AddMedsToPrescription />} />
                     <Route path="/finalizePrescription" element={<FinalizePrescription />} />
+                    <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
+                    {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
+                    <Route path="/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
+
+                    <Route path="/ChatPage" element={<ChatPage />} />
                 </Routes>
             </>
-        </div>
+        </div >
     )
 }
