@@ -57,6 +57,10 @@ function ViewRequestedDoctorsInfo() {
       } else if (filter === 'rejected') {
         return doctor.status === 'rejected';
       }
+      else if(filter === 'onhold'){
+        return doctor.status === 'onhold';
+
+      }
       return true; // No filter or 'all' filter selected
     });
     setFilteredDoctors(filtered);
@@ -68,6 +72,8 @@ function ViewRequestedDoctorsInfo() {
   
 const handleFilterChange = (event) => {
   setFilter(event.target.value);
+  setCurrentPage(1); // Reset to the first page when the filter changes
+
 };
 
 
@@ -237,11 +243,13 @@ const handleFilterChange = (event) => {
     <option value="all">All</option>
     <option value="accepted">Accepted</option>
     <option value="rejected">Rejected</option>
+    <option value ="onhold">Waiting</option>
   </select>
   &nbsp;
 </div>
 &nbsp;
 &nbsp;
+{filteredDoctors.length > 0 ? (
 
           <table>
             <thead>
@@ -286,7 +294,8 @@ const handleFilterChange = (event) => {
   Accept
 </button>
 <br />
-<button
+<br />
+ <button
   onClick={() => rejectDoctor(doctor._id)}
   disabled={doctor.status === 'accepted' || doctor.status === 'rejected'}
 >
@@ -300,7 +309,12 @@ const handleFilterChange = (event) => {
 
             </tbody>
           </table>
+          ) : (
+            <div style={{ fontSize: '20px', textAlign: 'center', marginTop: '20px', color: '#89CFF0' }}>
+            No doctors Requests found matching the selected criteria.
+          </div>    )}
         </div>
+        
       );
 }
        
