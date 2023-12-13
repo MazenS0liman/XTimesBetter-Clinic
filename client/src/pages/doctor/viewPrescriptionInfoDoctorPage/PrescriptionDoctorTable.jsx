@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import styles from './medicinalUsesDDL.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
@@ -15,47 +15,47 @@ const PrescriptionDoctorTable = () => {
   const [filter, setFilter] = useState('all'); // Initialize with 'all' as no filter
   const [filterValue, setFilterValue] = useState(''); // Input value for doctor_username or visit_date
   const [showModal, setShowModal] = useState(false);
- //Authenticate part
- const accessToken = sessionStorage.getItem('accessToken');
- const [load, setLoad] = useState(true);
- const [username, setUsername] = useState('');
- const navigate = useNavigate();
- useEffect(() => {
-  if (showModal && detailsRef.current) {
+  //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (showModal && detailsRef.current) {
       detailsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [showModal]); // Dependency array includes showModal
+
+  console.log(accessToken);
+  useEffect(() => {
+    if (username.length != 0) {
+      setLoad(false);
+    }
+  }, [username]);
+  async function checkAuthentication() {
+    await axios({
+      method: 'get',
+      url: 'http://localhost:5000/authentication/checkAccessToken',
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': accessToken,
+        'User-type': 'doctor',
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setUsername(response.data.username);
+        //setLoad(false);
+      })
+      .catch((error) => {
+        //setLoad(false);
+        navigate('/login');
+
+      });
   }
-}, [showModal]); // Dependency array includes showModal
 
- console.log(accessToken);
- useEffect(() => {
-     if (username.length != 0) {
-         setLoad(false);
-     }
- }, [username]);
- async function checkAuthentication() {
-     await axios({
-         method: 'get',
-         url: 'http://localhost:5000/authentication/checkAccessToken',
-         headers: {
-             "Content-Type": "application/json",
-             'Authorization': accessToken,
-             'User-type': 'doctor',
-         },
-     })
-         .then((response) => {
-             console.log(response);
-             setUsername(response.data.username);
-             //setLoad(false);
-         })
-         .catch((error) => {
-             //setLoad(false);
-             navigate('/login');
-
-         });
- }
-
- const xTest = checkAuthentication();
-//Authenticate part
+  const xTest = checkAuthentication();
+  //Authenticate part
 
   useEffect(() => {
     const fetchPrescriptionData = async () => {
@@ -64,7 +64,7 @@ const PrescriptionDoctorTable = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': accessToken,
-        },
+          },
         });
 
         if (response && response.data) {
@@ -75,7 +75,7 @@ const PrescriptionDoctorTable = () => {
           setPrescriptions(response.data);
           setPrescriptionsToBeDisplay(response.data);
           // setSelectedPrescription(response.data.medicines);
-         
+
 
         }
       } catch (error) {
@@ -121,15 +121,15 @@ const PrescriptionDoctorTable = () => {
     setShowModal(true);
     // Scroll to the details section
     if (detailsRef && detailsRef.current) {
-        detailsRef.current.scrollIntoView({ behavior: 'smooth' });
+      detailsRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-};
+  };
 
-const closePrescriptionModal = () => {
-  setSelectedPrescription([]);
-  setSelectedPrescriptionId(null); // Reset the selected ID
-  setShowModal(false);
-};
+  const closePrescriptionModal = () => {
+    setSelectedPrescription([]);
+    setSelectedPrescriptionId(null); // Reset the selected ID
+    setShowModal(false);
+  };
 
 
   const generatePDF = (prescription) => {
@@ -139,19 +139,19 @@ const closePrescriptionModal = () => {
       format: [310, 270]
     });
     const pageWidth = doc.internal.pageSize.getWidth();
-  
+
     // Title
     doc.setFontSize(19);
     doc.text('Prescription Details', pageWidth / 2, 20, { align: 'center' });
-  
+
     // Subtitle
     doc.setFontSize(14);
     doc.text(`Prescription for ${prescription.patient_username}`, pageWidth / 2, 30, { align: 'center' });
-  
+
     // Body
     doc.setFontSize(12);
     doc.setFont(undefined, 'normal');
-  
+
     const bodyStartY = 40;
     // doc.text(`Doctor: ${prescription.doctor_username}`, 20, bodyStartY);
     doc.text(`Visit Date: ${prescription.visit_date}`, 20, bodyStartY + 10);
@@ -161,35 +161,34 @@ const closePrescriptionModal = () => {
     doc.setFont(undefined, 'bold');
     doc.text('Medicines:', 20, bodyStartY + 30);
     doc.setFont(undefined, 'normal');
-  
+
     prescription.medicines.forEach((medicine, index) => {
       const y = bodyStartY + 40 + (10 * index);
       doc.text(`- ${medicine.name}`, 30, y);
-      doc.text(`Dose: ${medicine.dose}`, 80, y);
-      doc.text(`Timing: ${medicine.timing}`, 130, y);
+      doc.text(`Dosage: ${medicine.dosage}`, 80, y);
       doc.text(`Price: ${medicine.price}`, 230, y);
     });
-  
+
     // Save the PDF
     doc.save(`prescription_${prescription.patient_username}.pdf`);
   };
   const handleUpdateClick = (prescriptionId) => {
     const appData = { prescriptionId: prescriptionId };
     console.log('updating Prescriptions with ID:', prescriptionId);
-  
+
     // Navigate to the second component and pass prescriptionId as a URL parameter
     navigate(`/doctor/UpdatePrescription/${prescriptionId}`);
   };
 
-//   const handleUpdateClick = (prescriptionId) => {
-//     const appData = { prescriptionId: prescriptionId };
-//     console.log('updating Prescriptions with ID:', prescriptionId);
-//     const { prescriptionId } = location.state;
-//     navigate('/doctor/UpdatePrescription', { state: { prescriptionId } });
+  //   const handleUpdateClick = (prescriptionId) => {
+  //     const appData = { prescriptionId: prescriptionId };
+  //     console.log('updating Prescriptions with ID:', prescriptionId);
+  //     const { prescriptionId } = location.state;
+  //     navigate('/doctor/UpdatePrescription', { state: { prescriptionId } });
 
-//     // navigate('/doctor/UpdatePrescription', { state: appData });
-//     // navigate(`/doctor/getPrescriptionById/${prescriptionId}`);
-//  };
+  //     // navigate('/doctor/UpdatePrescription', { state: appData });
+  //     // navigate(`/doctor/getPrescriptionById/${prescriptionId}`);
+  //  };
   return (
     <div className={styles.container}>
       <h1 className={styles.listTitle}>Prescription List</h1>
@@ -219,97 +218,97 @@ const closePrescriptionModal = () => {
         <table className={styles.prescriptionTable}>
           <thead>
             <tr>
-            <th className={styles.lightBlueText}>Patient Username</th>
+              <th className={styles.lightBlueText}>Patient Username</th>
 
               {/* <th>Doctor Username</th> */}
               <th className={styles.lightBlueText}>Visit Date</th>
               <th className={styles.lightBlueText}>Filled</th>
               {/* <th className={styles.lightBlueText}>Select</th> Add a column for selecting a prescription */}
-             
+
 
 
             </tr>
           </thead>
           <tbody>
-        {prescriptionsToBeDisplay.map((prescription) => (
-          
-          <tr key={prescription._id}>
-            <td>{prescription.patient_username}</td>
-            {/* <td>{prescription.doctor_username}</td> */}
-            <td>{prescription.visit_date}</td>
-            <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
-            <td>
-            <button 
-            className={styles.lightBlueButton}
-     
-            onClick={() => handleSelectPrescription(prescription)}>
-                {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
-            </button>
-        </td>
-            <td>
-              <button
-                          className={styles.lightBlueButton}
-                          onClick={() => generatePDF(prescription)}>Download</button>
-            </td>
-            {/* return <AppointmentList key={appointment._id} appointment={appointment}  onReschedule={handleRescheduleAppointment}/> */}
+            {prescriptionsToBeDisplay.map((prescription) => (
 
-          <td>
+              <tr key={prescription._id}>
+                <td>{prescription.patient_username}</td>
+                {/* <td>{prescription.doctor_username}</td> */}
+                <td>{prescription.visit_date}</td>
+                <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
+                <td>
+                  <button
+                    className={styles.lightBlueButton}
 
-            <button 
-            className={styles.lightBlueButton}
+                    onClick={() => handleSelectPrescription(prescription)}>
+                    {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
+                  </button>
+                </td>
+                <td>
+                  <button
+                    className={styles.lightBlueButton}
+                    onClick={() => generatePDF(prescription)}>Download</button>
+                </td>
+                {/* return <AppointmentList key={appointment._id} appointment={appointment}  onReschedule={handleRescheduleAppointment}/> */}
 
-            onClick={() => handleUpdateClick(prescription._id)}
-              disabled={prescription.filled}
-            >
-              Update
-            </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-  {showModal && selectedPrescription && (
-     <div className={styles.modal} ref={detailsRef}>
-       <div className={styles.modalContent}>
-      {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
+                <td>
+
+                  <button
+                    className={styles.lightBlueButton}
+
+                    onClick={() => handleUpdateClick(prescription._id)}
+                    disabled={prescription.filled}
+                  >
+                    Update
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {showModal && selectedPrescription && (
+        <div className={styles.modal} ref={detailsRef}>
+          <div className={styles.modalContent}>
+            {/* <span className={styles.closeButton} onClick={closePrescriptionModal}>
         &times;
       </span> */}
-      <br />
+            <br />
 
-      <button className={styles.closeButton} onClick={closePrescriptionModal}>
-        Close
-      </button>
-      <div className={styles.additionalInfo}>
-        <p>Selected Successfully</p>
-      </div>
-      <h2>Prescription Details</h2>
-      <table className={styles.prescriptionDetailsTable}>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Dosage</th>
-            <th>Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          {selectedPrescription.medicines.map((medicine, index) => (
-            <tr key={index}>
-              <td>{medicine.name}</td>
-              <td>{medicine.dosage}</td>
-              <td>{medicine.price}</td>
-            </tr>
-          ))}
+            <button className={styles.closeButton} onClick={closePrescriptionModal}>
+              Close
+            </button>
+            <div className={styles.additionalInfo}>
+              <p>Selected Successfully</p>
+            </div>
+            <h2>Prescription Details</h2>
+            <table className={styles.prescriptionDetailsTable}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Dosage</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedPrescription.medicines.map((medicine, index) => (
+                  <tr key={index}>
+                    <td>{medicine.name}</td>
+                    <td>{medicine.dosage}</td>
+                    <td>{medicine.price}</td>
+                  </tr>
+                ))}
                 <br />
                 <br />
                 <br />
 
-        </tbody>
-      </table>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
     </div>
-    </div>
-  )}
-</div>
-);
+  );
 }
 export default PrescriptionDoctorTable;

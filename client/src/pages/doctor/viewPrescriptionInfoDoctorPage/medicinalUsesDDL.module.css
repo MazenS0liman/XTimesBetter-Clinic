@@ -37,44 +37,61 @@
     top: 0;
     z-index: 100;
 }
-.prescriptionTable {
-    background-color: #f0faff; /* Light blue background */
-    /* ... other styles ... */
-}
-.prescriptionTable th, .prescriptionTable td {
-    background-color: #f8f9fa; /* Soft gray for cells */
-    /* ... other styles ... */
-}
 
-.prescriptionTable th {
-    background-color: #99ccff; /* Slightly darker blue for header */
-    color: white; /* White text for contrast */
-}
-.prescriptionTable tr:nth-child(even) {
-    background-color: #e6f5ff; /* Even lighter blue for alternate rows */
-}
-.prescriptionTable tr:hover {
-    background-color: #ccefff; /* Highlight row on hover */
-}
+/* .prescriptionTable {
+    background-color: #f0faff;
+} */
+
+/* .prescriptionTable th,
+.prescriptionTable td {
+    background-color: #f8f9fa;
+    /* Soft gray for cells 
+    /* ... other styles ... 
+} */
+
+/* .prescriptionTable th {
+     background-color: #f0faff; 
+    color: #77c4de;
+}*/
+
+/* .prescriptionTable tr:nth-child(even) {
+    background-color: #e6f5ff;
+    
+} */
+
+/* .prescriptionTable tr:hover {
+    background-color: #ccefff;
+  
+} */
+
 .lightBlueButton {
-    background-color: #77c4de; /* Light blue background */
-    color: white; /* White text for better contrast */
-    border: 1px solid transparent; /* Optional: can add border */
-    padding: 8px 16px; /* Padding for button */
-    border-radius: 4px; /* Rounded corners */
-    cursor: pointer; /* Cursor change to indicate it's clickable */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    background-color: #77c4de;
+    /* Light blue background */
+    color: white;
+    /* White text for better contrast */
+    border: 1px solid transparent;
+    /* Optional: can add border */
+    padding: 8px 16px;
+    /* Padding for button */
+    border-radius: 4px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Cursor change to indicate it's clickable */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effect */
 }
 
 .lightBlueButton:hover {
-    background-color: #92B4D4; /* Slightly darker blue for hover effect */
+    background-color: #92B4D4;
+    /* Slightly darker blue for hover effect */
 }
 
-.lightBlueText {
-    color: #ADD8E6; /* Light blue font color */
-}
+/* .lightBlueText {
+    color: #77c4de;
+} */
 
 /* If you want to apply the color to specific elements like table headers */
-.prescriptionTable th {
-    color: #ADD8E6; /* Light blue font color for table headers */
-}
+/* .prescriptionTable th {
+    color: #ADD8E6;
+    /* Light blue font color for table headers 
+} */
