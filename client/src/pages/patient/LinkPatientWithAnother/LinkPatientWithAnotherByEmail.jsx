@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import styles from './LinkPatient.module.css';
 // Axios
 import axios from 'axios';
 
@@ -76,7 +76,7 @@ const LinkPatientWithAnotherByEmail = () => {
                 setRelation('');
 
                 const data = await response.json();
-
+                window.location.reload();
             } else if (response.status === 404) {
                 //setMessage('Patient does not exist.');
 
@@ -97,38 +97,43 @@ const LinkPatientWithAnotherByEmail = () => {
         }
     };
     return (
-        <div>
-            <h1>Link Patient To Be A Family Member</h1>
-            <h2>By Email</h2>
-
-            <form onSubmit={handleSubmit}>
+        <div className={styles['Linkdiv-schedule']}>
+            <h1>Link Patient By Email</h1>
 
 
-                <input
-                    type="text"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+            <form className={styles['Linkform']} onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="email" className={styles['Linklabel']}>Email:</label>
+                    <input
+                        type="text"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="off"
+                        className={styles['Linkinput']}
+                    />
+                </div>
 
-                <select
-                    value={relation}
-                    onChange={(e) => setRelation(e.target.value)}
-                >
-                    <option value="">Relation</option>
-                    <option value="wife">Wife</option>
-                    <option value="husband">Husband</option>
-                    <option value="children">Children</option>
-                </select>
+                <div>
+                    <label htmlFor="relation" className={styles['Linklabel']}>Relation:</label>
+                    <select
+                        id="relation"
+                        value={relation}
+                        onChange={(e) => setRelation(e.target.value)}
+                        className={styles['Linkselect']}
+                    >
+                        <option value="">Relation</option>
+                        <option value="wife">Wife</option>
+                        <option value="husband">Husband</option>
+                        <option value="children">Children</option>
+                    </select>
+                </div>
 
-                <button type="submit">Link</button>
+                <button type="submit" className={styles['Linkbutton']}>Link</button>
             </form>
+
             {message && <p>{message}</p>}
-
-
-            {error && (
-                <div style={{ color: 'red' }}>{error}</div>
-            )}
+            {error && <div style={{ color: 'red' }}>{error}</div>}
         </div>
     );
 };

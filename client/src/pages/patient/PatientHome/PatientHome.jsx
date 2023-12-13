@@ -19,10 +19,13 @@ const FamilyView = () => {
     const [familyMembers, setFamilyMembers] = useState([]);
     const [showFamilyMembers, setShowFamilyMembers] = useState(false);
     const [showAddFamilyMember, setShowAddFamilyMember] = useState(false);
+    const [showLinkByEmail, setShowLinkByEmail] = useState(false);
+    const [showLinkByMobile, setShowLinkByMobile] = useState(false);
     const navigate = useNavigate();
 
     const addFamilyMemberRef = useRef(null);
-
+    const linkByEmailRef = useRef(null);
+    const linkByMobileRef = useRef(null);
 
     async function checkAuthentication() {
         await axios({
@@ -72,23 +75,68 @@ const FamilyView = () => {
     const handleToggleAddFamilyMember = () => {
         setShowAddFamilyMember(!showAddFamilyMember);
     };
+    const handleToggleLinkByEmail = () => {
+        setShowLinkByEmail(!showLinkByEmail);
+    };
+    const handleToggleLinkByMobile = () => {
+        setShowLinkByMobile(!showLinkByMobile);
+    };
 
     useEffect(() => {
         if (showAddFamilyMember && addFamilyMemberRef.current) {
             // Scroll to the added family member form
             window.scrollTo({
-                top: addFamilyMemberRef.current.offsetTop,
+                top: addFamilyMemberRef.current.offsetTop - 100,
                 behavior: 'smooth',
             });
         }
     }, [showAddFamilyMember]);
+    useEffect(() => {
+        if (showLinkByEmail && linkByEmailRef.current) {
+            window.scrollTo({
+                top: linkByEmailRef.current.offsetTop - 100,
+                behavior: 'smooth',
+            });
+        }
+    }, [showLinkByEmail]);
+    useEffect(() => {
+        if (showLinkByMobile && linkByMobileRef.current) {
+            window.scrollTo({
+                top: linkByMobileRef.current.offsetTop - 100,
+                behavior: 'smooth',
+            });
+        }
+    }, [showLinkByMobile]);
+
     return (
         <div className={styles['Nayerafamily-view-container']}>
             <h1>Family Members</h1>
-
-            <button onClick={handleToggleAddFamilyMember}>
-                {showAddFamilyMember ? 'Hide Add Family Member' : 'Add Family Member'}
-            </button>
+            <div className={styles['Nayerabutton-container']}>
+                <button className={styles.Nayerabutton} onClick={handleToggleAddFamilyMember}>
+                    {showAddFamilyMember ? 'Hide Add Family Member' : 'Add Family Member'}
+                </button>
+                <button className={styles.Nayerabutton} onClick={handleToggleLinkByMobile}>
+                    {showLinkByMobile ? 'Hide Link by Phone Number' : 'Link Patient by Phone Number'}
+                </button>
+                <button className={styles.Nayerabutton} onClick={handleToggleLinkByEmail}>
+                    {showLinkByEmail ? 'Hide Link by Email' : 'Link Patient by Email'}
+                </button>
+            </div>
+            {showAddFamilyMember && (
+                <div className={styles['Nayeraadd-family-member-container']} ref={addFamilyMemberRef}>
+                    <AddFamilyMember />
+                </div>
+            )}
+            {showLinkByEmail && (
+                <div className={styles['LinkByEmail-container']} ref={linkByEmailRef}>
+                    <LinkPatientWithAnotherByEmail />
+                </div>
+            )}
+            {showLinkByMobile && (
+                <div className={styles['LinkByMobile-container']} ref={linkByMobileRef}>
+                    <LinkPatientWithAnotherByMobile />
+                </div>
+            )}
             <table className={styles['family-table']}>
                 <thead>
                     <tr>
@@ -113,11 +161,7 @@ const FamilyView = () => {
                     ))}
                 </tbody>
             </table>
-            {showAddFamilyMember && (
-                <div className={styles['Nayeraadd-family-member-container']} ref={addFamilyMemberRef}>
-                    <AddFamilyMember />
-                </div>
-            )}
+
         </div>
     );
 

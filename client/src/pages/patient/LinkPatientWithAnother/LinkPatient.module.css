@@ -1,6 +1,6 @@
-/* AddFamilyMember.module.css */
+/* LinkPatient.module.css */
 
-.ADDdiv-schedule {
+.Linkdiv-schedule {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,12 +9,12 @@
     /* Use 100% of the viewport height */
 }
 
-.ADDbutton-schedule {
+.Linkbutton-schedule {
     background-color: #052a51;
     color: #ffffff;
 }
 
-.ADDform {
+.Linkform {
     display: flex;
     flex-direction: column;
     border: 1px solid #ddd;
@@ -23,7 +23,7 @@
     padding: 20px;
 }
 
-.ADDform div {
+.Linkform div {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -33,14 +33,14 @@
     height: 50px;
 }
 
-.ADDlabel {
+.Linklabel {
     margin-bottom: 5px;
     margin-right: 20px;
     width: 150px;
 }
 
-.ADDinput,
-.ADDselect {
+.Linkinput,
+.Linkselect {
     margin-bottom: 10px;
     padding: 5px;
     /* Adjust the padding to decrease the height */
@@ -52,7 +52,7 @@
     height: 30px;
 }
 
-.ADDbutton {
+.Linkbutton {
     background-color: #052a51;
     color: #ffffff;
     cursor: pointer;
@@ -71,6 +71,6 @@
     /* Center horizontally */
 }
 
-.ADDbutton:hover {
+.Linkbutton:hover {
     background-color: #03467d;
 }

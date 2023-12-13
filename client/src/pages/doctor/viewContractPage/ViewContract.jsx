@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import styles from './ViewContract.module.css';
 // Axios
 import axios from 'axios';
 
@@ -182,7 +182,7 @@ const ContractView = () => {
                         <p>
 
                         </p>
-                        Termination Date: {contract.terminationDate} <br />
+                        Renewal Date: {contract.terminationDate} <br />
                         <p>
 
                         </p>
@@ -190,11 +190,11 @@ const ContractView = () => {
                     </p>
 
                     {(contract.accepted !== true || contract.status === 'Pending') && (
-                        <button onClick={handleAcceptContract}>Accept Contract</button>
+                        <button className={styles.Contractbutton} onClick={handleAcceptContract}>Accept Contract</button>
                     )}
 
                     {(contract.accepted === true || contract.status === 'Pending') && (
-                        <button onClick={handleRejectContract}>Reject Contract</button>
+                        <button className={`${styles.Contractbutton} ${styles.RejectButton}`} onClick={handleRejectContract}>Reject Contract</button>
                     )}
                 </div>
             ))}

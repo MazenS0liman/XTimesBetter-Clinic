@@ -91,7 +91,7 @@ const AddFamilyMember = () => {
                 setGender('');
                 setRelation('');
                 // setpatient_username('');
-
+                window.location.reload();
                 const data = await response.json();
                 if (data.length === 0) {
                     setMessage('No Patient found with this username');
@@ -116,74 +116,79 @@ const AddFamilyMember = () => {
             <h1>Add Family Member</h1>
 
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className={styles['ADDinput']}
-                    />
-                </div>
+                <div className={styles.ADDform}>
+                    <div>
+                        <label htmlFor="name" className={styles.ADDlabel}>Name:</label>
+                        <input
+                            type="text"
+                            id="name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            autoComplete="off"
+                            className={styles.ADDinput}
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="national_id">National ID:</label>
-                    <input
-                        type="text"
-                        id="national_id"
-                        value={national_id}
-                        onChange={(e) => setnational_id(e.target.value)}
-                        className={styles['ADDinput']}
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="national_id" className={styles.ADDlabel}>National ID:</label>
+                        <input
+                            type="text"
+                            id="national_id"
+                            value={national_id}
+                            onChange={(e) => setnational_id(e.target.value)}
+                            autoComplete="off"
+                            className={styles.ADDinput}
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="age">Age:</label>
-                    <input
-                        type="number"
-                        id="age"
-                        value={age}
-                        onChange={(e) => setAge(e.target.value)}
-                        className={styles['ADDinput']}
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="age" className={styles.ADDlabel}>Age:</label>
+                        <input
+                            type="number"
+                            id="age"
+                            value={age}
+                            onChange={(e) => setAge(e.target.value)}
+                            autoComplete="off"
+                            className={styles.ADDinput}
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="gender">Gender:</label>
-                    <select
-                        id="gender"
-                        value={gender}
-                        onChange={(e) => setGender(e.target.value)}
-                        className={styles['ADDselect']}
+                    <div>
+                        <label htmlFor="gender" className={styles.ADDlabel}>Gender:</label>
+                        <select
+                            id="gender"
+                            value={gender}
+                            onChange={(e) => setGender(e.target.value)}
+                            className={styles.ADDselect}
+                        >
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label htmlFor="relation" className={styles.ADDlabel}>Relation:</label>
+                        <select
+                            id="relation"
+                            value={relation}
+                            onChange={(e) => setRelation(e.target.value)}
+                            className={styles.ADDselect}
+                        >
+                            <option value="">Select Relation</option>
+                            <option value="wife">Wife</option>
+                            <option value="husband">Husband</option>
+                            <option value="children">Children</option>
+                        </select>
+                    </div>
+
+                    <button
+                        type="submit"
+                        className={styles['ADDbutton']}
                     >
-                        <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
+                        Submit
+                    </button>
                 </div>
-
-                <div>
-                    <label htmlFor="relation">Relation:</label>
-                    <select
-                        id="relation"
-                        value={relation}
-                        onChange={(e) => setRelation(e.target.value)}
-                        className={styles['ADDselect']}
-                    >
-                        <option value="">Select Relation</option>
-                        <option value="wife">Wife</option>
-                        <option value="husband">Husband</option>
-                        <option value="children">Children</option>
-                    </select>
-                </div>
-
-                <button
-                    type="submit"
-                    className={styles['ADDbutton-schedule']}
-                >
-                    Submit
-                </button>
             </form>
 
             {message && <p>{message}</p>}
@@ -193,6 +198,7 @@ const AddFamilyMember = () => {
             )}
         </div>
     );
+
 };
 
 export default AddFamilyMember;

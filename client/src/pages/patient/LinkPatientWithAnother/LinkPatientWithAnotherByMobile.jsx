@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import styles from './LinkPatient.module.css';
 // Axios
 import axios from 'axios';
 
@@ -75,7 +75,7 @@ const LinkPatientWithAnotherByMobile = () => {
                 setRelation('');
 
                 const data = await response.json();
-
+                window.location.reload();
             } else if (response.status === 404) {
                 //setMessage('Patient does not exist.');
 
@@ -96,38 +96,42 @@ const LinkPatientWithAnotherByMobile = () => {
         }
     };
     return (
-        <div>
-            <h1>Link Patient To Be A Family Member</h1>
-            <h2>By Phone Number</h2>
+        <div className={styles['Linkdiv-schedule']}>
+            <h1>Link By Phone Number</h1>
 
-            <form onSubmit={handleSubmit}>
+            <form className={styles['Linkform']} onSubmit={handleSubmit}>
+                <div>
+                    <label htmlFor="mobile" className={styles['Linklabel']}>Phone Number:</label>
+                    <input
+                        type="text"
+                        id="mobile"
+                        value={mobile}
+                        onChange={(e) => setMobile(e.target.value)}
+                        autoComplete="off"
+                        className={styles['Linkinput']}
+                    />
+                </div>
 
+                <div>
+                    <label htmlFor="relation" className={styles['Linklabel']}>Relation:</label>
+                    <select
+                        id="relation"
+                        value={relation}
+                        onChange={(e) => setRelation(e.target.value)}
+                        className={styles['Linkselect']}
+                    >
+                        <option value="">Relation</option>
+                        <option value="wife">Wife</option>
+                        <option value="husband">Husband</option>
+                        <option value="children">Children</option>
+                    </select>
+                </div>
 
-                <input
-                    type="text"
-                    placeholder="Phone Number"
-                    value={mobile}
-                    onChange={(e) => setMobile(e.target.value)}
-                />
-
-                <select
-                    value={relation}
-                    onChange={(e) => setRelation(e.target.value)}
-                >
-                    <option value="">Relation</option>
-                    <option value="wife">Wife</option>
-                    <option value="husband">Husband</option>
-                    <option value="children">Children</option>
-                </select>
-
-                <button type="submit">Link</button>
+                <button type="submit" className={styles['Linkbutton']}>Link</button>
             </form>
+
             {message && <p>{message}</p>}
-
-
-            {error && (
-                <div style={{ color: 'red' }}>{error}</div>
-            )}
+            {error && <div style={{ color: 'red' }}>{error}</div>}
         </div>
     );
 };
