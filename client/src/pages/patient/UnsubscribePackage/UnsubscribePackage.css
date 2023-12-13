@@ -10,11 +10,15 @@
     border-bottom: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+   
   }
   
   .table-cell {
     border-bottom: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+  }
+  .title{
+    color:#052a51;
   }
   

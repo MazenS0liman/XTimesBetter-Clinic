@@ -1,0 +1,174 @@
+
+.add-package-container {
+  max-width: 600px;
+  margin: 5px auto;
+  padding: 5px;
+ 
+  /* border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  
+}
+.update-package-container  {
+  max-width: 600px;
+  margin: 5px auto;
+  padding: 5px;
+ 
+  /* border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.add-inputs {
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color:#fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+ 
+  
+  
+}
+
+.update-inputs {
+  max-width: 600px;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+  
+}
+
+.add-package-label {
+  width: 300px; /* Adjust width as needed */
+  margin-right: 2px;
+
+ 
+}
+
+
+.add-package-input{
+  padding: 8px;
+  width: 200px; /* Adjust the width as needed */
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-sizing: border-box;
+  background-color: white;
+  flex: 1; /* Take remaining space */
+
+
+}
+.add-input-label{
+   display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2px;
+ 
+}
+
+.toggle-inputs-button{
+  flex: 1; /* Take available space */
+  margin-left: 10px; /* Add some space between input and button */
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transform: translateX(290%);
+  
+  
+}
+
+.toggle-inputs-button-hide{
+  flex: 1; /* Take available space */
+  margin-left: 10px; /* Add some space between input and button */
+  margin-bottom: 10px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transform: translateX(10%);
+  
+  
+}
+
+.add-package-button {
+  flex: 1; /* Take available space */
+  margin-left: 10px; /* Add some space between input and button */
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.toggle-update-button{
+  flex: 1; /* Take available space */
+  margin-left: 10px; /* Add some space between input and button */
+  padding: 10px;
+  background-color:green;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.update-button{
+  flex: 1; /* Take available space */
+  margin-left: 10px; /* Add some space between input and button */
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.delete-button{
+  flex: 1; /* Take available space */
+  margin-left: 10px; /* Add some space between input and button */
+  padding: 10px;
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.add-package-error-message {
+  color: red;
+  margin-top: 10px;
+}
+
+.add-package-data-table {
+  width: 100%;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  
+}
+
+.add-package-table-header {
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.add-package-table-cell {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.add-title{
+  color: black;
+}

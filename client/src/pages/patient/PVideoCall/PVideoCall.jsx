@@ -118,17 +118,18 @@ function PatientVideo(){
         if (response2.status==201){
                      // console.log(response2.data);
                       console.log(response2);
-                       window.location.href = response2.data;
+                       //window.location.href = response2.data;
+                       window.open(response2.data, '_blank');
                        }
        
          
          
         } 
         else if (response.status===408){
-          setErrorMessage("Time of Appointment hasnot come yet");
+          alert("Time of Appointment hasnot come yet");
         }
         else if (response.status===409){
-            setErrorMessage("Time of Appointment has passed");
+            alert("Time of Appointment has passed");
         }
 
        
@@ -162,7 +163,7 @@ function PatientVideo(){
 
   return (
     <div>
-      <h3>Appointments</h3>
+      <h3 className='title'>Appointments</h3>
       <table  className="data-table">
         <thead>
           <tr>
@@ -170,6 +171,7 @@ function PatientVideo(){
             <th className="table-header">Patient Name</th>
             <th className="table-header">Doctor Name</th>
             <th className="table-header">Date</th>
+            <th className="table-header">Time</th>
             <th className="table-header">Status</th>
             <th className="table-header">Start Video</th>
            
@@ -184,7 +186,8 @@ function PatientVideo(){
 
               <td className="table-cell">{item.name}</td>
               <td className="table-cell">{item.doctor_username}</td>
-              <td className="table-cell">{formatDateTime(item.time)}</td>
+              <td className="table-cell">{formatDate(item.time)}</td>
+              <td className="table-cell">{formatTime(item.time)}</td>
               <td className="table-cell">{item.status}</td>
              
 
@@ -205,7 +208,7 @@ function PatientVideo(){
   }
 export default PatientVideo;
 
-function formatDateTime(dateTimeString) {
+function formatDate(dateTimeString) {
   console.log(dateTimeString);
     // Check if the input date string is valid
     if (!dateTimeString) {
@@ -214,6 +217,7 @@ function formatDateTime(dateTimeString) {
   
     // Create a Date object from the date string
     const date = new Date(dateTimeString);
+    date.setHours(date.getHours()-2);
     console.log(date);
   
     // Format the date as YYYY-MM-DD HH:MM:SS
@@ -224,8 +228,30 @@ function formatDateTime(dateTimeString) {
     const minutes = date.getMinutes().toString().padStart(2, '0');
     const seconds = date.getSeconds().toString().padStart(2, '0');
     console.log(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    return `${year}-${month}-${day}`;
   }
+  function formatTime(dateTimeString) {
+    console.log(dateTimeString);
+      // Check if the input date string is valid
+      if (!dateTimeString) {
+        return ''; // Return an empty string for invalid or missing dates
+      }
+    
+      // Create a Date object from the date string
+      const date = new Date(dateTimeString);
+      date.setHours(date.getHours()-2);
+      console.log(date);
+    
+      // Format the date as YYYY-MM-DD HH:MM:SS
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const seconds = date.getSeconds().toString().padStart(2, '0');
+      console.log(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
+      return `${hours}:${minutes}:${seconds}`;
+    }
 
 
 

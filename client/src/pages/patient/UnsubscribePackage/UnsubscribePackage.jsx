@@ -100,7 +100,7 @@ function SubsPackagesList(){
             package_name:item.package_name,
             id:item._id
           };
-        //console.log(requestData);
+        console.log(requestData);
   
         
         const response = await fetch(apiUrl, {
@@ -150,7 +150,7 @@ function SubsPackagesList(){
 
   return (
     <div>
-      <h3>Subscribed Package Details</h3>
+      <h3 className='title'>Subscribed Package Details</h3>
       <table  className="data-table">
         <thead>
           <tr>
@@ -168,7 +168,7 @@ function SubsPackagesList(){
         </thead>
         <tbody>
           {subsPackages.map((item) => (
-            <tr key={item.patient_username}>
+            <tr key={item._id}>
 
               <td className="table-cell">{item.patient_name}</td>
               <td className="table-cell">{item.package_name}</td>
