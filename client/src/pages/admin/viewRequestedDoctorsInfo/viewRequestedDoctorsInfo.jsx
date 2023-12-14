@@ -209,8 +209,8 @@ const handleFilterChange = (event) => {
 
           <h1>Requested Doctors List</h1>
               {/* Pagination Controls */}
-    <div style={{ marginBottom: '10px' }}>
-    <div style={{ marginBottom: '10px' }}>
+    {/* <div style={{ marginBottom: '10px' }}> */}
+    <div style={{ marginBottom: '50px' }}>
       <button 
         onClick={handlePrevPage} 
         disabled={currentPage === 1}
@@ -224,16 +224,15 @@ const handleFilterChange = (event) => {
       >
         Next
       </button>
-      &nbsp; Page {currentPage}
-    </div>
+    {/* </div> */}
       &nbsp; Page {currentPage}
       &nbsp;
       &nbsp;
 
     </div>
-    &nbsp;
-    &nbsp;
-    &nbsp;
+
+
+
 
           <div>
 
@@ -251,7 +250,7 @@ const handleFilterChange = (event) => {
 &nbsp;
 {filteredDoctors.length > 0 ? (
 
-          <table>
+<table className={styles.pharmacistTable}>
             <thead>
               <tr>
                 <th>Name</th>

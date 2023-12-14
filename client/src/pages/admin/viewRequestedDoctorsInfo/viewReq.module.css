@@ -19,32 +19,19 @@
     padding: 0px;
     transform: translateX(17%);
 } */
+
 .pharmacistTable {
-    /* margin-left: auto;
-    margin-right: auto;
-    width: 10%; Example width to ensure the table doesn't stretch the full width of the container */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* or 'row' depending on your desired layout */
-    align-items: center;
-    /* or 'flex-start' / 'flex-end' */
-    top: 10px;
-    /* adjust if needed */
-    left: 0;
-    right: 0;
-    /* adjust if needed */
-
-    /* Size */
-    width: 10%;
-    /* adjust width as needed */
-    height: auto;
-
-    /* Margin and Padding */
-    margin: 10px auto;
-    /* adjust as needed */
-    padding: 0px;
-    /* left: 50%;
-    transform: translateX(17%); */
+    width: 80%; /* Adjust this value to make the table smaller or larger */
+    margin: 50px auto; /* This will center the table and maintain the margin */
+    margin-left: 30px; /* Keeps the left margin */
+    margin-right: 20px; /* Reduces the right margin to shift the table to the left */
+    border-collapse: collapse; /* Optional: Collapses the border to make it look cleaner */
   }
-    
+  
+  .pharmacistTable th,
+  .pharmacistTable td {
+    padding: 8px; /* Adjusts padding inside table cells */
+    text-align: center; /* Centers text in each cell */
+    border: 1px solid #ddd; /* Adds a light border for each cell */
+  }
+  
