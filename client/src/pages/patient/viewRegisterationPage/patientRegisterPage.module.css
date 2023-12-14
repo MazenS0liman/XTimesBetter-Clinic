@@ -1,48 +1,146 @@
-.doctorRequest {
-  text-align: center;
+/* patientRegisterPage.module.css */
+
+.ClinicRegistrationBack {
+  position: relative;
+  padding: 10px;
+  margin: auto;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ClinicRegistrationBack::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #f4f8fa url('  https://img.freepik.com/free-photo/flat-lay-medical-composition_23-2148124783.jpg?w=2000&t=st=1702079289~exp=1702079889~hmac=5a7d5d1b94e053b5b5b7d39145c39b60bc2cf651db98669c03b34afbeee32867') center/cover no-repeat;
+  
+  filter: blur(2px); /* Adjust the blur value based on your preference */
+  z-index: -1; /* Place it behind the content */
+} 
+
+.ClinicRegistration {
   padding: 20px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin: 20px auto;
+  background-color: #f4f8fa;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin: 10px auto;
   width: 80%;
-  max-width: 400px;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.doctorRequest h2 {
-  font-size: 1.5rem;
-  margin-bottom: 20px;
+.ClinicRegistration h2 {
+  font-size: 24px;
+  color: #0071bc;
+  color: rgb(192, 40, 58);
+  margin-bottom: 15px;
 }
 
-.doctorRequest form {
+.ClinicRegistration h3 {
+  font-size: 18px;
+  color: #0071bc;
+  color: rgb(192, 40, 58);
+  margin-bottom: 15px;
+}
+
+.ClinicRegistration .registrationForm {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.doctorRequest label {
+.ClinicRegistration .formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.ClinicRegistration .formField {
   margin: 10px 0;
 }
 
-.doctorRequest input {
-  width: 100%;
-  padding: 5px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+.ClinicRegistration label {
+  padding: 3px;
+  display: block;
+  margin-bottom: 6px;
+  text-align: center;
 }
 
-.doctorRequest button {
-  background-color: #007acc;
+.ClinicRegistration input,
+.ClinicRegistration select {
+  width: 100%;
+  margin-top: 0px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.ClinicRegistration .errorMessage {
+  display: flex;
+  align-items: center;
+  margin-top: 6px;
+  color: #d93025;
+  font-size: 13px;
+}
+
+.ClinicRegistration select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #333;
+  appearance: none;
+}
+
+.ClinicRegistration select:focus {
+  outline: none;
+  border-color: #0071bc;
+  box-shadow: 0 0 5px rgba(0, 113, 188, 0.5);
+}
+
+.ClinicRegistration .customSelect {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.ClinicRegistration .selectArrow {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 8px solid #0071bc;
+}
+
+.ClinicRegistration .submitButton {
+  background-color: #0071bc;
   color: white;
   border: none;
-  border-radius: 3px;
-  padding: 10px 20px;
+  border-radius: 8px;
+  padding: 8px 16px;
   margin-top: 10px;
   cursor: pointer;
   font-weight: bold;
+  transition: background-color 0.3s ease;
 }
 
-.doctorRequest button:hover {
-  background-color: #0058a0;
+.ClinicRegistration .submitButton:hover {
+  background-color: #00568c;
+}
+
+.ClinicRegistration .emergencyContactRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
 }

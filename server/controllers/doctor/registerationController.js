@@ -138,7 +138,7 @@ const createDoctor = asyncHandler(async (req, res) => {
             // Save the doctor request to the database
             const newDoctorRequest = await doctorRequestsModel.create(doctor);
 
-            res.status(200).json({ message: 'Success', doctor: newDoctorRequest, registeredIn: true });
+            res.status(200).json({ message: 'Success', doctor: newDoctorRequest, registeredIn: true , success: true});
         }});
     } catch (error) {
         console.error('Error occurred during upload:', error);

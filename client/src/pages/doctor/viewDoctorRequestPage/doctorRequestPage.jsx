@@ -62,7 +62,7 @@ const DoctorRequest = () => {
         }
 
         if (!validatePass(formData.password)) {
-          setPassError("password must have the following 1. at least one lowercase letter 2. at least one uppercase letter 3. at least one number 4. the minimum length is 8");
+          setPassError("Please enter atleast 8 characters with number, small and capital letter.");
         } else {
           setPassError(''); // Clear the error message if the pass is valid
         }
@@ -92,9 +92,9 @@ const DoctorRequest = () => {
              body: formDataToSend, // Use the FormData object
 
             });
-
-        if (response.ok) {
-            // Registration was successful, handle success scenario
+            const responseData = await response.json();
+            if (responseData.success) {
+              // Registration was successful, handle success scenario
             console.log('Registration successful!');
             alert('Registration successful!');
             e.target.reset(); // This will clear all form input fields
@@ -112,25 +112,25 @@ const DoctorRequest = () => {
         } else {
             // Registration failed, handle error scenario
             console.error('Registration failed');
-            alert('Registration failed ');
-        }
+            alert(responseData.message);
+          }
         } catch (error) {
             console.error('An error occurred:', error);
             alert('An error occurred:', error);
-        }
+          }
       }
     };
 
     return ( 
 
 
-        <div className={styles.doctorRequest}>
-
+        <div className={styles.doctorRequestBack}>
+          <div className={styles.doctorRequest}>
             <h2>Doctor Registration Request</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.registrationForm}>
         {/* Add form fields for each data attribute */}
-        <div>
+        <div className={styles.formField}>
           <label>Username:</label>
           <input
             type="text"
@@ -140,7 +140,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Name:</label>
           <input
             type="text"
@@ -150,7 +150,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Email:</label>
           <input
             type="text"
@@ -160,12 +160,11 @@ const DoctorRequest = () => {
             required
           />
         {emailError && (
-          <div className="error-message" style={{ color: 'red', fontSize: '1.2rem' }}>
-            {emailError}
-          </div>
-        )}        
+            <div className={styles.errorMessage}>
+              {emailError}</div>
+          )}      
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Password:</label>
           <input
             type="password"
@@ -175,12 +174,12 @@ const DoctorRequest = () => {
             required
           />
           {passError && (
-          <div className="error-message" style={{ color: 'red', fontSize: '1.2rem' }}>
+            <div className={styles.errorMessage}>
             {passError}
           </div>
         )}   
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Date Of Birth:</label>
           <input
             type="date"
@@ -191,7 +190,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Hourly Rate:</label>
           <input
             type="Number"
@@ -201,7 +200,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Affiliation:</label>
           <input
             type="text"
@@ -211,7 +210,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Educational Background:</label>
           <input
             type="text"
@@ -221,7 +220,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Speciality:</label>
           <input
             type="text"
@@ -238,7 +237,7 @@ const DoctorRequest = () => {
             value={formData.username} 
            />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>National ID:</label>
           <input 
             type="file" 
@@ -248,7 +247,7 @@ const DoctorRequest = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Medical License:</label>
           <input 
           type="file" 
@@ -258,7 +257,7 @@ const DoctorRequest = () => {
           required
           />
         </div>
-        <div>
+        <div className={styles.formField}>
           <label>Medical Degree:</label>
           <input 
             type="file" 
@@ -270,9 +269,9 @@ const DoctorRequest = () => {
         </div>
             
         {/* Submit button */}
-        <button type="submit">Register</button>
+        <button type="submit" className={styles.submitButton}>Register</button>
       </form>
-
+      </div>
         </div>
      );
 }

@@ -1,48 +1,136 @@
-.doctorRequest {
-    text-align: center;
+/* Updated class names from pharmacystylesRegistration to doctorRequest */
+
+.doctorRequestBack {
     padding: 20px;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin: 20px auto;
+    background: #f4f8fa url('https://img.freepik.com/free-photo/top-view-equipment-desk_23-2148519760.jpg?size=626&ext=jpg&ga=GA1.1.1826414947.1699401600&semt=ais') center/cover no-repeat;
+    background: #f4f8fa url('https://img.freepik.com/free-photo/health-still-life-with-copy-space_23-2148854032.jpg?w=2000&t=st=1702568349~exp=1702568949~hmac=8cadc012c39cd774fbdd5d72906bb74582c78b7efbec74a580bc46685213533b') center/cover no-repeat;
+    background-color: #86d7ff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: auto; /* Reduced margin */
+    width: 100%;
+    height:auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .doctorRequest{
+    padding: 30px;
+    background-color: #f4f8fa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: auto; /* Reduced margin */
     width: 80%;
-    max-width: 400px;
-}
-
-.doctorRequest h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-}
-
-.doctorRequest form {
+    max-width: 500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .doctorRequest h2 {
+    font-size: 24px;
+    color: #0071bc;
+    margin-bottom: 15px; /* Reduced margin */
+  }
+  
+  .doctorRequest h3 {
+    font-size: 18px;
+    color: #0071bc;
+    margin-bottom: 15px; /* Reduced margin */
+  }
+  
+  .doctorRequest .registrationForm {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.doctorRequest label {
+  }
+  
+  .doctorRequest .formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px; /* Reduced gap */
+    margin-bottom: 15px;
+  }
+  
+  .doctorRequest .formField {
     margin: 10px 0;
-}
-
-.doctorRequest input {
+  }
+  
+  .doctorRequest label {
+    padding: 4px;
+    display: block;
+    margin-bottom: 6px; /* Reduced margin */
+    color: #333;
+    text-align: center;
+  }
+  
+  .doctorRequest input,
+  .doctorRequest select {
     width: 100%;
-    padding: 5px;
-    margin: 5px 0;
+    padding: 8px; /* Reduced padding */
     border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-.doctorRequest button {
-    background-color: #007acc;
+    border-radius: 5px;
+  }
+  
+  .doctorRequest .errorMessage {
+    display: flex;
+    align-items: center;
+    margin-top: 6px;
+    color: #d93025;
+    font-size: 13px;
+  }
+    
+  .doctorRequest select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff; /* Set the background color to white */
+    color: #333; /* Set the text color */
+    appearance: none; /* Remove default arrow in some browsers */
+  }
+  
+  .doctorRequest select:focus {
+    outline: none; /* Remove the default focus outline */
+    border-color: #0071bc; /* Change border color on focus */
+    box-shadow: 0 0 5px rgba(0, 113, 188, 0.5); /* Add a subtle box shadow on focus */
+  }
+  
+  .doctorRequest .customSelect {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* Hide the default dropdown arrow */
+  }
+  
+  .doctorRequest .selectArrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid #0071bc; /* Set arrow color to match your style */
+  }
+  
+  .doctorRequest .submitButton {
+    background-color: #0071bc; /* Updated to a blue color */
     color: white;
     border: none;
-    border-radius: 3px;
-    padding: 10px 20px;
+    border-radius: 8px;
+    padding: 8px 16px;
     margin-top: 10px;
     cursor: pointer;
     font-weight: bold;
-}
-
-.doctorRequest button:hover {
-    background-color: #0058a0;
-}
+    transition: background-color 0.3s ease;
+  }
+  
+  .doctorRequest .submitButton:hover {
+    background-color: #00568c; /* Darker shade of blue on hover */
+  }
+  
+  .doctorRequest .emergencyContactRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 30px; /* Adjusted gap */
+    margin-bottom: 10px; /* Adjusted margin */
+  }
+  
