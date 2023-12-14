@@ -379,7 +379,7 @@ function AdjustPackage() {
           Add New Package
 
         </button>
-
+<div className='table-container'>
         <table className="add-package-data-table">
           <thead>
             <tr>
@@ -419,6 +419,7 @@ function AdjustPackage() {
           </tbody>
         </table>
         {errorMessage && <p className="add-package-error-message">{errorMessage}</p>}
+      </div>
       </div>
 
 

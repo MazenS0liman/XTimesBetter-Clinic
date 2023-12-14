@@ -247,6 +247,7 @@ function PackagesList(){
   return (
     <div>
       <h3 className="title">Package Details</h3>
+      <div className='table-container'>
       <table  className="data-table">
         <thead>
           <tr>
@@ -298,6 +299,7 @@ function PackagesList(){
         </tbody>
       </table>
       {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
+    </div>
     </div>
   );
 //}

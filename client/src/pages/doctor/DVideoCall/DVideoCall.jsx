@@ -164,6 +164,7 @@ function DoctorVideo(){
   return (
     <div >
       <h3 className='title'>Appointments</h3>
+      <div className='table-container'>
       <table  className="data-table">
         <thead>
           <tr>
@@ -202,6 +203,7 @@ function DoctorVideo(){
         </tbody>
       </table>
       {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
+    </div>
     </div>
   );
 

@@ -151,6 +151,7 @@ function SubsPackagesList(){
   return (
     <div>
       <h3 className='title'>Subscribed Package Details</h3>
+      <div className='table-container'>
       <table  className="data-table">
         <thead>
           <tr>
@@ -188,6 +189,7 @@ function SubsPackagesList(){
         </tbody>
       </table>
       {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
+    </div>
     </div>
   );
 //}

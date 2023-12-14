@@ -1,8 +1,13 @@
-
+.table-container{
+  width: 1300px;
+  margin-left: 50px;
+}
 .data-table {
-    width: 100%;
+    width: 500px;
     border: 1px solid #ddd;
     border-collapse: collapse;
+    
+    
   }
   
   .table-header {

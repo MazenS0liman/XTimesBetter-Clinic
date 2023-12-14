@@ -1,4 +1,7 @@
-
+.table-container{
+  width: 1300px;
+  margin-left: 50px;
+}
 .add-package-container {
   max-width: 600px;
   margin: 5px auto;
