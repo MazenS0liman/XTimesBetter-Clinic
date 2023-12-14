@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // Axios
 import axios from 'axios';
-
+import styles from './viewReq.module.css'
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
 

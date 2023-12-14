@@ -197,9 +197,12 @@ if (load) {
 
   return (
     <div className={styles.container}>
+      <br/>
       <h1 className={styles.listTitle}>Prescription List</h1>
       <div className={styles.resultContainer}>
         <div className={styles.filterContainer}>
+        <br/>
+
           <label htmlFor="filterSelect">Filter By: </label>
           <select id="filterSelect" value={filter} onChange={handleFilterChange}>
             <option value="all">No Filter</option>
@@ -221,10 +224,12 @@ if (load) {
           &nbsp;&nbsp;
           <button onClick={handleFilterClick}>Filter</button>
         </div>
+        <br/>
+
         {isFilterEmpty ? (
           <p className={styles.noDataMessage}>No prescriptions found.</p>
         ) : (
-          <table className={styles.prescriptionTable}>     
+          <table className={styles.pharmacistTable}>
                <thead>
             <tr>
               {/* <th>Patient Username</th> */}
@@ -288,7 +293,7 @@ if (load) {
         <p>Selected Successfully</p>
       </div>
       <h2>Prescription Details</h2>
-      <table className={styles.prescriptionDetailsTable}>
+      <table className={styles.pharmacistTable}>
       <thead>
           <tr>
             <th>Name</th>

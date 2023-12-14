@@ -224,7 +224,9 @@ const PrescriptionDoctorTable = () => {
         {isFilterEmpty ? (
           <p className={styles.noDataMessage}>No prescriptions found.</p>
         ) : (
-          <table className={styles.prescriptionTable}>            <thead>
+          <table className={styles.pharmacistTable}>
+
+          <thead>
             <tr>
               <th className={styles.lightBlueText}>Patient Username</th>
 
@@ -293,7 +295,7 @@ const PrescriptionDoctorTable = () => {
               <p>Selected Successfully</p>
             </div>
             <h2>Prescription Details</h2>
-            <table className={styles.prescriptionDetailsTable}>
+            <table className={styles.pharmacistTable}>
               <thead>
                 <tr>
                   <th>Name</th>

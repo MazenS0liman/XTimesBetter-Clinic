@@ -192,56 +192,56 @@ const deleteFile = (medicalHistoryPath) => {
     if (load) {
         return (<div>Loading</div>)
     }
-    return(
-        <div>
-      <h1>Medical History</h1>
+    return (
       <div>
-          <label>Upload File</label>
-          <input 
-            type="file" 
-            name="medicalHistoryUpload"
-            accept=".pdf, .jpg, .jpeg, .png" 
-            onChange={handleFileInputChange}
-            required
-          />
-        
-        <button onClick={(e) => uploadFile(e)}>
-        Upload
-        </button>
-        </div>
-      <table>
-        <thead>
-          <tr>
-            <th>View File</th>
-            <th>Delete</th>
-          </tr>
-        </thead>  
-        <tbody>
+          <h1 style={{ marginBottom: '20px' }}>Medical History</h1>          <div>
+              <label>Upload File</label>
+              <input
+                  type="file"
+                  name="medicalHistoryUpload"
+                  accept=".pdf, .jpg, .jpeg, .png"
+                  onChange={handleFileInputChange}
+                  required
+              />
 
-        {medicalHistoryRec.length > 0 ? (
-    medicalHistoryRec.map((record, index) => (
-    <tr key={index}>
-        <td><a href={baseURL + record} target="_blank" rel="noopener noreferrer">View Medical History </a></td>
-            <td>
-            <br />
-             <button
-                onClick={() => deleteFile(record)}
-                  >
-                Delete
-             </button>
-        </td>
-     </tr>
-     
-    ))
-    ) : (
-      <tr>
-        <td colSpan="2">No History to show </td>
-      </tr>
-    )}
-        </tbody>
-      </table>
-    </div>
-    );
+              <button onClick={(e) => uploadFile(e)}>
+                  Upload
+              </button>
+          </div>
+          <div style={{ width: '1440px', marginLeft: '10px',  margin: '40px' }}>
+              <table>
+                  <thead>
+                      <tr>
+                          <th>View File</th>
+                          <th>Delete</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {medicalHistoryRec.length > 0 ? (
+                          medicalHistoryRec.map((record, index) => (
+                              <tr key={index}>
+                                  <td><a href={baseURL + record} target="_blank" rel="noopener noreferrer">View Medical History </a></td>
+                                  <td style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                      <br />
+                                      <button
+                                          style={{ backgroundColor: '#DC143C', color: 'white', border: 'none', padding: '8px 16px', cursor: 'pointer' }}
+                                          onClick={() => deleteFile(record)}
+                                      >
+                                          Delete
+                                      </button>
+                                  </td>
+                              </tr>
+                          ))
+                      ) : (
+                          <tr>
+                              <td colSpan="2">No History to show </td>
+                          </tr>
+                      )}
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  );
     
 }
 export default viewMedicalHistory;

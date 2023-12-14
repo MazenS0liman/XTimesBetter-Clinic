@@ -55,11 +55,13 @@ const acceptFollowUp = async (req, res) => {
             { status: 'accepted' },
             { new: true }
         );
+        const followUpDate = new Date(acceptedFollowUp.followUpDateTime);
+        const formattedDate = `${followUpDate.getDate().toString().padStart(2, '0')}/${(followUpDate.getMonth() + 1).toString().padStart(2, '0')}/${followUpDate.getFullYear()}`;
 
         const appointmentData = {
             patient_username: acceptedFollowUp.patient_username,
             doctor_username: acceptedFollowUp.doctor_username,
-            date: acceptedFollowUp.followUpDateTime.toString(),
+            date: formattedDate,
             status: 'upcoming',
             time: acceptedFollowUp.followUpDateTime,
             name: oldAppointment.name,

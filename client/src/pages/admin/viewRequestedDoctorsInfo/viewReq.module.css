@@ -5,3 +5,46 @@
 .lightBlueButton:hover {
     background-color: #92B4D4; /* Slightly darker blue for hover effect */
 }
+/* .Nayera-container {
+   
+    align-items: center;
+    top: 10px;
+    left: 0;
+    right: 0;
+
+    width: 20%;
+    height: auto;
+
+    margin: 70px auto;
+    padding: 0px;
+    transform: translateX(17%);
+} */
+.pharmacistTable {
+    /* margin-left: auto;
+    margin-right: auto;
+    width: 10%; Example width to ensure the table doesn't stretch the full width of the container */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* or 'row' depending on your desired layout */
+    align-items: center;
+    /* or 'flex-start' / 'flex-end' */
+    top: 10px;
+    /* adjust if needed */
+    left: 0;
+    right: 0;
+    /* adjust if needed */
+
+    /* Size */
+    width: 10%;
+    /* adjust width as needed */
+    height: auto;
+
+    /* Margin and Padding */
+    margin: 10px auto;
+    /* adjust as needed */
+    padding: 0px;
+    /* left: 50%;
+    transform: translateX(17%); */
+  }
+    
