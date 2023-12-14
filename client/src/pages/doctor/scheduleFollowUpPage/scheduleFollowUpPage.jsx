@@ -185,6 +185,8 @@ const ScheduleFollowUp = () => {
     const handleScheduleFollowUp = (appointment) => {
         setSelectedAppointment({appointment});
         setShowFollowUpSection(true);
+        const followUpSection = document.getElementById('followUpSection');
+        followUpSection.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
     };
 
     const handleFollowUpDateTimeChange = (e) => {
@@ -345,7 +347,7 @@ const ScheduleFollowUp = () => {
                         </table>
                         }
             {showFollowUpSection && (
-                <div className={styles['div-schedule']}>
+                <div id = "followUpSection" className={styles['div-schedule']}>
                     <h2>Follow Up Details</h2>
                     <h4 >Patient : </h4>
                     <p> {selectedAppointment.appointment.patient_username}</p>

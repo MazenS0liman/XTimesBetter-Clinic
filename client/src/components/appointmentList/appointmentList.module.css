@@ -50,3 +50,16 @@ ul {
     background-color: rgb(8, 0, 72);
     color : white;
 }
+
+td:last-child {
+    border-left: none;
+  }
+    
+td:nth-last-child(2) {
+    border-right: none;
+    border-left: none;
+  }
+
+td:nth-last-child(3) {
+    border-right: none;
+}

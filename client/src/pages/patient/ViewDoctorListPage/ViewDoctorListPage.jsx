@@ -7,6 +7,8 @@ import DoctorList from '../../../components/doctorList/doctorList'
 import DoctorInfo from '../../../components/doctorInfo/doctorInfo'
 import DoctorSearchBar from '../../../components/doctorSearchBar/doctorSearchBar';
 
+import doctorImage from '../../../assets/img/doctor.jpg';
+
 
 import { useNavigate } from 'react-router-dom';
 
@@ -19,16 +21,16 @@ const ViewDoctorList = () => {
     // Get All doctors.
     const [doctors, setDoctors] = useState([])
     // To store the clicked doctor
-    const [doctorInfo , setDoctorInfo] = useState("")
+    const [doctorInfo, setDoctorInfo] = useState("")
 
     // For Search :
-    const [doctorName, setDoctorName ] = useState('')
+    const [doctorName, setDoctorName] = useState('')
     const [doctorSpecialitySearch, setDoctorSpecialitySearch] = useState('')
 
     // For filtering :
     const [doctorSpecialityFilter, setDoctorSpecialityFilter] = useState([])
-    const [selectedSpeciality , setSelectedSpeciality ] = useState('')
-    
+    const [selectedSpeciality, setSelectedSpeciality] = useState('')
+
     // For Display :
     const [doctorsToBeDisplayed, setDoctorsToBeDisplayed] = useState([]);
     const [selectedDate, setSelectedDate] = useState('')
@@ -39,42 +41,42 @@ const ViewDoctorList = () => {
     const [hourlyRate, setHourlyRate] = useState("");
 
     const navigate = useNavigate();
- //Authenticate part
- const accessToken = sessionStorage.getItem('accessToken');
- const [load, setLoad] = useState(true);
- const [username, setUsername] = useState('');
- 
- 
- useEffect(() => {
-     if (username.length != 0) {
-         setLoad(false);
-     }
- }, [username]);
- async function checkAuthentication() {
-     await axios({
-         method: 'get',
-         url: 'http://localhost:5000/authentication/checkAccessToken',
-         headers: {
-             "Content-Type": "application/json",
-             'Authorization': accessToken,
-             'User-type': 'patient',
-         },
-     })
-         .then((response) => {
-             console.log(response);
-             setUsername(response.data.username);
-             //setLoad(false);
-         })
-         .catch((error) => {
-             //setLoad(false);
-             navigate('/login');
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
 
-         });
- }
 
- const xTest = checkAuthentication();
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
 
- //Authenticate part
+            });
+    }
+
+    const xTest = checkAuthentication();
+
+    //Authenticate part
 
     /*
     useEffect(() => {
@@ -86,7 +88,7 @@ const ViewDoctorList = () => {
         }
     },[doctorInfo]);
     */
-    
+
 
     useEffect(() => {
         const fetchAllDoctors = async () => {
@@ -96,7 +98,7 @@ const ViewDoctorList = () => {
                         'Content-Type': 'application/json',
                     },
                 });
-                console.log("response : " , response)
+                console.log("response : ", response)
                 console.log("response data : ", response.data)
                 if (response && response.data) {
                     //console.log("hi1");
@@ -104,12 +106,12 @@ const ViewDoctorList = () => {
                     //console.log(doctors);
                     setDoctorsToBeDisplayed(response.data) //so that initially all doctors are displayed
                     //console.log("hi3");
-  
+
                     //get unique doctor specialities to populate the filter ddl
                     const uniqueDoctorSpecialities = [...new Set(response.data.map(item => item.speciality))];
                     console.log("hi4");
                     console.log(uniqueDoctorSpecialities);
-                
+
                     setDoctorSpecialityFilter(uniqueDoctorSpecialities);
                     console.log(uniqueDoctorSpecialities);
 
@@ -145,58 +147,59 @@ const ViewDoctorList = () => {
     }, []);
     */
 
-     //search function
-     // Searching 
+    //search function
+    // Searching 
     const handleSearchByName = (name) => {
         setDoctorName(name);
-        const searchResult = doctors.filter((doctor) => doctor.name.toLowerCase().startsWith(name.toLowerCase()))
-        setDoctorsToBeDisplayed(searchResult)
-        console.log("name search" ,searchResult);
-        setDoctorName("")
+        const searchResult = doctors.filter((doctor) => doctor.name.toLowerCase().startsWith(name.toLowerCase()));
+        setDoctorsToBeDisplayed(searchResult);
+        return searchResult;
     }
+
 
     const handleSearchBySpeciality = (speciality) => {
         setDoctorSpecialitySearch(speciality);
         const searchResult = doctors.filter((doctor) => doctor.speciality.toLowerCase().startsWith(speciality.toLowerCase()))
         setDoctorsToBeDisplayed(searchResult)
+        return searchResult;
     }
 
-    const handleSearchByNameandSpeciality = (name,speciality) => {
+    const handleSearchByNameandSpeciality = (name, speciality) => {
         setDoctorName(name);
         setDoctorSpecialitySearch(speciality);
-        const searchResult = doctors.filter((doctor) => (doctor.speciality.toLowerCase().startsWith(speciality.toLowerCase()) &&  (doctor.name.toLowerCase().startsWith(name.toLowerCase()))))
+        const searchResult = doctors.filter((doctor) => (doctor.speciality.toLowerCase().startsWith(speciality.toLowerCase()) && (doctor.name.toLowerCase().startsWith(name.toLowerCase()))))
         setDoctorsToBeDisplayed(searchResult)
         setDoctorName("")
-      
+
     }
-    
+
 
     const handleClearSearch = () => {
         setDoctorsToBeDisplayed(doctors)
         setSelectedSpeciality('');
         setSelectedDate('');
-        
+
     }
 
-    
+
     const handleFilterBySpeciality = (event) => {
         setSelectedSpeciality(event.target.value)
-    
+
         if (event.target.value === "") {
             setDoctorsToBeDisplayed(doctors);
         }
         else {
             const filterResult = doctors.filter((doctor) => doctor.speciality.toLowerCase().startsWith(event.target.value.toLowerCase()));
             setDoctorsToBeDisplayed(filterResult);
-            if (!(document.getElementById("datePicked").value == "")){
+            if (!(document.getElementById("datePicked").value == "")) {
                 console.log(document.getElementById("datePicked").value)
-                const resultFinal = filterResult.filter((doctor)=> doctor.availableTimeSlots.includes(document.getElementById("datePicked").value) )
+                const resultFinal = filterResult.filter((doctor) => doctor.availableTimeSlots.includes(document.getElementById("datePicked").value))
                 setDoctorsToBeDisplayed(resultFinal)
                 console.log(resultFinal)
-            } 
+            }
         }
 
-        
+
 
     }
 
@@ -210,7 +213,7 @@ const ViewDoctorList = () => {
             }
         }
         console.log(doctor)
-        
+
         if (doctor !== null || doctor.value != 0) {
             setDoctorInfo(doctor);
         }
@@ -223,45 +226,43 @@ const ViewDoctorList = () => {
             setDoctorInfo(stateInfo);
             navigate('/patient/ViewDoctorInfoPage', { state: stateInfo });
         }
-              
-        
+
+
     }
 
     function handleDatePickerClick(event) {
-        if (event.target && event.target.value){
-           const selectedValue = event.target.value
+        if (event.target && event.target.value) {
+            const selectedValue = event.target.value
 
-        //console.log(event.target)
-        console.log("Selected Date : " , selectedValue)
+            //console.log(event.target)
+            console.log("Selected Date : ", selectedValue)
 
-        const list = []
+            const list = []
 
             for (let i = 0; i < doctors.length; i++) {
                 for (let j = 0; j < doctors[i].availableTimeSlots.length; j++) {
                     let availableTimes = new Date(doctors[i].availableTimeSlots[j]);
                     const availableDate = availableTimes.toISOString().slice(0, 16)
-                    
+
 
                     if (availableDate === selectedValue) {
                         list.push(doctors[i]);
                         break;
                     }
-                        
+
                 }
             }
             setDoctorsToBeDisplayed(list)
 
-            if (!(document.getElementById("DDLSpeciality").value == "")){
-                const resultFinal = list.filter((doctor)=> doctor.speciality == document.getElementById("DDLSpeciality").value )
+            if (!(document.getElementById("DDLSpeciality").value == "")) {
+                const resultFinal = list.filter((doctor) => doctor.speciality == document.getElementById("DDLSpeciality").value)
                 setDoctorsToBeDisplayed(resultFinal)
                 console.log(resultFinal)
             }
 
-    }
+        }
 
     }
-
-    
 
     //Authenticate
     if (load) {
@@ -271,72 +272,60 @@ const ViewDoctorList = () => {
     return (
         <div className={styles.container}>
             <h1 className={styles["list-title"]}>Doctors List</h1>
-    
-            <div className={styles["header-container"]}>
-                <div className={styles["search-container"]}>
-                    <DoctorSearchBar onSearch={handleSearchByName} onSearch2={handleSearchBySpeciality} onSearch3={handleSearchByNameandSpeciality} onClear={handleClearSearch} handleDatePickerClick={handleDatePickerClick} />
+
+            <div className={styles["search-container"]}>
+                <DoctorSearchBar onSearch={handleSearchByName} onSearch2={handleSearchBySpeciality} onClear={handleClearSearch} handleDatePickerClick={handleDatePickerClick} />
+            </div>
+
+            <div className={styles["search-container"]}>
+                <div className={styles["left-container"]}>
+                    <label className={styles["ddl-label"]}>Filter Doctor Speciality:</label>
+                    <select className={styles["ddl-select"]} id="DDLSpeciality" value={selectedSpeciality} onChange={handleFilterBySpeciality}>
+                        <option value="">No filter</option>
+                        {doctorSpecialityFilter &&
+                            doctorSpecialityFilter.map((speciality, index) => (
+                                <option key={index} value={speciality}>
+                                    {speciality}
+                                </option>
+                            ))}
+                    </select>
                 </div>
-    
                 <div className={styles["right-container"]}>
-                    <div className={styles["ddl-container"]}>
-                        <label className={styles["ddl-label"]}>Select Doctor Speciality:</label>
-                        <select className={styles["ddl-select"]} id="DDLSpeciality" value={selectedSpeciality} onChange={handleFilterBySpeciality}>
-                            <option value="">No filter</option>
-                            {doctorSpecialityFilter &&
-                                doctorSpecialityFilter.map((speciality, index) => (
-                                    <option key={index} value={speciality}>
-                                        {speciality}
-                                    </option>
-                                ))}
-                        </select>
-                    </div>
-                    <br></br>
-                    <br></br>
-                    <div className={styles["ddl-container"]}>
-                        <label className={styles["ddl-label"]}>Availability :</label>
-                        <input
-                            id="datePicked"
-                            className={styles["ddl-select"]}
-                            type="datetime-local"
-                            name="availability"
-                            value={selectedDate}
-                            onChange={(e) => {
-                                setSelectedDate(e.target.value);
-                                handleDatePickerClick(e);
-                            }}
-                            required
-                        />
-                    </div>
+                    <label className={styles["ddl-label"]}>Filter Availability:</label>
+                    <input
+                        id="datePicked"
+                        className={styles["date-container"]}
+                        type="datetime-local"
+                        name="availability"
+                        value={selectedDate}
+                        onChange={(e) => {
+                            setSelectedDate(e.target.value);
+                            handleDatePickerClick(e);
+                        }}
+                        required
+                    />
                 </div>
             </div>
-    
+
             <div className={styles["result-container"]}>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Speciality</th>
-                            <th>Hourly Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {doctorsToBeDisplayed &&
-                            doctorsToBeDisplayed.map((doctor) => (
-                                <tr key={doctor._id} onClick={() => handleRowClick(doctor.username)}>
-                                    <td>{doctor.name}</td>
-                                    <td>{doctor.speciality}</td>
-                                    <td>{doctor.hourly_rate}</td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
+                {doctorsToBeDisplayed &&
+                    doctorsToBeDisplayed.map((doctor) => (
+                        <div key={doctor._id} className={styles["doctor-info-box"]} onClick={() => handleRowClick(doctor.username)}>
+                            <div className={styles["doctor-image"]}>
+                                <img src={doctorImage} alt={`${doctor.name}'s Image`} />
+                            </div>
+                            <div className={styles["doctor-details"]}>
+                                <h2>Dr. {doctor.name}</h2>
+                                <p><strong>Speciality:</strong> {doctor.speciality}</p>
+                                <p><strong>Hourly Rate:</strong> {doctor.hourly_rate} EGP</p>
+                            </div>
+                        </div>
+                    ))}
             </div>
         </div>
     );
-    
-    
-
 }
+
 
 
 export default ViewDoctorList;

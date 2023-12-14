@@ -1,44 +1,188 @@
 .h1 {
-    text-align: center;
-
+  text-align: center;
 }
+
 .button-container {
-    display: flex;
-    justify-content: space-between;
-    width: 800px; 
-  }
+  display: flex;
+  justify-content: space-between;
+  width: 800px;
+}
 
-  .button {
-    width: 300px; 
-    background-color: #053564;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
+.button {
+  width: 300px;
+  background-color: #053564;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
 
-  .button-2 {
-    width: 300px; /* Adjust as needed */
-    background-color: #053564;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-    margin-bottom: 20px;
-  }
+.button-2 {
+  width: 300px;
+  background-color: #053564;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.button:hover {
+  background-color: #0A63B7;
+}
+
+.button-2:hover {
+  background-color: #0A63B7;
+}
+
+table {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.medimage {
+  width: 90px;
+  height: auto;
+}
+
+div {
+  width: 100%;
+}
+
+th {
+  background-color: #011852;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+tr {
+  transition: background-color 0.1s;
+  text-align: center;
+  cursor: grabbing;
+}
+
+tr:hover {
+  background-color: #efefef;
+}
+
+li,
+ul {
+  text-align: justify;
+}
+
+.button-red {
+  background-color: rgb(177, 7, 7);
+  color: white;
+}
+
+.button-blue {
+  background-color: rgb(8, 0, 72);
+  color: white;
+}
+
+td:last-child {
+  border-left: none;
+}
+
+td:nth-last-child(2) {
+  border-right: none;
+  border-left: none;
+}
+
+td:nth-last-child(3) {
+  border-right: none;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
 
 
-  .button:hover {
-    background-color: #0A63B7; 
-  }
+/* Add the following styles to your existing CSS file */
 
-  .button-2:hover {
-    background-color: #0A63B7; 
-  }
+.clear-button-container {
+  display: flex;
+  justify-content: flex-start;
+  padding: 50px;
+  width: 20%;
+}
 
-  table {
-    width : 90%;
-    margin: 0 auto;
-  }
+.clear-button {
+  background-color: #808080; /* Darker grey for the button */
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.clear-button:hover {
+  background-color: #555555; /* Darker color on hover */
+}
+
+/* Add the following styles to your existing CSS file */
+
+.clear-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.clear-button {
+  background-color: #808080;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-left: 100px;
+}
+
+.clear-button:hover {
+  background-color: #555555;
+}
+
+.filter-container {
+  display: flex;
+  text-align: left;
+  padding-left: 100px;
+  padding-top: 30px;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
+
+.filter-item label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Updated styles for Dropdown List (DDL) */
+.filter-item select {
+  font-size: 16px;
+  padding: 8px;
+}
+
+/* Updated styles for Date Time Picker */
+.filter-item input[type="date"] {
+  font-size: 16px;
+  padding: 8px;
+}
+

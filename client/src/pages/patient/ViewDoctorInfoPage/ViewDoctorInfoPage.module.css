@@ -1,112 +1,129 @@
-/* <DIV> Class Selectors */
-.patient-info-main-div {
-    width: 100vw;
-    height: 100vh;
+/* viewDoctorInfoPage.module.css */
 
+/* Container styles */
+.container {
     display: flex;
     flex-direction: column;
-
-}
-
-.patient-info-top-div {
-    width: 100vw;
-    height: 20vh;
-
-    margin: 10px 0px 10px 0px;
-    box-sizing: border-box;
-
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    justify-content: center;
-}
-
-.patient-info-bottom-div {
+    margin: 20px;
+  }
+  
+  /* Header styles */
+  .header-container {
     width: 100%;
-    height: 100%;
-    
-    margin: 10px 0px 10px 0px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Back button styles */
+  .back-button {
+    margin-right: auto; /* Push the button to the far left */
+    width: 50px;
+  }
+  
+  /* Doctor info container styles */
+  .doctor-info-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Change to flex-start */
+    margin-left: 300px;
+    margin-bottom: 20px;
+    width: 100%;
     box-sizing: border-box;
-
-    display: flex;
-    
-    align-items: center;
-    justify-content: center;
-}
-
-.patient-info-left-div {
-    width: 20vw;
-    height: 20vw;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.doctor-info {
+  }
+  
+  /* Doctor details styles */
+  .doctor-details {
     text-align: left;
-}
+    margin-left: 20px;
+    max-width: 60%;
+  }
 
-.patient-info-right-div {
-    width: 80vw;
-    height: 100%;
-
+  /* Doctor info details styles */
+.doctor-info-details {
     display: flex;
-    align-items: flex-start;
-    justify-content: left;
-    flex-direction: row;
+    flex-direction: row; /* Change to row to make them appear next to each other */
+    text-align: left;
+  }
+  
+  .doctor-info-item strong {
+    font-weight: bold;
+    font-size: 15px; /* Adjust the font size as needed */
+  }
+  /* Doctor info item styles */
+  .doctor-info-item {
+    margin-right: 40px; /* Add margin between the items for spacing */
+  }
+
+  .doctor-info-item:nth-child(2) {
+    margin-left:300px;
+}
+  
+  .doctor-info-item > *:not(:last-child) {
+    margin-bottom: 5px; /* Add smaller margin between text elements in the same item */
+  }
+  /* Doctor info image styles */
+  .doctor-info-img {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+  }
+  
+  /* Doctor name styles */
+  .doctor-name {
+    margin-bottom: 10px; /* Add margin for spacing */
+  }
+  
+  
+  /* Appointments styles */
+  .appointments-container {
+    text-align: center;
+  }
+
+/* Table styles */
+.appointments-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .appointments-table th,
+  .appointments-table td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd; /* Add this line to set border for all cells */
+  }
+  
+  .appointments-table th {
+    background-color: #04213f;
+    color: #ffffff;
+  }
+  
+  .appointments-table button {
+    background-color: #000958;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .appointments-table button:hover {
+    background-color: #002963;
+  }
+  
+
+.appointments-table td:last-child {
+  border-left: none;
 }
 
-.patient-information-div {
-    width: 85%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: left;   
-}
-
-.patient-settings-div {
-    padding: 20px;
-}
-
-.patient-information-sub-div {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: left;
-}
-
-.patient-information-left-div {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.patient-information-right-div {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-/* <IMG> Class Selectors */
-.patient-info-img {
-    width: 10vw;
-    height: 10vw;
-
-    border-radius: 100%;
-    border: 1px solid #00000022;
-    box-shadow: 
-    -2px -2px 6px rgba(#fff, .6),
-    0px 0px 50px 10px #00000088;
-
-    transition: 1s all ease-in-out;
+.appointments-table td:nth-last-child(2) {
+  border-right: none;
 }

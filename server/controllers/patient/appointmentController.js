@@ -225,14 +225,17 @@ const getHourlyRateByNationalID = async (req, res) => {
 const getBookedAppointments = asyncHandler(async (req, res) => {
     const currentUser = req.body.username;
     //console.log(currentUser)
-    const bookedAppointments = await appointmentModel.find({ booked_by: currentUser })
+    const bookedAppointments = await appointmentModel.find({ booked_by: currentUser ,patient_username: { $ne: currentUser } })
     //console.log(bookedAppointments)
     res.status(200).json(bookedAppointments);
 })
 
 // Get all appointments
 const getAppointments = asyncHandler(async (req, res) => {
-    const appointments = await appointmentModel.find({});
+    const patient = await patientModel.findOne({
+        username: req.body.username,
+    });
+    const appointments = await appointmentModel.find({patient_username: patient.username});
     res.status(200).json(appointments);
 });
 

@@ -3,6 +3,12 @@ import styles from './rescheduleTimeSlots.module.css';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+import { Button, Typography } from '@mui/joy';
+
+// FontAwesome Components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 const RescheduleAppointment = () => {
     const location = useLocation();
     const appointmentID = location.state.appointmentID;
@@ -95,24 +101,24 @@ const RescheduleAppointment = () => {
             const data = await response.json();
             const formattedAppointments = data.map(appointment => {
                 const dateTime = new Date(appointment); // Assuming appointment is a valid DateTime string
-            
+
                 const date = new Intl.DateTimeFormat('en-GB', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
                 }).format(dateTime);
-            
+
                 const timeSlotBegin = new Intl.DateTimeFormat('en-US', {
                     hour: 'numeric',
                     minute: 'numeric',
                     hour12: true,
                     timeZone: 'UTC', // Use UTC for the initial time
                 }).format(dateTime);
-            
+
                 const weekday = new Intl.DateTimeFormat('en-GB', {
                     weekday: 'long',
                 }).format(dateTime);
-            
+
                 const timeSlotEnd = new Date(dateTime.getTime() + (60 * 60 * 1000));
                 const timeSlotEndFormatted = new Intl.DateTimeFormat('en-US', {
                     hour: 'numeric',
@@ -120,10 +126,10 @@ const RescheduleAppointment = () => {
                     hour12: true,
                     timeZone: 'UTC', // Use UTC for the initial time
                 }).format(timeSlotEnd);
-            
+
                 // Combine current and next hour time
                 const combinedTime = `${timeSlotBegin} - ${timeSlotEndFormatted}`;
-            
+
                 return {
                     date,
                     combinedTime,
@@ -132,7 +138,7 @@ const RescheduleAppointment = () => {
                     appointment
                 };
             });
-            
+
             setAvailableSlots(formattedAppointments);
 
         } else {
@@ -206,31 +212,38 @@ const RescheduleAppointment = () => {
 
     return (
         <div>
-            <h1>Reschedule Appointment</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Book</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {availableSlots.map((appointment) => (
-                        <tr key={appointment._id}>
-                            <td>{appointment.weekday}</td>
-                            <td>{appointment.date}</td>
-                            <td>{appointment.combinedTime}</td>
-                            <td>
-                                <button className={styles["button-2"]} onClick={() => handleRescheduleAppointment(appointment)}>
-                                    Reschedule
-                                </button>
-                            </td>
+            <div className={styles['header-container']}>
+                <Button className={styles['back-button']} onClick={() => navigate(-1)}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </Button>
+                <h1>Reschedule Appointment</h1>
+            </div>
+            <div className={styles['table-container']}>
+                {/* Apply the new styles to the table */}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Day</th>
+                            <th>Date</th>
+                            <th>Time</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {availableSlots.map((appointment) => (
+                            <tr key={appointment._id}>
+                                <td>{appointment.weekday}</td>
+                                <td>{appointment.date}</td>
+                                <td>{appointment.combinedTime}</td>
+                                <td>
+                                    <button className={styles["button-2"]} onClick={() => handleRescheduleAppointment(appointment)}>
+                                        Reschedule
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

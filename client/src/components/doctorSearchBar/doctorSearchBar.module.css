@@ -1,36 +1,27 @@
+/* doctorSearchBar.module.css */
+
 .search-container {
-    text-align: center;
-    align-items: right;
-    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     position: relative;
     top: 0;
     z-index: 100;
-}
-
-.search-container2 {
-    text-align: center;
-    margin-top: 60px;
-    margin-left: 200px;
     width: 100%;
-    position: relative;
-    top: 0;
-    z-index: 100;
 }
-
-
 
 .search-button {
-    background-color: #84d6f7;
+    background-color: #02096d;
     padding: 8px 16px;
     margin-left: 10px;
+    color:white;
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+    background-color: #043a74;
 }
 
 .clear-button {
-
     background-color: #acacac;
     padding: 8px 16px;
     margin-left: 15px;
@@ -41,25 +32,14 @@
     background-color: #717171;
 }
 
-
 .search-bar {
-    width: 300px;
+    width: 900px;
     height: 40px;
     border: 1px solid #ccc;
-    border-radius: 3px
-}
-
-.search-bar2 {
-    width: 300px;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 3px
+    border-radius: 3px;
+    margin-left: 10px; /* Adjust the left margin as needed */
 }
 
 .search-bar::placeholder {
-    text-align: center;
-}
-
-.search-bar2::placeholder{
     text-align: center;
 }

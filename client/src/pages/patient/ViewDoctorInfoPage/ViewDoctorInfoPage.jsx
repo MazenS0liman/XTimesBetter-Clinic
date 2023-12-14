@@ -8,6 +8,7 @@ import styles from './viewDoctorInfoPage.module.css';
 
 // Components
 import doctorInfo from '../../../components/doctorInfo/doctorInfo';
+import doctorImage from '../../../assets/img/doctor.jpg';
 
 // MUI Joy Components
 import { Button, Typography } from '@mui/joy';
@@ -119,45 +120,45 @@ const ViewDoctorInfo = () => {
     if (response.status === 200) {
       const data = await response.json();
       const formattedAppointments = data.map(appointment => {
-          const dateTime = new Date(appointment); // Assuming appointment is a valid DateTime string
-      
-          const date = new Intl.DateTimeFormat('en-GB', {
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-          }).format(dateTime);
-      
-          const timeSlotBegin = new Intl.DateTimeFormat('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true,
-              timeZone: 'UTC', // Use UTC for the initial time
-          }).format(dateTime);
-      
-          const weekday = new Intl.DateTimeFormat('en-GB', {
-              weekday: 'long',
-          }).format(dateTime);
-      
-          const timeSlotEnd = new Date(dateTime.getTime() + (60 * 60 * 1000));
-          const timeSlotEndFormatted = new Intl.DateTimeFormat('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true,
-              timeZone: 'UTC', // Use UTC for the initial time
-          }).format(timeSlotEnd);
-      
-          // Combine current and next hour time
-          const combinedTime = `${timeSlotBegin} - ${timeSlotEndFormatted}`;
-      
-          return {
-              date,
-              combinedTime,
-              weekday,
-              timeSlotBegin,
-              appointment
-          };
+        const dateTime = new Date(appointment); // Assuming appointment is a valid DateTime string
+
+        const date = new Intl.DateTimeFormat('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }).format(dateTime);
+
+        const timeSlotBegin = new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+          timeZone: 'UTC', // Use UTC for the initial time
+        }).format(dateTime);
+
+        const weekday = new Intl.DateTimeFormat('en-GB', {
+          weekday: 'long',
+        }).format(dateTime);
+
+        const timeSlotEnd = new Date(dateTime.getTime() + (60 * 60 * 1000));
+        const timeSlotEndFormatted = new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+          timeZone: 'UTC', // Use UTC for the initial time
+        }).format(timeSlotEnd);
+
+        // Combine current and next hour time
+        const combinedTime = `${timeSlotBegin} - ${timeSlotEndFormatted}`;
+
+        return {
+          date,
+          combinedTime,
+          weekday,
+          timeSlotBegin,
+          appointment
+        };
       });
-      
+
       setAppointments(formattedAppointments);
     } else {
       throw new Error('Error getting Doctor Appointments');
@@ -183,60 +184,61 @@ const ViewDoctorInfo = () => {
   }
 
   return (
-    <div className={styles['patient-info-main-div']}>
-      <div className={styles['patient-info-top-div']}>
-        <div className={styles['patient-info-right-div']}>
-          <div className={styles['patient-information-div']}>
-            <Typography level="h1" component="h1">Dr. {doctor.doctorInfo.name}</Typography>
-            <br />
-            <div className={styles['patient-info-main-div']}>
-              <div className={styles['doctor-info']}>
-                <Typography level="title-sm">Speciality: {doctor.doctorInfo.speciality}</Typography>
-                <br />
-                <Typography level="title-sm">Affiliation: {doctor.doctorInfo.affiliation}</Typography>
-                <br />
-                <Typography level="title-sm">Educational Background: {doctor.doctorInfo.educational_background}</Typography>
-                <br />
-                <Typography level="title-sm">Hourly Rate: {doctor.hourly_rate.toFixed(2)}</Typography>
-              </div>
-            </div>
+    <div className={styles['container']}>
+      <div className={styles['header-container']}>
+        <Button className={styles['back-button']} onClick={() => navigate(-1)}>
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </Button>
+      </div>
+      <div className={styles['doctor-info-container']}>
+        <img src={doctorImage} alt={`${doctor.name}'s Image`} className={styles['doctor-info-img']} />
+        <div className={styles['doctor-details']}>
+          <div className={styles['doctor-name']}>
+            <Typography className={styles['doctor-info']} level="h1">Dr. {doctor.doctorInfo.name}</Typography>
           </div>
-          <div className={styles['patient-settings-div']}>
-            <Button onClick={() => navigate(-1)}><FontAwesomeIcon icon={faArrowLeft} /></Button>
+          <div className={styles['doctor-info-details']}>
+            <div className={styles['doctor-info-item']}>
+              <Typography level="title-sm"><strong>Speciality: </strong> {doctor.doctorInfo.speciality}</Typography>
+              <Typography level="title-sm"><strong>Affiliation: </strong>{doctor.doctorInfo.affiliation}</Typography>
+            </div>
+            <div className={styles['doctor-info-item']}>
+              <Typography level="title-sm"><strong>Educational Background: </strong>{doctor.doctorInfo.educational_background}</Typography>
+              <Typography level="title-sm"><strong>Hourly Rate: </strong>{hourly_rate.toFixed(2)} EGP</Typography>
+            </div>
           </div>
         </div>
       </div>
-      <br />
-      <br />
-      <br />
-      <h2>Available Appointments</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Day</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Book</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((appointment) => (
-            <tr key={appointment._id}>
-              <td>{appointment.weekday}</td>
-              <td>{appointment.date}</td>
-              <td>{appointment.combinedTime}</td>
-              <td>
-                <button onClick={() => handleBookingAppointments(appointment)}>
-                  Book Appointment
-                </button>
-              </td>
+      <div className={styles['appointments-container']}>
+        <Typography level="h2">Available Appointments</Typography>
+        <br></br>
+        <table className={styles['appointments-table']}>
+          <thead>
+            <tr>
+              <th>Day</th>
+              <th>Date</th>
+              <th>Time</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {appointments.map((appointment) => (
+              <tr key={appointment._id}>
+                <td>{appointment.weekday}</td>
+                <td>{appointment.date}</td>
+                <td>{appointment.combinedTime}</td>
+                <td>
+                  <Button onClick={() => handleBookingAppointments(appointment)}>
+                    Book Appointment
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-
+  
+   
 }
 
 export default ViewDoctorInfo;

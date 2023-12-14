@@ -54,7 +54,7 @@ const AppointmentList = ({ appointment, onCancel, onReschedule, accessToken }) =
 
     return (
         <tr key={appointment._id}>
-            <td>{patientName}</td>
+            <td>{appointment.name}</td>
             <td>{appointment.doctor_username}</td>
             <td>{appointment.date}</td>
             <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
@@ -69,6 +69,7 @@ const AppointmentList = ({ appointment, onCancel, onReschedule, accessToken }) =
                     <button className={styles['button-blue']} onClick={() => onReschedule(appointment._id)}>Reschedule</button>
                 )}
             </td>
+            
         </tr>
     );
 };
