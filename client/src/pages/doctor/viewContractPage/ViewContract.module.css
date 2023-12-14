@@ -1,4 +1,17 @@
 /* ViewContract.module.css */
+.ContractContent {
+    max-height: 300px;
+    /* Adjust the maximum height as needed */
+    overflow-y: auto;
+    width: 800px;
+    justify-content: center;
+    align-items: center;
+    /* Enable vertical scrollbar when content exceeds the height */
+    padding: 10px;
+    margin: 10px;
+    margin-left: 400px;
+}
+
 .Contractbutton {
     background-color: #052a51;
     color: #ffffff;
@@ -14,7 +27,9 @@
     /* Add transition effect */
     width: 150px;
     /* Decrease width */
-    margin: 0 auto;
+    margin: 0 10px;
+    align-items: center;
+    justify-content: center;
     /* Center horizontally */
 }
 
@@ -23,6 +38,15 @@
 }
 
 .RejectButton {
-    margin-left: 10px;
+    margin-left: 15px;
     /* Adjust the margin as needed */
+}
+
+.ContractButtons {
+    display: flex;
+    /* justify-content: space-between; */
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    /* Add margin to separate buttons from contract text */
 }

@@ -116,8 +116,8 @@ const ContractView = () => {
             <h1>Employment Contract</h1>
 
             {contract.map((contract) => (
-                <div key={contract._id}>
-
+                <div key={contract._id}className={styles.ContractContainer}>
+                 <div className={styles.ContractContent}>
                     <p>X-Virtual Clinic</p>
                     <p>New Cairo City - Main Entrance of Al Tagamoa Al Khames, Egypt</p>
                     <p>Contract Date: 11/11/2023</p>
@@ -188,7 +188,8 @@ const ContractView = () => {
                         </p>
                         Contract's Status: {contract.status}
                     </p>
-
+                    </div>
+                    <div className={styles.ContractButtons}>
                     {(contract.accepted !== true || contract.status === 'Pending') && (
                         <button className={styles.Contractbutton} onClick={handleAcceptContract}>Accept Contract</button>
                     )}
@@ -196,6 +197,7 @@ const ContractView = () => {
                     {(contract.accepted === true || contract.status === 'Pending') && (
                         <button className={`${styles.Contractbutton} ${styles.RejectButton}`} onClick={handleRejectContract}>Reject Contract</button>
                     )}
+                </div>
                 </div>
             ))}
         </div>
