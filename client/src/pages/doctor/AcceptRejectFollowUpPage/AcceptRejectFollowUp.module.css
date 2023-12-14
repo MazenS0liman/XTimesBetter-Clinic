@@ -1,4 +1,4 @@
-.div-schedule {
+.Accdiv-schedule {
     border: 1px solid #ccc;
     padding: 10px;
     margin: 10px;
@@ -8,7 +8,32 @@
     transform: translateX(-50%);
 }
 
-.button-schedule {
+.Accbutton-schedule {
     background-color: #052a51;
     color: #ffffff
+}
+.Nayera-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* or 'row' depending on your desired layout */
+    align-items: center;
+    /* or 'flex-start' / 'flex-end' */
+    top: 10px;
+    /* adjust if needed */
+    left: 0;
+    right: 0;
+    /* adjust if needed */
+
+    /* Size */
+    width: 80%;
+    /* adjust width as needed */
+    height: auto;
+
+    /* Margin and Padding */
+    margin: 10px auto;
+    /* adjust as needed */
+    padding: 0px;
+    /* left: 50%;
+    transform: translateX(17%); */
 }

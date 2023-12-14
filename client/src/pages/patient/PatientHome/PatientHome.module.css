@@ -16,9 +16,27 @@
 .Nayerafamily-view-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     /* or 'row' depending on your desired layout */
     align-items: center;
     /* or 'flex-start' / 'flex-end' */
+    top: 80px;
+    /* adjust if needed */
+    left: 0;
+    right: 0;
+    /* adjust if needed */
+
+    /* Size */
+    width: 70%;
+    /* adjust width as needed */
+    height: auto;
+
+    /* Margin and Padding */
+    margin: 70px;
+    /* adjust as needed */
+    padding: 0px;
+    left: 50%;
+    transform: translateX(15%);
 }
 
 .Nayeraform {
@@ -54,6 +72,7 @@
 .Nayeraadd-family-member-container {
     /* Position */
     position: relative;
+
     /* or 'absolute' depending on your layout */
     top: 0;
     /* adjust if needed */
@@ -98,4 +117,15 @@
     gap: 10px;
     /* Adjust the gap between buttons */
 
+}
+
+.NayeraTablecontainer {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+    max-width: 800px;
+    /* Use max-width instead of width to allow responsiveness */
+    width: 100%;
+    /* Set width to 100% to ensure responsiveness */
+    position: relative;
 }

@@ -291,7 +291,7 @@ const AcceptRejectFollowUp = () => {
 
     // Render the component
     return (
-        <div>
+        <div className={styles['Nayera-container']}>
             <h2>Requested Follow Ups </h2>
 
             <br />
@@ -313,14 +313,14 @@ const AcceptRejectFollowUp = () => {
 
                             <td>
                                 <button
-                                    className={styles['button-schedule']}
+                                    className={styles['Accbutton-schedule']}
                                     onClick={() => handleAcceptFollowUp(followUp._id, followUp.appointment_ID)}
                                 >
                                     Accept
                                 </button>
                                 &nbsp; {/* Non-breaking space */}
                                 <button
-                                    className={styles['button-schedule']}
+                                    className={styles['Accbutton-schedule']}
                                     onClick={() => handleRejectFollowUp(followUp._id, followUp.appointment_ID)}
                                 >
                                     Reject

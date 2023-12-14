@@ -142,7 +142,7 @@ const FamilyView = () => {
                     <tr>
                         <th>Name</th>
                         <th>Relation</th>
-                        <th>Type</th> {/* Add this column for the type */}
+                        {/* <th>Type</th> Add this column for the type */}
                     </tr>
                 </thead>
                 <tbody>
@@ -154,9 +154,9 @@ const FamilyView = () => {
                             <td>
                                 <p>{member.relation}</p>
                             </td>
-                            <td>
+                            {/* <td>
                                 <p>{member.type}</p>
-                            </td>
+                            </td> */}
                         </tr>
                     ))}
                 </tbody>
