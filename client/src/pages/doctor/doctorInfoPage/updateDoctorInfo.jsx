@@ -1,218 +1,277 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { EditIcon } from '@chakra-ui/icons'
+import { useToast,  Button, ButtonGroup, ChakraProvider } from '@chakra-ui/react'
+import styles from './updateDoctorInfo.module.css';
+
+
 
 function UpdateDoctorInfo() {
-  //new part
   const accessToken = sessionStorage.getItem('accessToken');
   const [load, setLoad] = useState(true);
   const [username, setUsername] = useState('');
-  const [notifications, setNotifications] = useState([]);
-  // console.log(accessToken);
+  const [selectedOption, setSelectedOption] = useState('');
+  const [doctorInfo, setDoctorInfo] = useState({
+    username: username,
+    email: '',
+    hourly_rate: 0,
+    affiliation: '',
+  });
+
   useEffect(() => {
-    if (username.length != 0) {
+    if (username.length !== 0) {
       setLoad(false);
     }
   }, [username]);
-  async function checkAuthentication() {
-    await axios({
-      method: 'get',
-      url: 'http://localhost:5000/authentication/checkAccessToken',
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': accessToken,
-        'User-type': 'doctor',
-      },
-    })
-      .then((response) => {
-        console.log(response);
-        setUsername(response.data.username);
-        //setLoad(false);
-      })
-      .catch((error) => {
-        //setLoad(false);
-        navigate('/login');
 
+  async function checkAuthentication() {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: 'http://localhost:5000/authentication/checkAccessToken',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken,
+          'User-type': 'doctor',
+        },
       });
+
+      setUsername(response.data.username);
+    } catch (error) {
+      // Handle authentication error
+      navigate('/login');
+    }
   }
 
   checkAuthentication();
 
-  const [doctorInfo, setDoctorInfo] = useState({
-    username: username,
-    email:'',
+  const [currentDoctorInfo, setCurrentDoctorInfo] = useState({
+    email: '',         // Initialize with empty strings or appropriate default values
     hourly_rate: 0,
-    affiliation:'',
-    
+    affiliation: '',
   });
 
-  const [selectedRadio, setSelectedRadio] = useState(null);
-  const [requestBody, setRequestBody] = useState({}); 
-  // const [username, setUsername] = useState({}); 
+    // Fetch and set the current doctor information when the component mounts
+   // console.log("username",username);
+  // console.log(JSON.stringify({username: username}))
+  const getCurrentDoctorInfo = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/doctor/profile/viewDoctorInfo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken,
+        },
+        body: JSON.stringify({ username: username }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      if (data.doctor && data.doctor.length > 0) {
+        setCurrentDoctorInfo(data.doctor[0]);
+      } else {
+        console.error('Invalid response format for current doctor information');
+      }
+    } catch (error) {
+      console.error('Error fetching current doctor information', error);
+    }
+  };
+
+  useEffect(() => {
+    getCurrentDoctorInfo();
+  }, [accessToken, username]);
+
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
-    if (name === 'email' || name === 'affiliation' || name === 'hourly_rate') {
-      // Only allow editing of email, affiliation, and hourly_rates fields
-      setDoctorInfo({ ...doctorInfo, [name]: value });
+
+    setDoctorInfo({ ...doctorInfo, [name]: value });
+  };
+
+  const handleOptionChange = (option) => {
+    setSelectedOption(option);
+    setDoctorInfo({
+      username: username,
+      email: '',
+      hourly_rate: 0,
+      affiliation: '',
+    });
+  };
+
+  const renderInputField = () => {
+    switch (selectedOption) {
+      case 'email':
+        return (
+          <div className="updateEmail" id="email">
+            <p><strong>Current Email: </strong>{currentDoctorInfo.email}</p>
+            
+            <label htmlFor="email">New email:</label>
+            
+            <input  className={`${styles['text-input']} text-input`} type="text" name="email" value={doctorInfo.email} onChange={handleChange} />
+          </div>
+         
+        );
+      case 'hourly_rate':
+        return (
+          <div className="updateHourlyRate" id="hourly_rate">
+            <p><strong>Current Hourly Rate: </strong>{currentDoctorInfo.hourly_rate} EGP</p>
+           
+            <label htmlFor="hourly_rate">New Hourly Rate:</label>
+            
+            <input className={`${styles['text-input']} text-input`}
+              type="Number"
+              name="hourly_rate"
+              value={doctorInfo.hourly_rate}
+              onChange={handleChange}
+            />
+          </div>
+         
+        );
+      case 'affiliation':
+        return (
+          <div className="updateAffiliation" id="affiliation">
+            <p><strong>Current affiliation: </strong>{currentDoctorInfo.affiliation}</p>
+            
+            <label htmlFor="affiliation">New affiliation:</label>
+          
+            <input className={`${styles['text-input']} text-input`}
+              type="text"
+              name="affiliation"
+              value={doctorInfo.affiliation}
+              onChange={handleChange}
+            />
+          </div>
+         
+        );
+      default:
+        return null;
     }
   };
-  // console.log(doctorInfo)
 
-  const handleRadioChange = (val) => {
-    setSelectedRadio(val);
-
-    // Prepare the request body based on selectedRadio
-    const body = {};
-    if (val === 0) {
-      body.email = doctorInfo.email;
-    } else if (val === 1) {
-      body.hourly_rate = doctorInfo.hourly_rate;
-    } else if (val === 2) {
-      body.affilitation = doctorInfo.affilitation;
+  const handleSubmit = () => {
+    if(selectedOption==''){
+      alert('Please select information to update!');
+      return;
+    }
+    if (
+      (selectedOption === 'email' && doctorInfo.email === '') ||
+      (selectedOption === 'hourly_rate' && doctorInfo.hourly_rate === 0) ||
+      (selectedOption === 'affiliation' && doctorInfo.affiliation === '')
+    ) {
+      alert('Please enter the required information!');
+      return;
+    }
+   
+     if (selectedOption === 'email' && doctorInfo.email === currentDoctorInfo.email) {
+      alert('Please enter a new email!');
+      return;
     }
     
-    // Update the state with the request body
-    setRequestBody(body);
-  };
-  
-  const handleSubmit = () => {
-    if (!doctorInfo.username) {
-      // Check if the username is empty
-      alert("Please enter the username!");
-      return; // Stop the submission
-    }
-  //   if(!selectedRadio){
-  //     alert("Please select info to update ");
-  //  }
-  if(doctorInfo.hourly_rate===0&& doctorInfo.affiliation===''&&doctorInfo.email===''){
-    alert("Please enter the info to update!");
+     if (selectedOption === 'hourly_rate'){
+     let integerNumber = parseInt(doctorInfo.hourly_rate, 10);
+      if( integerNumber === currentDoctorInfo.hourly_rate) {
+      alert('Please enter a new hourly rate!');
       return;
+    }
   }
-    const requestBody = {
-        username: username,
-        email: doctorInfo.email,
-        hourly_rate: doctorInfo.hourly_rate,
-        affiliation: doctorInfo.affiliation
-      };
+     if (selectedOption === 'affiliation' && doctorInfo.affiliation === currentDoctorInfo.affiliation) {
+      alert('Please enter a new affiliation!');
+      return;
+    }
 
-      
-    // Make an HTTP PATCH request to send the data to the backend using the requestBody
+    const requestBody = {
+      username: username,
+      email: doctorInfo.email,
+      hourly_rate: doctorInfo.hourly_rate,
+      affiliation: doctorInfo.affiliation,
+    };
+
     fetch('http://localhost:5000/doctor/profile/updateDoctorInfo', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: accessToken,
+        
       },
       body: JSON.stringify(requestBody),
-    }).then((response) => {
+    })
+      .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
-      }).then((data) => {
-       // console.log(data.success);
+      })
+      .then((data) => {
         if (data) {
-            console.log('Doctor updated successfully:', data);
-            alert("Doctor updated successfully ");
-          } else {
-            
-            alert("Doctor update failed");
-           
-          }
+          setSelectedOption('');
+          setDoctorInfo({
+            username: username,
+            email: '',
+            hourly_rate: 0,
+            affiliation: '',
+          });
+          getCurrentDoctorInfo();
+          alert('Doctor updated successfully');
+        } else {
+          alert('Doctor update failed');
+        }
       })
       .catch((error) => {
-        
-        
-        console.log('This doctor does not exist');
-        alert("This doctor does not exist");
-
-  });
+        alert('This doctor does not exist');
+      });
   };
- 
-    
+
   if (load) {
-    return (<div>Loading</div>)
+    return <div>Loading</div>;
   }
 
-return (
-    <div className="choose">
-      <h2>Update your personal Info</h2>
-      
-      <div className="radio-container m-r-45">
-        
-        <input
-          type="radio"
-          name="update"
-          onClick={() => handleRadioChange(0)}
-          value="0"
-          checked={selectedRadio === 0}
-          
-        />
-        <label>Email</label>
-      </div>
-      <div className="radio-container m-r-45">
-        
-        <input
-          type="radio"
-          name="update"
-          onClick={() => handleRadioChange(1)}
-          value="1"
-          checked={selectedRadio === 1}
-        />
-       <label> Hourly Rate</label>
-      </div>
-      <div className="radio-container m-r-45">
-        
-        <input
-          type="radio"
-          name="update"
-          onClick={() => handleRadioChange(2)}
-          value="2"
-          checked={selectedRadio === 2}
-        />
-       <label> Affiliation</label>
-      </div>
+  const options = ['email', 'hourly_rate', 'affiliation'];
 
-      {selectedRadio === 0 && (
-        <div className="updateEmail" id="email">
-          <label htmlFor="email"> Doctor email: </label>
-          <input
-            type="text"
-            name="email"
-            value={doctorInfo.email}
-            onChange={handleChange}
-          />
-        </div>
-      )}
-      {selectedRadio === 1 && (
-        <div className="updateHourlyRate" id="hourly_rate">
-          <label htmlFor="hourly_rate"> Doctor Hourly Rate: </label>
-          <input
-            type="Number"
-            name="hourly_rate"
-            value={doctorInfo.hourly_rate}
-            onChange={handleChange}
-          />
-        </div>
-      )}
-      {selectedRadio === 2 && (
-        <div className="updateAffiliation" id="affiliation">
-          <label htmlFor="affiliation"> Doctor affiliation: </label>
-          <input
-            type="text"
-            name="affiliation"
-            value={doctorInfo.affiliation}
-            onChange={handleChange}
-          />
-        </div>
-      )}
  
-
-     <button type="button" onClick={handleSubmit}>
-        Update Doctor Info
-      </button>
+  return (
+    <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div className={styles['update-form-container']}>
+      <div className={styles['bordered-container']}>
+        <fieldset className={styles.fieldset}>
+          <legend className={styles.legend}  style={{fontSize: '1.5em'}}><strong>Update your Info </strong> <EditIcon /></legend>
+          <form className={styles.form}>
+          <div className={`${styles['dropdown-container']} dropdown-container`}>
+              <label>Select update option:</label>
+              <select onChange={(e) => handleOptionChange(e.target.value)} value={selectedOption}>
+                <option value="" disabled>
+                  Select an option
+                </option>
+                {options.map((option) => (
+                  <option key={option} value={option}>
+                    {option.charAt(0).toUpperCase() + option.slice(1).replace('_', ' ')}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {renderInputField()}
+            <ChakraProvider>
+              <Button
+                className={styles['update-button']}
+                colorScheme="blue"
+                variant="solid"
+                type="button"
+                onClick={handleSubmit}
+              >
+                Update
+              </Button>
+            </ChakraProvider>
+          </form>
+        </fieldset>
+      </div>
+    </div>
     </div>
   );
-
+  
 }
 
-export default UpdateDoctorInfo; 
+export default UpdateDoctorInfo;
+

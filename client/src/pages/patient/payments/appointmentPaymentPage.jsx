@@ -7,6 +7,10 @@ import axios from 'axios';
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
 
+import {   Button, ChakraProvider ,Box} from '@chakra-ui/react'
+import styles from './payments.module.css';
+
+
 function AppointmentPayment() {
     const location = useLocation()
     const [selectedButton, setSelectedButton] = useState(null);
@@ -76,6 +80,9 @@ function AppointmentPayment() {
     };
 
     const handleSubmit = async (buttonId) => {
+        if(buttonId==="doctors"){
+            navigate("/patient/viewDoctorsListPage");
+        }
         // console.log("receivedInfo",receivedInfo);
 
         if (buttonId === "creditCard") {
@@ -93,7 +100,7 @@ function AppointmentPayment() {
             }).then(res => {
                 return res.json();
             }).then((data) => {
-                console.log(data);
+                // console.log(data);
                 if(data.success){
                 // console.log(data.url);
                 // console.log(data.successURL);
@@ -145,37 +152,97 @@ function AppointmentPayment() {
 
 
     }
+    // return (
+    //     <div className="receipt-container">
+    //         <h2>Appointment Receipt</h2>
+    //         <div>
+    //             <strong>Appointment Date:</strong> {receivedInfo.appointmentDate}
+    //         </div>
+    //         <div>
+    //             <strong>Doctor Name:</strong> {receivedInfo.doctorName}
+    //         </div>
+    //         <div>
+    //             <strong>Appointment Price:</strong> {receivedInfo.appointmentPrice}
+    //         </div>
+    //         <h2>Choose payment Method</h2>
+    //         <button
+    //             id="wallet"
+    //             className={selectedButton === 'wallet' ? 'selected' : ''}
+    //             onClick={() => handleButtonClick('wallet')}
+    //         >
+    //             Wallet
+    //         </button>
+    //         <button
+    //             id="creditCard"
+    //             className={selectedButton === 'creditCard' ? 'selected' : ''}
+    //             onClick={() => handleButtonClick('creditCard')}
+    //         >
+    //             Credit Card
+    //         </button>
+
+
+    //     </div>
+    // );
     return (
-        <div className="receipt-container">
-            <h2>Appointment Receipt</h2>
-            <div>
+        <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div className={styles['form-container']}>
+            <div className={styles['bordered-container']}>
+            <ChakraProvider>
+              <Box>
+              <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '20px', textAlign: 'center' }}>
+                <strong>Appointment Receipt</strong>
+              </h2>
+              <div>
                 <strong>Appointment Date:</strong> {receivedInfo.appointmentDate}
-            </div>
-            <div>
+              </div>
+              <div>
                 <strong>Doctor Name:</strong> {receivedInfo.doctorName}
-            </div>
-            <div>
-                <strong>Appointment Price:</strong> {receivedInfo.appointmentPrice}
-            </div>
-            <h2>Choose payment Method</h2>
-            <button
-                id="wallet"
-                className={selectedButton === 'wallet' ? 'selected' : ''}
-                onClick={() => handleButtonClick('wallet')}
-            >
-                Wallet
-            </button>
-            <button
-                id="creditCard"
-                className={selectedButton === 'creditCard' ? 'selected' : ''}
-                onClick={() => handleButtonClick('creditCard')}
-            >
-                Credit Card
-            </button>
+              </div>
+              <div>
+                <strong>Appointment Price:</strong> {receivedInfo.appointmentPrice} EGP
+              </div>
+              <h2 style={{ fontSize: '1.5em', marginTop: '20px', marginBottom: '-10px', textAlign: 'center' }}>
+                <strong>Choose payment Method</strong>
+              </h2>
+              {/* <div className={styles['button-container']}> */}
+            
+                  <Button
+                    className={`${styles['button']} ${selectedButton === 'wallet' ? styles['selected'] : ''}`}
+                    colorScheme="gray"
+                    variant="solid"
+                    type="button"
+                    onClick={() => handleButtonClick('wallet')}
+                  >
+                    Wallet
+                  </Button>
+                  <Button
+                    className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
+                    colorScheme="gray"
+                    variant="solid"
+                    type="button"
+                    onClick={() => handleButtonClick('creditCard')}
+                  >
+                    Credit Card
+                  </Button>
+                  </Box>
 
-
-        </div>
-    );
+                  <Button
+                    // className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
+                    colorScheme="blue"
+                    variant="solid"
+                    type="button"
+                    onClick={() => handleButtonClick('doctors')}
+                  >
+                    Back to Doctors
+                  </Button>
+               
+              </ChakraProvider>
+            </div>
+            </div>
+          </div>
+       
+      );
+      
 }
 
 export default AppointmentPayment; 

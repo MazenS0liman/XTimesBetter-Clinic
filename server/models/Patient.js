@@ -54,6 +54,10 @@ const PatientSchema = mongoose.Schema({
     }, notifications: {
         type: [
             {
+                type: {
+                    type: String, //new, cancelled , rescheduled 
+                    required: true,
+                },
                 message: {
                     type: String,
                     required: true,

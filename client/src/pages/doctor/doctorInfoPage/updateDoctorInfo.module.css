@@ -1,0 +1,62 @@
+  .bordered-container {
+    
+    border: 1px solid #000000;
+    padding: 20px;
+    display: inline-block;
+    max-width: 700px;
+    
+    border-radius: 5px; 
+    background-color: #ffffff;
+  }
+  
+  .update-form-container {
+   
+    display: flex; /* Use flex display to enable flex properties */
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px; /* Add margin to the top */
+   margin-bottom: 30px;
+  }
+  .fieldset {
+    padding: 10px; /* Add padding to the fieldset */
+  }
+  
+  .legend {
+    margin-bottom: 10px; /* Add margin at the bottom of the legend */
+  }
+  
+  .form {
+    margin-top: 20px; /* Add margin at the top of the form */
+  }
+  .update-button {
+    margin-top: 20px; /* Add the desired margin */
+  }
+  /* .dropdown-container {
+    margin-bottom: 20px; Add margin at the bottom of the dropdown container
+  } */
+  
+  .update-info {
+    margin-bottom: 20px; /* Add margin at the bottom of the update info container */
+  }
+  /* .dropdown-container select, */
+
+  .dropdown-container {
+    margin-bottom: 15px;
+  }
+  
+  .dropdown-container select {
+    /* width: 100%; */
+    padding: 5px;
+    border: 1px solid #ced4da; /* Set a border color */
+    border-radius: 4px;
+    outline: none; /* Remove the default outline */
+  }
+  .text-input {
+    /* width: 100%; */
+    padding: 5px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    outline: none; /* Remove the default outline */
+  }

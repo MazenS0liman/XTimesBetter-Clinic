@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 // Axios
 import axios from 'axios';
+import {   Button, ChakraProvider ,Box} from '@chakra-ui/react'
+import styles from './payments.module.css';
 
 function PackagePayment() {
 
@@ -87,6 +89,9 @@ function PackagePayment() {
     };
 
     const handleSubmit = async (buttonId) => {
+        if(buttonId==='packages'){
+            navigate('/patient/ViewPackagesDetails')
+        }
         sessionStorage.setItem("receivedInfo", JSON.stringify(receivedInfo));
 
         if (buttonId === "creditCard") {
@@ -142,35 +147,60 @@ function PackagePayment() {
         }
     }
     
-   
+
     return (
-        <div className="payment">
-            <div className="receipt-container">
-                <h2>Receipt</h2>
-                <div>
-                    <strong>Package: </strong> {receivedInfo.package_name}
-                </div>
-                <div>
-                    <strong>Price: </strong> {receivedInfo.priceAfter}
-                </div>
+        <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div className={styles['form-container']}>
+            <div className={styles['bordered-container']}>
+              <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '10px', textAlign: 'center' }}>
+                <strong>Payment Receipt</strong>
+              </h2>
+              <div>
+                <strong>Package: </strong> {receivedInfo.package_name}
+              </div>
+              <div>
+                <strong>Price: </strong> {receivedInfo.priceAfter} EGP
+              </div>
+              <h3 style={{ color:'#000000',fontSize: '1.5em', marginTop: '30px', marginBottom: '-5px', textAlign: 'center' }}>
+                <strong>Choose payment Method</strong>
+              </h3>
+              <div className={styles['button-container']}>
+                <ChakraProvider>
+                  <Box>
+                    <Button
+                      className={`${styles['button']} ${selectedButton === 'wallet' ? styles['selected'] : ''}`}
+                      colorScheme="gray"
+                      variant="solid"
+                      type="button"
+                      onClick={() => handleButtonClick('wallet')}
+                    >
+                      Wallet
+                    </Button>
+                    <Button
+                      className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
+                      colorScheme="gray"
+                      variant="solid"
+                      type="button"
+                      onClick={() => handleButtonClick('creditCard')}
+                    >
+                      Credit Card
+                    </Button>
+                  </Box>
+                  <Button
+                    colorScheme="blue"
+                    variant="solid"
+                    type="button"
+                    onClick={() => handleButtonClick('packages')}
+                  >
+                    Back to packages 
+                  </Button>
+                </ChakraProvider>
+              </div>
             </div>
-            <h3>Choose payment Method</h3>
-            <button
-                id="wallet"
-                className={selectedButton === 'wallet' ? 'selected' : ''}
-                onClick={() => handleButtonClick('wallet')}
-            >
-                Wallet
-            </button>
-            <button
-                id="creditCard"
-                className={selectedButton === 'creditCard' ? 'selected' : ''}
-                onClick={() => handleButtonClick('creditCard')}
-            >
-                Credit Card
-            </button>
+          </div>
         </div>
-    );
+      );
+      
 }
 
 export default PackagePayment; 

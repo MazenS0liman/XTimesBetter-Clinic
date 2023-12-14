@@ -128,8 +128,9 @@ const payAppointment = asyncHandler(async (req, res) => {
                         {
                             $push: {
                                 notifications: {
+                                    type:"new",
 
-                                    message: `Appointment at slot ${formattedTime} on ${appointment.date} with ${doctorToPay.name} is reserved  `,
+                                    message: `Appointment at slot ${formattedTime} on ${appointment.date} with Dr. ${doctorToPay.name} is reserved  `,
                                 },
                             },
                         },
@@ -169,7 +170,8 @@ const payAppointment = asyncHandler(async (req, res) => {
                             {
                                 $push: {
                                     notifications: {
-                                        message: `Appointment at slot ${formattedTime} on ${appointment.date} with ${doctorToPay.name} is reserved by ${registeredPatient.name}  `,
+                                        type:"new",
+                                        message: `Appointment at slot ${formattedTime} on ${appointment.date} with Dr. ${doctorToPay.name} is reserved by ${registeredPatient.name}  `,
                                     },
                                 },
                             },
@@ -236,6 +238,7 @@ const payAppointment = asyncHandler(async (req, res) => {
                     {
                         $push: {
                             notifications: {
+                                type:"new",
 
                                 message: `New appointment at slot ${formattedTime} on ${appointment.date} is reserved  `,
                             },
