@@ -9,6 +9,7 @@ const linkedFamilyModel = require('../../models/LinkedFamily');
 const familyModel = require('../../models/Family');
 
 
+
 // Add a new appointment to the database
 const createAppointment = asyncHandler(async (req, res) => {
     const appointment = req.body;
@@ -305,6 +306,7 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
     doctor.availableTimeSlots = remainingTimeSlots;
     console.log("After", doctor.availableTimeSlots);
     await doctor.save();
+
 
 
     res.status(200).json({ message: 'Success', rescheduledAppointment: true, updatedAppointment });
