@@ -126,6 +126,23 @@ const BookAppointmentForm = () => {
         getHourlyRateByUsername(event.target.value, appointment.doctorUsername)
     };
 
+    const handleUpdatedFamily = (event) => {
+        setFamilyMember(event.target.value);
+        const selectedFamilyMember = allFamilyMembers.find(member => member._id === event.target.value);
+    
+        // Check the type of the selected family member
+        if (selectedFamilyMember) {
+            if (selectedFamilyMember.type === 'linked') {
+                getHourlyRateByUsername(selectedFamilyMember.username, appointment.doctorUsername);
+            } else if (selectedFamilyMember.type === 'unlinked') {
+                getHourlyRateByNationalID(selectedFamilyMember.national_id, appointment.doctorUsername);
+            }
+        } else {
+            // Handle the case where the selected family member is not found
+            console.error('Selected family member not found in the allFamilyMembers list.');
+        }
+    };
+
     const getHourlyRateByUsername = async (patient_username, doctor_username) => {
         try {
             const response = await fetch(`http://localhost:5000/patient/appointment/getHourlyRateByUsername?patient_username=${patient_username}&doctor_username=${doctor_username}`, {
@@ -241,7 +258,7 @@ const BookAppointmentForm = () => {
     }
 
     const submitUnlinkedFamilyMemberAppointment = async () => {
-        const selectedMember = unlinkedfamilyMembers.find((member) => member.national_id === selectedUnlinkedFamilyMember);
+        const selectedMember = unlinkedfamilyMembers.find((member) => member._id === familyMember);
 
         let fmNationalID, fmName;
         if (selectedMember) {
@@ -297,7 +314,9 @@ const BookAppointmentForm = () => {
     }
 
     const submitLinkedFamilyMemberAppointment = async () => {
-        const selectedMember = linkedfamilyMembers.find((member) => member.username === selectedLinkedFamilyMember);
+        const selectedMember = linkedfamilyMembers.find((member) => member._id === familyMember);
+
+        console.log("submitLLLLinkedFamilyMemberAppointment", selectedMember);
 
         let linkedfmUsername, linkedfmName;
         if (selectedMember) {
@@ -358,30 +377,38 @@ const BookAppointmentForm = () => {
             // console.log('Appointment Details for Self:', appointment);
             // window.alert('Appointment successfully added!');
         } else if (selectedOption === 'family') {
-            // Add appointment for a family member
-            submitUnlinkedFamilyMemberAppointment();
-            // console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
-            // window.alert('Appointment successfully added!');
-        } else {
-            // Add appointment for a linked family member
-            submitLinkedFamilyMemberAppointment();
-            // console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
-            // window.alert('Appointment successfully added!');
+            // Check if a family member is selected
+            if (familyMember) {
+                // Find the selected family member in the allFamilyMembers list
+                const selectedFamilyMember = allFamilyMembers.find(member => member._id === familyMember);
+    
+                // Check the type of the selected family member
+                if (selectedFamilyMember) {
+                    if (selectedFamilyMember.type === 'linked') {
+                       submitLinkedFamilyMemberAppointment();
+                    } else if (selectedFamilyMember.type === 'unlinked') {
+                        submitUnlinkedFamilyMemberAppointment();
+                    }
+                } else {
+                    // Handle the case where the selected family member is not found
+                    console.error('Selected family member not found in the allFamilyMembers list.');
+                }
+            } else {
+                // Handle the case where no family member is selected
+                console.error('No family member selected.');
+            }
         }
-        /*
-        const stateInfo = {
-            appointmentDate : appointment.bookAppointment.date ,
-            doctorName: appointment.doctorName ,
-            appointmentPrice : hourlyRate ,
-            patient_username : username ,
-            rowID : rowID
-          }
-            
-        navigate('/patient/appointmentPayment', { state: stateInfo });
-
-        console.log("State Info", stateInfo)
-        */
     };
+    
+
+    const [familyMember,setFamilyMember]= useState('');
+
+     const allFamilyMembers = [
+        ...unlinkedfamilyMembers.map((member) => ({ ...member, type: 'unlinked' })),
+        ...linkedfamilyMembers.map((member) => ({ ...member, type: 'linked' })),
+    ];
+
+    console.log("fam", allFamilyMembers)
 
     //Authenticate
     if (load) {
@@ -416,15 +443,16 @@ const BookAppointmentForm = () => {
 
                 <div className={styles['h2-book']}>
                     <h2 >Book For :
+                        
                         <select style={{ marginLeft: '180px' }}
                             value={selectedOption}
                             onChange={(event) => {
                                 handlePatientAppointmentChange(event.target.value);
                             }}
                         >
+                            <option value="">Select</option>
                             <option value="self">Myself</option>
                             <option value="family">Family Member</option>
-                            <option value="linkedfamily">Existing Family Member</option>
                         </select> </h2>
                 </div>
 
@@ -434,15 +462,15 @@ const BookAppointmentForm = () => {
                         <h2 className={styles['h2-book']} >
                             Select Family Member:
                             <select style={{ marginLeft: '20px' }}
-                                value={selectedUnlinkedFamilyMember}
+                                value={familyMember}
                                 onChange={(event) => {
-                                    handleFamilyMemberChange(event);
+                                    handleUpdatedFamily(event);
                                     //getHourlyRateByUsername(selectedUnlinkedFamilyMember, appointment.doctorUsername);
                                 }}
                             >
                                 <option value="">Select a family member</option>
-                                {unlinkedfamilyMembers.map((member) => (
-                                    <option key={member._id} value={member.national_id}>
+                                {allFamilyMembers.map((member) => (
+                                    <option key={member._id} value={member._id} >
                                         {member.name}
                                     </option>
                                 ))}
@@ -450,29 +478,7 @@ const BookAppointmentForm = () => {
                         </h2>
                     </div>
                 )}
-                {selectedOption === 'linkedfamily' && (
-                    <div>
-                        <h2 className={styles['h2-book']} >
-                            Select Existing Family Member:
-                            <select style={{ marginLeft: '20px' }}
-                                value={selectedLinkedFamilyMember}
-                                onChange={(event) => {
-                                    handleLinkedFamilyMemberChange(event);
-                                    //getHourlyRateByUsername(selectedLinkedFamilyMember, appointment.doctorUsername);
-                                }}
-                            >
-                                <option value="">Select a family member</option>
-                                {linkedfamilyMembers.map((member) => (
-                                    <option key={member._id} value={member.username}>
-                                        {member.name}
-                                    </option>
-
-                                ))}
-
-                            </select>
-                        </h2>
-                    </div>
-                )}
+            
 
                 <div className={styles['h2-book']}>
                     <span className={styles['label']}>Hourly Rate :</span>

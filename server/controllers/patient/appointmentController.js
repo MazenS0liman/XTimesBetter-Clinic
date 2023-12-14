@@ -195,29 +195,20 @@ const getHourlyRateByNationalID = async (req, res) => {
         .sort({ start_date: -1 })
         .limit(1);
 
-    //console.log(isSubs)
-    //console.log(isSubs.length)
-    // All doctors
     let patient_hourlyRate = 0; // Initialize with a default value
 
     if (isSubs.length > 0) { // Check the length of the array
         const package_name = isSubs[0].package_name;
-        //console.log("Package Name" ,package_name)
         const package = await packageModel.findOne({ name: package_name });
-        //console.log("Package" ,package)
 
         const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
-        //console.log(doctor_hourlyRate.hourly_rate)
-        //console.log(package.doctor_discount)
 
         patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1)) - ((package.doctor_discount / 100.0) * doctor_hourlyRate.hourly_rate)
     } else {
         const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
         patient_hourlyRate = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1
     }
-
-    //console.log("Hourly", patient_hourlyRate);
-    //console.log(res.status(200).json(patient_hourlyRate))
+    
     res.status(200).json(patient_hourlyRate);
 }
 

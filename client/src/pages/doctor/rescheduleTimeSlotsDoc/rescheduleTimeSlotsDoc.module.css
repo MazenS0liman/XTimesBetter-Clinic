@@ -2,3 +2,57 @@
     background-color: rgb(2, 2, 90);
     color : white
 }
+
+
+.table-container {
+        padding: 10px;
+  }
+  
+  .table-container table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  
+  .table-container th, .table-container td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+
+  .table-container th:last-child,
+.table-container td:last-child {
+  border-left: none;
+}
+
+.table-container th:nth-last-child(2),
+.table-container td:nth-last-child(2) {
+  border-right: none;
+} 
+
+  /* Add this style to your CSS file */
+.back-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Adjust the width and height as needed */
+  .back-button .MuiButton-label {
+    width: 50px;
+    height: 50px;
+    margin-left: 50px;
+  }
+  
+  .header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    padding-left: 90px;
+  }
+  
+  .header-container h1 {
+    padding-right: 550px;
+  }

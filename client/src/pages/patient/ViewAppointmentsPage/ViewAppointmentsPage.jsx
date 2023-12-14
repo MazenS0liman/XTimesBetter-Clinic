@@ -5,6 +5,12 @@ import AppointmentList from '../../../components/appointmentList/appointmentList
 // Axios
 import axios from 'axios';
 
+import { Button, Typography } from '@mui/joy';
+
+// FontAwesome Components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
 
@@ -18,6 +24,7 @@ const ViewAppointments = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [status, setStatus] = useState('');
     const [allAppointments, setShowAllAppointments] = useState([]);
+    const [showFamilyAppointments, setShowFamilyAppointments] = useState(false);
 
     // To store the info of the appointment wanted to be rescheduled.
     const [selectedRescheduleAppointment, setSelectedRescheduleAppointment] = useState(null);
@@ -159,6 +166,7 @@ const ViewAppointments = () => {
         const currentUser = username
         await getBookedAppointments(currentUser);
         setShowAppointments(true);
+        setShowFamilyAppointments(true);
     };
 
     const handleCancelAppointment = async (appointmentId) => {
@@ -292,13 +300,124 @@ const ViewAppointments = () => {
         }
     }, [showAppointments, status]);
 
+
+    // Handling follow up
+    const [followUp, setFollowUp] = useState([]);
+    const [selectedAppointment, setSelectedAppointment] = useState(null);
+    const [followUpDateTime, setFollowUpDateTime] = useState('');
+    const [showFollowUpSection, setShowFollowUpSection] = useState(false);
+
+    const createFollowUp = async (doctorUsername, appointmentTime, followUpTime, appointmentID, appointmentName, appointmentPatient_username) => {
+        if (!accessToken) {
+            // Handle the case where no access token is provided, e.g., redirect to login
+            console.error('No access token provided');
+            // Redirect the user to the login page or take appropriate action
+            navigate('/login');
+            return { success: false, message: 'No access token provided' };
+        }
+        // hena el moshkela 
+        const followUpData = {
+            doctor_username: doctorUsername,
+            patient_username: appointmentPatient_username,
+            appointmentDateTime: appointmentTime,
+            followUpDateTime: followUpTime,
+            appointment_ID: appointmentID,
+        };
+
+        console.log('FollowUp Data:', followUpData);
+
+        try {
+            const response = await fetch('http://localhost:5000/patient/requestFollowUp/requestFollowUp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+                body: JSON.stringify(followUpData),
+            });
+
+            // Check if the response is a successful JSON response
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Follow-up requested:', result);
+                window.location.reload();
+                return { success: true };
+            } else {
+                const errorData = await response.json();
+                console.error('Error:', errorData.message);
+                console.log('error', errorData);
+
+                if (errorData.message === 'Duplicate follow-up appointment found') {
+                    return { success: false, message: 'You already sent a follow-up request with the same date and time' };
+                } else if (errorData.message === 'Appointment date and time are in the past') {
+                    return { success: false, message: 'Follow-up date is in the past' };
+                } else {
+                    return { success: false, message: 'Unknown error' };
+                }
+            }
+        } catch (error) {
+            console.error('Network error:', error.message);
+            return { success: false, message: 'Network error' };
+        }
+    };
+
+    const handleRequestFollowUp = (doctorUsername, appointmentDate, appointmentTime, appointmentID, appointmentName, appointmentPatient_username) => {
+        setSelectedAppointment({
+            doctorUsername,
+            appointmentDate,
+            appointmentTime,
+            appointmentID,
+            appointmentName,
+            appointmentPatient_username,
+        });
+        setShowFollowUpSection(true);
+    };
+
+    useEffect(() => {
+        if (selectedAppointment !== null) {
+            const followUpSection = document.getElementById('followUpSection');
+            followUpSection.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+        }
+    }, [selectedAppointment]);
+    const handleFollowUpDateTimeChange = (e) => {
+        setFollowUpDateTime(e.target.value);
+    };
+
+    const handleCreateFollowUp = async () => {
+        const { doctorUsername, appointmentTime, appointmentID, appointmentName, appointmentPatient_username } = selectedAppointment;
+        const result = await createFollowUp(doctorUsername, appointmentTime, followUpDateTime, appointmentID, appointmentName, appointmentPatient_username);
+        setSelectedAppointment(null);
+        setShowFollowUpSection(false);
+
+        if (result.success) {
+            window.alert("FollowUp requested Successfully");
+        } else {
+            if (result.message === 'You already sent a follow-up request with the same date and time') {
+                window.alert(result.message);
+            } else if (result.message === 'Follow-up date is in the past') {
+                window.alert(result.message);
+            }
+        }
+
+        setFollowUpDateTime('');
+    };
+
+
+
+
     // Clearing
     const handleClearFilters = () => {
         setAppointments(allAppointments);
         setShowAppointments(allAppointments);
         setStatus('');
         setSelectedDate('');
-    
+        setShowFamilyAppointments(false);
+    };
+
+    const handleCloseFollowUp = () => {
+        setShowFollowUpSection(false);
+        setSelectedAppointment(null);
+        setFollowUpDateTime('');
     };
 
 
@@ -312,48 +431,67 @@ const ViewAppointments = () => {
         <div>
             <h1>Appointments</h1>
             <div className={styles['clear-filter-container']}>
-                <button className={styles['clear-button']} type="button" onClick={handleClearFilters}>
-                    Clear Filters
-                </button>
-                <div className={styles['filter-container']}>
+                <div className={styles['clear-button-container']}>
+                    {showFamilyAppointments && (
+                        <div className={styles['header-container']}>
+                            <div>
+                                <Button className={styles['back-button']} onClick={() => setShowFamilyAppointments(false)}>
+                                    <FontAwesomeIcon icon={faArrowLeft} />
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {!showFamilyAppointments && (
+                        <button className={styles['clear-button']} type="button" onClick={handleClearFilters}>
+                            Clear
+                        </button>
+                    )}
+                </div>
+
+                {!showFamilyAppointments && (
+                    <div className={styles['filter-container']}>
+                        <div className={styles['filter-item']}>
+                            <label>Filter by Status: </label>
+                            <select value={status} onChange={handleStatusChange}>
+                                <option value="">Choose Status</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="completed">Completed</option>
+                                <option value="canceled">Canceled</option>
+                                <option value="reschedule">Reschedule</option>
+                            </select>
+                        </div>
+                        <div className={styles['filter-item']}>
+                            <label>Filter by Date: </label>
+                            <input
+                                id="datePicked"
+                                className={styles['date-container']}
+                                type="date"
+                                name="date"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                )}
+
                 <div className={styles['filter-item']}>
-                        <label>Filter by Status: </label>
-                        <select
-                            value={status}
-                            onChange={handleStatusChange}
-                        >
-                            <option value="">Choose Status</option>
-                            <option value="upcoming">Upcoming</option>
-                            <option value="completed">Completed</option>
-                            <option value="canceled">Canceled</option>
-                            <option value="reschedule">Reschedule</option>
-                        </select>
-                    </div>
-                    <div className={styles['filter-item']}>
-                        <label>Filter by Date: </label>
-                        <input
-                            id="datePicked"
-                            className={styles['date-container']}
-                            type="date"
-                            name="date"
-                            value={selectedDate}
-                            onChange={(e) => setSelectedDate(e.target.value)}
-                            required
-                        />
-                    </div>
-                   
+                    <button className={styles["button-22"]} type="submit" onClick={handleBookedAppointments}>
+                        Family Appointments
+                    </button>
                 </div>
             </div>
-            <br></br>
-            <br></br>
-            <button className={styles["button"]} type="submit" onClick={handleUpcomingAppointments}>Upcoming Appointments</button>
-            <button className={styles["button-2"]} type="submit" onClick={handlePastAppointments}>Past Appointments</button>
-            <button className={styles["button-2"]} type="submit" onClick={handleBookedAppointments}>Booked Appointments</button>
+
+            <br />
+            <br />
+
+            <div className="appointment-table-container">
             {showAppointments &&
                 <table>
                     <thead>
                         <tr>
-                            <th>Patient</th>
+                            {showFamilyAppointments && <th>Patient</th>}
                             <th>Doctor</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -363,19 +501,27 @@ const ViewAppointments = () => {
                     <tbody>
                         {appointments.map((appointment) => (
                             <tr key={appointment._id}>
-                                <td>{appointment.name}</td>
+                                {showFamilyAppointments && <td>{appointment.name}</td>}
                                 <td>{appointment.doctor_username}</td>
                                 <td>{appointment.date}</td>
                                 <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
                                 <td>{formatTime(appointment.time)}</td>
                                 <td>
                                     {appointment.status === 'upcoming' && (
+                                        <button className={styles['button-blue']} onClick={() => handleRescheduleAppointment(appointment._id)}>Reschedule</button>
+                                    )}
+
+                                    {appointment.status === 'upcoming' && (
                                         <button className={styles['button-red']} onClick={() => handleCancelAppointment(appointment._id)}>Cancel</button>
                                     )}
-                                </td>
-                                <td>
-                                    {appointment.status === 'upcoming' && (
-                                        <button className={styles['button-blue']} onClick={() => handleRescheduleAppointment(appointment._id)}>Reschedule</button>
+
+                                    {appointment.status === 'completed' && (
+                                        <button
+                                            className={styles['button-schedule']}
+                                            onClick={() => handleRequestFollowUp(appointment.doctor_username, appointment.date, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
+                                        >
+                                            Schedule Follow Up
+                                        </button>
                                     )}
                                 </td>
                             </tr>
@@ -383,6 +529,45 @@ const ViewAppointments = () => {
                     </tbody>
                 </table>
             }
+            </div>
+            
+
+            {showFollowUpSection && selectedAppointment && (
+                <div id="followUpSection" className={styles['div-schedule']}>
+                    <h2>Follow Up Details</h2>
+                    <div className={styles['follow-up-details']}>
+                        <div className={styles['details-container']}>
+                            <div className={styles['detail-item']}>
+                                <h4>Patient:</h4>
+                                <p>{selectedAppointment.appointmentName}</p>
+                            </div>
+                            <div className={styles['detail-item']}>
+                                <h4>Doctor:</h4>
+                                <p>{selectedAppointment.doctorUsername}</p>
+                            </div>
+                            <div className={styles['detail-item']}>
+                                <h4>Appointment Date:</h4>
+                                <p>{selectedAppointment.appointmentDate}</p>
+                            </div>
+                            <div className={styles['detail-item']}>
+                                <h4>Appointment Time:</h4>
+                                <p>{formatTime(selectedAppointment.appointmentTime)}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Enter Follow Up Date and Time</h2>
+                    <br />
+                    <input
+                        type="datetime-local"
+                        value={followUpDateTime}
+                        onChange={handleFollowUpDateTimeChange}
+                    />
+                    <br />
+                    <br />
+                    <button className={styles['button-blue']} onClick={handleCreateFollowUp}>Submit Follow Up</button>
+                    <button className={styles['button-red']} onClick={() => handleCloseFollowUp()}>Cancel</button>
+                </div>
+            )}
 
         </div>
     );

@@ -57,9 +57,4 @@ td:last-child {
     
 td:nth-last-child(2) {
     border-right: none;
-    border-left: none;
   }
-
-td:nth-last-child(3) {
-    border-right: none;
-}

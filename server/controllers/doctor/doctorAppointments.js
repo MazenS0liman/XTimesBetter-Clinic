@@ -7,13 +7,12 @@ const patientModel = require('../../models/Patient.js')
 
 const { format } = require('date-fns');
 
-const viewAppointments = async (req, res) => {
-    try {
-        const appointments = await appointmentModel.find();
-        res.status(200).json(appointments);
-    } catch (error) {
-        res.status(500).json({ error: "Can't get your appoinntments" });
-    }
+const getAppointments = async (req, res) => {
+    const doctor = await doctorModel.findOne({
+        username: req.body.username,
+    });
+    const appointments = await appointmentModel.find({doctor_username: doctor.username});
+    res.status(200).json(appointments);
 }
 
 const getUpcomingAppointments = asyncHandler(async (req, res) => {
@@ -241,4 +240,4 @@ const cancelAppointment = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Success', canceledAppointment: true, refundAmount: refund });
 });
 
-module.exports = { getUpcomingAppointments, getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, getPastAppointmentsFollowUp, cancelAppointment };
+module.exports = { getAppointments,getUpcomingAppointments, getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, getPastAppointmentsFollowUp, cancelAppointment };

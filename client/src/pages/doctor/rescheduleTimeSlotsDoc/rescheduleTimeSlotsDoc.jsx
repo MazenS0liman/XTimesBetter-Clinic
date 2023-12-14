@@ -3,6 +3,12 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './rescheduleTimeSlotsDoc.module.css';
 
+import { Button, Typography } from '@mui/joy';
+
+// FontAwesome Components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
 const RescheduleAppointment = () => {
     const location = useLocation();
     const appointmentID = location.state.appointmentID;
@@ -206,14 +212,19 @@ const RescheduleAppointment = () => {
 
     return (
         <div>
-            <h1>Reschedule Appointment</h1>
+             <div className={styles['header-container']}>
+                <Button className={styles['back-button']} onClick={() => navigate(-1)}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </Button>
+                <h1>Reschedule Appointment</h1>
+            </div>
+
             <table>
                 <thead>
                     <tr>
                         <th>Day</th>
                         <th>Date</th>
                         <th>Time</th>
-                        <th>Book</th>
                     </tr>
                 </thead>
                 <tbody>
