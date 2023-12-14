@@ -44,6 +44,7 @@ import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/Prescript
 // import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 //salma sprint 3
 import DoctorVideo from '../DVideoCall/DVideoCall';
+import RescheduleTimeSlots from '../rescheduleTimeSlotsDoc/rescheduleTimeSlotsDoc'
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -191,6 +192,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/ChatPage" element={<ChatPage />} />
                     <Route path="/AcceptRejectFollowUpPage" element={<AcceptRejectFollowUp />} />
                     <Route path="/VideoCall" element={<DoctorVideo />} />
+                    <Route path='/rescheduleTimeSlots' element={<RescheduleTimeSlots/>} />
                 </Routes>
             </>
         </div >

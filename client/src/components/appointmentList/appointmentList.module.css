@@ -40,3 +40,21 @@ li,
 ul {
     text-align: justify;
 }
+
+.button-red {
+    background-color: rgb(177, 7, 7);
+    color : white;
+}
+
+.button-blue {
+    background-color: rgb(8, 0, 72);
+    color : white;
+}
+
+td:last-child {
+    border-left: none;
+  }
+    
+td:nth-last-child(2) {
+    border-right: none;
+  }

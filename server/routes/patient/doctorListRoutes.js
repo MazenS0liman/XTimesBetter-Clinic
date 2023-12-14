@@ -11,7 +11,9 @@ const {
     getAppointments,
     filterDoctorBySpecialityandTime,
     selectedDoctorAppointments,
-    getDoctorsWithPackages
+    getDoctorsWithPackages,
+    filterDoctorByUsername,
+    getDoctorByUsername
 } = require('../../controllers/patient/doctorListController.js');
 
 const router = express.Router();
@@ -50,5 +52,8 @@ router.get('/DoctorAppointments', selectedDoctorAppointments)
 
 // Get doctors along with package prices
 router.get('/allDoctors', authenticateToken, getDoctorsWithPackages)
+
+// Get doctor by username
+router.get('/username/:username', getDoctorByUsername)
 
 module.exports = router;    

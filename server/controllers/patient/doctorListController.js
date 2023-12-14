@@ -233,7 +233,6 @@ const filterDoctorBySpecialityandTime = async (req,res) => {
     res.status(200).json(result)
 }
 
-
 // Getting selected doctor details.
 const selectedDoctorDetails = async (req,res) => {
     const selectedDoctor = req.params.selectedDoctor
@@ -263,6 +262,19 @@ const selectedDoctorAppointments = async(req,res) => {
     res.status(200).json(doctor.availableTimeSlots); 
 }
 
+const getDoctorByUsername = async (req, res) => {
+    const username = req.params.username;
+
+    // Find the doctor based on the provided username
+    const doctor = await Doctor.findOne({ username : username });
+
+    if (!doctor) {
+        return res.status(404).json({ error: 'Doctor not found' });
+    }
+
+    res.status(200).json(doctor);
+};
+
 
 
 module.exports = {
@@ -277,4 +289,5 @@ module.exports = {
     selectedDoctorAppointments,
     getAppointments,
     getDoctorsWithPackages,
+    getDoctorByUsername
 }

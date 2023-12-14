@@ -48,6 +48,7 @@ import RequestFollowUp from '../RequestFollowUp/RequestFollowUp';
 //salma sprint 3
 import VideoCall from '../PVideoCall/PVideoCall';
 import Call from '../VideoCalling/VideoCalling';
+import RescheduleTimeSlots from '../rescheduleTimeSlots/rescheduleTimeSlots';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -207,6 +208,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/RequestFollowUp" element={<RequestFollowUp />} />
                     <Route path="/VideoCall" element={<VideoCall/>} />
                     <Route path="/Call" element={<Call/>} />
+                    <Route path="/rescheduleTimeSlots" element={<RescheduleTimeSlots/>} />
                 </Routes>
             </>
         </div>

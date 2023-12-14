@@ -1,5 +1,5 @@
 .appointment-patient-container {
-    max-width: 700px;
+    max-width: 600px;
     margin: auto;
     padding: 20px;
     border: 1px solid #ccc;
@@ -12,14 +12,24 @@
   }
   
   
-  label {
-    display: inline;
-    padding : 30px;
+  .label {
+    display: inline-block;
+    width: 280px;
+    text-align: left;
+    margin-right: 10px;
+    font-weight: bold;
+    font-size: 25px; 
+  }
+
+  select {
+    display: inline-block;  /* or display: block; */
+    /* Add any additional styles you need for the select element */
   }
 
   .h2-book {
     text-align: left;
-    
+    size: 30px;
+    padding-bottom: 15px;
 }
 
 h4{
@@ -45,3 +55,33 @@ h4{
 select{
   display: inline;
 }
+
+/* Add this style to your CSS file */
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Adjust the width and height as needed */
+.back-button .MuiButton-label {
+  width: 50px;
+  height: 50px;
+  margin-left: 50px;
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 90px;
+}
+
+.header-container h1 {
+  padding-right: 600px;
+}
+
+

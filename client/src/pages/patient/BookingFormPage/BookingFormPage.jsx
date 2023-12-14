@@ -5,17 +5,24 @@ import { useLocation, useNavigate } from 'react-router-dom';
 // Axios
 import axios from 'axios';
 
+import { Button, Typography } from '@mui/joy';
+
+// FontAwesome Components
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+
+
 const BookAppointmentForm = () => {
     const location = useLocation();
     const appointment = location.state;
-    console.log("app Info" , appointment)
+    console.log("app Info", appointment)
 
     const patient_username = appointment.currentPatient;
     const doctor_username = appointment.doctorUsername;
     const selectedAppointmentDate = appointment.bookAppointment.date;
     const selectedAppointmentTime = appointment.bookAppointment.dateTimeCombined;
-    
-    const [rowID , setRowID] = useState("")
+
+    const [rowID, setRowID] = useState("")
 
     const [unlinkedfamilyMembers, setUnlinkedFamilyMembers] = useState([]);
     const [selectedOption, setSelectedOption] = useState(null);
@@ -24,7 +31,7 @@ const BookAppointmentForm = () => {
     const [linkedfamilyMembers, setLinkedFamilyMembers] = useState([]);
     //const [selectedOption2, setSelectedOption2] = useState('self');
     const [selectedLinkedFamilyMember, setSelectedLinkedFamilyMember] = useState('')
-    
+
     const [doctors, setDoctors] = useState([]);
     //const [username, setUsername] = useState('');
 
@@ -35,8 +42,8 @@ const BookAppointmentForm = () => {
     const accessToken = sessionStorage.getItem('accessToken');
     const [load, setLoad] = useState(true);
     const [username, setUsername] = useState('');
-    
-    
+
+
     useEffect(() => {
         if (username.length != 0) {
             setLoad(false);
@@ -117,7 +124,24 @@ const BookAppointmentForm = () => {
     const handleLinkedFamilyMemberChange = (event) => {
         setSelectedLinkedFamilyMember(event.target.value);
         getHourlyRateByUsername(event.target.value, appointment.doctorUsername)
-    };  
+    };
+
+    const handleUpdatedFamily = (event) => {
+        setFamilyMember(event.target.value);
+        const selectedFamilyMember = allFamilyMembers.find(member => member._id === event.target.value);
+    
+        // Check the type of the selected family member
+        if (selectedFamilyMember) {
+            if (selectedFamilyMember.type === 'linked') {
+                getHourlyRateByUsername(selectedFamilyMember.username, appointment.doctorUsername);
+            } else if (selectedFamilyMember.type === 'unlinked') {
+                getHourlyRateByNationalID(selectedFamilyMember.national_id, appointment.doctorUsername);
+            }
+        } else {
+            // Handle the case where the selected family member is not found
+            console.error('Selected family member not found in the allFamilyMembers list.');
+        }
+    };
 
     const getHourlyRateByUsername = async (patient_username, doctor_username) => {
         try {
@@ -127,14 +151,14 @@ const BookAppointmentForm = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 // console.log("Hourly Rate Data:", data); // Add this line for debugging
-    
+
                 // Ensure that data.hourlyRate is a valid number
                 const hourlyRate = parseFloat(data);
-    
+
                 if (!isNaN(hourlyRate)) {
                     setHourlyRate(hourlyRate);
                 } else {
@@ -157,14 +181,14 @@ const BookAppointmentForm = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (response.ok) {
                 const data = await response.json();
                 // console.log("Hourly Rate Data:", data); // Add this line for debugging
-    
+
                 // Ensure that data.hourlyRate is a valid number
                 const hourlyRate = parseFloat(data);
-    
+
                 if (!isNaN(hourlyRate)) {
                     setHourlyRate(hourlyRate);
                 } else {
@@ -178,17 +202,17 @@ const BookAppointmentForm = () => {
             console.error('Network error:', error.message);
         }
     };
-    
+
 
     const submitAppointment = async () => {
 
         const appointmentData = {
-            doctor_username: appointment.doctorUsername ,
+            doctor_username: appointment.doctorUsername,
             patient_username: username,
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
             // To be edited to include the patient name , which in this case is the currently logged in client
-            name: username ,
+            name: username,
             price: hourlyRate,
             booked_by: username
         };
@@ -208,22 +232,22 @@ const BookAppointmentForm = () => {
                 const result = await response.json();
                 // console.log("from fE" , result.rowAppointmentID)
                 setRowID(result.rowAppointmentID)
-                
+
                 console.log(result);
                 const stateInfo = {
-                    appointmentDate : appointment.bookAppointment.date ,
-                    doctorName: appointment.doctorName ,
+                    appointmentDate: appointment.bookAppointment.date,
+                    doctorName: appointment.doctorName,
                     doctorUsername: appointment.doctorUsername,
-                    appointmentPrice : hourlyRate ,
-                    appointmentSlot :appointment.bookAppointment.appointment,
-                    patient_username : username ,
-                    rowID : result.rowAppointmentID
-                  }
-                    
+                    appointmentPrice: hourlyRate,
+                    appointmentSlot: appointment.bookAppointment.appointment,
+                    patient_username: username,
+                    rowID: result.rowAppointmentID
+                }
+
                 navigate('/patient/appointmentPayment', { state: stateInfo });
-        
+
                 // console.log("State Info", stateInfo)
-                
+
             } else {
                 const errorData = await response.json();
                 console.error('Error:', errorData.message);
@@ -231,23 +255,23 @@ const BookAppointmentForm = () => {
         } catch (error) {
             console.error('Network error:', error.message);
         }
-    } 
+    }
 
     const submitUnlinkedFamilyMemberAppointment = async () => {
-        const selectedMember = unlinkedfamilyMembers.find((member) => member.national_id === selectedUnlinkedFamilyMember);
+        const selectedMember = unlinkedfamilyMembers.find((member) => member._id === familyMember);
 
-        let fmNationalID , fmName ;
-        if ( selectedMember ) {
+        let fmNationalID, fmName;
+        if (selectedMember) {
             fmNationalID = selectedMember.national_id;
             fmName = selectedMember.name;
         }
-        
+
         const appointmentData = {
-            doctor_username: appointment.doctorUsername ,
+            doctor_username: appointment.doctorUsername,
             patient_username: fmNationalID,
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
-            name:  fmName,
+            name: fmName,
             price: hourlyRate,
             booked_by: username
         };
@@ -264,21 +288,21 @@ const BookAppointmentForm = () => {
 
             if (response.ok) {
                 const result = await response.json();
-                console.log("from fE" , result.rowAppointmentID)
+                console.log("from fE", result.rowAppointmentID)
                 setRowID(result.rowAppointmentID)
                 console.log(result);
                 const stateInfo = {
-                    appointmentDate : appointment.bookAppointment.date ,
-                    doctorName: appointment.doctorName ,
+                    appointmentDate: appointment.bookAppointment.date,
+                    doctorName: appointment.doctorName,
                     doctorUsername: appointment.doctorUsername,
-                    appointmentPrice : hourlyRate ,
-                    appointmentSlot :appointment.bookAppointment.appointment,
-                    patient_username : username ,
-                    rowID : result.rowAppointmentID
-                  }
-                    
+                    appointmentPrice: hourlyRate,
+                    appointmentSlot: appointment.bookAppointment.appointment,
+                    patient_username: username,
+                    rowID: result.rowAppointmentID
+                }
+
                 navigate('/patient/appointmentPayment', { state: stateInfo });
-        
+
                 // console.log("State Info", stateInfo)
             } else {
                 const errorData = await response.json();
@@ -287,23 +311,25 @@ const BookAppointmentForm = () => {
         } catch (error) {
             console.error('Network error:', error.message);
         }
-    } 
+    }
 
     const submitLinkedFamilyMemberAppointment = async () => {
-        const selectedMember = linkedfamilyMembers.find((member) => member.username === selectedLinkedFamilyMember);
+        const selectedMember = linkedfamilyMembers.find((member) => member._id === familyMember);
 
-        let linkedfmUsername , linkedfmName ;
-        if ( selectedMember ) {
+        console.log("submitLLLLinkedFamilyMemberAppointment", selectedMember);
+
+        let linkedfmUsername, linkedfmName;
+        if (selectedMember) {
             linkedfmUsername = selectedMember.username;
             linkedfmName = selectedMember.name;
         }
-        
+
         const appointmentData = {
-            doctor_username: appointment.doctorUsername ,
+            doctor_username: appointment.doctorUsername,
             patient_username: linkedfmUsername,
             date: appointment.bookAppointment.date,
             time: appointment.bookAppointment.appointment,
-            name:  linkedfmName,
+            name: linkedfmName,
             price: hourlyRate,
             booked_by: username
         };
@@ -324,17 +350,17 @@ const BookAppointmentForm = () => {
                 setRowID(result.rowAppointmentID)
                 // console.log(result);
                 const stateInfo = {
-                    appointmentDate : appointment.bookAppointment.date ,
-                    doctorName: appointment.doctorName ,
+                    appointmentDate: appointment.bookAppointment.date,
+                    doctorName: appointment.doctorName,
                     doctorUsername: appointment.doctorUsername,
-                    appointmentPrice : hourlyRate ,
-                    appointmentSlot :appointment.bookAppointment.appointment,
-                    patient_username : username ,
-                    rowID : result.rowAppointmentID
-                  }
-                    
+                    appointmentPrice: hourlyRate,
+                    appointmentSlot: appointment.bookAppointment.appointment,
+                    patient_username: username,
+                    rowID: result.rowAppointmentID
+                }
+
                 navigate('/patient/appointmentPayment', { state: stateInfo });
-        
+
                 console.log("State Info", stateInfo)
             } else {
                 const errorData = await response.json();
@@ -344,105 +370,107 @@ const BookAppointmentForm = () => {
             console.error('Network error:', error.message);
         }
     }
-    
+
     const handleSubmit = () => {
         if (selectedOption === 'self') {
             submitAppointment();
             // console.log('Appointment Details for Self:', appointment);
             // window.alert('Appointment successfully added!');
-        } else  if (selectedOption === 'family'){
-            // Add appointment for a family member
-            submitUnlinkedFamilyMemberAppointment();
-            // console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
-            // window.alert('Appointment successfully added!');
-        }  else {
-            // Add appointment for a linked family member
-            submitLinkedFamilyMemberAppointment();
-            // console.log('Appointment Details for Family Member:', appointment, 'Selected Family Member:', selectedUnlinkedFamilyMember);
-            // window.alert('Appointment successfully added!');
+        } else if (selectedOption === 'family') {
+            // Check if a family member is selected
+            if (familyMember) {
+                // Find the selected family member in the allFamilyMembers list
+                const selectedFamilyMember = allFamilyMembers.find(member => member._id === familyMember);
+    
+                // Check the type of the selected family member
+                if (selectedFamilyMember) {
+                    if (selectedFamilyMember.type === 'linked') {
+                       submitLinkedFamilyMemberAppointment();
+                    } else if (selectedFamilyMember.type === 'unlinked') {
+                        submitUnlinkedFamilyMemberAppointment();
+                    }
+                } else {
+                    // Handle the case where the selected family member is not found
+                    console.error('Selected family member not found in the allFamilyMembers list.');
+                }
+            } else {
+                // Handle the case where no family member is selected
+                console.error('No family member selected.');
+            }
         }
-        /*
-        const stateInfo = {
-            appointmentDate : appointment.bookAppointment.date ,
-            doctorName: appointment.doctorName ,
-            appointmentPrice : hourlyRate ,
-            patient_username : username ,
-            rowID : rowID
-          }
-            
-        navigate('/patient/appointmentPayment', { state: stateInfo });
-
-        console.log("State Info", stateInfo)
-        */
     };
     
+
+    const [familyMember,setFamilyMember]= useState('');
+
+     const allFamilyMembers = [
+        ...unlinkedfamilyMembers.map((member) => ({ ...member, type: 'unlinked' })),
+        ...linkedfamilyMembers.map((member) => ({ ...member, type: 'linked' })),
+    ];
+
+    console.log("fam", allFamilyMembers)
+
     //Authenticate
-      if (load) {
+    if (load) {
         return (<div>Loading</div>)
     }
 
     return (
         <div>
-            <h1>Book Appointment</h1>
+            <div className={styles['header-container']}>
+                <Button className={styles['back-button']} onClick={() => navigate(-1)}>
+                    <FontAwesomeIcon icon={faArrowLeft} />
+                </Button>
+                <h1>Book Appointment</h1>
+            </div>
+
+
             <div className={styles['appointment-patient-container']}>
-            <h2 className={styles['h2-book']}> Doctor Name : </h2>
-                <h4> {appointment.doctorName}</h4>
+                <div className={styles['h2-book']}>
+                    <span className={styles['label']}>Doctor Name:</span>
+                    <h4>{appointment.doctorName}</h4>
+                </div>
 
-                <h2 className={styles['h2-book']}> Appointment Date : </h2>
-                <h4> {appointment.bookAppointment.weekday}, {appointment.bookAppointment.date}</h4>
+                <div className={styles['h2-book']}>
+                    <span className={styles['label']}>Appointment Date :</span>
+                    <h4>{appointment.bookAppointment.weekday}, {appointment.bookAppointment.date}</h4>
+                </div>
 
-                <h2 className={styles['h2-book']}> Appointment Time :  </h2>
-                <h4> {appointment.bookAppointment.combinedTime}</h4>
+                <div className={styles['h2-book']}>
+                    <span className={styles['label']}>Appointment Time :</span>
+                    <h4>{appointment.bookAppointment.combinedTime}</h4>
+                </div>
 
-                <h2 className={styles['h2-book']}>Book For : </h2>
-                <label>
-                <input
-                    type="radio"
-                    name="appointmentOption"
-                    value="self"
-                    checked={selectedOption === 'self'}
-                    onChange={() => {
-                        handlePatientAppointmentChange('self');
-                        //getHourlyRateByUsername(username, appointment.doctorUsername);
-                    }}
-                />
-                    Myself
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        name="appointmentOption"
-                        value="family"
-                        checked={selectedOption === 'family'}
-                        onChange={() => {handlePatientAppointmentChange('family');}}
-                    />
-                    Family Member
-                </label>
-                <label>
-                    <input
-                        type="radio"
-                        name="appointmentOption"
-                        value="linkedfamily"
-                        checked={selectedOption === 'linkedfamily'}
-                        onChange={() => handlePatientAppointmentChange('linkedfamily')}
-                    />
-                    Existing Family Member
-                </label>
+                <div className={styles['h2-book']}>
+                    <h2 >Book For :
+                        
+                        <select style={{ marginLeft: '180px' }}
+                            value={selectedOption}
+                            onChange={(event) => {
+                                handlePatientAppointmentChange(event.target.value);
+                            }}
+                        >
+                            <option value="">Select</option>
+                            <option value="self">Myself</option>
+                            <option value="family">Family Member</option>
+                        </select> </h2>
+                </div>
+
 
                 {selectedOption === 'family' && (
                     <div>
                         <h2 className={styles['h2-book']} >
                             Select Family Member:
-                            <select style={{marginLeft: '20px'}}
-                                value={selectedUnlinkedFamilyMember}
+                            <select style={{ marginLeft: '20px' }}
+                                value={familyMember}
                                 onChange={(event) => {
-                                    handleFamilyMemberChange(event);
+                                    handleUpdatedFamily(event);
                                     //getHourlyRateByUsername(selectedUnlinkedFamilyMember, appointment.doctorUsername);
                                 }}
-                            >   
+                            >
                                 <option value="">Select a family member</option>
-                                {unlinkedfamilyMembers.map((member) => (
-                                    <option key={member._id} value={member.national_id}>
+                                {allFamilyMembers.map((member) => (
+                                    <option key={member._id} value={member._id} >
                                         {member.name}
                                     </option>
                                 ))}
@@ -450,32 +478,12 @@ const BookAppointmentForm = () => {
                         </h2>
                     </div>
                 )}
-                {selectedOption === 'linkedfamily' && (
-                    <div>
-                        <h2 className={styles['h2-book']} >
-                            Select Existing Family Member:
-                            <select style={{marginLeft: '20px'}}
-                                value={selectedLinkedFamilyMember}
-                                onChange={(event) => {
-                                    handleLinkedFamilyMemberChange(event);
-                                    //getHourlyRateByUsername(selectedLinkedFamilyMember, appointment.doctorUsername);
-                                }}
-                            >   
-                                <option value="">Select a family member</option>
-                                {linkedfamilyMembers.map((member) => (
-                                    <option key={member._id} value={member.username}>
-                                        {member.name}
-                                    </option>
-                                    
-                                ))}
-                            
-                            </select>
-                        </h2>
-                    </div>
-                )}
-                
-                <h2 className={styles['h2-book']}> Hourly Rate :  </h2>
-                <h4> {hourlyRate}</h4>
+            
+
+                <div className={styles['h2-book']}>
+                    <span className={styles['label']}>Hourly Rate :</span>
+                    <h4>{hourlyRate} EGP</h4>
+                </div>
                 <br></br>
                 <button className={styles['button-2']} onClick={handleSubmit}>
                     Book

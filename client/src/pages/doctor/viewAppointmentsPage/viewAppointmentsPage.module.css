@@ -1,39 +1,329 @@
+/* viewAppointmentsPage.module.css */
+
 .h1 {
-    text-align: center;
-
+  text-align: center;
 }
+
 .button-container {
-    display: flex;
-    justify-content: space-between;
-    width: 800px; 
-  }
+  display: flex;
+  justify-content: space-between;
+  width: 800px;
+}
 
-  .button {
-    width: 300px; 
-    background-color: #053564;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
+.button {
+  width: 300px;
+  background-color: #053564;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
 
-  .button-2 {
-    width: 300px; /* Adjust as needed */
-    background-color: #053564;
-    color: #FFFFFF;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-    margin-bottom: 20px;
-  }
+.button-22 {
+  width: 300px;
+  background-color: #053564;
+  color: #FFFFFF;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
 
+.button:hover {
+  background-color: #0A63B7;
+}
 
-  .button:hover {
-    background-color: #0A63B7; 
-  }
+.button-2:hover {
+  background-color: #0A63B7;
+}
 
-  .button-2:hover {
-    background-color: #0A63B7; 
-  }
+table {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.medimage {
+  width: 90px;
+  height: auto;
+}
+
+div {
+  width: 100%;
+}
+
+li,
+ul {
+  text-align: justify;
+}
+
+.button-red {
+  background-color: rgb(177, 7, 7);
+  color: white;
+}
+
+.button-blue {
+  background-color: rgb(8, 0, 72);
+  color: white;
+  margin-right: 50px;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
+
+/* Add the following styles to your existing CSS file */
+
+.clear-button-container {
+  display: flex;
+  justify-content: flex-start;
+  padding: 50px;
+  width: 20%;
+}
+
+.clear-button {
+  background-color: #808080; /* Darker grey for the button */
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+  width: 100px;
+}
+
+.clear-button:hover {
+  background-color: #555555; /* Darker color on hover */
+}
+
+.clear-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.clear-button {
+  background-color: #808080;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-left: 100px;
+  width: 140px;
+}
+
+.clear-button:hover {
+  background-color: #555555;
+}
+
+.filter-container {
+  display: flex;
+  text-align: left;
+  padding-left: 100px;
+  padding-top: 30px;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
+
+.filter-item label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.filter-item select {
+  font-size: 16px;
+  padding: 8px;
+}
+
+.filter-item input[type="date"] {
+  font-size: 16px;
+  padding: 8px;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-button .MuiButton-label {
+  width: 50px;
+  height: 50px;
+  margin-left: 10px; /* Adjust this margin as needed */
+}
+
+.header-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-left: 90px;
+}
+
+.div-schedule {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 800px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ... (other existing styles) ... */
+
+.clear-filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.clear-button {
+  background-color: #808080;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-left: 100px;
+  width: 140px;
+}
+
+.clear-button:hover {
+  background-color: #555555;
+}
+
+.filter-container {
+  display: flex;
+  text-align: left;
+  padding-left: 100px;
+  padding-top: 30px;
+}
+
+.filter-item {
+  margin-right: 20px;
+}
+
+.filter-item label {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.filter-item select {
+  font-size: 16px;
+  padding: 8px;
+}
+
+.filter-item input[type="date"] {
+  font-size: 16px;
+  padding: 8px;
+}
+
+.follow-up-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.details-container {
+  width: 100%;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+}
+
+.detail-item h4 {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.detail-item p {
+  margin: 0;
+}
+
+.div-schedule {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  width: 800px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.button-schedule {
+  background-color: #047021;
+  color: #ffffff;
+}
+
+.appointment-table-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.appointment-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.appointment-table-container th, .appointment-table-container td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.appointment-table-container th {
+  background-color: #011852;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+.appointment-table-container tr {
+  transition: background-color 0.1s;
+  text-align: center;
+  cursor: grabbing;
+}
+
+.appointment-table-container tr:hover {
+  background-color: #efefef;
+}
+
+.appointment-table-container .button-blue {
+  background-color: rgb(8, 0, 72);
+  color: white;
+  margin-right: 10px;
+}
+
+.appointment-table-container .button-red {
+  background-color: rgb(177, 7, 7);
+  color: white;
+}
+
+.appointment-table-container .button-schedule {
+  background-color: #047021;
+  color: #ffffff;
+}
+
+.appointment-table-container td:last-child {
+  border-left: none;
+}
+
+.appointment-table-container td:nth-last-child(2) {
+  border-right: none;
+}
+
+/* Add new styles for the updated follow-up section */

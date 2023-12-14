@@ -57,7 +57,7 @@ const ScheduleFollowUp = () => {
     //Authenticate part
 
     const getPastAppointments = async () => {
-        const response = await fetch(`http://localhost:5000/doctor/appointments/pastAppointments`, {
+        const response = await fetch(`http://localhost:5000/doctor/appointments/getPastAppointmentsFollowUp`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -73,12 +73,12 @@ const ScheduleFollowUp = () => {
         }
     };
 
-    const createFollowUp = async (patientUsername, appointmentTime, followUpTime) => {
+    const createFollowUp = async (appointment, followUpDateTime, followUpDate) => {
         const followUpData = {
-            doctor_username: username,
-            patient_username: patientUsername,
-            appointmentDateTime: appointmentTime,
-            followUpDateTime: followUpTime,
+            appointment : appointment,
+            followUpDateTime: followUpDateTime,
+            followUpDate : followUpDate,
+            appointment_ID: appointment._id, 
         };
 
         try {
@@ -112,6 +112,51 @@ const ScheduleFollowUp = () => {
         }
     };
 
+    const fetchPatientDetails = async (patientUsername) => {
+        try {
+            const response = await fetch(`http://localhost:5000/patient/appointment/getPatientByUsername?patient_username=${patientUsername}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+            });
+    
+            if (response.status === 200) {
+                const data = await response.json();
+                return data.name; // Assuming the name field is present in the response
+            } else {
+                console.error('Error fetching patient details');
+                return ''; // Return an empty string in case of an error
+            }
+        } catch (error) {
+            console.error('Error fetching patient details:', error.message);
+            return ''; // Return an empty string in case of an error
+        }
+    };
+    
+    const fetchPatientDetailsForAppointments = async () => {
+        try {
+            const appointmentsWithPatientName = await Promise.all(
+                appointments.map(async (appointment) => {
+                    const patientName = await fetchPatientDetails(appointment.patient_username);
+                    return {
+                        ...appointment,
+                        patientName,
+                    };
+                })
+            );
+    
+            setAppointments(appointmentsWithPatientName);
+            //console.log("apps with names", appointments);
+        } catch (error) {
+            console.error('Error fetching patient details for appointments:', error.message);
+        }
+    };
+    
+
+
+    /*
     // function to get past appointments
     const getScheduledFollowUp = async (currentUser) => {
         const response = await fetch(`http://localhost:5000/patient/appointment/FollowUpRequested`, {
@@ -128,17 +173,20 @@ const ScheduleFollowUp = () => {
         } else {
             throw new Error('Error filtering appointments by status');
         }
-    };
-
-
+    };*/
+    
+    
 
     useEffect(() => {
         getPastAppointments();
+        fetchPatientDetailsForAppointments();
     }, []);
 
-    const handleScheduleFollowUp = (patientUsername, appointmentTime) => {
-        setSelectedAppointment({ patientUsername, appointmentTime });
+    const handleScheduleFollowUp = (appointment) => {
+        setSelectedAppointment({appointment});
         setShowFollowUpSection(true);
+        const followUpSection = document.getElementById('followUpSection');
+        followUpSection.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
     };
 
     const handleFollowUpDateTimeChange = (e) => {
@@ -146,8 +194,15 @@ const ScheduleFollowUp = () => {
     };
 
     const handleCreateFollowUp = async () => {
-        const { patientUsername, appointmentTime } = selectedAppointment;
-        const result = await createFollowUp(patientUsername, appointmentTime, followUpDateTime);
+        const { appointment} = selectedAppointment;
+        const follow = new Date(followUpDateTime); // Assuming appointment is a valid DateTime string
+        const utcDateTime = new Date(followUpDateTime).toISOString();
+        const followUpDate = follow.toLocaleDateString('en-GB', { 
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+      });
+        const result = await createFollowUp(appointment, utcDateTime, followUpDate);
         setSelectedAppointment(null);
         setShowFollowUpSection(false);
 
@@ -160,8 +215,8 @@ const ScheduleFollowUp = () => {
                 window.alert(result.message);
             }
         }
-
         setFollowUpDateTime('');
+        await getPastAppointments();
     };
 
     const getScheduledAppointments = async (currentUser) => {
@@ -181,12 +236,44 @@ const ScheduleFollowUp = () => {
             throw new Error('Error filtering appointments by status');
         }
     };
+
+    
     const handleShowFollowUpBtn = async (event) => {
         const currentUser = username
         console.log(username)
         await getScheduledAppointments(username);
         setShowAppointments(true);
     };
+
+    function formatTimeRange(dateTimeString) {
+        const startDate = new Date(dateTimeString);
+    
+        // Extract start time in local time zone
+        const startTime = startDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    
+        // Calculate end date (60 minutes later)
+        const endDate = new Date(startDate.getTime() + 60 * 60 * 1000);
+    
+        // Extract end time in local time zone
+        const endTime = endDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    
+        // Format the time range
+        const formattedTimeRange = `${startTime} - ${endTime}`;
+    
+        return formattedTimeRange;
+    }
+    
+    
+    // Helper function to pad zero for single-digit hours and minutes
+    function padZero(number) {
+        return number < 10 ? `0${number}` : `${number}`;
+    }
+    
+    // Example usage:
+    const dateTimeString = "2023-02-02T06:00:00.000Z";
+    const formattedTimeRange = formatTimeRange(dateTimeString);
+    console.log(formattedTimeRange);
+    
 
     //Authenticate
     if (load) {
@@ -216,13 +303,13 @@ const ScheduleFollowUp = () => {
                 <tbody>
                     {appointments.map((appointment) => (
                         <tr key={appointment._id}>
-                            <td>{appointment.patient_username}</td>
+                            <td>{appointment.name}</td>
                             <td>{appointment.date}</td>
                             <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
-                            <td>{appointment.time}</td>
+                            <td>{formatTimeRange(appointment.time)}</td>
                             <td>
                                 <button className={styles['button-schedule']}
-                                    onClick={() => handleScheduleFollowUp(appointment.patient_username, appointment.time)}
+                                    onClick={() => handleScheduleFollowUp(appointment)}
                                 >
                                     Schedule a Follow Up
                                 </button>
@@ -232,40 +319,40 @@ const ScheduleFollowUp = () => {
 
                 </tbody>
             </table>
-            <br />
-            <br />
-            {showTable &&
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Doctor</th>
-                            <th>Patient</th>
-                            <th>Follow Up Date</th>
-                            <th>Appointment Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {scheduledFollowUps &&
-                            scheduledFollowUps.map((followUp) => (
-                                <tr key={followUp._id}>
-                                    <td>{followUp.doctor_username}</td>
-                                    <td>{followUp.patient_username}</td>
-                                    <td>{followUp.followUpDateTime}</td>
-                                    <td>{followUp.appointmentDateTime}</td>
-                                    <td>{followUp.status}</td>
-                                </tr>
-                            ))}
-                    </tbody>
-                </table>
-            }
+            <br/>
+            <br/>
+            {showTable && 
+                            <table>
+                            <thead>
+                            <tr>
+                                <th>Doctor</th>
+                                <th>Patient</th>
+                                <th>Follow Up Date</th>
+                                <th>Follow Up Time</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {scheduledFollowUps &&
+                                    scheduledFollowUps.map((followUp) => (
+                                        <tr key={followUp._id}>
+                                            <td>{followUp.doctor_username}</td>
+                                            <td>{followUp.name}</td>
+                                            <td>{followUp.date}</td>
+                                            <td>{formatTimeRange(followUp.time)}</td>
+                                            <td>{followUp.status}</td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                        }
             {showFollowUpSection && (
-                <div className={styles['div-schedule']}>
+                <div id = "followUpSection" className={styles['div-schedule']}>
                     <h2>Follow Up Details</h2>
                     <h4 >Patient : </h4>
-                    <p> {selectedAppointment.patientUsername}</p>
+                    <p> {selectedAppointment.appointment.patient_username}</p>
                     <h4>Appointment Time:</h4>
-                    <p> {selectedAppointment.appointmentTime}</p>
+                    <p> {formatTimeRange(selectedAppointment.appointment.time)}</p>
                     <h2>Enter Follow Up Date and Time</h2>
                     <br />
                     <input
