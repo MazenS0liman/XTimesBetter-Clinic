@@ -224,7 +224,6 @@ const handleFilterChange = (event) => {
       >
         Next
       </button>
-    {/* </div> */}
       &nbsp; Page {currentPage}
       &nbsp;
       &nbsp;
