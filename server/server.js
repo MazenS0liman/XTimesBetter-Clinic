@@ -176,6 +176,7 @@ app.use('/doctor/updatePrescriptions', require('./routes/doctor/updatePrescripti
 //sprint3 ~Nour
 app.use('/doctor/newPrescription', require('./routes/doctor/newPrescriptionRoute'));
 app.use('/doctor/chat', require('./routes/doctor/chatRoute.js'));
+app.use('/doctor/acceptRejectFollowUp', require('./routes/doctor/acceptRejectFollowUpRoute'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -218,3 +219,8 @@ app.use('/patient/appointmentPaymentWallet', require('./routes/patient/payments/
 app.use('/patient/viewMedicalHistory', require('./routes/patient/medicalHistoryRoute'));
 app.use('/patient/viewHealthRecords', require('./routes/patient/viewHealthRecordsRoute'));
 app.use('/patient/chat', require('./routes/patient/chatRoute.js'));
+app.use('/patient/requestFollowUp', require('./routes/patient/requestFollowUpRoute'));
+
+
+
+

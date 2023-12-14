@@ -13,7 +13,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 // User Defined Hooks
-import { useAuth, useUsername } from '../../../components/hooks/useAuth'; 
+import { useAuth, useUsername } from '../../../components/hooks/useAuth';
 
 // Side Bar
 import { ResponsiveSideBar } from '../../../components/responsiveSideBar/responsiveSideBar';
@@ -36,60 +36,61 @@ import Appointments from '../ViewAppointmentsPage/ViewAppointmentsPage'
 import BookAppointment from '../BookingFormPage/BookingFormPage'
 import AppointmentPayment from '../payments/appointmentPaymentPage'
 import PackagePayment from '../payments/packagePaymentPage'
-import {SuccessPayment, SuccessPackagePayment} from '../payments/successPaymentPage'
+import { SuccessPayment, SuccessPackagePayment } from '../payments/successPaymentPage'
 import UnsuccessPayment from '../payments/unsuccessfulPaymentPage'
 import ViewMedicalHistory from '../viewMedicalHistory/viewMedicalHistory';
 import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
 import { ChatPage } from '../ChatPage/chatPage'; 
+import RequestFollowUp from '../RequestFollowUp/RequestFollowUp';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 
 export const ViewPatientMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
-    const navigate = useNavigate();    
+    const navigate = useNavigate();
 
-  //Authenticate part
-  const accessToken = sessionStorage.getItem('accessToken');
-  const [load, setLoad] = useState(true);
-  const [username, setUsername] = useState('');
-  
-  console.log(accessToken);
-  useEffect(() => {
-      if (username.length != 0) {
-          setLoad(false);
-      }
-  }, [username]);
+    //Authenticate part
+    const accessToken = sessionStorage.getItem('accessToken');
+    const [load, setLoad] = useState(true);
+    const [username, setUsername] = useState('');
 
-  if (accessToken === undefined || accessToken === null || accessToken ===  "Bearer  " || accessToken === "" || accessToken === " " || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
+    console.log(accessToken);
+    useEffect(() => {
+        if (username.length != 0) {
+            setLoad(false);
+        }
+    }, [username]);
 
-  async function checkAuthentication() {
-      await axios({
-          method: 'get',
-          url: 'http://localhost:5000/authentication/checkAccessToken',
-          headers: {
-              "Content-Type": "application/json",
-              'Authorization': accessToken,
-              'User-type': 'patient',
-          },
-      })
-          .then((response) => {
-              console.log(response);
-              setUsername(response.data.username);
-              //setLoad(false);
-          })
-          .catch((error) => {
-              //setLoad(false);
-              navigate('/login');
+    if (accessToken === undefined || accessToken === null || accessToken === "Bearer  " || accessToken === "" || accessToken === " " || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
 
-          });
-  }
+    async function checkAuthentication() {
+        await axios({
+            method: 'get',
+            url: 'http://localhost:5000/authentication/checkAccessToken',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': accessToken,
+                'User-type': 'patient',
+            },
+        })
+            .then((response) => {
+                console.log(response);
+                setUsername(response.data.username);
+                //setLoad(false);
+            })
+            .catch((error) => {
+                //setLoad(false);
+                navigate('/login');
 
-  const xTest = checkAuthentication();
-//Authenticate part
+            });
+    }
 
-    
+    const xTest = checkAuthentication();
+    //Authenticate part
+
+
     const list = [
         {
             url: "/patient/ViewAllDrs",
@@ -151,6 +152,10 @@ export const ViewPatientMainPage = () => {
             url: "/patient/viewHealthRecords",
             pageName: "Health Records",
         },
+        {
+            url: "/patient/RequestFollowUp",
+            pageName: "Req FollowUp",
+        }
     ];
 
     if (load) {
@@ -159,7 +164,7 @@ export const ViewPatientMainPage = () => {
     return (
         <div className={styles['main-div']}>
             {/* <Navbar name="Patient" list={list} /> */}
-            <ResponsiveSideBar array={list}/>
+            <ResponsiveSideBar array={list} />
             <>
                 <Routes>
                     <Route path='/ViewAllDrs' element={<ViewAllDrs />} />
@@ -173,11 +178,11 @@ export const ViewPatientMainPage = () => {
                     <Route path="/profile" element={<PatientProfile />} />
                     <Route path="/LinkPatientWithAnotherByEmail" element={<LinkPatientWithAnotherByEmail />} />
                     <Route path="/LinkPatientWithAnotherByMobile" element={<LinkPatientWithAnotherByMobile />} />
-                    <Route path='/ViewPackagesDetails' element={<PackagesDetails/>} />
-                    <Route path='/ViewSubscribedPackages' element={<SubsDetails/>} />
+                    <Route path='/ViewPackagesDetails' element={<PackagesDetails />} />
+                    <Route path='/ViewSubscribedPackages' element={<SubsDetails />} />
                     <Route path="/viewWalletNumber" element={<ViewPatientWalletPage />} />
-                    <Route path="/ViewAppointments" element={<Appointments/>} />
-                    <Route path="/BookAppointment" element={<BookAppointment/>} /> 
+                    <Route path="/ViewAppointments" element={<Appointments />} />
+                    <Route path="/BookAppointment" element={<BookAppointment />} />
                     <Route path="/appointmentPayment" element={<AppointmentPayment />} />
                     <Route path="/packagePayment" element={<PackagePayment />} />
                     <Route path="/successPayment" element={<SuccessPayment />} />
@@ -186,6 +191,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/viewMedicalHistory" element={<ViewMedicalHistory />} />
                     <Route path="/viewHealthRecords" element={<ViewHealthRecords />} />
                     <Route path="/ChatPage" element={<ChatPage />} />
+                    <Route path="/RequestFollowUp" element={<RequestFollowUp />} />
                 </Routes>
             </>
         </div>

@@ -1,0 +1,76 @@
+/* AddFamilyMember.module.css */
+
+.ADDdiv-schedule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    /* Use 100% of the viewport height */
+}
+
+.ADDbutton-schedule {
+    background-color: #052a51;
+    color: #ffffff;
+}
+
+.ADDform {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+.ADDform div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    /* Align items vertically in the middle */
+    justify-content: space-between;
+    /* Adjust as needed */
+    height: 50px;
+}
+
+.ADDlabel {
+    margin-bottom: 5px;
+    margin-right: 20px;
+    width: 150px;
+}
+
+.ADDinput,
+.ADDselect {
+    margin-bottom: 10px;
+    padding: 5px;
+    /* Adjust the padding to decrease the height */
+    background-color: #fff;
+    /* Set background color to match your form background */
+    border: 1px solid #ccc;
+    /* Add border to all sides */
+    width: 300px;
+    height: 30px;
+}
+
+.ADDbutton {
+    background-color: #052a51;
+    color: #ffffff;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    padding: 5px 10px;
+    border: none;
+    /* Remove border if any */
+    outline: none;
+    /* Remove outline on focus */
+    transition: background-color 0.3s ease;
+    /* Add transition effect */
+    width: 100px;
+    /* Decrease width */
+    margin: 0 auto;
+    /* Center horizontally */
+}
+
+.ADDbutton:hover {
+    background-color: #03467d;
+}

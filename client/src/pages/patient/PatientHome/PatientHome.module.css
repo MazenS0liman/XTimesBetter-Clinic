@@ -1,0 +1,131 @@
+.Nayeradiv-schedule {
+
+    padding: 10px;
+    margin: 10px;
+    width: 800px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.Nayerabutton-schedule {
+    background-color: #052a51;
+    color: #ffffff
+}
+
+.Nayerafamily-view-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* or 'row' depending on your desired layout */
+    align-items: center;
+    /* or 'flex-start' / 'flex-end' */
+    top: 80px;
+    /* adjust if needed */
+    left: 0;
+    right: 0;
+    /* adjust if needed */
+
+    /* Size */
+    width: 70%;
+    /* adjust width as needed */
+    height: auto;
+
+    /* Margin and Padding */
+    margin: 70px;
+    /* adjust as needed */
+    padding: 0px;
+    left: 50%;
+    transform: translateX(15%);
+}
+
+.Nayeraform {
+    display: flex;
+    flex-direction: column;
+}
+
+.Nayeralabel {
+    margin-bottom: 5px;
+}
+
+.Nayerainput,
+.Nayeraselect,
+.Nayerabutton {
+    margin-bottom: 10px;
+    padding: 8px;
+    background-color: #fff;
+    /* Set background color to match your form background */
+    border: 1px solid #ccc;
+    /* Add border to all sides */
+}
+
+.Nayerabutton {
+    background-color: #052a51;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.Nayerabutton:hover {
+    background-color: #03467d;
+}
+
+.Nayeraadd-family-member-container {
+    /* Position */
+    position: relative;
+
+    /* or 'absolute' depending on your layout */
+    top: 0;
+    /* adjust if needed */
+    left: 0;
+    /* adjust if needed */
+
+    /* Size */
+    width: 100%;
+    /* adjust width as needed */
+    height: auto;
+
+    /* Margin and Padding */
+    margin: 10px;
+    /* adjust as needed */
+    padding: 10px;
+    /* adjust as needed */
+
+    /* Background and Border */
+    /* background-color: #f5f5f5;
+    border: 1px solid #ddd; */
+
+    /* Shadow (optional) */
+    /* box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); */
+}
+
+.LinkByEmail-container,
+.LinkByMobile-container {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+    max-width: 800px;
+    /* Use max-width instead of width to allow responsiveness */
+    width: 100%;
+    /* Set width to 100% to ensure responsiveness */
+    position: relative;
+}
+
+.Nayerabutton-container {
+
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    /* Adjust the gap between buttons */
+
+}
+
+.NayeraTablecontainer {
+    box-sizing: border-box;
+    padding: 10px;
+    margin: 10px;
+    max-width: 800px;
+    /* Use max-width instead of width to allow responsiveness */
+    width: 100%;
+    /* Set width to 100% to ensure responsiveness */
+    position: relative;
+}

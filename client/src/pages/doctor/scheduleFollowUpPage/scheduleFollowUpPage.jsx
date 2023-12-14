@@ -23,8 +23,8 @@ const ScheduleFollowUp = () => {
     const accessToken = sessionStorage.getItem('accessToken');
     const [load, setLoad] = useState(true);
     const [username, setUsername] = useState('');
-    
-    
+
+
     useEffect(() => {
         if (username.length != 0) {
             setLoad(false);
@@ -80,7 +80,7 @@ const ScheduleFollowUp = () => {
             appointmentDateTime: appointmentTime,
             followUpDateTime: followUpTime,
         };
-    
+
         try {
             const response = await fetch('http://localhost:5000/doctor/appointments/scheduleFollowUp', {
                 method: 'POST',
@@ -89,7 +89,7 @@ const ScheduleFollowUp = () => {
                 },
                 body: JSON.stringify(followUpData),
             });
-    
+
             if (response.ok) {
                 const result = await response.json();
                 console.log('Follow-up created:', result);
@@ -129,8 +129,8 @@ const ScheduleFollowUp = () => {
             throw new Error('Error filtering appointments by status');
         }
     };
-    
-    
+
+
 
     useEffect(() => {
         getPastAppointments();
@@ -150,7 +150,7 @@ const ScheduleFollowUp = () => {
         const result = await createFollowUp(patientUsername, appointmentTime, followUpDateTime);
         setSelectedAppointment(null);
         setShowFollowUpSection(false);
-    
+
         if (result.success) {
             window.alert("Appointment Successfully added");
         } else {
@@ -160,10 +160,10 @@ const ScheduleFollowUp = () => {
                 window.alert(result.message);
             }
         }
-    
+
         setFollowUpDateTime('');
     };
-    
+
     const getScheduledAppointments = async (currentUser) => {
         const response = await fetch(`http://localhost:5000/doctor/appointments/FollowUpRequested`, {
             method: 'GET',
@@ -191,18 +191,18 @@ const ScheduleFollowUp = () => {
     //Authenticate
     if (load) {
         return (<div>Loading</div>)
-    }    
+    }
 
     // Render the component
     return (
         <div>
             <h2>Schedule Follow Up Appointment</h2>
-            <button className={styles['button-schedule']}  onClick={() => {
-                                handleShowFollowUpBtn();
-                                setShowTable(!showTable);
-                            }}> My Scheduled Follow Ups</button>
-            <br/>
-            <br/>
+            <button className={styles['button-schedule']} onClick={() => {
+                handleShowFollowUpBtn();
+                setShowTable(!showTable);
+            }}> My Scheduled Follow Ups</button>
+            <br />
+            <br />
             <table>
                 <thead>
                     <tr>
@@ -229,36 +229,36 @@ const ScheduleFollowUp = () => {
                             </td>
                         </tr>
                     ))}
-                    
+
                 </tbody>
             </table>
-            <br/>
-            <br/>
-            {showTable && 
-                            <table>
-                            <thead>
-                            <tr>
-                                <th>Doctor</th>
-                                <th>Patient</th>
-                                <th>Follow Up Date</th>
-                                <th>Appointment Date</th>
-                                <th>Status</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                {scheduledFollowUps &&
-                                    scheduledFollowUps.map((followUp) => (
-                                        <tr key={followUp._id}>
-                                            <td>{followUp.doctor_username}</td>
-                                            <td>{followUp.patient_username}</td>
-                                            <td>{followUp.followUpDateTime}</td>
-                                            <td>{followUp.appointmentDateTime}</td>
-                                            <td>{followUp.status}</td>
-                                        </tr>
-                                    ))}
-                            </tbody>
-                        </table>
-                        }
+            <br />
+            <br />
+            {showTable &&
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Doctor</th>
+                            <th>Patient</th>
+                            <th>Follow Up Date</th>
+                            <th>Appointment Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {scheduledFollowUps &&
+                            scheduledFollowUps.map((followUp) => (
+                                <tr key={followUp._id}>
+                                    <td>{followUp.doctor_username}</td>
+                                    <td>{followUp.patient_username}</td>
+                                    <td>{followUp.followUpDateTime}</td>
+                                    <td>{followUp.appointmentDateTime}</td>
+                                    <td>{followUp.status}</td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
+            }
             {showFollowUpSection && (
                 <div className={styles['div-schedule']}>
                     <h2>Follow Up Details</h2>
@@ -267,14 +267,14 @@ const ScheduleFollowUp = () => {
                     <h4>Appointment Time:</h4>
                     <p> {selectedAppointment.appointmentTime}</p>
                     <h2>Enter Follow Up Date and Time</h2>
-                    <br/>
+                    <br />
                     <input
                         type="datetime-local"
                         value={followUpDateTime}
                         onChange={handleFollowUpDateTimeChange}
                     />
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
                     <button className={styles['button-schedule']} onClick={handleCreateFollowUp}>Submit Follow Up</button>
                 </div>
             )}

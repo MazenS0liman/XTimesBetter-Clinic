@@ -33,6 +33,7 @@ import TimeSlots from '../timeSlotsPage/timeSlots';
 import UploadHealthRecords from '../uploadHealthRecordsPage/uploadHealthRecords';
 import ViewPHealthRecords from '../viewHealthPage/viewHealthPage';
 import { ChatPage } from '../ChatPage/chatPage';
+import AcceptRejectFollowUp from '../AcceptRejectFollowUpPage/AcceptRejectFollowUpPage';
 
 //Sprint3
 import PatientVisitLog from '../newPrescriptionPages/patientVisitLogPage';
@@ -145,6 +146,10 @@ export const ViewDoctorMainPage = () => {
             url: "/doctor/PrescriptionDoctorTable",
             pageName: "Prescript pg",
         },
+        {
+            url: "/doctor/AcceptRejectFollowUpPage",
+            pageName: "Acc Rej FollowUp",
+        }
     ];
 
     if (load) {
@@ -177,6 +182,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
 
                     <Route path="/ChatPage" element={<ChatPage />} />
+                    <Route path="/AcceptRejectFollowUpPage" element={<AcceptRejectFollowUp />} />
                 </Routes>
             </>
         </div >
