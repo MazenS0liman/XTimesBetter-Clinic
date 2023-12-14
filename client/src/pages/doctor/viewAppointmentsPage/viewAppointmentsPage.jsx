@@ -286,7 +286,7 @@ const ViewAppointments = () => {
         console.log('FollowUp Data:', followUpData);
 
         try {
-            const response = await fetch('http://localhost:5000/patient/requestFollowUp/requestFollowUp', {
+            const response = await fetch('http://localhost:5000/doctor/appointments/FollowUpRequested', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -427,7 +427,6 @@ const ViewAppointments = () => {
                         <thead>
                             <tr>
                                 <th>Patient</th>
-                                <th>Doctor</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Time</th>
@@ -437,7 +436,6 @@ const ViewAppointments = () => {
                             {appointments.map((appointment) => (
                                 <tr key={appointment._id}>
                                     <td>{appointment.name}</td>
-                                    <td>{appointment.doctor_username}</td>
                                     <td>{appointment.date}</td>
                                     <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
                                     <td>{formatTime(appointment.time)}</td>
