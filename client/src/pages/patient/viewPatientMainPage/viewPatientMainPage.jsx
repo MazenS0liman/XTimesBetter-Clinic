@@ -44,6 +44,11 @@ import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
 import { ChatPage } from '../ChatPage/chatPage'; 
 import RequestFollowUp from '../RequestFollowUp/RequestFollowUp';
 
+
+//salma sprint 3
+import VideoCall from '../PVideoCall/PVideoCall';
+import Call from '../VideoCalling/VideoCalling';
+
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 
@@ -155,7 +160,15 @@ export const ViewPatientMainPage = () => {
         {
             url: "/patient/RequestFollowUp",
             pageName: "Req FollowUp",
-        }
+        },
+        {
+            url: "/patient/VideoCall",
+            pageName: "Start Video Call",
+        },
+        // {
+        //     url: "/patient/Call",
+        //     pageName: "Call",
+        // }
     ];
 
     if (load) {
@@ -192,6 +205,8 @@ export const ViewPatientMainPage = () => {
                     <Route path="/viewHealthRecords" element={<ViewHealthRecords />} />
                     <Route path="/ChatPage" element={<ChatPage />} />
                     <Route path="/RequestFollowUp" element={<RequestFollowUp />} />
+                    <Route path="/VideoCall" element={<VideoCall/>} />
+                    <Route path="/Call" element={<Call/>} />
                 </Routes>
             </>
         </div>

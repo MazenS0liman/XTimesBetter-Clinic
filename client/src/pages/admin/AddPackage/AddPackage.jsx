@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+//import './AddPackage.module.css';
+
 
 function AddPackage() {
   // State to store input values
@@ -76,7 +78,7 @@ function AddPackage() {
   };
 
   return (
-    <div>
+    <div className="add-package-container">
       <input
         type="text"
         name="text1"
@@ -113,7 +115,7 @@ function AddPackage() {
         placeholder="Family Discount"
       />
       <button onClick={handleButtonClick}>Submit</button>
-      {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     </div>
   );
 }

@@ -29,18 +29,23 @@
     "axios": "^1.5.1",
     "classnames": "^2.3.2",
     "cors": "^2.8.5",
+    "crypto-random-string": "^5.0.0",
     "dayjs": "^1.11.10",
     "express": "^4.18.2",
     "jspdf": "^2.5.1",
     "react": "^17.0.0 || ^18.0.0",
+    "react-copy-to-clipboard": "^5.1.0",
     "react-credit-cards-2": "^1.0.1",
-    "react-dom": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^18.2.0",
     "react-player": "^2.13.0",
     "react-router-dom": "^6.16.0",
     "react-tooltip": "^5.25.0",
     "reactstrap": "^9.2.0",
+    "simple-peer": "^9.11.1",
+    "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
     "styled-components": "^5.3.11",
+    "toggle-selection": "^1.0.6",
     "tooltip": "^1.6.1",
     "vite-plugin-svgr": "^3.2.0"
   },
@@ -53,11 +58,11 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
     "http-proxy-middleware": "^2.0.6",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-node-polyfills": "^0.17.0"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "react": "^17.0.0 || ^18.0.0"
   },
   "main": "vite.config.js",
   "author": "",

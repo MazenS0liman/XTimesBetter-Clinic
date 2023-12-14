@@ -19,9 +19,11 @@ import { useAuth } from '../../../components/hooks/useAuth';
 import { ResponsiveSideBar } from '../../../components/responsiveSideBar/responsiveSideBar';
 
 // Pages
-import  AddPackage  from '../AddPackage/AddPackage';
+//import  AddPackage  from '../AddPackage/AddPackage';
 import  UpdatePackage  from '../UpdatePackage/UpdatePackage';
 import  DeletePackage  from '../DeletePackage/DeletePackage';
+import AdjustPackage from '../AdjustPackage/AdjustPackage';
+
 import AddAdmin from '../AddAdminPage/addadmin';
 import RemoveAdmin from '../RemoveAdminPage/removeadmin';
 import RemovePatient from '../RemovePatient/removepatient';
@@ -89,17 +91,17 @@ export const ViewAdminMainPage = () => {
             pageName: "Doctors",
         },
         {
-            url: "/admin/AddPackage",
-            pageName: "Add Package",
+            url: "/admin/AdjustPackage",
+            pageName: "Adjust Package",
         },
-        {
-            url: "/admin/UpdatePackage",
-            pageName: "Update Package",
-        },
-        {
-            url: "/admin/DeletePackage",
-            pageName: "Delete Package",
-        },
+        // {
+        //     url: "/admin/UpdatePackage",
+        //     pageName: "Update Package",
+        // },
+        // {
+        //     url: "/admin/DeletePackage",
+        //     pageName: "Delete Package",
+        // },
         {
             url: "/admin/requestedDoctorsInfoPage",
             pageName: "View Requested Doctors",
@@ -120,9 +122,10 @@ export const ViewAdminMainPage = () => {
             <Route path="/removeadmin" element={<RemoveAdmin/>}/>
             <Route path="/removepatient" element={<RemovePatient/>}/>
             <Route path="/removedoctor" element={<RemoveDoctor/>}/>
-            <Route path='/AddPackage' element={<AddPackage />} />
+            <Route path="/AdjustPackage" element={<AdjustPackage/>}/>
+            {/* <Route path='/AddPackage' element={<AddPackage />} />
             <Route path='/UpdatePackage' element={<UpdatePackage />}/> 
-            <Route path='/DeletePackage' element={<DeletePackage />} /> 
+            <Route path='/DeletePackage' element={<DeletePackage />} />  */}
             <Route path = "/requestedDoctorsInfoPage" element = {<ViewRequestedDoctorsInfo/>} />
             </Routes>
             </>

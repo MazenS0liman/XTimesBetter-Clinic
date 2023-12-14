@@ -9,31 +9,23 @@ import './ViewPackagesDetails.css';
 // Hooks
 import { useState, useEffect  } from 'react';
 
-// User Defined Hooks
-import { useAuth } from '../../../components/hooks/useAuth';
-import { useUsername } from '../../../components/hooks/useAuth';
-
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
 
 function PackagesList(){
-  // const {accessToken} = useAuth();
-  // const {username} = useUsername();
-  // const accessToken = sessionStorage.getItem('accessToken');
-  // const username = sessionStorage.getItem('username');
-
+  
   // Define state to store the fetched data
   const [packages, setPackages] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [familyMembers, setFamilyMembers] = useState([]); // State for family members
   const [depFamilyMembers, setDepFamilyMembers] = useState([]); // State for family members
-  const [selectedPackage, setSelectedPackage] = useState('');
+  const [mergedMembers, setMergedFamilyMembers] = useState([]); // State for family members
   const [selectedFamilyMember, setSelectedFamilyMember] = useState(''); 
-  const [selectedDependFamilyMember, setSelectedDependFamilyMember] = useState(''); 
   const [errorMessage, setErrorMessage] = useState('');
+  const [familyUsernames, setFamilyUsernames] = useState([]); // State for family members
+  const [familyNID, setFamilyNID] = useState([]); // State for family members
   const navigate = useNavigate();
-
 
 
  //Authenticate part
@@ -119,56 +111,80 @@ function PackagesList(){
         setError(error);
         setLoading(false);
       });
+
+
+    
   }, []);
 
-//   const handlePackageChange = (inputPackage) =>  {
-//     setSelectedPackage(inputPackage);
+  useEffect(() => {
+    // Merge familyMembers and depFamilyMembers based on common attributes
+    const array = familyMembers.map((familyMember) => ({
+      id: familyMember.id,
+      name: familyMember.name,
+      value: familyMember.username, // Adjust this based on your structure
+    }))
+    .concat(depFamilyMembers.map((depFamilyMember) => ({
+      id: depFamilyMember.id,
+      name: depFamilyMember.name,
+      value: depFamilyMember.national_id, // Adjust this based on your structure
+    })));
 
-//   };
+
+    // Extract family usernames
+   const familyUsernames = familyMembers.map((member) => member.username);
+
+// Extract national IDs
+   const familyNID = depFamilyMembers.map((member) => member.national_id);
+
+// Set state with the extracted arrays
+    setFamilyUsernames(familyUsernames);
+    setFamilyNID(familyNID);
+    setMergedFamilyMembers(array);
+
+  }, [familyMembers, depFamilyMembers]);
+  
 
   const handleFamilyMemberChange = (event) => {
     setSelectedFamilyMember(event.target.value);
   };
 
-  
-
-  const handleDepFamilyMemberChange = (event) => {
-    setSelectedDependFamilyMember(event.target.value);
-  };
 
   const handleSubscribeClick = async (packageName) => {
     
     
-    if (selectedFamilyMember==="" && selectedDependFamilyMember===""){
-        setErrorMessage("Please choose a person to subscribe to");
+    if (selectedFamilyMember===""){
+        alert("Please choose a person to subscribe to");
     }
-   else if (selectedFamilyMember!=="" && selectedDependFamilyMember!==""){
-      setErrorMessage("Please choose only ONE  person to subscribe to");
-   }
-    
+
     else{
     try {
         const apiUrl = 'http://localhost:5000/patient/Subs1/subs1';
         var requestData='hello';
       
-        // Prepare the request data (customize as needed)
-        if (selectedFamilyMember!==""){
+       
+          if (familyUsernames.includes(selectedFamilyMember) || selectedFamilyMember===username){
+            console.log(familyUsernames.includes(selectedFamilyMember));
            requestData = {
             patient_username:selectedFamilyMember,
             package_name:packageName,
             exist:'true'
           };
         }
-        else if (selectedDependFamilyMember!==""){
-            requestData = {
-            patient_username:selectedDependFamilyMember,
+       
+        else if (familyNID.includes(selectedFamilyMember)){
+          requestData = {
+            patient_username:selectedFamilyMember,
             package_name:packageName,
             exist:'false'
           };
+
         }
+        
+        
+       
         console.log(requestData);
   
-        // Make the API request using the Fetch API (POST request in this example)
+       
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: {
@@ -181,7 +197,7 @@ function PackagesList(){
         if (response.ok) {
           const responseData = await response.json();
           responseData.paying_username = username;
-          setErrorMessage("Subscribed Successfully");
+          console.log("subscribed successfully");
           navigate('/patient/packagePayment',{state:{patient_username: responseData.patient_username,
             paying_username: responseData.paying_username,
            package_name: responseData.package_name,
@@ -191,8 +207,9 @@ function PackagesList(){
           
           console.log('Success:', responseData);
         } 
+      
         else if (response.status===409){
-            setErrorMessage("Already subscribed to a Package");
+            alert("Already subscribed to a Package");
             //console.log(response);
           }
 
@@ -205,12 +222,11 @@ function PackagesList(){
         console.error('Network Error:', error);
       }
     }
-  
+    
 
   };
 
   
-
  
 //Loading 3ady lel data
   if (loading) {
@@ -230,7 +246,8 @@ function PackagesList(){
 
   return (
     <div>
-      <h3>Package Details</h3>
+      <h3 className="title">Package Details</h3>
+      <div className='table-container'>
       <table  className="data-table">
         <thead>
           <tr>
@@ -241,7 +258,6 @@ function PackagesList(){
             <th className="table-header">Medicine Discount</th>
             <th className="table-header">Family Discount</th>
             <th className="table-header">Subscribe For </th>
-            <th className="table-header">Subscribe For Depend</th>
             <th className="table-header">Subscribe</th>
 
            
@@ -264,27 +280,15 @@ function PackagesList(){
                   {/*should get it from the session*/}
                   <option value={username}>Myself</option>
                   
-                  {familyMembers.map((member) => (
-                    <option key={member.id} value={member.username}>
+                  {mergedMembers.map((member) => (
+                    <option key={member.id} value={member.value}>
                       {member.name}
                     </option>
+                    
                   ))}
                 </select>
               </td>
 
-              <td className="table-cell">
-                <select value={selectedDependFamilyMember} onChange={handleDepFamilyMemberChange}>
-                  <option value="">Select Family Member</option>
-                  {/*should get it from the session*/}
-                  
-                  
-                  {depFamilyMembers.map((member) => (
-                    <option key={member.id} value={member.national_id}>
-                      {member.name}
-                    </option>
-                  ))}
-                </select>
-              </td>
 
               <td className="table-cell">
                 <button onClick={() => handleSubscribeClick(item.name)}>Subscribe</button>
@@ -295,6 +299,7 @@ function PackagesList(){
         </tbody>
       </table>
       {errorMessage && <p style={{ color: 'black' }}>{errorMessage}</p>}
+    </div>
     </div>
   );
 //}

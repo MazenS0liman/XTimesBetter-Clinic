@@ -42,6 +42,9 @@ import FinalizePrescription from '../newPrescriptionPages/finalizePrescriptionPa
 
 import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/PrescriptionDoctorTable';
 // import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
+//salma sprint 3
+import DoctorVideo from '../DVideoCall/DVideoCall';
+
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
 // import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
@@ -149,6 +152,10 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/AcceptRejectFollowUpPage",
             pageName: "Acc Rej FollowUp",
+        },
+        {
+            url: "/doctor/VideoCall",
+            pageName: "Start Video Call",
         }
     ];
 
@@ -183,6 +190,7 @@ export const ViewDoctorMainPage = () => {
 
                     <Route path="/ChatPage" element={<ChatPage />} />
                     <Route path="/AcceptRejectFollowUpPage" element={<AcceptRejectFollowUp />} />
+                    <Route path="/VideoCall" element={<DoctorVideo />} />
                 </Routes>
             </>
         </div >

@@ -10,7 +10,7 @@ const patientModel =  require('../../models/Patient');
 
 //to get all packages details
 const ViewPackage = async (req, res) => {
-    const package = await packageModel.find();
+    const package = await packageModel.find({valid : "valid"});
     res.status(200).json(package)
  }
 
@@ -67,7 +67,7 @@ const ViewPackage = async (req, res) => {
             const subspackage = await subsPackageModel.create({patient_username,patient_name,package_name,status:'subscribed',start_date,end_date});
             
             //add to array in packages schema
-            const package=await packageModel.findOne({name:package_name});
+            const package=await packageModel.findOne({name:package_name , valid : "valid"});
             package.subscribed_patients.push(patient_username);
             package.save();
 
@@ -77,7 +77,7 @@ const ViewPackage = async (req, res) => {
             }
 
             //get price of subscription
-            const package2=await packageModel.findOne({name:package_name});
+            const package2=await packageModel.findOne({name:package_name , valid : "valid"});
             const discount= await isMemberSubscribed(patient_username);
             //console.log(discount);
 
@@ -109,6 +109,8 @@ const ViewPackage = async (req, res) => {
     const package_name=req.body.package_name;
     const isExistingPatient=req.body.exist;
 
+    console.log(patient_username);
+
     //check if already subscribed
     const isSubs = await subsPackageModel.findOne({patient_username : patient_username , status:'subscribed'});
     var discount=0;
@@ -117,7 +119,8 @@ const ViewPackage = async (req, res) => {
         if (!isSubs){
 
             //get price of subscription
-            const package2=await packageModel.findOne({name:package_name});
+            const package2=await packageModel.findOne({name:package_name , valid : "valid"});
+            console.log(package2)
 
             if (isExistingPatient=='true'){
               discount= await isMemberSubscribed(patient_username);
@@ -182,7 +185,7 @@ const ViewPackage = async (req, res) => {
             const subspackage = await subsPackageModel.create({patient_username,patient_name,package_name,status:'subscribed',start_date,end_date});
             
             //add to array in packages schema
-            const package=await packageModel.findOne({name:package_name});
+            const package=await packageModel.findOne({name:package_name , valid : "valid"});
             package.subscribed_patients.push(patient_username);
             package.save();
 
@@ -207,6 +210,10 @@ const ViewPackage = async (req, res) => {
     const patient_username=req.body.patient_username;
     const package_name=req.body.package_name;
     const subs_id=req.body.id;
+
+    console.log(patient_username);
+    console.log(package_name);
+    console.log(subs_id);
 
     //check if already subscribed
     //const isSubs = await subsPackageModel.findOne({patient_username : patient_username});
@@ -245,77 +252,134 @@ const ViewPackage = async (req, res) => {
     }
 
 
- //get row of subscribedpackages schema of linked family and user
- const Famsubs = async (req, res) => {
-    const patient_username=req.body.username;
-
-    //get family members of this patient and extract their username and name
-    const members = await famMembersModel.find({ patient_username});
-    var family_usernames1 = members.map((doc) => ({ username: doc.username, name: doc.name }));
-
-    //get family members dependant 
-    const Depmembers = await depFamMemberModel.find({ patient_username});
-    var family_usernames2 = Depmembers.map((doc) => ({ username: doc.national_id, name: doc.name }));
-
-    
-
-
-    //get name of patient and inclde it n the array of users
-    const orgpatient = await patientModel.findOne({ username:patient_username});
-    family_usernames1.push({username:patient_username,name:orgpatient.name});
-
-    //const family_usernames=family_usernames1+family_usernames2;
-    //console.log(family_usernames);
-    
-    const Allsubs=[];
-
-    
-    for (const item of family_usernames1) {
-       
-        const IsSubs = await subsPackageModel.find({patient_username:item.username});
-       
-        if (IsSubs && IsSubs.length>0) {
-            Allsubs.push(...IsSubs);    
-        } 
-        else {
-        const object = {
-          patient_username: item.username,
-          patient_name : item.name ,
-          package_name : 'No Package',
-          status : 'unsubscribed',
-          start_date : new Date('0000-00-00'),
-          end_date : new Date('0000-00-00') 
-        };
-        Allsubs.push(object);   
-        }
-        
-   }
-      
-   for (const item of family_usernames2) {
-       
-    const IsSubs = await subsPackageModel.find({patient_username:item.username});
-   
-    if (IsSubs && IsSubs.length>0) {
-        Allsubs.push(...IsSubs);    
-    } 
-    else {
-    const object = {
-      patient_username: item.username,
-      patient_name : item.name ,
-      package_name : 'No Package',
-      status : 'unsubscribed',
-      start_date : new Date('0000-00-00'),
-      end_date : new Date('0000-00-00') 
-    };
-    Allsubs.push(object);   
-    }
-    
-}
+    const Famsubs = async (req, res) => {
+      const patient_username = req.body.username;
   
-   
-    res.status(200).json(Allsubs);
+      // Get family members of this patient and extract their username and name
+      const members = await famMembersModel.find({ patient_username });
+      const family_usernames1 = members.map((doc) => ({ username: doc.username, name: doc.name }));
+  
+      // Get family members dependent
+      const Depmembers = await depFamMemberModel.find({ patient_username });
+      const family_usernames2 = Depmembers.map((doc) => ({ username: doc.national_id, name: doc.name }));
+  
+      // Get name of patient and include it in the array of users
+      const orgpatient = await patientModel.findOne({ username: patient_username });
+      family_usernames1.push({ username: patient_username, name: orgpatient.name });
+  
+      // Combine both sets of family usernames
+      const allFamilyUsernames = [...family_usernames1, ...family_usernames2];
+     console.log(allFamilyUsernames);
+      // Fetch subscribed packages for each family member
+      const Allsubs = [];
+  
+      for (const user of allFamilyUsernames) {
+          const mostRecentRecord = await subsPackageModel.find(
+              { patient_username: user.username })
+               .sort({ start_date: -1 })
+            
+             
+             
+         // console.log(mostRecentRecord);
+          if (mostRecentRecord.length>0) {
+              Allsubs.push(mostRecentRecord[0]);
+          }
+           else {
+              // If there is no record for a particular user, create a default record
+              const defaultRecord = {
+                  patient_username: user.username,
+                  patient_name: user.name,
+                  package_name: 'No Package',
+                  status: 'unsubscribed',
+                  start_date: new Date('0000-00-00'),
+                  end_date: new Date('0000-00-00')
+              };
+              Allsubs.push(defaultRecord);
+          }
+      }
+  
+      console.log(Allsubs);
+      res.status(200).json(Allsubs);
+  };
+  
+
+
+ //get row of subscribedpackages schema of linked family and user
+//  const Famsubs = async (req, res) => {
+//     const patient_username=req.body.username;
+
+//     //get family members of this patient and extract their username and name
+//     const members = await famMembersModel.find({ patient_username});
+//     var family_usernames1 = members.map((doc) => ({ username: doc.username, name: doc.name }));
+
+//     //get family members dependant 
+//     const Depmembers = await depFamMemberModel.find({ patient_username});
+//     var family_usernames2 = Depmembers.map((doc) => ({ username: doc.national_id, name: doc.name }));
+
     
- }
+
+
+//     //get name of patient and inclde it n the array of users
+//     const orgpatient = await patientModel.findOne({ username:patient_username});
+//     family_usernames1.push({username:patient_username,name:orgpatient.name});
+
+//     //const family_usernames=family_usernames1+family_usernames2;
+//     //console.log(family_usernames);
+    
+//     const Allsubs=[];
+
+    
+//     for (const item of family_usernames1) {
+       
+//         const IsSubs = await subsPackageModel.find({patient_username:item.username});
+       
+//         if (IsSubs && IsSubs.length>0) {
+//             Allsubs.push(...IsSubs);    
+//         } 
+//         else {
+//         const object = {
+//           patient_username: item.username,
+//           patient_name : item.name ,
+//           package_name : 'No Package',
+//           status : 'unsubscribed',
+//           start_date : new Date('0000-00-00'),
+//           end_date : new Date('0000-00-00') 
+//         };
+//         Allsubs.push(object);   
+//         }
+//         console.log(Allsubs);
+        
+//    }
+      
+//    for (const item of family_usernames2) {
+       
+//     const IsSubs = await subsPackageModel.find({patient_username:item.username});
+   
+//     if (IsSubs && IsSubs.length>0) {
+//         Allsubs.push(...IsSubs);    
+//     } 
+//     else {
+//     const object = {
+//       patient_username: item.username,
+//       patient_name : item.name ,
+//       package_name : 'No Package',
+//       status : 'unsubscribed',
+//       start_date : new Date('0000-00-00'),
+//       end_date : new Date('0000-00-00') 
+//     };
+//     Allsubs.push(object);   
+//     }
+    
+// }
+
+
+
+   
+//     res.status(200).json(Allsubs);
+    
+//  }
+
+
 
 
 
@@ -349,6 +413,7 @@ const ViewPackage = async (req, res) => {
         if (isSubs.length>0){
             const package_name=isSubs[0].package_name;
             const package =  await packageModel.findOne({name:package_name});
+            console.log(package);
 
             if (package.family_discount>maxdiscount){
                 maxdiscount=package.family_discount;

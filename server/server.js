@@ -24,6 +24,38 @@ mongoose.set('strictQuery', false);
 // Express app
 const app = express();
 
+//Socket io (Salma Sprint 3)
+//----------------------------------------------
+//const http = require('http');
+//const socketIo = require('socket.io');
+//const server = http.createServer(app);
+//const io = socketIo(server);
+
+// const io = require("socket.io")(server, {
+// 	cors: {
+// 		origin: "http://localhost:5173",
+// 		methods: [ "GET", "POST" ]
+// 	}
+// })
+
+// io.on("connection", (socket) => {
+// 	socket.emit("me", socket.id)
+
+// 	socket.on("disconnect", () => {
+// 		socket.broadcast.emit("callEnded")
+// 	})
+
+// 	socket.on("callUser", (data) => {
+// 		io.to(data.userToCall).emit("callUser", { signal: data.signalData, from: data.from, name: data.name })
+// 	})
+
+// 	socket.on("answerCall", (data) => {
+// 		io.to(data.to).emit("callAccepted", data.signal)
+// 	})
+// })
+
+//------------------------------------------------------
+
 // App variables
 const Port = process.env.PORT || 5000;
 const MongoURI = process.env.MONGO_URI;
@@ -223,4 +255,10 @@ app.use('/patient/requestFollowUp', require('./routes/patient/requestFollowUpRou
 
 
 
+
+
+//Salma Sprint 3
+app.use('/patient/Video', require('./routes/patient/PvideoCallRoute'));
+app.use('/doctor/Video', require('./routes/doctor/DvideoCallRoute'));
+app.use('/patient/google', require('./routes/patient/GoogleAuthRoute'));
 
