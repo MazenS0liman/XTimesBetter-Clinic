@@ -9,6 +9,10 @@ import { useNavigate } from 'react-router-dom';
 // Hooks
 import { useState, useEffect } from 'react';
 
+import styles from './payments.module.css';
+import {   Button, ChakraProvider ,IconButton} from '@chakra-ui/react'
+import {   CheckIcon} from '@chakra-ui/icons'
+
 function SuccessPayment(){
 
     const [username, setUsername] = useState("");
@@ -49,15 +53,66 @@ function SuccessPayment(){
     const handleSubmit =()=>{
         window.location.href = 'http://localhost:5173/patient/';
     }
-    return( 
-        <div className="Success Payment">
-        <h2>Success Payment</h2>
+    // return( 
+    //     <div className="Success Payment">
+    //     <h2>Success Payment</h2>
         
-        <button onClick={() => handleSubmit()}>Proceed</button>
-    </div>
+    //     <button onClick={() => handleSubmit()}>Proceed</button>
+    // </div>
     
+    // );
+    return (
+      <div
+        style={{
+          backgroundColor: "#f4f4ff",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <ChakraProvider>
+          <div className={styles["form-container"]}>
+            <div className={styles["bordered-container"]} style={{ maxWidth: "600px", overflowY: "auto" }}>
+              <h2
+                style={{
+                  fontSize: "1.5em",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                }}
+              >
+                <strong>
+                  {" "}
+                  Successful Payment
+                </strong>{" "}
+                <IconButton
+                  isRound={true}
+                  variant="solid"
+                  colorScheme="green"
+                  aria-label="Done"
+                  size="5px"
+                  icon={<CheckIcon />}
+                />
+              </h2>
+  
+              
+              <div className={styles["button-container"]}>
+                <Button
+                  className={`${styles["button"]} `}
+                  colorScheme="blue"
+                  variant="solid"
+                  type="button"
+                  onClick={() => handleSubmit()}
+                >
+                  Home
+                </Button>
+              </div>
+            </div>
+          </div>
+        </ChakraProvider>
+      </div>
     );
-
 }
 function SuccessPackagePayment(){
 
@@ -136,11 +191,64 @@ function SuccessPackagePayment(){
             console.error('Network Error:', error);
           }
     }
-    return( 
-        <div className="Success Payment">
-        <h2>Success Payment</h2>
-        <button onClick={() => handleSubmit()}>Proceed</button>
-    </div>
+    // return( 
+    //     <div className="Success Payment">
+    //     <h2>Success Payment</h2>
+    //     <button onClick={() => handleSubmit()}>Proceed</button>
+    // </div>
+    // );
+
+    return (
+      <div
+        style={{
+          backgroundColor: "#f4f4ff",
+          minHeight: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <ChakraProvider>
+          <div className={styles["form-container"]}>
+            <div className={styles["bordered-container"]} style={{ maxWidth: "600px", overflowY: "auto" }}>
+              <h2
+                style={{
+                  fontSize: "1.5em",
+                  marginTop: "10px",
+                  marginBottom: "10px",
+                  textAlign: "center",
+                }}
+              >
+                <strong>
+                  {" "}
+                  Successful Payment
+                </strong>{" "}
+                <IconButton
+                  isRound={true}
+                  variant="solid"
+                  colorScheme="green"
+                  aria-label="Done"
+                  size="5px"
+                  icon={<CheckIcon />}
+                />
+              </h2>
+  
+              
+              <div className={styles["button-container"]}>
+                <Button
+                  className={`${styles["button"]} `}
+                  colorScheme="blue"
+                  variant="solid"
+                  type="button"
+                  onClick={() => handleSubmit()}
+                >
+                  Home
+                </Button>
+              </div>
+            </div>
+          </div>
+        </ChakraProvider>
+      </div>
     );
 
 }

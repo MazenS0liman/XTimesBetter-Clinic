@@ -65,6 +65,24 @@ const DoctorSchema = mongoose.Schema({
         type: Number,
         default:0
 
+    }, notifications: {
+        type: [
+            {
+                type: {
+                    type: String, //new, cancelled , rescheduled 
+                    required: true,
+                },
+                message: {
+                    type: String,
+                    required: true,
+                },
+                timestamp: {
+                    type: Date,
+                    default: Date.now,
+                },
+            },
+        ],
+        default: [],
     }
     
 }, { timestamps: true });

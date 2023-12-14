@@ -45,6 +45,7 @@ import PrescriptionDoctorTable from '../viewPrescriptionInfoDoctorPage/Prescript
 //salma sprint 3
 import DoctorVideo from '../DVideoCall/DVideoCall';
 import RescheduleTimeSlots from '../rescheduleTimeSlotsDoc/rescheduleTimeSlotsDoc'
+import DoctorNotifications from '../viewNotifications/viewNotifications';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -157,6 +158,9 @@ export const ViewDoctorMainPage = () => {
         {
             url: "/doctor/VideoCall",
             pageName: "Start Video Call",
+        },{
+            url: "/doctor/viewNotifications",
+            pageName: "notifications",
         }
     ];
 
@@ -193,6 +197,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/AcceptRejectFollowUpPage" element={<AcceptRejectFollowUp />} />
                     <Route path="/VideoCall" element={<DoctorVideo />} />
                     <Route path='/rescheduleTimeSlots' element={<RescheduleTimeSlots/>} />
+                    <Route path="/viewNotifications" element={<DoctorNotifications />} />
                 </Routes>
             </>
         </div >

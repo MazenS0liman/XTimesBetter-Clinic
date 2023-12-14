@@ -209,6 +209,7 @@ app.use('/doctor/updatePrescriptions', require('./routes/doctor/updatePrescripti
 app.use('/doctor/newPrescription', require('./routes/doctor/newPrescriptionRoute'));
 app.use('/doctor/chat', require('./routes/doctor/chatRoute.js'));
 app.use('/doctor/acceptRejectFollowUp', require('./routes/doctor/acceptRejectFollowUpRoute'));
+app.use('/doctor/notifications', require('./routes/doctor/viewNotificationsRoute.js'));
 
 // Admin
 app.use('/admin/viewREQDoctors', require('./routes/admin/viewRequestedDoctorsInfo'));
@@ -252,6 +253,7 @@ app.use('/patient/viewMedicalHistory', require('./routes/patient/medicalHistoryR
 app.use('/patient/viewHealthRecords', require('./routes/patient/viewHealthRecordsRoute'));
 app.use('/patient/chat', require('./routes/patient/chatRoute.js'));
 app.use('/patient/requestFollowUp', require('./routes/patient/requestFollowUpRoute'));
+app.use('/patient/notifications', require('./routes/patient/viewNotificationsRoute.js'));
 
 
 

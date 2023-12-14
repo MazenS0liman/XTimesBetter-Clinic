@@ -35,8 +35,9 @@ const AppointmentSchema = mongoose.Schema({
         required: true
     } ,
     isFollowUp : {
-        default: '',
-        type : String
+        type : String,
+        default:''
+       
     }
 
 

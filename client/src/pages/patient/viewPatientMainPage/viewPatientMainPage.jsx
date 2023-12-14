@@ -49,6 +49,7 @@ import RequestFollowUp from '../RequestFollowUp/RequestFollowUp';
 import VideoCall from '../PVideoCall/PVideoCall';
 import Call from '../VideoCalling/VideoCalling';
 import RescheduleTimeSlots from '../rescheduleTimeSlots/rescheduleTimeSlots';
+import PatientNotifications from '../viewNotifications/viewNotifications';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -170,8 +171,15 @@ export const ViewPatientMainPage = () => {
         //     url: "/patient/Call",
         //     pageName: "Call",
         // }
+    {
+
+            url: "/patient/viewNotifications",
+            pageName: "notifications",
+        }
     ];
 
+    if (  accessToken=== null ||accessToken=== undefined || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
+    // if (  accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
     if (load) {
         return (<div>Loading</div>)
     }
@@ -209,6 +217,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/VideoCall" element={<VideoCall/>} />
                     <Route path="/Call" element={<Call/>} />
                     <Route path="/rescheduleTimeSlots" element={<RescheduleTimeSlots/>} />
+                    <Route path="/viewNotifications" element={<PatientNotifications />} />
                 </Routes>
             </>
         </div>
