@@ -56,7 +56,7 @@ const CallBack  = async (req, res) => {
         const patient = await patientModel.find({username:info.username});
         console.log(patient)
         if (patient.length>0){
-           reciever_email=patient.email;
+           reciever_email=patient[0].email;
         }
         else { //she/he is family member 
            const familyPatient = await familyModel.findOne({national_id:info.username});
