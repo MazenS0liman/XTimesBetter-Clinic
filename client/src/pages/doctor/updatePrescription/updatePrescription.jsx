@@ -175,8 +175,11 @@ const updatePrescription = () => {
   
     return (
       <div>
+        <br/>
         <h2>Update Prescription</h2>
-        <table>
+        <br/>
+
+        <table className={styles.pharmacistTable}>
           <thead>
             <tr>
               <th>Medicine</th>
