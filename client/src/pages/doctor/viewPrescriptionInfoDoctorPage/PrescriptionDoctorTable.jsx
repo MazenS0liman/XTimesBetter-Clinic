@@ -176,6 +176,8 @@ const PrescriptionDoctorTable = () => {
     const appData = { prescriptionId: prescriptionId };
     console.log('updating Prescriptions with ID:', prescriptionId);
 
+    //console.log('updating Prescriptions with ID:', prescriptionId);
+  
     // Navigate to the second component and pass prescriptionId as a URL parameter
     navigate(`/doctor/UpdatePrescription/${prescriptionId}`);
   };

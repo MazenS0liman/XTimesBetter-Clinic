@@ -25,7 +25,7 @@ const getMedicines = async (req, res) => {
       .sort({ createdAt: -1 })
       .select('patient_username doctor_username visit_date filled medicines');
 
-    console.log('Fetched medicines for patient:', medicines); // For debugging
+    //console.log('Fetched medicines for patient:', medicines); // For debugging
 
     if (medicines.length === 0) {
       return res.status(404).json({ message: 'No medicines found for the patient with the username' });
