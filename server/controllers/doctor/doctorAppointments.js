@@ -4,6 +4,7 @@ const appointmentModel = require('../../models/Appointment.js');
 const doctorModel = require('../../models/Doctor.js')
 const followUpModel = require('../../models/FollowUp.js')
 const patientModel = require('../../models/Patient.js')
+const { sendEmail } = require('../patient/payments/emailHelper.js');
 
 const { format } = require('date-fns');
 
@@ -157,6 +158,9 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
         return;
     }
 
+    //Logy added
+    const registeredPatient = await patientModel.findOne({ username: existingAppointment.booked_by});
+
     const currentDate = new Date().toLocaleDateString('en-GB');
     const newAppointmentDate = new Date(newDate);
 
@@ -192,6 +196,190 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
         await doctor.save();
     }
 
+    //Added by Logy
+    const formattedOldTime = new Date(existingAppointment.time).toLocaleTimeString();
+    const formattedNewTime = new Date(updatedAppointment.time).toLocaleTimeString();
+
+                let notificationMessageDoctor;
+                let notificationMessageRegisteredPatient;
+
+
+                if (req.body.patientUsername === req.body.bookedUsername) {
+                    //console.log("enter if,")
+                    notificationMessageDoctor = `
+                    Dear Dr. ${doctor.name},
+
+                    The following appointment has been successfully rescheduled:
+
+                    Patient: ${registeredPatient.name}
+                    Original Appointment: ${formattedOldTime} on ${existingAppointment.date}
+                    Rescheduled to: ${formattedNewTime} on ${updatedAppointment.date}
+                    Status: Rescheduled
+
+                    Thank you for your attention to this update.
+
+                    Best regards.
+                   `;
+
+                    await patientModel.findByIdAndUpdate(
+                        registeredPatient._id,
+                        {
+                            $push: {
+                                notifications: {
+                                    type:"rescheduled",
+
+                                    message: `Appointment at slot ${formattedOldTime} on ${existingAppointment.date} with Dr. ${doctor.name} is rescheduled to be at ${formattedNewTime} on ${updatedAppointment.date}.`,
+                                },
+                            },
+                        },
+                        { new: true }
+                    );
+                    notificationMessageRegisteredPatient = `
+                        Dear ${registeredPatient.name},
+    
+                        Your appointment has been rescheduled by Dr. ${doctor.name} to be on:
+    
+                        new Date: ${updatedAppointment.date}
+                        new Time: ${formattedNewTime}
+      
+                        Thank you for choosing our service!
+    
+                        Best regards,
+                        Your Clinic
+                    `;
+                    await doctorModel.findByIdAndUpdate(
+                        doctor._id,
+                        {
+                            $push: {
+                                notifications: {
+                                    type:"rescheduled",
+    
+                                    message: `Appointment with ${registeredPatient.name} at slot ${formattedOldTime} on ${existingAppointment.date} is rescheduled to be at slot ${formattedNewTime} on ${updatedAppointment.date}.`,
+                                },
+                            },
+                        },
+                        { new: true }
+                    );
+
+                } else {
+
+                    const patientToGO = await patientModel.findOne({ username: existingAppointment.patient_username });
+                    if (patientToGO) {
+                        notificationMessageDoctor = `
+                        Dear Dr. ${doctor.name},
+
+                        The following appointment has been successfully rescheduled:
+    
+                        Patient: ${patientToGO.name}
+                        Original Appointment: ${formattedOldTime} on ${existingAppointment.date}
+                        Rescheduled to: ${formattedNewTime} on ${updatedAppointment.date}
+                        Status: Rescheduled
+    
+                        Thank you for your attention to this update.
+    
+                        Best regards.
+                        `;
+
+
+                        await patientModel.findByIdAndUpdate(
+                            patientToGO._id,
+                            {
+                                $push: {
+                                    notifications: {
+                                        type:"rescheduled",
+                                        message: `Appointment at slot ${formattedOldTime} on ${existingAppointment.date} with Dr. ${doctor.name} is rescheduled by the doctor to be at ${formattedNewTime} on ${updatedAppointment.date}.`,
+                                    },
+                                },
+                            },
+                            { new: true }
+                        );
+                        // send mail to a patient and put notification in database
+                        notificationMessagePatient = `
+                        Dear ${registeredPatient.name},
+    
+                        Your appointment that was reserved to ${patientToGO.name}
+                        has been rescheduled by Dr. ${doctor.name} to be on:
+    
+                        new Date: ${updatedAppointment.date}
+                        new Time: ${formattedNewTime}
+      
+                        Thank you for choosing our service!
+    
+                        Best regards,
+                        Your Clinic
+                        `;
+
+                        // patient to get mail , email Subject , Email Text
+                        await sendEmail(patientToGO.email, `Dr. ${doctor.name} appointment is rescheduled`, notificationMessagePatient);
+
+                        // send mail to a patient and put notification in database
+                        notificationMessageRegisteredPatient = `
+                            Dear ${registeredPatient.name},
+
+                            Your appointment to ${patientToGO.name} 
+                            has been rescheduled by Dr.${doctor.name} to be on:
+
+                            Date: ${updatedAppointment.date}
+                            Time: ${formattedNewTime}
+  
+                            Thank you for choosing our service!
+
+                            Best regards,
+                            Your Clinic
+                        `;
+                        await doctorModel.findByIdAndUpdate(
+                            doctor._id,
+                            {
+                                $push: {
+                                    notifications: {
+                                        type:"rescheduled",
+        
+                                        message: `Appointment with ${patientToGO.name} at slot ${formattedOldTime} on ${existingAppointment.date} is rescheduled to be at slot ${formattedNewTime} on ${updatedAppointment.date}.`,
+                                    },
+                                },
+                            },
+                            { new: true }
+                        );
+                    }
+                    else {
+                        await doctorModel.findByIdAndUpdate(
+                            doctor._id,
+                            {
+                                $push: {
+                                    notifications: {
+                                        type:"rescheduled",
+        
+                                        message: `Appointment with ${updatedAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} is rescheduled to be at slot ${formattedNewTime} on ${updatedAppointment.date}.`,
+                                    },
+                                },
+                            },
+                            { new: true }
+                        );
+                        notificationMessageDoctor = `
+                        Dear Dr. ${doctor.name},
+
+                        The following appointment has been successfully rescheduled:
+
+                        Patient: ${existingAppointment.name}
+                        Original Appointment: ${formattedOldTime} on ${existingAppointment.date}
+                        Rescheduled to: ${formattedNewTime} on ${updatedAppointment.date}
+                        Status: Rescheduled
+
+                        Thank you for your attention to this update.
+
+                        Best regards.
+                    `;
+
+                    }
+                }
+
+                // patient to get mail , email Subject , Email Text
+                await sendEmail(registeredPatient.email, `Dr. ${doctor.name} appointment is rescheduled`, notificationMessageRegisteredPatient);
+
+                // doctor to get mail , email Subject , Email Text
+                await sendEmail(doctor.email, 'The appointment is rescheduled successfully', notificationMessageDoctor);
+
+
     res.status(200).json({ message: 'Success', rescheduledAppointment: true, updatedAppointment });
 });
 
@@ -211,6 +399,11 @@ const cancelAppointment = asyncHandler(async (req, res) => {
         res.status(404).json({ message: 'Appointment not found', canceledAppointment: false });
         return;
     }
+
+    //Logy added
+      
+    const doctor = await doctorModel.findOne({ username: existingAppointment.doctor_username });
+    const registeredPatient = await patientModel.findOne({ username: existingAppointment.booked_by});
 
     // Cancelled before 24 hours , so refund
     existingAppointment.status = 'canceled';
@@ -236,6 +429,180 @@ const cancelAppointment = asyncHandler(async (req, res) => {
         console.error(`Error refunding to patient's wallet: ${error.message}`);
     }
     await existingAppointment.save();
+
+    //Added by Logy
+    const formattedOldTime = new Date(existingAppointment.time).toLocaleTimeString();
+        
+    let notificationMessageDoctor;
+    let notificationMessageRegisteredPatient;
+
+
+    if (req.body.patientUsername === req.body.bookedUsername) {
+        //console.log("enter if,")
+        notificationMessageDoctor = `
+        Dear Dr. ${doctor.name},
+
+        The following appointment has been successfully cancelled:
+
+        Patient: ${registeredPatient.name}
+        Appointment: ${formattedOldTime} on ${existingAppointment.date}
+        Status: Rescheduled
+
+        Thank you for your attention to this update.
+
+        Best regards.
+       `;
+
+        await patientModel.findByIdAndUpdate(
+            registeredPatient._id,
+            {
+                $push: {
+                    notifications: {
+                        type:"cancelled",
+
+                        message: `Appointment at slot ${formattedOldTime} on ${existingAppointment.date} with Dr. ${doctor.name} is cancelled.`,
+                    },
+                },
+            },
+            { new: true }
+        );
+        notificationMessageRegisteredPatient = `
+        Dear ${registeredPatient.name},
+
+        We regret to inform you that your appointment with Dr. ${doctor.name}
+        at ${formattedOldTime} on ${existingAppointment.date} has been canceled.
+        
+        Thank you for choosing our service.
+        
+        Best regards,
+        Your Clinic
+        `;
+        await doctorModel.findByIdAndUpdate(
+            doctor._id,
+            {
+                $push: {
+                    notifications: {
+                        type:"cancelled",
+
+                        message: `Appointment with ${registeredPatient.name} at slot ${formattedOldTime} on ${existingAppointment.date} is cancelled.`,
+                    },
+                },
+            },
+            { new: true }
+        );
+
+    } else {
+
+        const patientToGO = await patientModel.findOne({ username: existingAppointment.patient_username });
+        if (patientToGO) {
+            notificationMessageDoctor = `
+            Dear Dr. ${doctor.name},
+
+            The following appointment has been successfully cancelled:
+    
+            Patient: ${patientToGO.name}
+            Appointment: ${formattedOldTime} on ${existingAppointment.date}
+            Status: Rescheduled
+    
+            Thank you for your attention to this update.
+    
+            Best regards.
+            `;
+
+
+            await patientModel.findByIdAndUpdate(
+                patientToGO._id,
+                {
+                    $push: {
+                        notifications: {
+                            type:"cancelled",
+                            message: `Appointment at slot ${formattedOldTime} on ${existingAppointment.date} with Dr. ${doctor.name} is cancelled.`,
+                        },
+                    },
+                },
+                { new: true }
+            );
+            // send mail to a patient and put notification in database
+            notificationMessagePatient = `
+            Dear ${patientToGO.name},
+
+            We regret to inform you that your appointment with Dr. ${doctor.name} 
+            at ${formattedOldTime} on ${existingAppointment.date} has been canceled.
+            
+            Thank you for choosing our service.
+            
+            Best regards,
+            Your Clinic
+            `;
+
+            // patient to get mail , email Subject , Email Text
+            await sendEmail(patientToGO.email, `Dr. ${doctor.name} cancelled appointment`, notificationMessagePatient);
+
+            // send mail to a patient and put notification in database
+            notificationMessageRegisteredPatient = `
+                Dear ${registeredPatient.name},
+
+                Your appointment to ${patientToGO.name} with DR. ${doctor.name}
+                at ${formattedOldTime} on ${existingAppointment.date} 
+                has been cancelled.
+
+                Thank you for choosing our service!
+
+                Best regards,
+                Your Clinic
+            `;
+            await doctorModel.findByIdAndUpdate(
+                doctor._id,
+                {
+                    $push: {
+                        notifications: {
+                            type:"cancelled",
+
+                            message: `Appointment with ${patientToGO.name} at slot ${formattedOldTime} on ${existingAppointment.date} has been cancelled successfully.`,
+                        },
+                    },
+                },
+                { new: true }
+            );
+        }
+        else {
+            await doctorModel.findByIdAndUpdate(
+                doctor._id,
+                {
+                    $push: {
+                        notifications: {
+                            type:"cancelled",
+
+                            message: `Appointment with ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} has been cancelled successfully`,
+                        },
+                    },
+                },
+                { new: true }
+            );
+            notificationMessageDoctor = `
+            Dear Dr. ${doctor.name},
+
+            The following appointment has been successfully cancelled:
+    
+            Patient: ${existingAppointment.name}
+            Appointment: ${formattedOldTime} on ${existingAppointment.date}
+            Status: Rescheduled
+    
+            Thank you for your attention to this update.
+    
+            Best regards.
+        `;
+
+        }
+    }
+
+    // patient to get mail , email Subject , Email Text
+    await sendEmail(registeredPatient.email, `DR. ${doctor.name} appointment is cancelled`, notificationMessageRegisteredPatient);
+
+    // doctor to get mail , email Subject , Email Text
+    await sendEmail(doctor.email, 'The appointment is cancelled', notificationMessageDoctor);
+
+
 
     res.status(200).json({ message: 'Success', canceledAppointment: true, refundAmount: refund });
 });

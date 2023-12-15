@@ -130,6 +130,50 @@ const getImageSource = (type) => {
     }
   };
 
+  // return (
+  //   <div style={{ backgroundColor: '#f4f4ff' }}>
+  //     <div className={styles['update-form-container']} >
+  //       <div className={styles['bordered-container']}>
+  //         <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '30px' }}>
+  //           <strong>Notifications</strong>
+  //         </h2>
+  //         <div style={{ display: 'flex', justifyContent: 'center', height: '70vh' }}>
+  //           <Box
+  //             overflowY="auto"  // Add vertical scrollbar when content overflows
+  //             height="400px" // Adjust the height based on your preference
+  //             width="100%"
+  //             border="1px solid #ccc"
+  //             borderRadius="10px"
+  //             padding="30px"
+  //           >
+  //             {notifications.map((notification) => (
+  //               <div key={notification.timestamp} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+  //                 <img
+  //                   src={getImageSource(notification.type)}
+  //                   alt="X"
+  //                   style={{ width: '50%', maxWidth: '50px', marginRight: '10px' }}
+  //                 />
+  //                 <span>{notification.message} - {calculateTimeDifference(notification.timestamp)}</span>
+  //               </div>
+  //             ))}
+
+  //           </Box>
+  //         </div>
+  //         <ChakraProvider>
+  //           <Button
+  //             className={`${styles['update-button']} ${styles['update-info']}`}
+  //             colorScheme="blue"
+  //             variant="solid"
+  //             type="button"
+  //             onClick={handleSubmit}
+  //           >
+  //             home
+  //           </Button>
+  //         </ChakraProvider>
+  //       </div>
+  //     </div>
+  //   </div>
+  // );
   return (
     <div style={{ backgroundColor: '#f4f4ff' }}>
       <div className={styles['update-form-container']} >
@@ -137,26 +181,44 @@ const getImageSource = (type) => {
           <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '30px' }}>
             <strong>Notifications</strong>
           </h2>
-          <div style={{ display: 'flex', justifyContent: 'center', height: '70vh' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',  // Adjust the layout to be a column
+              height: '70vh',
+            }}
+          >
             <Box
-              overflowY="auto"  // Add vertical scrollbar when content overflows
-              height="400px" // Adjust the height based on your preference
+              overflowY="auto"
+              height="400px"
               width="100%"
               border="1px solid #ccc"
               borderRadius="10px"
               padding="30px"
             >
-              {notifications.map((notification) => (
-                <div key={notification.timestamp} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
-                  <img
-                    src={getImageSource(notification.type)}
-                    alt="X"
-                    style={{ width: '50%', maxWidth: '50px', marginRight: '10px' }}
-                  />
-                  <span>{notification.message} - {calculateTimeDifference(notification.timestamp)}</span>
+              {notifications.map((notification, index) => (
+                <div
+                  key={notification.timestamp}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',  // Adjust spacing
+                    marginBottom: '10px',
+                    borderBottom: index < notifications.length - 1 ? '1px solid #ccc' : 'none',  // Add border
+                    paddingBottom: '10px',  // Add space between borders and text
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <img
+                      src={getImageSource(notification.type)}
+                      alt="X"
+                      style={{ width: '50%', maxWidth: '50px', marginRight: '10px' }}
+                    />
+                    <span>{notification.message}</span>
+                  </div>
+                  <span style={{ fontSize: '0.8em' }}>{calculateTimeDifference(notification.timestamp)}</span>
                 </div>
               ))}
-
             </Box>
           </div>
           <ChakraProvider>
@@ -174,6 +236,7 @@ const getImageSource = (type) => {
       </div>
     </div>
   );
+  
 
 
 
