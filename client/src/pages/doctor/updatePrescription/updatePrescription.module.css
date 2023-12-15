@@ -30,8 +30,18 @@
   margin-right: auto;
   width: 90%; /* Example width to ensure the table doesn't stretch the full width of the container */
 }
+.updateprescr-container{
+  max-width: 1000px;
+  width:1000%;
+  margin: 10px auto;
+  padding: 20px;
+  border-radius: 5px;
+}
 
-
+.updateprescr-container table th:last-child {
+  width: 40px; /* Adjust this value as needed */
+  /* Other styles if needed */
+}
 
 .button-delete {
     background-color: #e7e3e3;

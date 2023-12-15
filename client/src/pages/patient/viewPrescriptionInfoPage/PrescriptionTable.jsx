@@ -92,8 +92,7 @@ const PrescriptionTable = () => {
   prescription.medicines.forEach((medicine, index) => {
     const y = bodyStartY + 40 + (10 * index);
     doc.text(`- ${medicine.name}`, 30, y);
-    doc.text(`Dose: ${medicine.dose}`, 80, y);
-    doc.text(`Timing: ${medicine.timing}`, 130, y);
+    doc.text(`Dosage: ${medicine.dosage}`, 80, y);
     doc.text(`Price: ${medicine.price}`, 230, y);
   });
 
@@ -196,7 +195,7 @@ if (load) {
 }
 
   return (
-    <div className={styles.container}>
+    <div className="prescr-container">
       <br/>
       <h1 className={styles.listTitle}>Prescription List</h1>
       <div className={styles.resultContainer}>
@@ -229,15 +228,15 @@ if (load) {
         {isFilterEmpty ? (
           <p className={styles.noDataMessage}>No prescriptions found.</p>
         ) : (
-          <table className={styles.pharmacistTable}>
+          <table>
                <thead>
             <tr>
               {/* <th>Patient Username</th> */}
               <th className={styles.lightBlueText}>Doctor Username</th>
 
 {/* <th>Doctor Username</th> */}
-<th className={styles.lightBlueText}>Visit Date</th>
-<th className={styles.lightBlueText}>Filled</th>
+             <th className={styles.lightBlueText}>Visit Date</th>
+             <th className={styles.lightBlueText}>Filled</th>
               {/* <th>Select</th> selecting a prescription */}
               {/* <th>Download As PDF</th> downloading prescription as pdf */}
               {/* <th>Buy</th> */}
@@ -253,29 +252,24 @@ if (load) {
             <td>
 
             <button 
-              className={styles.lightBlueButton}
+              className={styles['button-blue']}
  
             onClick={() => handleSelectPrescription(prescription)}>
                 {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
             </button>
-              </td>
-            <td>
+              {/* </td> */}
+              {/* <td className="button-cell"> */}
               <button 
-                className={styles.lightBlueButton}
+                className={styles['button-blue2']}
                 onClick={() => generatePDF(prescription)}>Download</button>
             </td>
-            {/* <td> */}
-            {/* <button 
-            className={styles.lightBlueButton}
-
-            onClick={() => handleBuyClick(prescription._id)}>Buy</button> */}
-
-                {/* </td> */}
+         
           </tr>
         ))}
       </tbody>
     </table>
        )}
+       
   </div>
   {showModal && selectedPrescription && (
      <div className={styles.modal} ref={detailsRef}>
@@ -293,6 +287,7 @@ if (load) {
         <p>Selected Successfully</p>
       </div>
       <h2>Prescription Details</h2>
+      
       <table className={styles.pharmacistTable}>
       <thead>
           <tr>

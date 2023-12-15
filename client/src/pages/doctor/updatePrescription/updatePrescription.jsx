@@ -178,12 +178,15 @@ const updatePrescription = () => {
         <br/>
         <h2>Update Prescription</h2>
         <br/>
+        {/* <div className="prescr-container"> */}
 
-        <table className={styles.pharmacistTable}>
+        <div className={styles['updateprescr-container']}>
+
+        <table>
           <thead>
             <tr>
               <th>Medicine</th>
-              <th>Dose</th>
+              <th>Dosage</th>
               <th>Delete</th>
             
             </tr>
@@ -201,6 +204,8 @@ const updatePrescription = () => {
             ))}
           </tbody>
         </table>
+        </div>
+
         <button
           onClick={() => updateMedicineFromPrescription(prescriptionId, cartItems)}
            className={styles["Updatebutton"]}
