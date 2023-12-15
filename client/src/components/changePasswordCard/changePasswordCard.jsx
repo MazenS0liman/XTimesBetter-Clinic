@@ -91,13 +91,13 @@ export const PasswordCard = () => {
             }
         })
         .then((response) => {
-            setAlertMessage('Password changed successfully');
-            setShowAlertMessage(true);
+            alert('Password changed successfully')
+            // setShowAlertMessage(true);
         })
         .catch((error) => {
             console.log(`Error ${error}`);
-            setAlertMessage('Incorrect current password or current password is same as new password');
-            setShowAlertMessage(true);
+            alert('Incorrect current password or current password is same as new password')
+            // setShowAlertMessage(true);
         });
     }
 
@@ -134,7 +134,7 @@ export const PasswordCard = () => {
                     <button className={styles['change-password-button']} onClick={handleClickChangePassword}>Change Password</button>
                 </div>
             </div>
-            {showAlertMessage && (<AlertMessageCard message={alertMessage} showAlertMessage={setShowAlertMessage} ></AlertMessageCard>)}
+            {/* {showAlertMessage && (<AlertMessageCard message={alertMessage} showAlertMessage={setShowAlertMessage} ></AlertMessageCard>)} */}
         </>
     );
 }

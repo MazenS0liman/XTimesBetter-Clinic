@@ -133,28 +133,24 @@ export const DoctorProfile = () => {
             <div className={styles['doctor-info-left-div']}>
                 <img className={styles['doctor-info-img']} src={image}></img>
             </div>
-{/*             <div className={styles['doctor-info-right-div']}>
+            <div className={styles['doctor-info-right-div']}>
                 <div className={styles['doctor-information-div']}>
-                <Typography level="h1" component="h1" sx={{color: 'white'}}>{name}</Typography>
-                <div className={styles['doctor-information-sub-div']}>
-                    <div className={styles['doctor-information-left-div']}>
-                    <Typography level="title-sm" sx={{color: 'white'}}>username: {username}</Typography>
-                    <Typography level="title-sm" sx={{color: 'white'}}>email: {email}</Typography>
-                    </div>
-                    <div className={styles['doctor-information-right-div']}>
-                    <Typography level="title-sm" sx={{color: 'white'}}>data of birth: {dob}</Typography>
-                    </div>
-                </div>
+                <Typography level="h1" component="h1" sx={{color: 'black'}}>{name}</Typography>
               </div>
-            </div> */}
+            </div>
             </div>
             <div className={styles['doctor-info-bottom-div']}>
-              
+            
           <div className={styles['main__div']}>
               <div className={styles['left__div']}>
                 <div className={styles['configurations__div']}>
                   <DropDown title="change password" child={<PasswordCard />}></DropDown>
                   <ShowCard title="add time slots" icon={<AccessTimeIcon/>}><Modal title="Add Time Slots"><AddTimeSlots /></Modal></ShowCard>
+                </div>
+              </div>
+              <div className={styles['right__div']}>
+                <div className={styles['wallet__div']}>
+                  <CreditCard><ViewDoctorWalletPage /></CreditCard>
                 </div>
               </div>
               <div className={styles['middle__div']}>
@@ -169,11 +165,7 @@ export const DoctorProfile = () => {
                   }></ProfileCard>
                 </div>
               </div>
-              <div className={styles['right__div']}>
-                <div className={styles['wallet__div']}>
-                  <CreditCard><ViewDoctorWalletPage /></CreditCard>
-                </div>
-              </div>
+
           </div>
           </div>
         </div>

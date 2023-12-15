@@ -32,6 +32,10 @@
 
 /* <P> Styles */
 .profile__name {
-    width: 80%;
+    width: 70%;
+    color: white;
+}
+
+.profile__value {
     color: white;
 }
