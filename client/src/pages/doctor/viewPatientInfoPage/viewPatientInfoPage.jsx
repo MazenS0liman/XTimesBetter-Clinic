@@ -99,15 +99,15 @@ export function ViewPatientInfo() {
             </div>
             <div className={styles['patient-info-right-div']}>
               <div className={styles['patient-information-div']}>
-                <Typography level="h1" component="h1" sx={{color: 'white'}}>{patient.name}</Typography>
+                <Typography level="h1" component="h1" sx={{color: 'black'}}>{patient.name}</Typography>
                 <div className={styles['patient-information-sub-div']}>
                   <div className={styles['patient-information-left-div']}>
-                    <Typography level="title-sm" sx={{color: 'white'}}>username: {patient.username}</Typography>
-                    <Typography level="title-sm" sx={{color: 'white'}}>email: {patient.email}</Typography>
+                    <Typography level="title-sm" sx={{color: 'black'}}>username: {patient.username}</Typography>
+                    <Typography level="title-sm" sx={{color: 'black'}}>email: {patient.email}</Typography>
                   </div>
                   <div className={styles['patient-information-right-div']}>
-                    <Typography level="title-sm" sx={{color: 'white'}}>data of birth: {patient.dob}</Typography>
-                    <Typography level="title-sm" sx={{color: 'white'}}>mobile: {patient.mobile}</Typography>
+                    <Typography level="title-sm" sx={{color: 'black'}}>data of birth: {patient.dob}</Typography>
+                    <Typography level="title-sm" sx={{color: 'black'}}>mobile: {patient.mobile}</Typography>
                   </div>
                 </div>
               </div>

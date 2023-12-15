@@ -24,6 +24,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ChatIcon from '@mui/icons-material/Chat';
 import HomeIcon from '@mui/icons-material/Home';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 
 // Tooltip
 import 'react-tooltip/dist/react-tooltip.css'
@@ -107,7 +109,7 @@ export const ResponsiveSideBar = ({ array }) => {
                     >
             <ArrowForwardIcon></ArrowForwardIcon>
           </Button>
-        <Button sx={{color: "white", '&:hover': {
+        {/* <Button sx={{color: "white", '&:hover': {
                     backgroundColor: "#125594",
                     color: "white"
                     }}} className={styles['view-button']} onClick={toggleDrawer("left", true)}
@@ -116,14 +118,14 @@ export const ResponsiveSideBar = ({ array }) => {
                     data-tooltip-place="bottom"
             >
             <DehazeIcon></DehazeIcon>
-        </Button>
+        </Button> */}
         <Button sx={{color: "white", '&:hover': {
                     backgroundColor: "#125594",
                     color: "white"
                     }}} 
                     className={styles['view-button']}
                     component="a"
-                    href={`/${userType}`}
+                    href={`/${userType}/profile`}
                     data-tooltip-id="home"
                     data-tooltip-content="Home"
                     data-tooltip-place="bottom"
@@ -152,6 +154,47 @@ export const ResponsiveSideBar = ({ array }) => {
             </Button>
           }
 
+          {
+          sessionStorage.getItem("userType") === "admin" ? <></> :
+            <Button 
+                    sx={{color: "white",
+                      '&:hover': {
+                      backgroundColor: "#125594",
+                      color: "white"
+                      }
+                    }} 
+                    className={styles['view-button']}                   
+                    component="a"
+                    href={`/${userType}/viewNotifications`}
+                    data-tooltip-id="notification"
+                    data-tooltip-content="Notification"
+                    data-tooltip-place="bottom"
+              >
+              <NotificationsIcon></NotificationsIcon>
+            </Button>
+          }
+
+
+        {
+          sessionStorage.getItem("userType") === "admin" ? <></> :
+            <Button 
+                    sx={{color: "white",
+                      '&:hover': {
+                      backgroundColor: "#125594",
+                      color: "white"
+                      }
+                    }} 
+                    className={styles['view-button']}                   
+                    component="a"
+                    href={`/${userType}/VideoCall`}
+                    data-tooltip-id="video"
+                    data-tooltip-content="Video Call"
+                    data-tooltip-place="bottom"
+              >
+              <VideoCameraFrontIcon></VideoCameraFrontIcon>
+            </Button>
+          }
+
           <Drawer
             PaperProps={{
                 sx: { width: "250px" },
@@ -159,7 +202,6 @@ export const ResponsiveSideBar = ({ array }) => {
             anchor={"left"}
             open={state["left"]}
             onClose={toggleDrawer("left", false)}
-
           >
             {list("left")}
           </Drawer>
@@ -169,6 +211,8 @@ export const ResponsiveSideBar = ({ array }) => {
       <Tool id="side_bar" />  
       <Tool id="home" />       
       <Tool id="chat" />   
+      <Tool id="notification" /> 
+      <Tool id="video" /> 
     </div>
   );
 }

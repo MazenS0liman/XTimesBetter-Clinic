@@ -41,11 +41,14 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
+import EditIcon from '@mui/icons-material/Edit';
+import ContactMailIcon from '@mui/icons-material/ContactMail';
 
 // Pages
 import AddTimeSlots from '../timeSlotsPage/timeSlots';
-import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
 import ViewDoctorWalletPage from '../viewWalletPage/viewDoctorWalletPage';
+import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
+import ContractView from '../viewContractPage/ViewContract';
 
 export const DoctorProfile = () => {
     const navigate = useNavigate();
@@ -144,8 +147,10 @@ export const DoctorProfile = () => {
           <div className={styles['main__div']}>
               <div className={styles['left__div']}>
                 <div className={styles['configurations__div']}>
-                  <DropDown title="change password" child={<PasswordCard />}></DropDown>
+                  {/* <DropDown title="change password" child={<PasswordCard />}></DropDown> */}
                   <ShowCard title="add time slots" icon={<AccessTimeIcon/>}><Modal title="Add Time Slots"><AddTimeSlots /></Modal></ShowCard>
+                  <ShowCard title="update info" icon={<EditIcon/>}><Modal title="Update Info"><UpdateDoctorInfo /></Modal></ShowCard>
+                  <ShowCard title="contract" icon={<ContactMailIcon/>}><Modal title="Employment Contract"><ContractView /></Modal></ShowCard>                  
                 </div>
               </div>
               <div className={styles['right__div']}>

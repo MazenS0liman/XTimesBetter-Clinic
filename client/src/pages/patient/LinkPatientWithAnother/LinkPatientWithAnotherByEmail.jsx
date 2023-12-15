@@ -97,9 +97,7 @@ const LinkPatientWithAnotherByEmail = () => {
         }
     };
     return (
-        <div className={styles['Linkdiv-schedule']}>
-            <h1>Link Patient By Email</h1>
-
+        <>
 
             <form className={styles['Linkform']} onSubmit={handleSubmit}>
                 <div>
@@ -134,7 +132,7 @@ const LinkPatientWithAnotherByEmail = () => {
 
             {message && <p>{message}</p>}
             {error && <div style={{ color: 'red' }}>{error}</div>}
-        </div>
+        </>
     );
 };
 

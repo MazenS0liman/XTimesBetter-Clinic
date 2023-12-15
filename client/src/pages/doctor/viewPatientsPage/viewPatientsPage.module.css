@@ -20,16 +20,17 @@
 }
 
 .page-cards-div {
-    max-width: 100%;
+    width: 100%;
     height: 100%;
-
     margin: 5px 0px 0px 0px;
     padding: 20px;
-
     display: flex;
     flex-direction: row;
-    
-    background: white;   
+    background: white;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .error-div {

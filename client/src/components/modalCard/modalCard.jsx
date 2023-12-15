@@ -66,11 +66,11 @@ export const Modal = ({
         ReactDOM.createPortal(
         <div className={styles[`cc-modal-container${addedClasses}`]} id={styles["modal"]}>
 
-            {/* <button
+            <button
             className={styles["cc-modal-overlay"]}
             onClick={() => setOpen(!open)}
             aria-label="Close Modal"
-            /> */}
+            />
             <div className={styles["cc-modal"]}>
 
             {size !== 'dialog' 

@@ -96,9 +96,7 @@ const LinkPatientWithAnotherByMobile = () => {
         }
     };
     return (
-        <div className={styles['Linkdiv-schedule']}>
-            <h1>Link By Phone Number</h1>
-
+        <>
             <form className={styles['Linkform']} onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="mobile" className={styles['Linklabel']}>Phone Number:</label>
@@ -132,7 +130,7 @@ const LinkPatientWithAnotherByMobile = () => {
 
             {message && <p>{message}</p>}
             {error && <div style={{ color: 'red' }}>{error}</div>}
-        </div>
+        </>
     );
 };
 

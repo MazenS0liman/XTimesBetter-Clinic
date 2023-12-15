@@ -15,9 +15,6 @@ import AdbIcon from '@mui/icons-material/Adb';
 import VaccinesIcon from '@mui/icons-material/Vaccines';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
-// Pages
-const pages = [];
-
 
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
@@ -34,7 +31,7 @@ import { PasswordPopUp } from '../../components/passwordPopUp/passwordPopUp';
 import { LogOutCard } from '../logOutCard/logOutCard';
 import { Modal } from '../../components/modalCard/modalCard';
 
-export const ResponsiveAppBar = () => {
+export const ResponsiveAppBar = ({array}) => {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElRegister, setAnchorElRegister] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -46,6 +43,10 @@ export const ResponsiveAppBar = () => {
   const navigate = useNavigate();
   const accessToken = sessionStorage.getItem('accessToken');
   const [open, setOpen] = useState(false);
+  const [pages, setPages] = useState(array);
+  console.log("Pages: ");
+  console.log(pages);
+
 
   useEffect(() => {
     if (accessToken != null && accessToken != undefined && accessToken.split(' ')[1] != "") {
@@ -108,10 +109,10 @@ export const ResponsiveAppBar = () => {
                 },
                 fontFamily: 'monospace',
                 fontWeight: 700,
-                letterSpacing: '.3rem',
+                letterSpacing: '.1rem',
                 color: 'inherit',
                 textDecoration: 'none',
-                width: '50%',
+                width: '100%',
                 height: '100%',
               }}
             >
@@ -147,9 +148,15 @@ export const ResponsiveAppBar = () => {
                   display: { xs: 'block', md: 'none' },
                 }}
               >
-                {pages.map((page) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Typography textAlign="center">{page}</Typography>
+                {pages != [] && pages.map((page, key) => (
+                  <MenuItem key={key} onClick={handleCloseNavMenu}>
+                    <Typography 
+                      textAlign="center"
+                      component="a"
+                      href={page.url}
+                      variant="h1"
+                    >
+                      {page.pageName}</Typography>
                   </MenuItem>
                 ))}
               </Menu>
@@ -175,15 +182,26 @@ export const ResponsiveAppBar = () => {
               LOGO
             </Typography>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-              {pages.map((page) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                  sx={{ my: 2, color: 'white', display: 'block' }}
-                >
-                  {page}
-                </Button>
-              ))}
+              {pages != [] && pages.map((page, key) => (
+                  <MenuItem key={key} onClick={handleCloseNavMenu}>
+                    <Typography 
+                      textAlign="center"
+                      component="a"
+                      href={page.url}
+                      variant="label"
+                      sx={{ 
+                        my: 2, 
+                        height: '100%',
+                        color: 'white', 
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        px: 1
+                      }}
+                    >
+                      {page.pageName}</Typography>
+                  </MenuItem>
+                ))}
             </Box>
 
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, flexDirection: 'row', justifyContent: 'right' }}>
@@ -302,7 +320,6 @@ export const ResponsiveAppBar = () => {
                   </MenuItem>
                 }
                 {
-                  sessionStorage.getItem('userType') === 'admin' && 
                   <MenuItem 
                     onClick={() => {
                       handleCloseUserMenu();

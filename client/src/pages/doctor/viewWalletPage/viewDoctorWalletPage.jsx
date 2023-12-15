@@ -72,7 +72,7 @@ const ViewDoctorWalletPage = () => {
     
     return (
         <div className={styles.walletAmount}>
-            <p className={styles.largeText}>Balance: ${walletNumber} EGP </p>
+            <p className={styles.largeText}>Balance: ${walletNumber} </p>
             {/* <div className={styles.walletAmount}>
                 <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
             </div> */}

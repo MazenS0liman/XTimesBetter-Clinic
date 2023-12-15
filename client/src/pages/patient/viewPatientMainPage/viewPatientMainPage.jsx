@@ -43,9 +43,6 @@ import ViewPatientWalletPage from '../viewWallet/viewPatientWalletPage';
 import ViewHealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
 import { ChatPage } from '../ChatPage/chatPage'; 
 import RequestFollowUp from '../RequestFollowUp/RequestFollowUp';
-
-
-//salma sprint 3
 import VideoCall from '../PVideoCall/PVideoCall';
 import Call from '../VideoCalling/VideoCalling';
 import RescheduleTimeSlots from '../rescheduleTimeSlots/rescheduleTimeSlots';
@@ -53,6 +50,10 @@ import PatientNotifications from '../viewNotifications/viewNotifications';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
+
+
+
 
 export const ViewPatientMainPage = () => {
     // const {accessToken, refreshToken} = useAuth();
@@ -100,82 +101,21 @@ export const ViewPatientMainPage = () => {
 
     const list = [
         {
-            url: "/patient/ViewAllDrs",
+            url: "/patient/viewDoctorsListPage",
             pageName: "Doctors",
         },
         {
-            url: "/patient/viewDoctorsListPage",
-            pageName: "Doctors List",
-        },
-        {
             url: "/patient/prescriptionTable",
-            pageName: "Prescript pg",
-        },
-        {
-            url: "/patient/FamilyInformation",
-            pageName: "Fam Info",
-        },
-        {
-            url: "/patient/AddFamily",
-            pageName: "Add FamMem",
-        },
-        {
-            url: "/patient/FilterAppointmentByStatusPatient",
-            pageName: "Filter Stat",
-        },
-        {
-            url: "/patient/FilterAppointmentByDatePatient",
-            pageName: "Filter Date",
-        },
-        {
-            url: "/patient/LinkPatientWithAnotherByEmail",
-            pageName: "Link Fam Email",
-        },
-        {
-            url: "/patient/LinkPatientWithAnotherByMobile",
-            pageName: "Link Fam Phone",
+            pageName: "Prescriptions",
         },
         {
             url: "/patient/ViewPackagesDetails",
-            pageName: "Pack Details",
-        },
-        {
-            url: "/patient/ViewSubscribedPackages",
-            pageName: "Subs Details",
-        },
-        {
-            url: "/patient/viewWalletNumber",
-            pageName: "Wallet",
+            pageName: "Packages",
         },
         {
             url: "/patient/ViewAppointments",
-            pageName: "Appoints"
+            pageName: "Appointments"
         },
-        {
-            url: "/patient/viewMedicalHistory",
-            pageName: "Med History",
-        },
-        {
-            url: "/patient/viewHealthRecords",
-            pageName: "Health Records",
-        },
-        {
-            url: "/patient/RequestFollowUp",
-            pageName: "Req FollowUp",
-        },
-        {
-            url: "/patient/VideoCall",
-            pageName: "Start Video Call",
-        },
-        // {
-        //     url: "/patient/Call",
-        //     pageName: "Call",
-        // }
-    {
-
-            url: "/patient/viewNotifications",
-            pageName: "notifications",
-        }
     ];
 
     if (  accessToken=== null ||accessToken=== undefined || accessToken.split(' ')[1] === "") return (<Navigate to="/login" />);
@@ -186,6 +126,7 @@ export const ViewPatientMainPage = () => {
     return (
         <div className={styles['main-div']}>
             {/* <Navbar name="Patient" list={list} /> */}
+            <ResponsiveAppBar array={list}/>
             <ResponsiveSideBar array={list} />
             <>
                 <Routes>
@@ -218,6 +159,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/Call" element={<Call/>} />
                     <Route path="/rescheduleTimeSlots" element={<RescheduleTimeSlots/>} />
                     <Route path="/viewNotifications" element={<PatientNotifications />} />
+                    <Route path="/" element={<Navigate to="/patient/profile" />} />
                 </Routes>
             </>
         </div>

@@ -30,6 +30,7 @@ import RemovePatient from '../RemovePatient/removepatient';
 import RemoveDoctor from '../RemoveDoctor/removedoctor';
 import ViewRequestedDoctorsInfo from '../viewRequestedDoctorsInfo/viewRequestedDoctorsInfo';
 import { AdminProfile } from '../AdminProfile/AdminProfile';
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
@@ -94,17 +95,9 @@ export const ViewAdminMainPage = () => {
             url: "/admin/AdjustPackage",
             pageName: "Adjust Package",
         },
-        // {
-        //     url: "/admin/UpdatePackage",
-        //     pageName: "Update Package",
-        // },
-        // {
-        //     url: "/admin/DeletePackage",
-        //     pageName: "Delete Package",
-        // },
         {
             url: "/admin/requestedDoctorsInfoPage",
-            pageName: "View Requested Doctors",
+            pageName: "Doctor's Requests",
         }
     ];
 
@@ -114,6 +107,7 @@ export const ViewAdminMainPage = () => {
     return (
         <div className={styles['main-div']}>
             {/* <Navbar name="Admin" list={list} /> */}
+            <ResponsiveAppBar array={list}/>
             <ResponsiveSideBar array={list}/>
             <>
             <Routes>
@@ -127,6 +121,7 @@ export const ViewAdminMainPage = () => {
             <Route path='/UpdatePackage' element={<UpdatePackage />}/> 
             <Route path='/DeletePackage' element={<DeletePackage />} />  */}
             <Route path = "/requestedDoctorsInfoPage" element = {<ViewRequestedDoctorsInfo/>} />
+            <Route path="/" element={<Navigate to="/admin/addadmin" />} />
             </Routes>
             </>
         </div>

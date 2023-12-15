@@ -113,8 +113,6 @@ const ContractView = () => {
 
     return (
         <div>
-            <h1>Employment Contract</h1>
-
             {contract.map((contract) => (
                 <div key={contract._id}className={styles.ContractContainer}>
                  <div className={styles.ContractContent}>
@@ -123,8 +121,8 @@ const ContractView = () => {
                     <p>Contract Date: 11/11/2023</p>
 
                     <p>
-                        <h2>{contract.doctorName} Mohamed ElSalanty <br /></h2>
-                        Zahraa-ElMaadi, Cairo, Egypt <br />
+                        <h2 style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{contract.doctorName} Mohamed ElSalanty <br /></h2>
+                        <p style={{display: 'flex', alignItems: 'center', justifyContent: 'flex-end'}}>Zahraa-ElMaadi, Cairo, Egypt</p> <br />
                         Dear Dr. {contract.doctorName},
                     </p>
 
@@ -175,19 +173,12 @@ const ContractView = () => {
                     </p>
 
                     <h3>7. Governing Law:</h3>
-                    <p>This Agreement shall be governed by and construed in accordance with the laws of Cairo.</p>
+                    <p>This Agreement shall be governed by and construed in accordance with the laws of Cairo.</p><br/>
 
-                    <p>
-                        Employment Date: {contract.employmentDate} <br />
-                        <p>
-
-                        </p>
-                        Renewal Date: {contract.terminationDate} <br />
-                        <p>
-
-                        </p>
-                        Contract's Status: {contract.status}
-                    </p>
+                    <p style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                        Employment Date: {contract.employmentDate} <br /></p>
+                    <p style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Renewal Date: {contract.terminationDate} <br /></p>
+                    <p style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>Contract's Status: {contract.status}</p>
                     </div>
                     <div className={styles.ContractButtons}>
                     {(contract.accepted !== true || contract.status === 'Pending') && (

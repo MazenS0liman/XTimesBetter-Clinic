@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 
 // Fontawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCommentAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCommentAlt, faExternalLink } from '@fortawesome/free-solid-svg-icons';
 
 export const PatientCard = ({ patient, handleCardClick, handleChatClick }) => {
     const [patientInfo, setPatientInfo] = useState(patient);
@@ -24,20 +24,7 @@ export const PatientCard = ({ patient, handleCardClick, handleChatClick }) => {
     }
 
     return (
-        <div className={styles['main-card-div']}>  
-            <div className={styles['extra__div']}>
-                <div className={styles['chat__div']} onClick={() => 
-                    {
-                        console.log(`Patient Username: ${patient.username}`)
-                        console.log(`Patient Name: ${patient.name}`)
-                        handleChatClick(patient.name, patient.username)
-
-                    }}>
-                    <FontAwesomeIcon className={styles['chat__icon']} icon={faCommentAlt} />
-                </div>
-            </div>  
-
-            <div className={styles['sub__div']} onClick={() => handleCardClick(patient.username)}>
+            <div className={styles['sub__div']}>
                 <div className={styles['card-pic-div']}>
                     <div className={styles['main-card-img']}>
                         {
@@ -46,10 +33,27 @@ export const PatientCard = ({ patient, handleCardClick, handleChatClick }) => {
                     </div>
                 </div>
                 <div className={styles['card-info-div']}>
+                    <div className={styles['extra__div']}>
+                        <div className={styles['chat__div']} onClick={() => 
+                            {
+                                console.log(`Patient Username: ${patient.username}`)
+                                console.log(`Patient Name: ${patient.name}`)
+                                handleChatClick(patient.name, patient.username)
+
+                            }}>
+                            <FontAwesomeIcon className={styles['chat__icon']} icon={faCommentAlt} />
+                        </div>
+                        <div className={styles['chat__div']} onClick={() => 
+                            {
+                                handleCardClick(patient.username)
+
+                            }}>
+                            <FontAwesomeIcon className={styles['chat__icon']} icon={faExternalLink} />
+                        </div>
+                    </div>  
                     <div className={styles['card-username-div']}><a className={styles['card-username-a']}><strong><span className={styles['card-span-info']}>Name: {capitalizeFirstLetters(patient.name)}</span></strong></a></div>
                     <div className={styles['card-mobile-div']}><a className={styles['card-mobile-a']}><strong><span className={styles['card-span-info']}>Mobile: {patient.mobile}</span></strong></a></div>
                 </div>
             </div>
-        </div>
     );
 }

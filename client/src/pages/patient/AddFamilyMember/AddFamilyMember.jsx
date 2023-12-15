@@ -112,8 +112,7 @@ const AddFamilyMember = () => {
         }
     };
     return (
-        <div className={styles['ADDdiv-schedule']}>
-            <h1>Add Family Member</h1>
+        <>
 
             <form onSubmit={handleSubmit}>
                 <div className={styles.ADDform}>
@@ -196,7 +195,7 @@ const AddFamilyMember = () => {
             {error && (
                 <div style={{ color: 'red' }}>{error}</div>
             )}
-        </div>
+        </>
     );
 
 };

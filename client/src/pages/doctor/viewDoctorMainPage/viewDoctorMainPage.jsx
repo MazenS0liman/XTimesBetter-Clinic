@@ -49,6 +49,8 @@ import DoctorNotifications from '../viewNotifications/viewNotifications';
 
 // Components
 import { Navbar } from '../../../components/navBar/navBar';
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
+
 // import UpdatePrescriptionPage from '../viewPrescriptionInfoDoctorPage/UpdatePrescriptionPage';
 
 import UpdatePrescription from '../updatePrescription/updatePrescription';
@@ -103,28 +105,8 @@ export const ViewDoctorMainPage = () => {
             pageName: "Patients",
         },
         {
-            url: "/doctor/updateInfoPage",
-            pageName: "Update Info",
-        },
-        {
-            url: "/doctor/FilterAppointmentByStatusDoctor",
-            pageName: "Filter Status",
-        },
-        {
-            url: "/doctor/FilterAppointmentByDateDoctor",
-            pageName: "Filter Date",
-        },
-        {
-            url: "/doctor/viewContract",
-            pageName: "Contract Info",
-        },
-        {
             url: "/doctor/viewAppointmentsPage",
-            pageName: "My Appointments",
-        },
-        {
-            url: "/doctor/scheduleFollowUpPage",
-            pageName: "Schedule Follow Up",
+            pageName: "Appointments",
         },
         {
             url: "/doctor/writePrescription",
@@ -132,19 +114,12 @@ export const ViewDoctorMainPage = () => {
         },
         {
             url: "/doctor/PrescriptionDoctorTable",
-            pageName: "Prescript pg",
+            pageName: "Prescriptions",
         },
         {
             url: "/doctor/AcceptRejectFollowUpPage",
-            pageName: "Acc Rej FollowUp",
+            pageName: "Follow Up",
         },
-        {
-            url: "/doctor/VideoCall",
-            pageName: "Start Video Call",
-        },{
-            url: "/doctor/viewNotifications",
-            pageName: "notifications",
-        }
     ];
 
     if (load) {
@@ -153,6 +128,7 @@ export const ViewDoctorMainPage = () => {
     return (
         <div className={styles['main-div']}>
             {/* <Navbar name="Doctor" list={list} /> */}
+            <ResponsiveAppBar array={list}/>
             <ResponsiveSideBar array={list} />
             <>
                 <Routes>
@@ -175,12 +151,12 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/PrescriptionDoctorTable" element={<PrescriptionDoctorTable />} />
                     {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
                     <Route path="/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} />
-
                     <Route path="/ChatPage" element={<ChatPage />} />
                     <Route path="/AcceptRejectFollowUpPage" element={<AcceptRejectFollowUp />} />
                     <Route path="/VideoCall" element={<DoctorVideo />} />
                     <Route path='/rescheduleTimeSlots' element={<RescheduleTimeSlots/>} />
                     <Route path="/viewNotifications" element={<DoctorNotifications />} />
+                    <Route path="/" element={<Navigate to="/doctor/profile" />} />
                 </Routes>
             </>
         </div >

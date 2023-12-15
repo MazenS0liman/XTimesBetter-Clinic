@@ -1,22 +1,9 @@
 /* <DIV> Class Selectors */
 .main-card-div {
-    width: 25%;
-    height: 60%;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2px;
-    margin: 25px;
-    box-sizing: border-box;
-    /* backdrop-filter: grayscale(50%); */
-    border: 1px solid #ffffff22;
-    background-image: linear-gradient(35deg, #0F2027 0%, #125590 50%, #2C5364 100%);
+    width: 155px;
+    background-size: cover;
+    background-color: rgba(255, 255, 255, 0.836);
     border-radius: 0.7rem;
-    /* box-shadow: -2px 2px 2px #FFE, 0px 3px 10px 5px #00000088; */
-    cursor: pointer;
-    transition: 1s ease-in-out;
 }
 
 .main-card-div:hover {
@@ -26,41 +13,50 @@
 }
 
 .sub__div {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.3s;
+    max-width: fit-content;
+    width: 100%;
+    height: 100%;
+    max-height: 200px;
+    box-sizing: border-box;
     display: flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    /* background-image: linear-gradient(35deg, #0F2027 0%, #125590 50%, #2C5364 100%); */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sub__div:hover {
+    background-color: #f9f9f9;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
 .chat__div {
     width: 30px;
     height: 30px;
-
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
     padding: 10px 10px;
-    
     box-sizing: border-box;
-
     /* backdrop-filter: grayscale(50%); */
     border: 1px solid #ffffff22;
-    background-image: linear-gradient(35deg, #0d6b94 0%, #e2ebee 50%, #fdfdfd 100%);
+    /* background-image: linear-gradient(35deg, #0d6b94 0%, #e2ebee 50%, #fdfdfd 100%); */
     border-radius: 100%;
     /* box-shadow: -2px 2px 2px #FFE, 0px 3px 10px 5px #00000088; */
-
     cursor: pointer;
     transition: 1s ease-in-out;
 }
 
 .card-pic-div {
-    width: 180px;
-    height: 180px;
-
+    width: 250px;
+    height: 150px;
     border-radius: 100%;
     overflow: hidden;
 }
@@ -70,34 +66,30 @@
     display: flex;
     flex-wrap: nowrap;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
     margin-left: 10px;
 }
 
 .card-info-div {
     padding: 5px;
-    
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: flex-start;
     
 }
 
 /* <IMG> Class Selectors */
 .main-card-img {
-    width: 100%;
-    height: 100%;
     background-size: cover;
-    /* background-color: linear-gradient(0deg, rgba(255, 255, 255, 0.836) 0%, rgba(246, 241, 250, 0.178) 100%); */
     background-color: rgba(255, 255, 255, 0.836);
     border-radius: 0.7rem;
 }
 
 .gender__img {
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    height: 100%;
     border-radius: 100%;
 }
 
@@ -105,12 +97,19 @@
 .card-username-a,
 .card-email-a,
 .card-mobile-a {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #131212;
     text-align: center;
     margin: 0;
     padding: 0;
+}
+
+.card-username-a:hover,
+.card-email-a:hover,
+.card-mobile-a:hover {
+    text-decoration: none;
+    color: #131212 !important;
 }
 
 .card-username-a:hover,

@@ -13,15 +13,9 @@ export const CreditCard = ({ children }) => {
     <div className={styles["card"]}>
       <div className={styles["container"]}>
         <div className={styles["card"]}>
-            <div className={styles["visa_logo"]}>
-                <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png" alt=""/>
-            </div>
             <div className={styles["visa_info"]}>
-                <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png" alt=""/>
+                <img src="../../../src/assets/img/money.svg"  alt=""/>
                 {children}
-            </div>
-            <div className={styles["visa_crinfo"]}>
-                <p>{sessionStorage.getItem('name')}</p>
             </div>
         </div>
       </div>

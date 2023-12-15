@@ -110,8 +110,7 @@ const FamilyView = () => {
 
     return (
         <div className={styles['Nayerafamily-view-container']}>
-            <h1>Family Members</h1>
-            <div className={styles['Nayerabutton-container']}>
+            {/* <div className={styles['Nayerabutton-container']}>
                 <button className={styles.Nayerabutton} onClick={handleToggleAddFamilyMember}>
                     {showAddFamilyMember ? 'Hide Add Family Member' : 'Add Family Member'}
                 </button>
@@ -136,7 +135,7 @@ const FamilyView = () => {
                 <div className={styles['LinkByMobile-container']} ref={linkByMobileRef}>
                     <LinkPatientWithAnotherByMobile />
                 </div>
-            )}
+            )} */}
             <table className={styles['family-table']}>
                 <thead>
                     <tr>

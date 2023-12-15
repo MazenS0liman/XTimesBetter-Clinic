@@ -98,6 +98,7 @@
     height: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: center;
 }
 
 .left__div {
@@ -107,19 +108,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .middle__div {
-    width: 40%;
+    width: 35%;
     height: 250px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-content: space-around;
     justify-content: flex-start;
     align-items: center;
-    padding: 10px;
 }
 
 .right__div {
@@ -143,7 +142,7 @@
     justify-content: flex-start;
     align-items: center;
     border: 1px solid black;
-    /* background: black; */
+    background: white;
     border-radius: 10px;
     box-sizing: border-box;
     transition: 1s ease-in-out;
@@ -169,7 +168,6 @@
 .wallet__div {
     width: 420px;
     height: 270px;
-    margin: 10px;
     padding: 5px;
     display: flex;
     flex-direction: column;

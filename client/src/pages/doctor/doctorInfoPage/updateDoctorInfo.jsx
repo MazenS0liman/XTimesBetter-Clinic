@@ -216,6 +216,7 @@ function UpdateDoctorInfo() {
           });
           getCurrentDoctorInfo();
           alert('Doctor updated successfully');
+          location.reload();
         } else {
           alert('Doctor update failed');
         }
@@ -233,14 +234,14 @@ function UpdateDoctorInfo() {
 
  
   return (
-    <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
     <div className={styles['update-form-container']}>
       <div className={styles['bordered-container']}>
         <fieldset className={styles.fieldset}>
           <legend className={styles.legend}  style={{fontSize: '1.5em'}}><strong>Update your Info </strong> <EditIcon /></legend>
           <form className={styles.form}>
           <div className={`${styles['dropdown-container']} dropdown-container`}>
-              <label>Select update option:</label>
+              <label style={{margin: '10px'}}>Select update option:</label>
               <select onChange={(e) => handleOptionChange(e.target.value)} value={selectedOption}>
                 <option value="" disabled>
                   Select an option

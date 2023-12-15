@@ -28,7 +28,7 @@ export const DropDown = ({ title, child }) => {
         <div className={styles['main__div']}>
             <div className={styles['left__div']}>
                 {
-                    title === 'change password' ?
+                    title === 'Change password' ?
                         <FontAwesomeIcon icon={faKey} /> :
                     title === 'wallet' ?
                         <FontAwesomeIcon icon={faWallet} /> :
