@@ -3,6 +3,9 @@ import React, { useState, useEffect } from 'react';
 // Axios
 import axios from 'axios';
 
+// Styles
+import styles from './timeSlots.module.css';
+
 //  React Router DOM
 import { useNavigate } from 'react-router-dom';
 
@@ -91,15 +94,15 @@ const AddTimeSlots = () => {
   };
 
   return (
-    <div className="timeSlots">
-      <h2>Add Time Slots</h2>
-      <form onSubmit={handleSubmit}>
+    <div className={styles["timeSlots"]}>
+      <form className={styles['timeSlot__form']} onSubmit={handleSubmit}>
         {/* Add form fields for each data attribute */}
-        <div>
+        <div className={styles['sub__div']}>
         <label>Select Date and Time:</label>
           <input
             type="datetime-local"
             name="availableTimeSlots"
+            className={styles['timeSlot__input']}
             value={formData.availableTimeSlots.length > 0 ? formData.availableTimeSlots[0] : ''}
             onChange={handleInputChange}
             required
@@ -109,7 +112,7 @@ const AddTimeSlots = () => {
         {/* Add similar fields for other attributes */}
 
         {/* Submit button */}
-        <button type="submit">Add</button>
+        <button type="submit" className={styles['timeSlot__btn']}>Add</button>
       </form>
     </div>
   );

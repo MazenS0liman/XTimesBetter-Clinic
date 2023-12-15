@@ -1,9 +1,14 @@
 /* WalletInfo.module.css */
 
 .walletContainer {
-    text-align: center;
-    margin: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
   }
+
   .squareContainer {
     text-align: center; /* Center text horizontally */
     width: 200px; /* Set the width for a square shape */

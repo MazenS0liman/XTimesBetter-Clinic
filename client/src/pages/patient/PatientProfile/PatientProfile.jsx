@@ -34,7 +34,18 @@ import { DropDown } from '../../../components/dropDown/dropDown';
 
 // User Defined Components
 import { CreditCard } from '../../../components/creditCard/creditCard';
+import { ShowCard } from '../../../components/showCard/showCard';
+import { ProfileCard } from '../../../components/profileCard/profileCard';
+import { Modal } from '../../../components/modalCard/modalCard';
 
+// MUI Icons
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NorthEastIcon from '@mui/icons-material/NorthEast';
+
+// Pages
+import HealthRecords from '../ViewHealthRecordsPage/viewhealthRecordsPage';
 
 export const PatientProfile = () => {
     // User Info
@@ -44,8 +55,6 @@ export const PatientProfile = () => {
     const [dob, setDOB] = useState('');
     const [mobile, setMobile] = useState('');
     const [image, setImage] = useState('');
-    
-
     const accessToken = sessionStorage.getItem("accessToken");
     const [username, setUsername] = useState('');
     const [load, setLoad] = useState(true);
@@ -79,6 +88,10 @@ export const PatientProfile = () => {
 
     if (load) {
       return(<div>Loading</div>)
+    }
+
+    function handleViewMedicalHistory() {
+      navigate('/patient/viewMedicalHistory');
     }
     
     const getPatientInfo = async () => {
@@ -122,43 +135,52 @@ export const PatientProfile = () => {
       })
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     getPatientInfo();
-    
+
     return (
         <div className={styles['patient-info-main-div']}>
           <div className={styles['patient-info-top-div']}>
             <div className={styles['patient-info-left-div']}>
               <img className={styles['patient-info-img']} src={image}></img>
             </div>
-            <div className={styles['patient-info-right-div']}>
+            {/* <div className={styles['patient-info-right-div']}>
               <div className={styles['patient-information-div']}>
-                <Typography level="h1" component="h1" sx={{color: 'lightskyblue'}}>{name}</Typography>
+                <Typography level="h1" component="h1" sx={{color: 'white'}}>{name}</Typography>
                 <div className={styles['patient-information-sub-div']}>
                   <div className={styles['patient-information-left-div']}>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>username: {username}</Typography>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>email: {email}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>username: {username}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>email: {email}</Typography>
                   </div>
                   <div className={styles['patient-information-right-div']}>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>data of birth: {dob}</Typography>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>mobile: {mobile}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>data of birth: {dob}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>mobile: {mobile}</Typography>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
-          <div className={styles['patient-info-bottom-div']}>
-          </div>
-
+         {/*  <div className={styles['patient-info-bottom-div']}>
+          </div> */}
           <div className={styles['main__div']}>
             <div className={styles['left__div']}>
               <div className={styles['configurations__div']}>
                 <DropDown title="change password" child={<PasswordCard />}></DropDown>
-                
+                <ShowCard title="view medical history" icon={<MedicalInformationIcon/>}><NorthEastIcon sx={{cursor: 'pointer'}} onClick={handleViewMedicalHistory}></NorthEastIcon></ShowCard>
+                <ShowCard title="view health records" icon={<AccessTimeIcon/>}><Modal title="View Health Records"><HealthRecords /></Modal></ShowCard> 
               </div>
             </div>
             <div className={styles['middle__div']}>
               <div className={styles['charts__div']}>
-
+                <ProfileCard info={
+                  [
+                    {name: 'name', value: name},
+                    {name: 'username', value: username},
+                    {name: 'email', value: email},
+                    {name: 'mobile', value: mobile},
+                    {name: 'date of birth', value: dob}
+                  ]
+                }></ProfileCard>
               </div>
             </div>
             <div className={styles['right__div']}>
@@ -167,8 +189,6 @@ export const PatientProfile = () => {
               </div>
             </div>
           </div>
-
         </div>
     );
-
 }

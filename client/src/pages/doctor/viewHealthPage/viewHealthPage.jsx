@@ -6,8 +6,11 @@ import axios from 'axios';
 //  React Router DOM
 import { useNavigate } from 'react-router-dom';
 
-const PHealthRecords = () => {
-  const [username, setUsername] = useState('');
+// Styles
+import styles from './viewHealthPage.module.css';
+
+const PHealthRecords = (patient) => {
+  const [username, setUsername] = useState(patient);
   const [healthRecords, setHealthRecords] = useState([]);
   const baseURL = 'http://localhost:5000/uploads/';
 
@@ -15,6 +18,46 @@ const PHealthRecords = () => {
   const navigate = useNavigate();
   const [doctorUsername, setDoctorUsername] = useState('');
   const [load, setLoad] = useState(true);
+
+  console.log("Patient Username");
+  console.log(patient);
+  
+  const handleSubmit = async () => {
+    // e.preventDefault();
+
+    console.log(`Patient Username: ${patient.patient_username}`);
+
+    try {
+      const response = await fetch(`http://localhost:5000/doctor/viewPHealthRecords/${patient.patient_username}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': accessToken,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        console.log(data.healthRecords);
+  
+        setHealthRecords(data.healthRecords);
+      } else {
+        const errorMessage = await response.json(); // Extract error message from the response
+        console.error('Error fetching health records:', errorMessage);
+        alert(`Error: ${errorMessage.message}`);
+        setHealthRecords([]);
+      }
+    } catch (error) {
+      console.error('Error fetching health records:', error);
+      alert(`Error: ${error.message}`);
+      setHealthRecords([]);
+    }
+  };
+
+  useEffect(() => {
+    handleSubmit();
+  }, [patient]);
 
   useEffect(() => {
     if (doctorUsername.length != 0) {
@@ -52,58 +95,13 @@ const PHealthRecords = () => {
       console.log(username);
     });
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log({ username });
-    //const requestdata={username:username}
-    try {
-      const response = await fetch(`http://localhost:5000/doctor/viewPHealthRecords/${username}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': accessToken,
-        },
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.healthRecords);
-  
-        setHealthRecords(data.healthRecords);
-      } else {
-        const errorMessage = await response.json(); // Extract error message from the response
-        console.error('Error fetching health records:', errorMessage);
-        alert(`Error: ${errorMessage.message}`);
-        setHealthRecords([]);
-      }
-    } catch (error) {
-      console.error('Error fetching health records:', error);
-      alert(`Error: ${error.message}`);
-      setHealthRecords([]);
-    }
-  };
 
   return (
-    <div>
-      <h2>Health Records</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input 
-  type="text" 
-  value={username} 
-  onChange={handleUsernameChange} 
-  required
-/>
-        </label>
-        <button type="submit">Fetch Health Records</button>
-      </form>
-
+    <div className={styles['main__div']}>
       {healthRecords.length > 0 ? (
-        <ul>
+        <ul className={styles['health__ul']}>
           {healthRecords.map((record, index) => (
-            <li key={index}>
+            <li key={index} className={styles['health__li']}>
               {/* Display each health record */}
               <a href={baseURL + record} target="_blank" rel="noopener noreferrer">
                 Health Record {index + 1}

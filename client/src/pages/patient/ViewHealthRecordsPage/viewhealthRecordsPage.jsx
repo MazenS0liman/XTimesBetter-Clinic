@@ -3,6 +3,9 @@ import React, { useEffect, useState } from 'react';
 // Axios
 import axios from 'axios';
 
+// Styles
+import styles from './viewHealthRecords.module.css';
+
 //  React Router DOM
 import { useNavigate } from 'react-router-dom';
 
@@ -69,9 +72,8 @@ const HealthRecords = () => {
 
   return (
     <div>
-      <h2>Health Records</h2>
-{ healthRecords && healthRecords.length > 0  ? (
-  <ul>
+  { healthRecords && healthRecords.length > 0  ? (
+  <ul className={styles['health__records__ul']}>
     {healthRecords.map((record, index) => (
       <li key={index}>
         {/* Display each health record */}

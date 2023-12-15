@@ -32,8 +32,20 @@ import { useAuth } from '../../../components/hooks/useAuth';
 // User Defined Components
 import { DropDown } from '../../../components/dropDown/dropDown';
 import { CreditCard } from '../../../components/creditCard/creditCard';
-import { Modal, Example } from '../../../components/modalCard/modalCard';
+import { Modal } from '../../../components/modalCard/modalCard';
+import { ShowCard } from '../../../components/showCard/showCard';
+import { ProfileCard } from '../../../components/profileCard/profileCard';
+
+// MUI Icons
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NorthEastIcon from '@mui/icons-material/NorthEast';
+
+// Pages
+import AddTimeSlots from '../timeSlotsPage/timeSlots';
 import UpdateDoctorInfo from '../doctorInfoPage/updateDoctorInfo';
+import ViewDoctorWalletPage from '../viewWalletPage/viewDoctorWalletPage';
 
 export const DoctorProfile = () => {
     const navigate = useNavigate();
@@ -121,20 +133,20 @@ export const DoctorProfile = () => {
             <div className={styles['doctor-info-left-div']}>
                 <img className={styles['doctor-info-img']} src={image}></img>
             </div>
-            <div className={styles['doctor-info-right-div']}>
+{/*             <div className={styles['doctor-info-right-div']}>
                 <div className={styles['doctor-information-div']}>
-                <Typography level="h1" component="h1" sx={{color: 'lightskyblue'}}>{name}</Typography>
+                <Typography level="h1" component="h1" sx={{color: 'white'}}>{name}</Typography>
                 <div className={styles['doctor-information-sub-div']}>
                     <div className={styles['doctor-information-left-div']}>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>username: {username}</Typography>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>email: {email}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>username: {username}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>email: {email}</Typography>
                     </div>
                     <div className={styles['doctor-information-right-div']}>
-                    <Typography level="title-sm" sx={{color: 'lightskyblue'}}>data of birth: {dob}</Typography>
+                    <Typography level="title-sm" sx={{color: 'white'}}>data of birth: {dob}</Typography>
                     </div>
                 </div>
-                </div>
-            </div>
+              </div>
+            </div> */}
             </div>
             <div className={styles['doctor-info-bottom-div']}>
               
@@ -142,15 +154,24 @@ export const DoctorProfile = () => {
               <div className={styles['left__div']}>
                 <div className={styles['configurations__div']}>
                   <DropDown title="change password" child={<PasswordCard />}></DropDown>
+                  <ShowCard title="add time slots" icon={<AccessTimeIcon/>}><Modal title="Add Time Slots"><AddTimeSlots /></Modal></ShowCard>
                 </div>
               </div>
               <div className={styles['middle__div']}>
                 <div className={styles['charts__div']}>
+                  <ProfileCard info={
+                    [
+                      {name: 'name', value: name},
+                      {name: 'username', value: username},
+                      {name: 'email', value: email},
+                      {name: 'date of birth', value: dob}
+                    ]
+                  }></ProfileCard>
                 </div>
               </div>
               <div className={styles['right__div']}>
                 <div className={styles['wallet__div']}>
-                  <CreditCard />
+                  <CreditCard><ViewDoctorWalletPage /></CreditCard>
                 </div>
               </div>
           </div>

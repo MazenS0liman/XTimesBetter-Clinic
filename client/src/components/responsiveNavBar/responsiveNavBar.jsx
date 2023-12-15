@@ -12,9 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import VaccinesIcon from '@mui/icons-material/Vaccines';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 
 // Pages
-const pages = ['Products', 'About Us'];
+const pages = [];
 
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
@@ -25,8 +27,11 @@ import { useState, useEffect } from 'react';
 // Home Made Hooks
 import { useAuth, useUserType } from '../hooks/useAuth';
 
-// Home Made Components
+// Components
+import { PasswordCard } from '../../components/changePasswordCard/changePasswordCard';
+import { PasswordPopUp } from '../../components/passwordPopUp/passwordPopUp';
 import { LogOutCard } from '../logOutCard/logOutCard';
+import { Modal } from '../../components/modalCard/modalCard';
 
 export const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -38,9 +43,8 @@ export const ResponsiveAppBar = () => {
   const [name, setName] = useState('');
   const [userType, setUserType] = useState('');
   const navigate = useNavigate();
-  // const {accessToken, refreshToken} = useAuth();
   const accessToken = sessionStorage.getItem('accessToken');
-
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (accessToken != null && accessToken != undefined && accessToken.split(' ')[1] != "") {
@@ -89,12 +93,10 @@ export const ResponsiveAppBar = () => {
       <AppBar position="static">
         <Container maxWidth="xl" sx={{backgroundImage: 'linear-gradient(45deg, black, transparent)'}}>
           <Toolbar disableGutters sx={{height: '1px !important'}}>
-            <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            <LocalHospitalIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
               noWrap
-              component="a"
-              href="/"
               sx={{
                 mr: 2,
                 display: {
@@ -183,7 +185,6 @@ export const ResponsiveAppBar = () => {
               ))}
             </Box>
 
-
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, flexDirection: 'row', justifyContent: 'right' }}>
               {/* Log In Button */}
               {!userLoggedIn && (
@@ -191,7 +192,7 @@ export const ResponsiveAppBar = () => {
                   key={'Log In'}
                   onClick={handleLogin}
                   sx={{ my: 2, color: 'white', display: 'block', px: 2}}
-                >
+              >
               LOGIN
               </Button>)}
 
@@ -201,7 +202,12 @@ export const ResponsiveAppBar = () => {
                   <Button
                   key={'Registration'}
                   onClick={handleOpenRegisterMenu}
-                  sx={{ my: 2, color: 'white', display: 'block', px: 0, width: 'auto'}}
+                  sx={{ my: 2, color: 'white', display: 'block', px: 0, width: 100}}
+                  PaperProps={{  
+                    style: {  
+                      width: 160,  
+                    },  
+                  }}
                   >
                   REGISTER
                   </Button>
@@ -221,6 +227,11 @@ export const ResponsiveAppBar = () => {
                   }}
                   open={Boolean(anchorElRegister)}
                   onClose={handleCloseRegisterMenu}
+                  PaperProps={{  
+                    style: {  
+                      width: 180,  
+                    },  
+                  }}
                   >
                       <MenuItem key={'Register As A Patient'} onClick={handleCloseRegisterMenu} component="a" href={"/patientRegister"}>
                           <Typography 
@@ -266,26 +277,44 @@ export const ResponsiveAppBar = () => {
                 onClose={handleCloseUserMenu}
                 PaperProps={{  
                   style: {  
-                    width: 100,  
+                    width: 160,  
                   },  
                 }} 
               >
 
               {/* Profile */}
-                <MenuItem 
-                  onClick={() => {
-                    handleCloseUserMenu();
-                  }}
+                {
+                  sessionStorage.getItem('userType') !== 'admin' && 
+                  <MenuItem 
+                    onClick={() => {
+                      handleCloseUserMenu();
+                    }}
 
-                  component="a" 
-                  href={`/${userType}/profile`}
-                >
-                  <Typography 
-                      textAlign="center"
+                    component="a" 
+                    href={`/${userType}/profile`}
                   >
-                      {'Profile'}
-                  </Typography>
-                </MenuItem>
+                    <Typography 
+                        textAlign="center"
+                    >
+                        {'Profile'}
+                    </Typography>
+                  </MenuItem>
+                }
+                {
+                  sessionStorage.getItem('userType') === 'admin' && 
+                  <MenuItem 
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      setOpen(!open);
+                    }}
+                  >
+                    <Typography 
+                        textAlign="center"
+                    >
+                        {'Change Password'}
+                    </Typography>
+                  </MenuItem>
+                }
 
                 {/* Log Out */}
                 <MenuItem 
@@ -308,7 +337,9 @@ export const ResponsiveAppBar = () => {
         </Container>
       </AppBar>
       {displayLogOutMessage && (<LogOutCard showLogOutCard={setDisplayLogOutMessage} ></LogOutCard>)}
-
+      {open && 
+        (<PasswordPopUp showPasswordCard={setOpen} />)
+      }
     </>
   );
 }

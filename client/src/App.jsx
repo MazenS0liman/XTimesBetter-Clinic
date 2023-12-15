@@ -23,6 +23,7 @@ import PatientRegister from './pages/patient/viewRegisterationPage/patientRegist
 
 // Hooks
 import { AuthProvider } from './components/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 
 // React Router Dom Components
 import { Routes, Route, Navigate } from 'react-router-dom';
@@ -32,14 +33,14 @@ import { ResponsiveAppBar } from './components/responsiveNavBar/responsiveNavBar
 import UpdatePrescription from './pages/doctor/updatePrescription/updatePrescription';
 
 function App() {
-
+  const navigate = useNavigate();
   return (
     <>
       <AuthProvider>
         <ResponsiveAppBar/>
         <Routes>
           {/* Home Path */}
-          <Route path='/' element={<MainPage />} ></Route>
+          {/* <Route path='/' element={<MainPage />} ></Route> */}
           {/* Login Path */}
           <Route path='/login' element={<LoginPage />} ></Route>
           {/* User Types Paths */}
@@ -57,7 +58,7 @@ function App() {
           {/* <Route path="/doctor/update-prescription/:id" element={<updatePresciption />} /> */}
           {/* <Route path="/doctor/UpdatePrescription/:prescriptionId" element={<UpdatePrescription />} /> */}
 
-          <Route path='*' element={<Navigate to='/' />} />
+          <Route path='*' element={<Navigate to='/login' />} />
         </Routes>
       </AuthProvider>
     </>
