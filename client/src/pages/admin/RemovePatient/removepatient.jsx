@@ -106,7 +106,7 @@ function RemovePatient() {
             <th>Name</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Action</th>
+            {/* <th>Action</th> */}
           </tr>
         </thead>
         <tbody>

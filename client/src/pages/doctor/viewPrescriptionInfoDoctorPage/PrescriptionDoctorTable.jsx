@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import styles from './medicinalUsesDDL.module.css';
+import styles from './presc.module.css';
 //import PrescriptionDetail from '../../../components/prescriptionFileDetails/prescriptionDetail';
 import { useAuth } from '../../../components/hooks/useAuth';
 import { jsPDF } from "jspdf";
@@ -196,12 +196,14 @@ const PrescriptionDoctorTable = () => {
     return (<div>Loading</div>)
 }
   return (
-    <div className={styles.container}>
+    <div className="prescr-container">
                   <br />
 
       <h1 className={styles.listTitle}>Prescription List</h1>
-      <div className={styles.resultContainer}>
+      {/* <div className={styles.resultContainer}> */}
         <div className={styles.filterContainer}>
+        <br />
+
           <label htmlFor="filterSelect">Filter By: </label>
           <select id="filterSelect" value={filter} onChange={handleFilterChange}>
             <option value="all">No Filter</option>
@@ -222,11 +224,11 @@ const PrescriptionDoctorTable = () => {
           &nbsp;
           &nbsp;&nbsp;
           <button onClick={handleFilterClick}>Filter</button>
-        </div>
+        {/* </div> */}
         {isFilterEmpty ? (
           <p className={styles.noDataMessage}>No prescriptions found.</p>
         ) : (
-          <table className={styles.pharmacistTable}>
+          <table>
 
           <thead>
             <tr>
@@ -251,23 +253,21 @@ const PrescriptionDoctorTable = () => {
                 <td>{prescription.filled ? 'Filled' : 'Unfilled'}</td>
                 <td>
                   <button
-                    className={styles.lightBlueButton}
+                                   className={styles['button-blue']}
+
 
                     onClick={() => handleSelectPrescription(prescription)}>
                     {selectedPrescriptionId === prescription._id ? 'Selected' : 'Select'}
                   </button>
-                </td>
-                <td>
+                {/* </td> */}
+                {/* <td> */}
                   <button
-                    className={styles.lightBlueButton}
-                    onClick={() => generatePDF(prescription)}>Download</button>
-                </td>
+                className={styles['button-blue2']}
+                onClick={() => generatePDF(prescription)}>Download</button>
                 {/* return <AppointmentList key={appointment._id} appointment={appointment}  onReschedule={handleRescheduleAppointment}/> */}
 
-                <td>
 
-                  <button
-                    className={styles.lightBlueButton}
+                  <button className={styles['button-blue3']}
 
                     onClick={() => handleUpdateClick(prescription._id)}
                     disabled={prescription.filled}
@@ -279,6 +279,7 @@ const PrescriptionDoctorTable = () => {
             ))}
           </tbody>
         </table>
+        
                )}
 
       </div>
@@ -297,7 +298,9 @@ const PrescriptionDoctorTable = () => {
               <p>Selected Successfully</p>
             </div>
             <h2>Prescription Details</h2>
-            <table className={styles.pharmacistTable}>
+            <div className={styles['smallTable-container']}>
+
+            <table>
               <thead>
                 <tr>
                   <th>Name</th>
@@ -319,6 +322,7 @@ const PrescriptionDoctorTable = () => {
 
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       )}

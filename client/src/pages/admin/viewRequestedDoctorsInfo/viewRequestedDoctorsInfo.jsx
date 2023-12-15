@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 // Axios
 import axios from 'axios';
-import styles from './viewReq.module.css'
+
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
 
 // User Defined Hooks
 import { useAuth } from '../../../components/hooks/useAuth';
-
+import styles from './viewReq.module.css';
 function ViewRequestedDoctorsInfo() {
       // const { accessToken } = useAuth();
       const [requestedDoctors, setRequestedDoctors] = useState([]);
@@ -206,11 +206,15 @@ const handleFilterChange = (event) => {
       return (
    
         <div>
-
+<br/>
           <h1>Requested Doctors List</h1>
               {/* Pagination Controls */}
-    {/* <div style={{ marginBottom: '10px' }}> */}
-    <div style={{ marginBottom: '50px' }}>
+              <br/>
+
+    <div style={{ marginBottom: '10px' }}>
+    <div style={{ marginBottom: '10px' }}>
+    <br/>
+
       <button 
         onClick={handlePrevPage} 
         disabled={currentPage === 1}
@@ -225,13 +229,14 @@ const handleFilterChange = (event) => {
         Next
       </button>
       &nbsp; Page {currentPage}
+    </div>
       &nbsp;
       &nbsp;
 
     </div>
-
-
-
+    &nbsp;
+    &nbsp;
+    &nbsp;
 
           <div>
 
@@ -247,9 +252,11 @@ const handleFilterChange = (event) => {
 </div>
 &nbsp;
 &nbsp;
-{filteredDoctors.length > 0 ? (
 
-<table className={styles.pharmacistTable}>
+{filteredDoctors.length > 0 ? (
+    <div className="presc-container">
+
+          <table>
             <thead>
               <tr>
                 <th>Name</th>
@@ -307,10 +314,13 @@ const handleFilterChange = (event) => {
 
             </tbody>
           </table>
+          </div>
+          
           ) : (
             <div style={{ fontSize: '20px', textAlign: 'center', marginTop: '20px', color: '#89CFF0' }}>
             No doctors Requests found matching the selected criteria.
-          </div>    )}
+          </div>  
+            )}
         </div>
         
       );

@@ -1,38 +1,4 @@
-.result-container {
-    margin-top: 180px;
-}
 
-/* .ddl-container {
-    text-align: center;
-    margin-top: 150px;
-    margin-left: 90px;
-    position: fixed;
-    top: 0;
-    z-index: 100;
-    align-items: center;
-} */
-/* 
-.ddl-select {
-    margin-left: 6px;
-    height: 40px;
-    width: 240px;
-    padding: 10px;
-    border: 1px solid #ccc;
-} */
-
-/* .ddl-select option {
-    text-align: center;
-}
-
-.ddl-label {
-    margin-left: 350px;
-    font-weight: bold;
-} */
-.pharmacistTable {
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%; /* Example width to ensure the table doesn't stretch the full width of the container */
-  }
 .noDataMessage {
     /* Style as needed, example: */
     text-align: center;
@@ -49,32 +15,48 @@
     top: 0;
     z-index: 100;
 }
+.button-blue2 {
+  background-color: #92B4D4;
+  color: white;
+  margin-right: 80px;
 
-/* .prescriptionTable {
-    background-color: #f0faff;
-} */
+}
 
-/* .prescriptionTable th,
-.prescriptionTable td {
-    background-color: #f8f9fa;
-    /* Soft gray for cells 
-    /* ... other styles ... 
-} */
+.button-blue {
+  background-color: #92B4D4;
+  color: white;
+  margin-right: 80px;
+}
+.button-blue3 {
+  background-color: #92B4D4;
+  color: white;
+  margin-right: 10px;
+}
+.prescr-container{
+    max-width: 900px;
+    width:60%;
+    margin: 10px auto;
+    /* padding: 20px; */
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    /* background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  }
 
-/* .prescriptionTable th {
-     background-color: #f0faff; 
-    color: #77c4de;
-}*/
-
-/* .prescriptionTable tr:nth-child(even) {
-    background-color: #e6f5ff;
-    
-} */
-
-/* .prescriptionTable tr:hover {
-    background-color: #ccefff;
-  
-} */
+  .smallTable-container{
+    max-width:700px;
+    width:50%;
+    margin:auto;
+    padding: 0 px;
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    /* background-color: #fff; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+  }
+  .smallTable-container table th:last-child {
+    width: 70px; /* Adjust this value as needed */
+    /* Other styles if needed */
+}
 
 .lightBlueButton {
     background-color: #77c4de;
