@@ -119,10 +119,6 @@ export const ViewDoctorMainPage = () => {
             pageName: "Contract Info",
         },
         {
-            url: "/doctor/viewWalletNumber",
-            pageName: "View Wallet",
-        },
-        {
             url: "/doctor/viewAppointmentsPage",
             pageName: "My Appointments",
         },
@@ -130,19 +126,6 @@ export const ViewDoctorMainPage = () => {
             url: "/doctor/scheduleFollowUpPage",
             pageName: "Schedule Follow Up",
         },
-        {
-            url: "/doctor/addTimeSlot",
-            pageName: "Add Time Slot",
-        },
-        {
-            url: "/doctor/uploadHealthRecords",
-            pageName: "Upload Health Records",
-        },
-        {
-            url: "/doctor/viewHealthPage",
-            pageName: "Health Page",
-        },
-        //sprint3 ~ N
         {
             url: "/doctor/writePrescription",
             pageName: "Write Prescription",

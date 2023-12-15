@@ -7,7 +7,7 @@ import styles from './creditCard.module.css';
 // Credit Card
 import Cards from 'react-credit-cards-2';
 
-export const CreditCard = () => {
+export const CreditCard = ({ children }) => {
     
   return (
     <div className={styles["card"]}>
@@ -18,10 +18,9 @@ export const CreditCard = () => {
             </div>
             <div className={styles["visa_info"]}>
                 <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png" alt=""/>
-                <label className={styles['amount']}></label>
+                {children}
             </div>
             <div className={styles["visa_crinfo"]}>
-                <p>{Date.now()}</p>
                 <p>{sessionStorage.getItem('name')}</p>
             </div>
         </div>

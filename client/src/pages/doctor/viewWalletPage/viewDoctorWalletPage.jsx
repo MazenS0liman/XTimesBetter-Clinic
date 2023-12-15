@@ -10,19 +10,18 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../components/hooks/useAuth';
 
 const ViewDoctorWalletPage = () => {
-    // const { accessToken } = useAuth();
     const [walletNumber, setWalletNumber] = useState(null);
     const navigate = useNavigate();
     const accessToken = sessionStorage.getItem('accessToken');
     const [load, setLoad] = useState(true);
     const [username, setUsername] = useState('');
     
-    console.log(accessToken);
     useEffect(() => {
         if (username.length != 0) {
             setLoad(false);
         }
     }, [username]);
+
     async function checkAuthentication() {
         await axios({
             method: 'get',
@@ -46,7 +45,7 @@ const ViewDoctorWalletPage = () => {
     }
   
     const xTest = checkAuthentication();
-  //Authenticate part
+    //Authenticate part
     useEffect(() => {
         const fetchWalletDetails = async () => {
             try {
@@ -70,21 +69,13 @@ const ViewDoctorWalletPage = () => {
     if (load) {
         return (<div>Loading</div>)
     }
+    
     return (
-        <div>
-          <h1>Wallet Amount</h1>
-          <div className={styles.walletContainer}>
-            <div className={styles.walletAmount}>
-            <p className={styles.largeText}>Your Balance: {walletNumber} EGP </p>
-            <div className={styles.walletAmount}>
-              <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
-            </div>
-              {/* <p className={styles.largeText}>${walletNumber}</p> Display the wallet amount here with larger text */}
-            </div>
-            <br />
-            <br />
-           
-          </div>
+        <div className={styles.walletAmount}>
+            <p className={styles.largeText}>Balance: ${walletNumber} EGP </p>
+            {/* <div className={styles.walletAmount}>
+                <img src={moneyImage} alt="Money Icon" className={styles.moneyIcon} />
+            </div> */}
         </div>
     );
 };

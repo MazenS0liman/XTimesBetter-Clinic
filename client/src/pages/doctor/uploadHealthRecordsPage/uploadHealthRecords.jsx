@@ -4,12 +4,15 @@ import React, { useEffect, useState } from 'react';
 // Axios
 import axios from 'axios';
 
+// Styles
+import styles from './uploadHealthRecords.module.css';
+
 //  React Router DOM
 import { useNavigate } from 'react-router-dom';
 
-const UploadRecords = () => {
+const UploadRecords = (patient) => {
   const [formData, setFormData] = useState({
-    username: '',
+    username: patient.patient_username,
   });
 
   // const [emailError, setEmailError] = useState('');
@@ -19,7 +22,7 @@ const UploadRecords = () => {
 
   const accessToken = sessionStorage.getItem("accessToken");
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState(patient.patient_username);
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
@@ -70,91 +73,69 @@ const UploadRecords = () => {
     });
   };
 
-  // Handle form submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // if (!validateEmail(formData.email)) {
-    //   setEmailError('Email must be in Gmail format (e.g., example@gmail.com)');
-    // } else {
-    //   setEmailError(''); // Clear the error message if the email is valid
-    // Rest of the code...
-    const formDataToSend = new FormData();
-
-    // Append form data
-    for (const key in formData) {
-      formDataToSend.append(key, formData[key]);
-    }
-
-    // Append uploaded files
-    formDataToSend.append('healthRecords', healthRecords);
-    // formDataToSend.append('medicalLicense', medicalLicense);
-    // formDataToSend.append('medicalDegree', medicalDegree);
-     console.log(...formDataToSend)
-    try {
-      const response = await fetch(`http://localhost:5000/doctor/uploadHealthRecords/${formData.username}`, {
-        method: 'POST',
-        headers: {
-           'Authorization': accessToken,
-        },
-        // body: JSON.stringify(formData),
-        body: formDataToSend, // Use the FormData object
-      });
-
-      if (response.ok) {
-        // Registration was successful, handle success scenario
-        console.log('Upload successful!');
-        alert('Upload successful!');
-        e.target.reset(); // This will clear all form input fields
-        setFormData({
-          username: '',
-        });
-      } else {
-        const errorMessage = await response.json(); // Extract error message from the response
-        // Registration failed, handle error scenario
-        console.error('Upload failed');
-        alert(`Error: ${errorMessage.message}`);
+    // Handle form submission
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const formDataToSend = new FormData();
+  
+      // Append form data
+      for (const key in formData) {
+        formDataToSend.append(key, formData[key]);
       }
-    } catch (error) {
-      console.error('An error occurred:', error);
-      alert('An error occurred:', error);
-    }
-  };
+  
+      // Append uploaded files
+      formDataToSend.append('healthRecords', healthRecords);
+      // formDataToSend.append('medicalLicense', medicalLicense);
+      // formDataToSend.append('medicalDegree', medicalDegree);
+       console.log(...formDataToSend)
+      try {
+        const response = await fetch(`http://localhost:5000/doctor/uploadHealthRecords/${patient.patient_username}`, {
+          method: 'POST',
+          headers: {
+             'Authorization': accessToken,
+          },
+          // body: JSON.stringify(formData),
+          body: formDataToSend, // Use the FormData object
+        });
+  
+        if (response.ok) {
+          // Registration was successful, handle success scenario
+          console.log('Upload successful!');
+          alert('Upload successful!');
+          e.target.reset(); // This will clear all form input fields
+          setFormData({
+            username: '',
+          });
+        } else {
+          const errorMessage = await response.json(); // Extract error message from the response
+          // Registration failed, handle error scenario
+          console.error('Upload failed');
+          alert(`Error: ${errorMessage.message}`);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+        alert('An error occurred:', error);
+      }
+    };
 
   return (
-    <div className="uploadHealthRecords">
-      <h2>Upload Health Records</h2>
-      <form onSubmit={handleSubmit}>
+    <div className={styles["main__div"]}>
+      <form className={styles['upload__form']} onSubmit={handleSubmit}>
         {/* Add form fields for each data attribute */}
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <input
-            type="hidden"
-            name="username"
-            value={formData.username}
-          />
-        </div>
-        <div>
+        <div className={styles['sub__div']}>
           <label>Health Records:</label>
           <input
             type="file"
             name="healthRecords"
             accept=".pdf, .jpg, .jpeg, .png"
+            className={styles['upload__input']}
             onChange={handleFileInputChange}
             required
           />
         </div>
 
         {/* Submit button */}
-        <button type="submit">Upload</button>
+        <button className={styles['upload__btn']} type="submit">Upload</button>
       </form>
     </div>
   );

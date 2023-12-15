@@ -4,7 +4,10 @@ import * as React from 'react';
 import axios from 'axios';
 
 // Styles
-import styles from './changePasswordCard.module.css';
+import styles from './passwordPopUp.module.css';
+
+// Images
+import crossImage from '../../assets/img/cross.png';
 
 // Hooks
 import { useState, useEffect } from 'react';
@@ -20,7 +23,7 @@ import { PasswordValidation } from '../passwordValidation/passwordValidation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faE, faEye } from '@fortawesome/free-solid-svg-icons';
 
-export const PasswordCard = () => {
+export const PasswordPopUp = ({showPasswordCard}) => {
     const [currentPassword, setCurrentPassword] =useState('');
     const [newPassword, setNewPassword] = useState('');
     const [showAlertMessage, setShowAlertMessage] = useState(false);
@@ -30,7 +33,6 @@ export const PasswordCard = () => {
     const [passwordNumber, setPasswordNumber] = useState(false);
     const [passwordLength, setPasswordLength] = useState(false);
     const [displayPasswordValidation, setDisplayPasswordValidation] = useState(false);
-    // const {accessToken} = useAuth();
     const accessToken = sessionStorage.getItem("accessToken");
 
     useEffect(() => {
@@ -40,7 +42,6 @@ export const PasswordCard = () => {
         else {
             setDisplayPasswordValidation(false);
         }
-
     }, [newPassword]);
 
     useEffect(() => {
@@ -69,7 +70,7 @@ export const PasswordCard = () => {
         }
     }, [newPassword]);
 
-    async function handleClickChangePassword() {
+    async function handleClickChangePassword(showPasswordCard) {
         // check that the password is valid
         if (!passwordLowerCase || !passwordUpperCase || !passwordLength || !passwordNumber) {
             setAlertMessage('Password does not match the criteria');
@@ -91,13 +92,14 @@ export const PasswordCard = () => {
             }
         })
         .then((response) => {
-            alert('Password changed successfully')
-            // setShowAlertMessage(true);
+            setAlertMessage('Password changed successfully');
+            setShowAlertMessage(true);
+            handleExitPasswordCard();
         })
         .catch((error) => {
             console.log(`Error ${error}`);
-            alert('Incorrect current password or current password is same as new password')
-            // setShowAlertMessage(true);
+            setAlertMessage('Incorrect current password or current password is same as new password');
+            setShowAlertMessage(true);
         });
     }
 
@@ -109,32 +111,49 @@ export const PasswordCard = () => {
         setNewPassword(event.target.value);
     }
 
+    function handleExitPasswordCard() {
+        console.log("handleExitPasswordCard");
+        showPasswordCard(false);
+    }
+
     return (
         <>
-            <div className={styles['change-password-main-div']}>
+            <div className={styles['logout-message-div']}>
+                <div className={styles['confirm-message-div']}>
+                    <div className={styles['logout__message__div']}>
+                        <h3>Are you sure you want to log out?</h3>
+                    </div>
+                    <div className={styles['cross-div']}>
+                        <img className={styles['cross-message-img']} src={crossImage} onClick={handleExitPasswordCard}></img>
+                    </div>
+                </div>
+                <div className={styles['change__password__div']}>
                 <div className={styles['change-password-sub1-div']}>
                     <div className={styles['change-password-sub1-subtitle-div']}>
-                        <label className={styles['subtitle']}>Enter Current Password</label>
+                            <label className={styles['subtitle']}>Enter Current Password</label>
+                        </div>
+                        <input className={styles['password-input']} value={currentPassword} placeholder="Enter Current Password" type="password" onChange={handleChangeCurrentPassword}/>
                     </div>
-                    <input className={styles['password-input']} value={currentPassword} placeholder="Enter Current Password" type="password" onChange={handleChangeCurrentPassword}/>
+                    <div className={styles['change-password-sub2-div']}>
+                        <div className={styles['change-password-sub2-subtitle-div']}>
+                            <label className={styles['subtitle']}>Enter New Password</label>
+                        </div>
+                        <input className={styles['password-input']} value={newPassword} placeholder="Enter New Password" type="password" onChange={handleChangeNewPassword}/>
+                        {displayPasswordValidation && (
+                        <div className={styles['change-password-sub4-div']}>
+                            <PasswordValidation newPassword={newPassword} />
+                        </div>
+                        )}
+                    </div>
                 </div>
-                <div className={styles['change-password-sub2-div']}>
-                    <div className={styles['change-password-sub2-subtitle-div']}>
-                        <label className={styles['subtitle']}>Enter New Password</label>
-                    </div>
-                    <input className={styles['password-input']} value={newPassword} placeholder="Enter New Password" type="password" onChange={handleChangeNewPassword}/>
-                </div>
-                {displayPasswordValidation && (
-                    <div className={styles['change-password-sub4-div']}>
-                        <PasswordValidation newPassword={newPassword} />
-                    </div>
-                )}
-                
-                <div className={styles['change-password-sub3-div']}>
-                    <button className={styles['change-password-button']} onClick={handleClickChangePassword}>Change Password</button>
+                <div className={styles['confirm-logout-div']}>
+                        <button className={styles['confirm-logout-button']} onClick={() => 
+                            {
+                                handleClickChangePassword();
+                            }}>Change Password</button>
                 </div>
             </div>
-            {/* {showAlertMessage && (<AlertMessageCard message={alertMessage} showAlertMessage={setShowAlertMessage} ></AlertMessageCard>)} */}
+            {showAlertMessage && (<AlertMessageCard message={alertMessage} showAlertMessage={setShowAlertMessage} ></AlertMessageCard>)}
         </>
     );
 }
