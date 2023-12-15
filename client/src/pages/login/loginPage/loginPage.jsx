@@ -22,6 +22,9 @@ import { AlertMessageCard } from '../../../components/alertMessageCard/alertMess
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse } from '@fortawesome/free-solid-svg-icons';
 
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
+
+
 export const LoginPage = () => {
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
@@ -103,7 +106,9 @@ export const LoginPage = () => {
     }
 
     return (
-        <div className={styles['login-main-div']}>
+        <>
+            <ResponsiveAppBar array={[]}/>
+            <div className={styles['login-main-div']}>
             <div className={styles['login-back-button-div']}>
                 {/* <button className={styles['login-back-button']} onClick={handleGoBackButtonClicked}>
                     <FontAwesomeIcon icon={faHouse} />
@@ -137,5 +142,7 @@ export const LoginPage = () => {
             </div>
             {error && (<AlertMessageCard message={"Invalid username or password"} showAlertMessage={setError}></AlertMessageCard>)}
         </div>
+        </>
+        
     )
 }

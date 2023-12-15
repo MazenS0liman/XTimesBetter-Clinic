@@ -18,7 +18,7 @@ const getPatients = asyncHandler( async (req, res) => {
     }
 
     // Get all appointments with the doctor specified in the request
-    const appointments = await appointmentModel.find({ doctor_username: doctor_username });
+    const appointments = await appointmentModel.find({ doctor_username: doctor_username, status: 'completed' });
 
     // Get all patients of the doctor
     const patients = await patientModel.find({ username: { $in: appointments.map(appointment => appointment.patient_username) } });

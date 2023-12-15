@@ -100,7 +100,7 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePicke
                     </button>
                 </div>
 
-                <div className={styles['searchfilter-icon-div']}>
+                {/* <div className={styles['searchfilter-icon-div']}>
                     <button 
                         className={styles['searchfilter-button']} 
                         onClick={handleFilterClick}
@@ -110,7 +110,7 @@ export const SearchBar = ({handleSearch, handleFilterClick, handleStartDatePicke
                     >
                         <FontAwesomeIcon icon={faCalendarCheck} />
                     </button>
-                </div>
+                </div> */}
 
                 <div className={styles['searchfilter-icon-div']}>
                     <button 

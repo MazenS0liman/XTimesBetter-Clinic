@@ -18,6 +18,9 @@ import { useRecoveryContext } from '../../../components/hooks/useAuth';
 // User Defined Components
 import {AlertMessageCard} from '../../../components/alertMessageCard/alertMessageCard';
 
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
+
+
 export const SendOtpPage = () => {
     const {otp, setOTP, email, setEmail} = useRecoveryContext();
     const [userEmail, setUserEmail] = useState("");
@@ -72,7 +75,9 @@ export const SendOtpPage = () => {
     }
 
     return (
-        <div className={styles['send-otp-main-div']}>
+        <>
+            <ResponsiveAppBar array={[]}/>
+            <div className={styles['send-otp-main-div']}>
             <div className={styles['otp__main__div']}>
                 <div className={styles['send-otp-title-div']}>
                 </div>
@@ -98,5 +103,7 @@ export const SendOtpPage = () => {
            
             {showAlertMessage && (<AlertMessageCard message={alertMessage} showAlertMessage={setShowAlertMessage}></AlertMessageCard>)}
         </div>
+        </>
+       
     );
 }

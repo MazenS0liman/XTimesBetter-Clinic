@@ -23,6 +23,7 @@ const storage = multer.diskStorage({
     //console.log(doctorusername);
     console.log(`Patient Username: ${username}`);
     console.log(`Doctor Username: ${doctorusername}`);
+    console.log(req);
     console.log(req.files);
     try {
       // Use multer to handle file uploads

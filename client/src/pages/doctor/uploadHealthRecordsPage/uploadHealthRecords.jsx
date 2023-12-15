@@ -25,6 +25,9 @@ const UploadRecords = (patient) => {
   const [username, setUsername] = useState(patient.patient_username);
   const [load, setLoad] = useState(true);
 
+  console.log("Doctor's Patient");
+  console.log(patient);
+
   useEffect(() => {
     if (username.length != 0) {
       setLoad(false);

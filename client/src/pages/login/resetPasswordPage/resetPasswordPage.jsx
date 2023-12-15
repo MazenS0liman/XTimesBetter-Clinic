@@ -22,6 +22,9 @@ import { useState, useEffect } from 'react';
 // User Defined Hooks
 import { useRecoveryContext } from '../../../components/hooks/useAuth';
 
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
+
+
 export const ResetPasswordPage = () => {
     const {email} = useRecoveryContext();
     const [newPassword, setNewPassword] = useState('');
@@ -108,6 +111,8 @@ export const ResetPasswordPage = () => {
 
     return (
         <>
+                    <ResponsiveAppBar array={[]}/>
+
             <div className={styles['reset-password-main-div']}>
                 <div className={styles['password__main__div']}>
                     <div className={styles['send-password-title-div']}>
