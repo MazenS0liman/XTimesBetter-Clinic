@@ -28,18 +28,18 @@ In the absence of a formal guide, we encourage contributors to follow general be
 ## Features
 
 ### Registration 
-1. User Registration:
+1. *User Registration:*
    - Users can register for an account, providing necessary information.
    - Account registration ensures secure and personalized access to the clinic system.
    
-2. Doctor's Request:
+2. *Doctor's Request:*
    - Doctor candidates can submit a request form.
    - Admin reviews and approves qualified requests, creating Doctors' accounts.
 
 ### Login
-1. Users Login:
+1. *Users Login:*
    - Registered users can log in as patients, gaining access to personalized features.
-2. Users Logout:
+2. *Users Logout:*
    - Logged in users can log out to keep their account and not reachable by everyone. 
    
   
@@ -47,41 +47,41 @@ In the absence of a formal guide, we encourage contributors to follow general be
 ### Admin Account
 
 #### Account Details
-1. View Profile:
+1. *View Profile:*
    - Admins can view and update their personal information.
 
-2. Change Password:
+2. *Change Password:*
    - Admins have the option to change their account password for security reasons.
 
-3. Reset Password:
+3. *Reset Password:*
    - Admins have the option to reset password if they forgot it.
    
 #### Admin's Management
-4. Add Another Admin Account:
+4. *Add Another Admin Account:*
    - Admins have the authority to add another admin account, granting administrative privileges.
 
-5. Remove User Accounts:
+5. *Remove User Accounts:*
    - Admins can remove patient accounts, admin accounts, and doctors accounts as needed.
 
 #### Doctor's Management
-6. View Doctors' Requests:
+6. *View Doctors' Requests:*
    - Admins can view incoming doctors requests, containing submitted information.
 
-7. Accept/Reject Doctor's Requests:
+7. *Accept/Reject Doctor's Requests:*
    - Admins have the ability to review and accept/reject doctor's requests based on submitted information.
    - Accepted doctors become eligible to log in to the system.
 
 #### Package Management
-8. View Packages List:
+8. *View Packages List:*
    - Admins can access a comprehensive list of all Health Packages.
-9. Add New Health Package:
+9. *Add New Health Package:*
    - Admins can add a new Health Package specifiying it's :
     a)Name
     b)Price
     c)Doctor Discount
     d)Medicine Discount
     e)Family Discount
-10. Edit/Delete Exisiting Health Package:
+10. *Edit/Delete Exisiting Health Package:*
     - Admins can edit any paramter of existing Health Package.
     - Admin can delete an exisiting Health Package.
    
@@ -170,22 +170,22 @@ In the absence of a formal guide, we encourage contributors to follow general be
     - Doctors can start conversation with patients that they had appointments with
 
 20. Video Calls:
-    - Doctors can start video calls with their patients to conduct their booked appointment.
+    - Doctors can start video calls with their patients to conduct their booked appointment.
 
 
 ### Patient Account
 
 #### Account Details
-1. View Profile:
+1. *View Profile:*
    - Patients can view and update their personal information.
 
-2. Change Password:
+2. *Change Password:*
    - Patients have the option to change their account password for security reasons.
 
-3. Reset Password:
+3. *Reset Password:*
    - Patients have the option to reset password if they forgot it.
    
-4. Wallet Amount:
+4. *Wallet Amount:*
    - Patients can see their wallet amount which they use in multiple occassions :
      a)Pay for Appointment
      b)Subscribe in Health Package
@@ -193,17 +193,17 @@ In the absence of a formal guide, we encourage contributors to follow general be
      d)Recieve Refunds of cancelled appointments 
 
 #### Medical Background
- 6. Medical History:
+ 6. *Medical History:*
     - Patients can Upload or Remove documents (PDF,JPEG,JPG,PNG) for their medical history which they are accessable by their doctors 
- 7. Health Records: 
+ 7. *Health Records:* 
      - Patients can Upload and View their uploaded Health Records which they are accessable by their doctors 
 
  
 #### Doctors' List
-8. View All Doctors:
+8. *View All Doctors:*
    - View a list of all doctors along with their speciality, session price.
 
-9. Search/Filter Doctors' List:
+9. *Search/Filter Doctors' List:*
    - Search for a doctor by name and/or speciality .
    - Filter  a doctor by speciality and/or availability on a certain date and at a specific time.
    - Select a doctor from the search/filter results and view his detailed info including specilaty, affiliation (hospital), educational background .
@@ -211,16 +211,16 @@ In the absence of a formal guide, we encourage contributors to follow general be
 
 
 #### Appointments with Doctors
-10. View all Appointments:
+10. *View all Appointments:*
     - Patients can access a comprehensive list of available appointments where he/she can filter based on :
    a)date 
    b)doctor's name.
 
-11. Book an Appointment:
+11. *Book an Appointment:*
     - Patients can book an Appointment with certain doctor according to the doctor's available time slots .
     - Patients choose to pay for their appointment using wallet or credit card.
 
-12. View my Appointments:
+12. *View my Appointments:*
     - Patients can view a list of all my upcoming / past appointments.
     - Reschedule an appointment on another date if the old date doesn't fit me anymore
     - Cancel an appointment and recieving refunds if the cancel was more than 24 hours before the appointment
@@ -229,73 +229,73 @@ In the absence of a formal guide, we encourage contributors to follow general be
        b)status (upcoming, completed, cancelled, rescheduled)
 
 #### Follow Ups
-13. Request Follow Up:
+13. *Request Follow Up:*
     - Patients can request a follow-up to a previous appointment.
 
 #### Prescriptions
-14. View All Prescriptions:
+14. *View All Prescriptions:*
     - View a list of all new and old prescriptions where my doctors prescribed for me.
     - Filter list of prescriptions according to :
       a)date
       b)filled or unfilled
 
 
-15. Select ceratin Prescription :
+15. *Select ceratin Prescription :*
     - View the details of my selected prescription
     - Download selected prescription in PDF format to have it saved on their devices
     - Choose to buy this prescription and pay for it's items using wallet or credit card
  
 
 #### Health Packages
-16. Available Packages:
+16. *Available Packages:*
      - Patients can view list of all available health package along their name,price,doctor discount , medicine discount , family discount 
       a)doctor discount : where he gets discount while booking an appointment
       b)medicine discount : where he gets when buying from the pharmacy platform
       c)family discount : it's a discount that the attached family members to the patient gets when subscribing to a package .
 
-17. Subscribe: 
+17. *Subscribe:* 
      - Patients can subscribe to health package to benefit from stated discounts for a whole year.
      - Patients choose to pay for their subscriptions using their wallet or credit card.
      - Patients can view the status of their health care package subscription (subscribed with renewal date/ unsubscribed/ cancelled with end date) .
 
-18.  Unsubscribe:
+18.  *Unsubscribe:*
      - Patients can cancel their subscription of certain package but yet benefit from it till the end date .
    
 
 #### Family Members
-19. Add Family Member:
+19. *Add Family Member:*
     - Add family member using Name, National ID, Age, Gender and relation to the patient whether (child,husband,wife) where this member isn't part of our Clinic system
   
-20. Link Family Member:
+20. *Link Family Member:*
      - Link a system user as my family member using Phone number or Email and stating the relation whether (child,husband,wife).
  
-21. View Family Members:
+21. *View Family Members:*
      - View list of all my Family members whether added or linked 
 
 
-22. Do on Behalf of Family Member:
+22. *Do on Behalf of Family Member:*
     - Patient can do multiple things on behalf of their linked/added family members :
     a)Book/Reschedule/Cancel an Appointment
     b)Subscribe/Unsubscribe in a Health Package
     c)Request a Follow Up
 
 #### Communication
-23. Notifications:
+23. *Notifications:*
     - Patient recieves notifications on the system/by mail on multiple occasions to remain updated :
     a)Booked Appointments
     b)Cancelled/Rescheduled Appointments
 
-24. Chats:
+24. *Chats:*
     - Patients can start conversation with doctors that they had appointments with
 
-25. Video Calls:
+25. *Video Calls:*
     - Patients can start video calls with their doctors to conduct their booked appointment.
 
 ## Code Examples
 Below are some code snippets to illustrate specific functionalities of the XTimesBetter Clinic project:
 ### Example 1 : Google Authentication for Video Calls
 
-javascript
+```javascript
 const { google } = require('googleapis');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
@@ -333,11 +333,11 @@ const AuthenticateGoogle = async (req, res) => {
     console.log(address);
     res.status(201).json(address);
 }
-
+```
 
 ### Example 2 : Password Change Code
 
-javascript
+```javascript
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const asyncHandler = require('express-async-handler');
@@ -391,11 +391,11 @@ const updateDoctorPassword = asyncHandler(async (req, res) => {
 });
 
 module.exports = { updateDoctorPassword };
-
+```
 
 ### Example 3 : Admin's Package Adjustment
 
- javascript 
+``` javascript 
 const { default: mongoose } = require('mongoose');
 const packageModel = require('../../models/Package');
 
@@ -530,9 +530,9 @@ const viewPackage = async (req, res) => {
 
 module.exports = {addPackage,updatePackage,deletePackage,viewPackage};
 
-
+```
 ### Example 4:Doctor's info 
-javascript 
+```javascript 
 const mongoose = require('mongoose');
 const asyncHandler = require('express-async-handler');
 const doctorModel = require('../../models/Doctor.js');
@@ -555,7 +555,7 @@ const getDoctorInfo = asyncHandler(async (req, res) => {
 })
 
 module.exports = { getDoctorInfo };
-
+```
 
 ## Installation
 To set up the XTimesBetter Clinic project on your local machine, follow these steps:
@@ -577,31 +577,31 @@ npm install -g nodemon
 
 ### 4. Install Required Tools and Dependencies
 Make sure you have the following tools and dependencies installed on your machine:
-1. Express:
+1. *Express:*
    - Install Express globally using npm:
      bash
      npm install -g express
      
 
-2. Mongoose:
+2. *Mongoose:*
    - Install Mongoose globally using npm:
      bash
      npm install -g mongoose
      
 
-3. React:
+3. *React:*
    - Install React globally using npm:
      bash
      npm install -g react
      
 
-4. Git:
+4. *Git:*
    - Install Git globally using npm:
      bash
      npm install -g git
      
 
-5. Axios:
+5. *Axios:*
    - Install Axios globally using npm:
      bash
      npm install -g axios
@@ -615,89 +615,89 @@ The XTimesBetter Clinic API is hosted at the following base URL:
 ## Endpoints
 
 ### Authentication Routes
-- /login: Handles user login.
-- /logout: Handles user logout.
-- /authentication/checkAccessToken: Validates user access token.
-- /authentication/getAccessToken: Retrieves a new access token.
-- /authentication/changePassword: Allows users to change their password.
-- /resetPassword: Handles password reset requests.
+- `/login`: Handles user login.
+- `/logout`: Handles user logout.
+- `/authentication/checkAccessToken`: Validates user access token.
+- `/authentication/getAccessToken`: Retrieves a new access token.
+- `/authentication/changePassword`: Allows users to change their password.
+- `/resetPassword`: Handles password reset requests.
 
 ### Patient Routes
-- /patient/allDoctors: Retrieve a list of all doctors available for patients.
-- /patient/doctorList: Endpoint related to the list of doctors, specific functionalities to be determined based on the implementation in doctorListRoutes.
-- /patient/register: Register a new patient.
-- /patient/appointment: Handle appointments, including scheduling, modifying, or canceling appointments.
-- /patient/prescriptionDetails: Endpoint related to prescription details, specific functionalities to be determined based on the implementation in prescriptionRoutes.
-- /patient/addFamilyMember: Add a family member to the patient's profile.
-- /patient/viewFamilyMembers: View a list of family members associated with the patient.
-- /patient/viewAppointments: View a list of appointments for a patient.
-- /patient/filterAppointmentsByDateForPatient: Filter appointments based on date for a patient.
-- /patient/filterAppointmentsByStatusForPatient: Filter appointments based on status for a patient.
-- /patient/info: Get information about the logged-in patient using their username.
-- /patient/linkByEmail: Link a patient with another using email.
-- /patient/linkByMobile: Link a patient with another using a mobile number.
-- /patient/ViewPackages: View available packages for patients.
-- /patient/ViewFamily: View family-related information, specific functionalities to be determined based on the implementation in packagesRoute.
-- /patient/Subscribe: Subscribe to a package.
-- /patient/Unsubscribe: Unsubscribe from a package.
-- /patient/Famsubs: View family subscriptions.
-- /patient/Allsubs: View all subscriptions.
-- /patient/Allpatients: View all patients.
-- /patient/Subs1, /patient/Subs2: Additional endpoints related to subscriptions.
-- /patient/viewWalletNumber: View the wallet number associated with a patient.
-- /patient/packagePaymentCreditCard: Process credit card payments for package subscriptions.
-- /patient/packagePaymentWallet: Process wallet payments for package subscriptions.
-- /patient/appointmentPaymentCreditCard: Process credit card payments for appointments.
-- /patient/appointmentPaymentWallet: Process wallet payments for appointments.
-- /patient/viewMedicalHistory: View the medical history of a patient.
-- /patient/viewHealthRecords: View health records of a patient.
-- /patient/chat: Handle chat-related functionalities for patients.
-- /patient/requestFollowUp: Request a follow-up appointment.
-- /patient/notifications: View notifications for a patient.
-- /patient/Video: Handle video call functionalities for patients.
-- /patient/google: Google authentication-related functionalities for patients.
+- `/patient/allDoctors`: Retrieve a list of all doctors available for patients.
+- `/patient/doctorList`: Endpoint related to the list of doctors, specific functionalities to be determined based on the implementation in `doctorListRoutes`.
+- `/patient/register`: Register a new patient.
+- `/patient/appointment`: Handle appointments, including scheduling, modifying, or canceling appointments.
+- `/patient/prescriptionDetails`: Endpoint related to prescription details, specific functionalities to be determined based on the implementation in `prescriptionRoutes`.
+- `/patient/addFamilyMember`: Add a family member to the patient's profile.
+- `/patient/viewFamilyMembers`: View a list of family members associated with the patient.
+- `/patient/viewAppointments`: View a list of appointments for a patient.
+- `/patient/filterAppointmentsByDateForPatient`: Filter appointments based on date for a patient.
+- `/patient/filterAppointmentsByStatusForPatient`: Filter appointments based on status for a patient.
+- `/patient/info`: Get information about the logged-in patient using their username.
+- `/patient/linkByEmail`: Link a patient with another using email.
+- `/patient/linkByMobile`: Link a patient with another using a mobile number.
+- `/patient/ViewPackages`: View available packages for patients.
+- `/patient/ViewFamily`: View family-related information, specific functionalities to be determined based on the implementation in `packagesRoute`.
+- `/patient/Subscribe`: Subscribe to a package.
+- `/patient/Unsubscribe`: Unsubscribe from a package.
+- `/patient/Famsubs`: View family subscriptions.
+- `/patient/Allsubs`: View all subscriptions.
+- `/patient/Allpatients`: View all patients.
+- `/patient/Subs1`, `/patient/Subs2`: Additional endpoints related to subscriptions.
+- `/patient/viewWalletNumber`: View the wallet number associated with a patient.
+- `/patient/packagePaymentCreditCard`: Process credit card payments for package subscriptions.
+- `/patient/packagePaymentWallet`: Process wallet payments for package subscriptions.
+- `/patient/appointmentPaymentCreditCard`: Process credit card payments for appointments.
+- `/patient/appointmentPaymentWallet`: Process wallet payments for appointments.
+- `/patient/viewMedicalHistory`: View the medical history of a patient.
+- `/patient/viewHealthRecords`: View health records of a patient.
+- `/patient/chat`: Handle chat-related functionalities for patients.
+- `/patient/requestFollowUp`: Request a follow-up appointment.
+- `/patient/notifications`: View notifications for a patient.
+- `/patient/Video`: Handle video call functionalities for patients.
+- `/patient/google`: Google authentication-related functionalities for patients.
 
 ### Doctors Routes
-- /doctor/register: Register a new doctor.
-- /doctor/patients: Retrieve a list of patients associated with the doctor.
-- /doctor/profile: View and manage the profile of the logged-in doctor.
-- /doctor/filterAppointmentsByDateForDoctor: Filter appointments based on date for a doctor.
-- /doctor/filterAppointmentsByStatusForDoctor: Filter appointments based on status for a doctor.
-- /doctor/info: Get information about the logged-in doctor using their username.
-- /doctor/viewContract: View contracts related to the doctor.
-- /doctor/addContract: Add a new contract for the doctor.
-- /doctor/viewDoctors: View information about other doctors.
-- /doctor/acceptContract: Accept a contract offer.
-- /doctor/rejectContract: Reject a contract offer.
-- /doctor/viewWalletNumber: View the wallet number associated with the doctor.
-- /doctor/appointments: View and manage appointments for the doctor.
-- /doctor/addTimeSlot: Add available time slots for appointments.
-- /doctor/uploadHealthRecords: Upload health records for patients.
-- /doctor/viewPHealthRecords: View health records of patients.
-- /doctor/prescriptionDetails: View details of prescriptions issued by the doctor.
-- /doctor/updatePrescriptions: Update existing prescriptions.
-- /doctor/newPrescription: Issue a new prescription.
-- /doctor/chat: Handle chat-related functionalities for doctors.
-- /doctor/acceptRejectFollowUp: Accept or reject follow-up requests from patients.
-- /doctor/notifications: View notifications for the doctor.
-- /doctor/Video: Handle video call functionalities for doctors.
+- `/doctor/register`: Register a new doctor.
+- `/doctor/patients`: Retrieve a list of patients associated with the doctor.
+- `/doctor/profile`: View and manage the profile of the logged-in doctor.
+- `/doctor/filterAppointmentsByDateForDoctor`: Filter appointments based on date for a doctor.
+- `/doctor/filterAppointmentsByStatusForDoctor`: Filter appointments based on status for a doctor.
+- `/doctor/info`: Get information about the logged-in doctor using their username.
+- `/doctor/viewContract`: View contracts related to the doctor.
+- `/doctor/addContract`: Add a new contract for the doctor.
+- `/doctor/viewDoctors`: View information about other doctors.
+- `/doctor/acceptContract`: Accept a contract offer.
+- `/doctor/rejectContract`: Reject a contract offer.
+- `/doctor/viewWalletNumber`: View the wallet number associated with the doctor.
+- `/doctor/appointments`: View and manage appointments for the doctor.
+- `/doctor/addTimeSlot`: Add available time slots for appointments.
+- `/doctor/uploadHealthRecords`: Upload health records for patients.
+- `/doctor/viewPHealthRecords`: View health records of patients.
+- `/doctor/prescriptionDetails`: View details of prescriptions issued by the doctor.
+- `/doctor/updatePrescriptions`: Update existing prescriptions.
+- `/doctor/newPrescription`: Issue a new prescription.
+- `/doctor/chat`: Handle chat-related functionalities for doctors.
+- `/doctor/acceptRejectFollowUp`: Accept or reject follow-up requests from patients.
+- `/doctor/notifications`: View notifications for the doctor.
+- `/doctor/Video`: Handle video call functionalities for doctors.
 
 ### Admin Routes
-- /admin/viewREQDoctors: View information about doctors who have requested approval.
-- /admin/removeDoctor: Remove a doctor from the system.
-- /admin/addPackage: Add a new package to the system.
-- /admin/updatePackage: Update details of an existing package.
-- /admin/deletePackage: Delete a package from the system.
-- /admin/ViewPackage: View details of a specific package.
-- /Admin/addremove: Additional endpoints related to adding and removing functionalities for admins.
-- /admin/info: Get information about the logged-in admin using their username.
+- `/admin/viewREQDoctors`: View information about doctors who have requested approval.
+- `/admin/removeDoctor`: Remove a doctor from the system.
+- `/admin/addPackage`: Add a new package to the system.
+- `/admin/updatePackage`: Update details of an existing package.
+- `/admin/deletePackage`: Delete a package from the system.
+- `/admin/ViewPackage`: View details of a specific package.
+- `/Admin/addremove`: Additional endpoints related to adding and removing functionalities for admins.
+- `/admin/info`: Get information about the logged-in admin using their username.
 
 ## Tests
 These tests are performed using [Postman](https://www.postman.com/). Below are examples of API tests:
 ### Test 1 : Get Doctor's info using his username 
-- Route: GET http://localhost:5000/doctor/info
-- Output:
- json
+- *Route*: GET http://localhost:5000/doctor/info
+- *Output*:
+ ```json
  {
     "message": "Doctor found",
     "doctor": [
@@ -758,12 +758,12 @@ These tests are performed using [Postman](https://www.postman.com/). Below are e
     ],
     "found": true
 }
-
+```
 
 ### Test 2 : Get All available Health Packages
-- Route: GET http://localhost:5000/patient/ViewPackages/viewP
-- Output:
- json
+- *Route*: GET http://localhost:5000/patient/ViewPackages/viewP
+- *Output*:
+ ```json
  [
     {
         "_id": "657ae05f6f564517f5d7fbbb",
@@ -779,7 +779,7 @@ These tests are performed using [Postman](https://www.postman.com/). Below are e
         "__v": 4
     }
 ]
-
+```
 
 
 
@@ -799,12 +799,12 @@ cd XTimesBetter-Clinic
 
 ### 3. Install Dependencies
 
-1. Server Dependencies:
+1. *Server Dependencies:*
    bash
    cd server
    npm install
    
- 2. Client Dependencies:
+ 2. *Client Dependencies:*
     bash
     cd client
     npm install
@@ -866,11 +866,14 @@ Thank you for contributing to XTimesBetter Clinic! 🚀
 
 ## License
 
-- *Stripe:*
+- **Stripe:**
   - [Stripe](https://stripe.com) is licensed under the [Apache 2.0 License](https://opensource.org/licenses/Apache-2.0).
 
-- *Google APIs:*
+- **Google APIs:**
   - Google APIs used in this project are subject to Google's terms of service and licensing. Refer to [Google APIs Terms of Service](https://developers.google.com/terms) for more information.
 
-- *JWT Authentication:*
+- **JWT Authentication:**
   - The JWT authentication implementation is subject to the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+
+
