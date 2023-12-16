@@ -146,60 +146,72 @@ function PackagePayment() {
             }
         }
     }
-    
+const discountAmount = receivedInfo.priceBefore - receivedInfo.priceAfter;
+const roundedDiscount = Math.round((discountAmount / receivedInfo.priceBefore) * 100);
 
-    return (
-        <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div className={styles['form-container']}>
-            <div className={styles['bordered-container']}>
-              <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '10px', textAlign: 'center' }}>
-                <strong>Payment Receipt</strong>
-              </h2>
-              <div>
-                <strong>Package: </strong> {receivedInfo.package_name}
-              </div>
-              <div>
-                <strong>Price: </strong> {receivedInfo.priceAfter} EGP
-              </div>
-              <h3 style={{ color:'#000000',fontSize: '1.5em', marginTop: '30px', marginBottom: '-5px', textAlign: 'center' }}>
-                <strong>Choose payment Method</strong>
-              </h3>
-              <div className={styles['button-container']}>
-                <ChakraProvider>
-                  <Box>
-                    <Button
-                      className={`${styles['button']} ${selectedButton === 'wallet' ? styles['selected'] : ''}`}
-                      colorScheme="gray"
-                      variant="solid"
-                      type="button"
-                      onClick={() => handleButtonClick('wallet')}
-                    >
-                      Wallet
-                    </Button>
-                    <Button
-                      className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
-                      colorScheme="gray"
-                      variant="solid"
-                      type="button"
-                      onClick={() => handleButtonClick('creditCard')}
-                    >
-                      Credit Card
-                    </Button>
-                  </Box>
-                  <Button
-                    colorScheme="blue"
-                    variant="solid"
-                    type="button"
-                    onClick={() => handleButtonClick('packages')}
-                  >
-                    Back to packages 
-                  </Button>
-                </ChakraProvider>
-              </div>
-            </div>
+  return (
+    <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className={styles['form-container']}>
+        <div className={styles['bordered-container']}>
+          <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '10px', textAlign: 'center' }}>
+            <strong>Payment Receipt</strong>
+          </h2>
+          <div>
+            <strong>Package: </strong> {receivedInfo.package_name}
+          </div>
+          <div>
+            <strong>Price: </strong>
+            {receivedInfo.priceBefore === receivedInfo.priceAfter
+              ? `${receivedInfo.priceAfter} EGP`
+              : (
+                <>
+                  <span style={{ textDecoration: 'line-through', marginRight: '5px' }}>{receivedInfo.priceBefore} EGP</span>
+                  <span style={{ color: 'red' }}>
+                    {receivedInfo.priceAfter} EGP (Discount: {roundedDiscount}%)
+                  </span>
+                </>
+              )
+            }
+          </div>
+          <h3 style={{ color: '#000000', fontSize: '1.5em', marginTop: '30px', marginBottom: '-5px', textAlign: 'center' }}>
+            <strong>Choose payment Method</strong>
+          </h3>
+          <div className={styles['button-container']}>
+            <ChakraProvider>
+              <Box>
+                <Button
+                  className={`${styles['button']} ${selectedButton === 'wallet' ? styles['selected'] : ''}`}
+                  colorScheme="gray"
+                  variant="solid"
+                  type="button"
+                  onClick={() => handleButtonClick('wallet')}
+                >
+                  Wallet
+                </Button>
+                <Button
+                  className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
+                  colorScheme="gray"
+                  variant="solid"
+                  type="button"
+                  onClick={() => handleButtonClick('creditCard')}
+                >
+                  Credit Card
+                </Button>
+              </Box>
+              <Button
+                colorScheme="blue"
+                variant="solid"
+                type="button"
+                onClick={() => handleButtonClick('packages')}
+              >
+                Back to packages
+              </Button>
+            </ChakraProvider>
           </div>
         </div>
-      );
+      </div>
+    </div>
+  );
       
 }
 

@@ -95,7 +95,7 @@ export const ResponsiveAppBar = ({array}) => {
       <AppBar position="static">
         <Container maxWidth="xl" sx={{backgroundImage: 'linear-gradient(45deg, black, transparent)'}}>
           <Toolbar disableGutters sx={{height: '1px !important'}}>
-            <LocalHospitalIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+            {/* <LocalHospitalIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <Typography
               variant="h6"
               noWrap

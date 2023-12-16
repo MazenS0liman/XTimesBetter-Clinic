@@ -50,7 +50,8 @@ function AppointmentPayment() {
         return (<div>Loading</div>);
     }
 
-
+console.log('receivedInfo',location.state);
+//console.log('receivedInfo.price === receivedInfo.priceBefore',receivedInfo.price === receivedInfo.priceBefore);
     const receivedInfo = {
         appointmentDate: location.state.date,
         doctorName: location.state.doctorName,
@@ -60,6 +61,8 @@ function AppointmentPayment() {
         name:  location.state.name ,
         patientUsername: location.state.patient_username,
         bookedUsername: location.state.booked_by,
+        priceBefore: location.state.priceBefore,
+        discount: location.state.discount,
        
     };
     // console.log("receivedInfo",receivedInfo);
@@ -183,12 +186,12 @@ function AppointmentPayment() {
 
     //     </div>
     // );
-    return (
-        <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-          <div className={styles['form-container']}>
-            <div className={styles['bordered-container']}>
-            <ChakraProvider>
-              <Box>
+  return (
+    <div style={{ backgroundColor: '#f4f4ff', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className={styles['form-container']}>
+        <div className={styles['bordered-container']}>
+          <ChakraProvider>
+            <Box>
               <h2 style={{ fontSize: '1.5em', marginTop: '30px', marginBottom: '20px', textAlign: 'center' }}>
                 <strong>Appointment Receipt</strong>
               </h2>
@@ -199,49 +202,60 @@ function AppointmentPayment() {
                 <strong>Doctor Name:</strong> {receivedInfo.doctorName}
               </div>
               <div>
-                <strong>Appointment Price:</strong> {receivedInfo.appointmentPrice} EGP
+                <strong>Appointment Price:</strong>
+                {receivedInfo.appointmentPrice === receivedInfo.priceBefore
+                  ? `${receivedInfo.appointmentPrice} EGP`
+                  : (
+                    <>
+                      <span style={{ textDecoration: 'line-through', marginRight: '5px' }}>{receivedInfo.priceBefore} EGP</span>
+                      <span style={{ color: 'red' }}>
+                        {receivedInfo.appointmentPrice} EGP (Discount: {receivedInfo.discount}%)
+                      </span>
+                    </>
+                  )
+                }
               </div>
               <h2 style={{ fontSize: '1.5em', marginTop: '20px', marginBottom: '-10px', textAlign: 'center' }}>
                 <strong>Choose payment Method</strong>
               </h2>
               {/* <div className={styles['button-container']}> */}
-            
-                  <Button
-                    className={`${styles['button']} ${selectedButton === 'wallet' ? styles['selected'] : ''}`}
-                    colorScheme="gray"
-                    variant="solid"
-                    type="button"
-                    onClick={() => handleButtonClick('wallet')}
-                  >
-                    Wallet
-                  </Button>
-                  <Button
-                    className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
-                    colorScheme="gray"
-                    variant="solid"
-                    type="button"
-                    onClick={() => handleButtonClick('creditCard')}
-                  >
-                    Credit Card
-                  </Button>
-                  </Box>
 
-                  <Button
-                    // className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
-                    colorScheme="blue"
-                    variant="solid"
-                    type="button"
-                    onClick={() => handleButtonClick('doctors')}
-                  >
-                    Back to Doctors
-                  </Button>
-               
-              </ChakraProvider>
-            </div>
-            </div>
-          </div>
-       
-      );
+              <Button
+                className={`${styles['button']} ${selectedButton === 'wallet' ? styles['selected'] : ''}`}
+                colorScheme="gray"
+                variant="solid"
+                type="button"
+                onClick={() => handleButtonClick('wallet')}
+              >
+                Wallet
+              </Button>
+              <Button
+                className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
+                colorScheme="gray"
+                variant="solid"
+                type="button"
+                onClick={() => handleButtonClick('creditCard')}
+              >
+                Credit Card
+              </Button>
+            </Box>
+
+            <Button
+              // className={`${styles['button']} ${selectedButton === 'creditCard' ? styles['selected'] : ''}`}
+              colorScheme="blue"
+              variant="solid"
+              type="button"
+              onClick={() => handleButtonClick('doctors')}
+            >
+              Back to Doctors
+            </Button>
+
+          </ChakraProvider>
+        </div>
+      </div>
+    </div>
+
+  );
       
 }
 

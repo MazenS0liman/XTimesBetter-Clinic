@@ -33,9 +33,9 @@
 /* <P> Styles */
 .profile__name {
     width: 70%;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .profile__value {
-    color: white;
+    color: rgb(10, 8, 8);
 }
