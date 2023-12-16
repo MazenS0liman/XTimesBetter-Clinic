@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './patientRegisterPage.module.css';
-import { ResponsiveNavBar } from '../../../components/responsiveNavBar/responsiveNavBar';
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
 
 //import axios from 'axios';
 const PatientRegister = () => {
@@ -140,7 +140,7 @@ const PatientRegister = () => {
 
 return (
   <>
-    <ResponsiveNavBar></ResponsiveNavBar>
+    <ResponsiveAppBar array={[]}></ResponsiveAppBar>
     <div className={styles.ClinicRegistrationBack}>
     <div className={styles.ClinicRegistration}>
       <h2>Patient Registration</h2>
