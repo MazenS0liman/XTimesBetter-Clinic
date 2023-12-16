@@ -1,111 +1,109 @@
 .result-container {
-  margin-top: 180px;
+    margin-top: 180px;
 }
 .pharmacistTable {
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%; /* Example width to ensure the table doesn't stretch the full width of the container */
-}
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%; /* Example width to ensure the table doesn't stretch the full width of the container */
+  }
 .list-title {
-  text-align: center;
-  margin-top: 100px;
-  margin-right: 470px;
-  position: fixed;
-  top: 0;
-  z-index: 100;
+    text-align: center;
+    margin-top: 100px;
+    margin-right: 470px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
 }
 .prescr-container{
-  max-width: 300px;
-  width:auto;
+  max-width: 1000px;
+  width:80%;
   margin: auto;
-  padding: 20px;
+  /* padding: 20px; */
+  /* border: 1px solid #ccc; */
+  border-radius: 5px;
+  /* background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.smallTable-container{
+  max-width:700px;
+  width:50%;
+  margin:auto;
+  padding: 0 px;
   /* border: 1px solid #ccc; */
   border-radius: 5px;
   /* background-color: #fff; */
   /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
 }
-.prescr-container table th:last-child {
-  width: 40px; /* Adjust this value as needed */
+.smallTable-container table th:last-child {
+  width: 70px; /* Adjust this value as needed */
   /* Other styles if needed */
 }
-.smallTable-container{
-max-width:700px;
-width:50%;
-margin:auto;
-padding: 0 px;
-/* border: 1px solid #ccc; */
-border-radius: 5px;
-/* background-color: #fff; */
-/* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
-}
-.smallTable-container table th:last-child {
-width: 70px; /* Adjust this value as needed */
-/* Other styles if needed */
-}
+
 
 .noDataMessage {
-  /* Style as needed, example: */
-  text-align: center;
-  margin-top: 20px;
-  font-size: 18px;
-  color: #89CFF0;
-}
-.prescr-container table td.button-cell {
-  padding: 4px; /* Reduced padding for button cells */
+    /* Style as needed, example: */
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #89CFF0;
+  }
+  .prescr-container table td.button-cell {
+    padding: 4px; /* Reduced padding for button cells */
 }
 .prescr-container table td {
-  padding: 4px; /* Reduced padding */
-  /* Other styles... */
+    padding: 4px; /* Reduced padding */
+    /* Other styles... */
 }
 .prescr-container table {
-  table-layout: fixed;
-  width: 100%;
+    table-layout: fixed;
+    width: 100%;
 }
 .lightBlueButton:last-child {
-  margin-right: 0; /* No margin on the right of the last button */
+    margin-right: 0; /* No margin on the right of the last button */
 }
 
 .lightBlueButton {
-  margin-right: 4px; /* Add a small margin to the right of each button */
+    margin-right: 4px; /* Add a small margin to the right of each button */
 
-  background-color: #77c4de;
-  /* Light blue background */
-  color: white;
-  /* White text for better contrast */
-  border: 1px solid transparent;
-  /* Optional: can add border */
-  margin: 0; /* Remove margin */
-  padding: 8px 16px; /* Adjust padding as needed */
-  /* Padding for button */
-  border-radius: 4px;
-  /* Rounded corners */
-  cursor: pointer;
-  /* Cursor change to indicate it's clickable */
-  transition: background-color 0.3s;
-  /* Smooth transition for hover effect */
+    background-color: #77c4de;
+    /* Light blue background */
+    color: white;
+    /* White text for better contrast */
+    border: 1px solid transparent;
+    /* Optional: can add border */
+    margin: 0; /* Remove margin */
+    padding: 8px 16px; /* Adjust padding as needed */
+    /* Padding for button */
+    border-radius: 4px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Cursor change to indicate it's clickable */
+    transition: background-color 0.3s;
+    /* Smooth transition for hover effect */
 }
 
 .button-blue2 {
-  background-color: #92B4D4;
-  color: white;
-}
-
-.button-blue {
-  background-color: #92B4D4;
-  color: white;
-  margin-right: 50px;
-}
+    background-color: #92B4D4;
+    color: white;
+  }
+  
+  .button-blue {
+    background-color: #92B4D4;
+    color: white;
+    margin-right: 50px;
+  }
 .lightBlueButton:hover {
-  background-color: #92B4D4;
-  /* Slightly darker blue for hover effect */
+    background-color: #92B4D4;
+    /* Slightly darker blue for hover effect */
 }
 
 /* .lightBlueText {
-  color: #77c4de;
+    color: #77c4de;
 } */
 
 /* If you want to apply the color to specific elements like table headers */
 /* .prescriptionTable th {
-  color: #ADD8E6;
-  /* Light blue font color for table headers 
+    color: #ADD8E6;
+    /* Light blue font color for table headers 
 } */

@@ -195,7 +195,7 @@ if (load) {
 }
 
   return (
-    <div className="prescr-container">
+    <div className={styles["prescr-container"]}>
       <br/>
       <h1 className={styles.listTitle}>Prescription List</h1>
       <div className={styles.resultContainer}>
@@ -287,8 +287,9 @@ if (load) {
         <p>Selected Successfully</p>
       </div>
       <h2>Prescription Details</h2>
-      
-      <table className={styles.pharmacistTable}>
+      <div className={styles["smallTable-container"]}>
+
+      <table>
       <thead>
           <tr>
             <th>Name</th>
@@ -310,6 +311,7 @@ if (load) {
 
         </tbody>
       </table>
+      </div>
     </div>
     </div>
   )}
