@@ -54,7 +54,7 @@ const postMessage = asyncHandler(async (req, res) => {
 const getUsers = asyncHandler(async (req, res) => {
     const username = req.body.username;
 
-    let patientResults = await appointmentModel.find({doctor_username: username}).select("patient_username");
+    let patientResults = await appointmentModel.find({doctor_username: username, status: 'completed'}).select("patient_username");
     let pharmacistResults = await pharmacistModel.find({}).select("username name");
     let patients = await patientModel.find({}).select("username name");
 

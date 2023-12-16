@@ -15,9 +15,11 @@ import { PasswordValidation } from '../../../components/passwordValidation/passw
 
 // React Router DOM
 import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 
 // Hooks
 import { useState, useEffect } from 'react';
+import { useOTPContext } from '../../../components/hooks/useAuth';
 
 // User Defined Hooks
 import { useRecoveryContext } from '../../../components/hooks/useAuth';
@@ -36,6 +38,7 @@ export const ResetPasswordPage = () => {
     const [passwordNumber, setPasswordNumber] = useState(false);
     const [passwordLength, setPasswordLength] = useState(false);
     const navigate = useNavigate();
+    const {otpSent, otpVerified, setOtpSent, setOtpVerified} = useOTPContext();
 
     useEffect(() => {
         if (newPassword.length > 0) {
@@ -93,6 +96,9 @@ export const ResetPasswordPage = () => {
         .then((response) => {
             setAlertMessage('Password changed successfully');
             setShowAlertMessage(true);
+            setOtpSent(false);
+            setOtpVerified(false);
+            navigate('/login');
         })
         .catch((error) => {
             console.log(`Error ${error}`);
@@ -108,6 +114,10 @@ export const ResetPasswordPage = () => {
     function handleAlertMessageOkayButtonClicked() {
         setShowAlertMessage(false);
     }
+
+    if (!otpSent && !otpVerified) {
+        return <Navigate to="/login" />
+      }
 
     return (
         <>

@@ -15,12 +15,16 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import WalletIcon from '@mui/icons-material/Wallet';
 import MedicationIcon from '@mui/icons-material/Medication';
 import EditIcon from '@mui/icons-material/Edit';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 // FontAwesome Components
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmarkCircle } from '@fortawesome/free-solid-svg-icons';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
+// Components
+import { ShowCard } from '../showCard/showCard';
 
 
 /** This is a simple example of how the component works **/
@@ -40,7 +44,9 @@ export const Example = () => {
 
 export const Modal = ({
     title,
+    card,
     icon,
+    showIcon,
     hasBtn = true,
     btnText,
     children,
@@ -103,20 +109,23 @@ export const Modal = ({
 
   return (
   <>
-    {!open && hasBtn ?
-      <KeyboardArrowDownIcon
+    {/* {!open && hasBtn ?
+      <RadioButtonCheckedIcon
         className={styles["cc-open-modal"]}
         onClick={() => setOpen(!open)}
         aria-haspopup="dialog"
         aria-controls={modalId}
       />
       :
-      <KeyboardArrowRightIcon
+      <RadioButtonCheckedIcon
       className={styles["cc-open-modal"]}
       onClick={() => setOpen(!open)}
       aria-haspopup="dialog"
       aria-controls={modalId}
     />
+    } */}
+    {
+      <ShowCard title={title} icon={showIcon} open={open} setOpen={setOpen} ></ShowCard> 
     }
     {modalComponent}
   </>

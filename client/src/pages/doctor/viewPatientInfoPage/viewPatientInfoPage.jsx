@@ -33,6 +33,7 @@ import { Modal } from '../../../components/modalCard/modalCard';
 // Pages
 import UploadRecords from '../uploadHealthRecordsPage/uploadHealthRecords';
 import PHealthRecords from '../viewHealthPage/viewHealthPage';
+import { ProfileCard } from '../../../components/profileCard/profileCard';
 
 // MUI Components
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -113,12 +114,29 @@ export function ViewPatientInfo() {
               </div>
             </div>
           </div>
-          <div className={styles['patient__settings__div']}>
-            <ShowCard title="view health records"><Modal title="View Health Records"><PHealthRecords patient_username={patient.username}/></Modal></ShowCard>
-            <ShowCard title="upload health recrods"><Modal title="Upload Health Records"><UploadRecords patient_username={patient.username}/></Modal></ShowCard>
-          </div>
-          <div className={styles['patient-info-bottom-div']}>
-            <PatientBoard appointments={patient.appointments} emergency_contact={patient.emergency_contact}/>
+          <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'row'}}>
+            <div style={{width: 'fit-content', height: 'fit-content', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+              <div className={styles['charts__div']}>
+                  <h3 style={{color: 'black'}}>Personal Info</h3>
+                  <ProfileCard info={
+                    [
+                      {name: 'name', value: patient.name},
+                      {name: 'username', value: patient.username},
+                      {name: 'email', value: patient.email},
+                      {name: 'date of birth', value: patient.dob},
+                      {name: 'mobile', value: patient.mobile},
+                    ]
+                  }></ProfileCard>
+                <div className={styles['patient__settings__div']}>
+                  <Modal title="View Health Records" isOpen={false}><PHealthRecords patient_username={patient.username}/></Modal>
+                  <Modal title="Upload Health Recrods" isOpen={false}><UploadRecords patient_username={patient.username}/></Modal>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles['patient-info-bottom-div']}>
+              <PatientBoard appointments={patient.appointments} emergency_contact={patient.emergency_contact}/>
+            </div>
           </div>
       </div>
 

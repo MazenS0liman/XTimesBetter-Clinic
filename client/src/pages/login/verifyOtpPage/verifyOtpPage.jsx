@@ -8,12 +8,15 @@ import styles from "./verifyOtpPage.module.css";
 
 // Hooks
 import { useState, useEffect } from 'react';
+import { useOTPContext } from "../../../components/hooks/useAuth";
 
 // Images
 import verifyPassword from '../../../assets/img/otp.png';
 
 // React Router DOM
 import { useNavigate } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
+
 
 // User Defined Hooks
 import { useRecoveryContext } from "../../../components/hooks/useAuth";
@@ -32,6 +35,7 @@ export const VerifyOtpPage = () => {
   const [showMessage, setShowMessage] = useState(true);
   const [alertMessage, setAlertMessage] = useState(`An OTP is sent to your email: ${email}`);
   const navigate = useNavigate();
+  const {otpSent, setOtpVerified} = useOTPContext();
 
   useEffect(() => {
     let interval = setInterval(() => {
@@ -68,12 +72,17 @@ export const VerifyOtpPage = () => {
       })
       .then(() => setDisable(true))
       .then(() => {
+        setOtpVerified(true);
         setAlertMessage("A new OTP has succesfully been sent to your email.");
         setShowMessage(true);
       })
       .then(() => setTimer(60))
       .catch(console.log);
   }
+
+    if (!otpSent) {
+      return <Navigate to="/login" />
+    }
 
     return (
       <>

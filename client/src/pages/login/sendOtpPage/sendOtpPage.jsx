@@ -8,6 +8,7 @@ import styles from './sendOtpPage.module.css';
 
 // Hooks
 import { useState } from 'react';
+import { useOTPContext } from '../../../components/hooks/useAuth';
 
 // React Router Hooks
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +28,7 @@ export const SendOtpPage = () => {
     const [alertMessage, setAlertMessage] = useState("");
     const [showAlertMessage, setShowAlertMessage] = useState("");
     const navigate = useNavigate();
+    const {setOtpSent} = useOTPContext();
 
     function sendOtp() {
         if (!userEmail.match(/^[a-zA-Z0-9.+_-]+@gmail.com$/)) {
@@ -52,7 +54,10 @@ export const SendOtpPage = () => {
                         otp: OTP,
                         recipientEmail: userEmail,
                     })
-                    .then(() => navigate('/verifyOTP'))
+                    .then(() => {
+                        setOtpSent(true);
+                        navigate('/verifyOTP')
+                    })
                     .catch((error) => {console.log(error)})
                 }
                 else {

@@ -121,7 +121,7 @@ export const ViewAdminMainPage = () => {
             <Route path='/UpdatePackage' element={<UpdatePackage />}/> 
             <Route path='/DeletePackage' element={<DeletePackage />} />  */}
             <Route path = "/requestedDoctorsInfoPage" element = {<ViewRequestedDoctorsInfo/>} />
-            <Route path="/" element={<Navigate to="/admin/addadmin" />} />
+            <Route path="/" element={<Navigate to="/admin/requestedDoctorsInfoPage" />} />
             </Routes>
             </>
         </div>

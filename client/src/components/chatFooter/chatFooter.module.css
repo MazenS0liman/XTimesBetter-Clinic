@@ -31,7 +31,8 @@
   align-items: center;
   width: 100%;
   height: 70px;
-  background-image: linear-gradient(30deg, #0756a1 0%, #2a8ae5 50%, #d1e9ff 100%);
+  /* background-image: linear-gradient(30deg, #0756a1 0%, #2a8ae5 50%, #d1e9ff 100%); */
+  background-color: #054574;
   border-radius: 5px;
   border-bottom: black solid 3px;
   position: sticky;
@@ -116,7 +117,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: #125594;
+  background-color: #054574;
   position: relative;
   border-radius: var(--border-radius);
   overflow: hidden;

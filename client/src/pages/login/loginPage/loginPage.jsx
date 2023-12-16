@@ -10,7 +10,7 @@ import styles from './loginPage.module.css';
 import { useState } from 'react';
 
 // Home Made Hooks
-import { useAuthUpdate, useUsername, useUserType, useRecoveryContext } from '../../../components/hooks/useAuth';
+import { useAuthUpdate, useUsername, useUserType, useRecoveryContext, useOTPContext } from '../../../components/hooks/useAuth';
 
 // React Router
 import { useNavigate } from 'react-router-dom';
@@ -35,11 +35,15 @@ export const LoginPage = () => {
     const {username, setUsername} = useUsername();
     const {userType, setUserType} = useUserType();
     const navigate = useNavigate();
+    const {setOtpSent, setOtpVerified} = useOTPContext();
     // clear access token and refresh token and username stored in the browser
     sessionStorage.setItem("accessToken", "Bearer  ");
     sessionStorage.setItem("refreshToken", "");
     sessionStorage.setItem("username", "");
     sessionStorage.setItem("userType", "");
+
+    setOtpSent(false);
+    setOtpVerified(false);
 
     function handleUsernameChange(event) {
         setName(event.target.value);
