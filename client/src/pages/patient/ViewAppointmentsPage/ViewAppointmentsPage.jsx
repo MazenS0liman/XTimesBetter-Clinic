@@ -183,6 +183,7 @@ const ViewAppointments = () => {
             if (response.status === 200) {
                 setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment._id !== appointmentId));
                 console.log('Appointment canceled successfully');
+                window.alert('Appointment canceled successfully');
             } else {
                 console.error('Error canceling appointment');
             }

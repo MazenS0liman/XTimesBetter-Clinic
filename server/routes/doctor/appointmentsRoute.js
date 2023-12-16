@@ -1,9 +1,11 @@
 var router = require('express').Router();
-const { getAppointments,getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, cancelAppointment, getPastAppointmentsFollowUp } = require('../../controllers/doctor/doctorAppointments')
+const { getAppointments,getUpcomingAppointments , getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, cancelAppointment, getPastAppointmentsFollowUp, checkFollowUpStatus } = require('../../controllers/doctor/doctorAppointments')
 const { authenticateToken } = require('../../middleware/authenticateToken');
 
 // Get all doctor Appointments
 router.get('/getAppointments', authenticateToken, getAppointments);
+
+router.get('/checkFollowUpStatus', checkFollowUpStatus)
 
 // Get all doctor upcoming appointments
 router.get('/upcomingAppointments', authenticateToken, getUpcomingAppointments)

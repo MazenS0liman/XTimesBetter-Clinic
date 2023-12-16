@@ -133,7 +133,6 @@ const getPatientByUsername = async (req, res) => {
     }
 };
 
-
 const getHourlyRateByUsername = async (req, res) => {
     const patientUsername = req.query.patient_username;
     //console.log("Patient", patientUsername)
@@ -156,26 +155,34 @@ const getHourlyRateByUsername = async (req, res) => {
     //console.log(isSubs.length)
     // All doctors
     let patient_hourlyRate = 0; // Initialize with a default value
+    let price_before = 0; 
+    let package_discount = 0;
 
     if (isSubs.length > 0) { // Check the length of the array
         const package_name = isSubs[0].package_name;
-        //console.log("Package Name" ,package_name)
-        const package = await packageModel.findOne({ name: package_name });
-        //console.log("Package" ,package)
+        const packageData = await packageModel.findOne({ name: package_name });
+        package_discount = packageData ? packageData.doctor_discount : 0;
 
         const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
-        //console.log(doctor_hourlyRate.hourly_rate)
-        //console.log(package.doctor_discount)
-
-        patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1)) - ((package.doctor_discount / 100.0) * doctor_hourlyRate.hourly_rate)
+        price_before = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1;
+        patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1)) - ((packageData.doctor_discount / 100.0) * doctor_hourlyRate.hourly_rate)
     } else {
+
+
         const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
+        price_before = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1;
         patient_hourlyRate = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1
     }
 
     console.log("Hourly", patient_hourlyRate);
+
     //console.log(res.status(200).json(patient_hourlyRate))
-    res.status(200).json(patient_hourlyRate);
+    
+    res.status(200).json({
+        package_discount : package_discount,
+        patient_hourlyRate: patient_hourlyRate,
+        price_before: price_before
+    });
 }
 
 const getHourlyRateByNationalID = async (req, res) => {
@@ -196,21 +203,29 @@ const getHourlyRateByNationalID = async (req, res) => {
         .sort({ start_date: -1 })
         .limit(1);
 
-    let patient_hourlyRate = 0; // Initialize with a default value
+    let patient_hourlyRate = 0; 
+    let price_before = 0;
+    let package_discount = 0;
 
     if (isSubs.length > 0) { // Check the length of the array
         const package_name = isSubs[0].package_name;
-        const package = await packageModel.findOne({ name: package_name });
+        const packageData = await packageModel.findOne({ name: package_name });
+        package_discount = packageData ? packageData.doctor_discount : 0;
 
         const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
-
-        patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1)) - ((package.doctor_discount / 100.0) * doctor_hourlyRate.hourly_rate)
+        price_before = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1;
+        patient_hourlyRate = (doctor_hourlyRate.hourly_rate + (doctor_hourlyRate.hourly_rate * 0.1)) - ((packageData.doctor_discount / 100.0) * doctor_hourlyRate.hourly_rate)
     } else {
         const doctor_hourlyRate = await doctorModel.findOne({ username: doctorUsername }).select('hourly_rate');
-        patient_hourlyRate = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1
+        price_before = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1;
+        patient_hourlyRate = doctor_hourlyRate.hourly_rate + doctor_hourlyRate.hourly_rate * 0.1;
     }
-    
-    res.status(200).json(patient_hourlyRate);
+
+    res.status(200).json({
+        package_discount : package_discount,
+        patient_hourlyRate: patient_hourlyRate,
+        price_before: price_before
+    });
 }
 
 // Get all appointments booked by me

@@ -188,6 +188,7 @@ const ScheduleFollowUp = () => {
         const followUpSection = document.getElementById('followUpSection');
         followUpSection.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest'});
     };
+    
 
     const handleFollowUpDateTimeChange = (e) => {
         setFollowUpDateTime(e.target.value);
@@ -195,7 +196,7 @@ const ScheduleFollowUp = () => {
 
     const handleCreateFollowUp = async () => {
         const { appointment} = selectedAppointment;
-        const follow = new Date(followUpDateTime); // Assuming appointment is a valid DateTime string
+        const follow = new Date(followUpDateTime); 
         const utcDateTime = new Date(followUpDateTime).toISOString();
         const followUpDate = follow.toLocaleDateString('en-GB', { 
           day: '2-digit',

@@ -91,6 +91,20 @@ const getPastAppointmentsFollowUp = async (req, res) => {
     }
 };
 
+const checkFollowUpStatus = async (req, res) => {
+    try {
+        //console.log('Checking follow-up status for appointmentId:', req.body.appointmentId);
+        const followUpAppointment = await appointmentModel.findOne({ isFollowUp: req.body.appointmentId });
+
+        const hasFollowUp = !!followUpAppointment;
+
+        //console.log('Result from database:', followUpAppointment);
+        res.status(200).json({ hasFollowUp });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 
 const scheduleFollowUpAppointment = asyncHandler(async (req,res) => {
@@ -607,4 +621,4 @@ const cancelAppointment = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Success', canceledAppointment: true, refundAmount: refund });
 });
 
-module.exports = { getAppointments,getUpcomingAppointments, getPastAppointments, scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, getPastAppointmentsFollowUp, cancelAppointment };
+module.exports = { getAppointments,getUpcomingAppointments, getPastAppointments, checkFollowUpStatus,scheduleFollowUpAppointment, getScheduledFollowUp, rescheduleAppointment, getPastAppointmentsFollowUp, cancelAppointment };

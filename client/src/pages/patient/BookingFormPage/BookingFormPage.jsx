@@ -37,6 +37,9 @@ const BookAppointmentForm = () => {
 
     const [hourlyRate, setHourlyRate] = useState('');
 
+    const [discount, setDiscount] = useState('');
+    const [priceBefore, setPriceBefore] = useState('');
+
     const navigate = useNavigate();
     //Authenticate part
     const accessToken = sessionStorage.getItem('accessToken');
@@ -67,7 +70,6 @@ const BookAppointmentForm = () => {
             .catch((error) => {
                 //setLoad(false);
                 navigate('/login');
-
             });
     }
 
@@ -157,10 +159,13 @@ const BookAppointmentForm = () => {
                 // console.log("Hourly Rate Data:", data); // Add this line for debugging
 
                 // Ensure that data.hourlyRate is a valid number
-                const hourlyRate = parseFloat(data);
+                const hourlyRate = parseFloat(data.patient_hourlyRate);
+                
 
                 if (!isNaN(hourlyRate)) {
                     setHourlyRate(hourlyRate);
+                    setPriceBefore(data.price_before);
+                    setDiscount(data.package_discount);
                 } else {
                     console.error('Invalid hourly rate:', data.hourlyRate);
                 }
@@ -187,10 +192,12 @@ const BookAppointmentForm = () => {
                 // console.log("Hourly Rate Data:", data); // Add this line for debugging
 
                 // Ensure that data.hourlyRate is a valid number
-                const hourlyRate = parseFloat(data);
+                const hourlyRate = parseFloat(data.patient_hourlyRate);
 
                 if (!isNaN(hourlyRate)) {
                     setHourlyRate(hourlyRate);
+                    setPriceBefore(data.price_before);
+                    setDiscount(data.package_discount);
                 } else {
                     console.error('Invalid hourly rate:', data.hourlyRate);
                 }
@@ -202,7 +209,6 @@ const BookAppointmentForm = () => {
             console.error('Network error:', error.message);
         }
     };
-
 
     const submitAppointment = async () => {
 
@@ -216,7 +222,8 @@ const BookAppointmentForm = () => {
             name: username,
             price: hourlyRate,
             booked_by: username, 
-            
+            priceBefore : priceBefore,
+            discount : discount
         };
 
         navigate('/patient/appointmentPayment', { state: appointmentData });
@@ -289,7 +296,9 @@ const BookAppointmentForm = () => {
             time: appointment.bookAppointment.appointment,
             name: fmName,
             price: hourlyRate,
-            booked_by: username
+            booked_by: username,
+            priceBefore : priceBefore,
+            discount : discount
         };
 
         navigate('/patient/appointmentPayment', { state: appointmentData });
@@ -350,7 +359,9 @@ const BookAppointmentForm = () => {
             time: appointment.bookAppointment.appointment,
             name: linkedfmName,
             price: hourlyRate,
-            booked_by: username
+            booked_by: username,
+            priceBefore : priceBefore,
+            discount : discount
         };
 
         navigate('/patient/appointmentPayment', { state: appointmentData });

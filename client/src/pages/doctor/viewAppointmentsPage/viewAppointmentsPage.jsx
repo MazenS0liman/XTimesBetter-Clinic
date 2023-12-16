@@ -18,6 +18,8 @@ const ViewAppointments = () => {
     const [allAppointments, setShowAllAppointments] = useState([]);
     const [selectedDate, setSelectedDate] = useState('');
     const [status, setStatus] = useState('');
+    const [hasFollowUp, setHasFollowUp] = useState(false);
+
     const navigate = useNavigate();
 
     //Authenticate part
@@ -144,6 +146,7 @@ const ViewAppointments = () => {
             if (response.status === 200) {
                 setAppointments(prevAppointments => prevAppointments.filter(appointment => appointment._id !== appointmentId));
                 console.log('Appointment canceled successfully');
+                window.alert('Appointment canceled successfully');
             } else {
                 console.error('Error canceling appointment');
             }
@@ -151,6 +154,7 @@ const ViewAppointments = () => {
             console.error('Error canceling appointment:', error.message);
         }
     }
+    
 
     const handleRescheduleAppointment = async (appointmentId) => {
         const appData = { appointmentID: appointmentId };
@@ -266,7 +270,7 @@ const ViewAppointments = () => {
     const [followUpDateTime, setFollowUpDateTime] = useState('');
     const [showFollowUpSection, setShowFollowUpSection] = useState(false);
 
-    const createFollowUp = async (doctorUsername, appointmentTime, followUpTime, appointmentID, appointmentName, appointmentPatient_username) => {
+    const createFollowUp = async (appointment, followUpDateTime, followUpDate, doctorUsername, appointmentTime, followUpTime, appointmentID, appointmentName, appointmentPatient_username) => {
         if (!accessToken) {
             // Handle the case where no access token is provided, e.g., redirect to login
             console.error('No access token provided');
@@ -274,19 +278,18 @@ const ViewAppointments = () => {
             navigate('/login');
             return { success: false, message: 'No access token provided' };
         }
-        // hena el moshkela 
-        const followUpData = {
-            doctor_username: doctorUsername,
-            patient_username: appointmentPatient_username,
-            appointmentDateTime: appointmentTime,
-            followUpDateTime: followUpTime,
-            appointment_ID: appointmentID,
-        };
+        console.log("Create App", appointment);
 
+        const followUpData = {
+            appointment: appointment,
+            followUpDateTime: followUpDateTime,
+            followUpDate: followUpDate,
+            appointment_ID: appointment._id,
+        };
         console.log('FollowUp Data:', followUpData);
 
         try {
-            const response = await fetch('http://localhost:5000/doctor/appointments/FollowUpRequested', {
+            const response = await fetch('http://localhost:5000/doctor/appointments/scheduleFollowUp', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -320,10 +323,12 @@ const ViewAppointments = () => {
         }
     };
 
-    const handleRequestFollowUp = (doctorUsername, appointmentDate, appointmentTime, appointmentID, appointmentName, appointmentPatient_username) => {
+    const handleRequestFollowUp = (appointment, appointmentDate, doctorUsername, appointmentTime, appointmentID, appointmentName, appointmentPatient_username) => {
+        console.log('handleRequestFollowUp - appointment:', appointment);
         setSelectedAppointment({
-            doctorUsername,
+            appointment,
             appointmentDate,
+            doctorUsername,
             appointmentTime,
             appointmentID,
             appointmentName,
@@ -345,13 +350,21 @@ const ViewAppointments = () => {
     };
 
     const handleCreateFollowUp = async () => {
-        const { doctorUsername, appointmentTime, appointmentID, appointmentName, appointmentPatient_username } = selectedAppointment;
-        const result = await createFollowUp(doctorUsername, appointmentTime, followUpDateTime, appointmentID, appointmentName, appointmentPatient_username);
+
+        const { appointment, doctorUsername, appointmentTime, appointmentID, appointmentName, appointmentPatient_username } = selectedAppointment;
+        const follow = new Date(followUpDateTime);
+        const utcDateTime = new Date(followUpDateTime).toISOString();
+        const followUpDate = follow.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+        });
+        const result = await createFollowUp(appointment, utcDateTime, followUpDate, doctorUsername, appointmentTime, followUpDateTime, appointmentID, appointmentName, appointmentPatient_username);
         setSelectedAppointment(null);
         setShowFollowUpSection(false);
 
         if (result.success) {
-            window.alert("FollowUp requested Successfully");
+            window.alert("FollowUp Sent Successfully");
         } else {
             if (result.message === 'You already sent a follow-up request with the same date and time') {
                 window.alert(result.message);
@@ -364,6 +377,7 @@ const ViewAppointments = () => {
         setShowFollowUpSection(false);
     };
 
+   
     const handleCloseFollowUp = () => {
         setShowFollowUpSection(false);
         setSelectedAppointment(null);
@@ -440,7 +454,7 @@ const ViewAppointments = () => {
                                     <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
                                     <td>{formatTime(appointment.time)}</td>
                                     <td>
-                                        {appointment.status === 'upcoming' && (
+                                        {appointment.status === 'upcoming' && !hasFollowUp && (
                                             <button className={styles['button-blue']} onClick={() => handleRescheduleAppointment(appointment._id)}>Reschedule</button>
                                         )}
 
@@ -451,11 +465,12 @@ const ViewAppointments = () => {
                                         {appointment.status === 'completed' && (
                                             <button
                                                 className={styles['button-schedule']}
-                                                onClick={() => handleRequestFollowUp(appointment.doctor_username, appointment.date, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
+                                                onClick={() => handleRequestFollowUp(appointment, appointment.date, appointment.doctor_username, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
                                             >
                                                 Schedule Follow Up
                                             </button>
                                         )}
+
                                     </td>
                                 </tr>
                             ))}
