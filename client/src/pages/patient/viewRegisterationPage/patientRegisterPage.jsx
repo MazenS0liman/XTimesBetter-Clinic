@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './patientRegisterPage.module.css';
+import { ResponsiveNavBar } from '../../../components/responsiveNavBar/responsiveNavBar';
 
 //import axios from 'axios';
 const PatientRegister = () => {
@@ -138,7 +139,9 @@ const PatientRegister = () => {
     // ... (previous imports and code)
 
 return (
-  <div className={styles.ClinicRegistrationBack}>
+  <>
+    <ResponsiveNavBar></ResponsiveNavBar>
+    <div className={styles.ClinicRegistrationBack}>
     <div className={styles.ClinicRegistration}>
       <h2>Patient Registration</h2>
       <form onSubmit={handleSubmit} className={styles.registrationForm}>
@@ -292,6 +295,8 @@ return (
       </form>
     </div>
   </div>
+  </>
+  
 );
 
     
