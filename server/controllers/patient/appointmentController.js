@@ -484,6 +484,19 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
                             },
                             { new: true }
                         );
+                        await patientModel.findByIdAndUpdate(
+                            registeredPatient._id,
+                            {
+                                $push: {
+                                    notifications: {
+                                        type:"rescheduled",
+            
+                                        message: `Appointment to ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} with DR. ${doctor.name} is rescheduled.`,
+                                    },
+                                },
+                            },
+                            { new: true }
+                        );
                         console.log('name',updatedAppointment);
                         notificationMessageDoctor = `
                         Appointment is rescheduled to be on:
@@ -718,6 +731,19 @@ const cancelAppointment = asyncHandler(async (req, res) => {
                                             type:"cancelled",
             
                                             message: `Appointment with ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} is cancelled.`,
+                                        },
+                                    },
+                                },
+                                { new: true }
+                            );
+                            await patientModel.findByIdAndUpdate(
+                                registeredPatient._id,
+                                {
+                                    $push: {
+                                        notifications: {
+                                            type:"cancelled",
+                
+                                            message: `Appointment to ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} with DR. ${doctor.name} is cancelled.`,
                                         },
                                     },
                                 },

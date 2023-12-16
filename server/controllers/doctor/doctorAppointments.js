@@ -214,7 +214,7 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
                 let notificationMessageRegisteredPatient;
 
 
-                if (req.body.patientUsername === req.body.bookedUsername) {
+                if (existingAppointment.patient_username === existingAppointment.doctor_username) {
                     //console.log("enter if,")
                     notificationMessageDoctor = `
                     Dear Dr. ${doctor.name},
@@ -365,6 +365,19 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
                             },
                             { new: true }
                         );
+                        await patientModel.findByIdAndUpdate(
+                            registeredPatient._id,
+                            {
+                                $push: {
+                                    notifications: {
+                                        type:"rescheduled",
+            
+                                        message: `Appointment to ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} with DR. ${doctor.name} is rescheduled.`,
+                                    },
+                                },
+                            },
+                            { new: true }
+                        );
                         notificationMessageDoctor = `
                         Dear Dr. ${doctor.name},
 
@@ -447,7 +460,7 @@ const cancelAppointment = asyncHandler(async (req, res) => {
     let notificationMessageRegisteredPatient;
 
 
-    if (req.body.patientUsername === req.body.bookedUsername) {
+    if (existingAppointment.patient_username === existingAppointment.doctor_username) {
         //console.log("enter if,")
         notificationMessageDoctor = `
         Dear Dr. ${doctor.name},
@@ -584,6 +597,19 @@ const cancelAppointment = asyncHandler(async (req, res) => {
                             type:"cancelled",
 
                             message: `Appointment with ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} has been cancelled successfully`,
+                        },
+                    },
+                },
+                { new: true }
+            );
+            await patientModel.findByIdAndUpdate(
+                registeredPatient._id,
+                {
+                    $push: {
+                        notifications: {
+                            type:"cancelled",
+
+                            message: `Appointment to ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} with DR. ${doctor.name} is cancelled.`,
                         },
                     },
                 },

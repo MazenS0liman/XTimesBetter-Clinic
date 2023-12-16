@@ -451,7 +451,7 @@ const ViewAppointments = () => {
             </div>
             <div className="appointment-table-container">
                 {showAppointments &&
-                    <table>
+                    <table style={{width:'70%'}}>
                         <thead>
                             <tr>
                                 <th>Patient</th>
@@ -462,8 +462,6 @@ const ViewAppointments = () => {
                         </thead>
                         <tbody>
                             {appointments.map((appointment) => {
-                            
-
                                 return (
                                     <tr key={appointment._id}>
                                         <td>{appointment.name}</td>

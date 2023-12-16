@@ -30,7 +30,7 @@ const appointmentModel = require('../../models/Appointment');
   
         // Check if the current date and time are within the appointment's time range
         if (now >= appointmentStartTime && now <= appointmentEndTime) {
-            const updatedAppointment = await appointmentModel.findByIdAndUpdate(appointment_id,{status:"upcoming"});   
+            const updatedAppointment = await appointmentModel.findByIdAndUpdate(appointment_id,{status:"completed"});   
             res.status(200).json(updatedAppointment);
 
         } else if (now<appointmentStartTime){

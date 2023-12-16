@@ -465,7 +465,8 @@ const ViewAppointments = () => {
                     {showFamilyAppointments && (
                         <div className={styles['header-container']}>
                             <div>
-                                <Button className={styles['back-button']} onClick={() => setShowFamilyAppointments(false)}>
+                                <Button className={styles['back-button']} onClick={() => {setShowFamilyAppointments(false);setAppointments(allAppointments);
+        setShowAppointments(allAppointments);}}>
                                     <FontAwesomeIcon icon={faArrowLeft} />
                                 </Button>
                             </div>

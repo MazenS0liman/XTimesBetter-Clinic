@@ -1,13 +1,50 @@
 import React, { useState, useEffect } from 'react';
-
-// Axios
 import axios from 'axios';
-
-// React Router DOM
-import { useNavigate } from 'react-router-dom';
+import styles from './addadmin.module.css';
+//import searchIcon from '../../assets/img/searchicon.png';
 
 const AdminTable = () => {
+
+  //Authenticate part
+  const accessToken = sessionStorage.getItem('accessToken');
+  const [load, setLoad] = useState(true);
+  const [username, setUsername] = useState('');
+  const [searchUsername, setSearchUsername] = useState('');
+
+  console.log(accessToken);
+  useEffect(() => {
+    if (username.length != 0) {
+      setLoad(false);
+    }
+  }, [username]);
+  async function checkAuthentication() {
+    await axios({
+      method: 'get',
+      url: 'http://localhost:5000/authentication/checkAccessToken',
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': accessToken,
+        'User-type': 'admin',
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setUsername(response.data.username);
+        //setLoad(false);
+      })
+      .catch((error) => {
+        //setLoad(false);
+        navigate('/login');
+
+      });
+  }
+
+  const xTest = checkAuthentication();
+
+
+
   const [admins, setAdmins] = useState([]);
+  const [selectedAdmin, setSelectedAdmin] = useState(null);
   const [error, setError] = useState(null);
   const [showAddAdminPopup, setShowAddAdminPopup] = useState(false);
 
@@ -37,42 +74,6 @@ const AdminTable = () => {
     setShowAddAdminPopup(true);
   };
 
-  const accessToken = sessionStorage.getItem("accessToken");
-  const [username, setUsername] = useState('');
-  const [load, setLoad] = useState(true);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (username.length != 0) {
-      setLoad(false);
-    }
-  }, [username]);
-
-  async function checkAuthentication() {
-    await axios ({
-        method: 'get',
-        url: `http://localhost:5000/authentication/checkAccessToken`,
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': accessToken,
-            'User-type': 'admin',
-        },
-    })
-    .then((response) => {
-        console.log(response);
-        setUsername(response.data.username);
-    })
-    .catch((error) => {
-      navigate('/login');
-    });
-  }
-
-  checkAuthentication();
-
-  if (load) {
-    return(<div>Loading</div>)
-  }
-
   const handlePopupClose = () => {
     setShowAddAdminPopup(false);
     // Optionally, clear the form data when the pop-up is closed
@@ -93,34 +94,43 @@ const AdminTable = () => {
     });
   };
 
+  const validatePass = (pass) => {
+    const pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return pattern.test(pass);
+  }
+
   const handleAddAdminSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       console.log('Request Payload:', newAdminData);
       // Check if required fields are present
-      if (!newAdminData.username || !newAdminData.password ) {
+      if (!newAdminData.username || !newAdminData.password || !newAdminData.firstName || !newAdminData.lastName) {
         setError('Please fill in all required fields.');
         return;
       }
-     console.log(newAdminData)
-      const response = await axios.post('http://localhost:5000/Admin/addremove/', newAdminData);
-      //console.log(response)
-      console.log(response.data.success)
-      if (response.data.success) {
-        // Admin added successfully, close the pop-up and fetch admins again
-        alert('Admin Added')
-        handlePopupClose();
-        fetchAdmins();
-      } else {
-        // Handle error scenario
-        //console.log(response.data.message)
-        console.error('Adding admin failed');
-        setError('Adding admin failed');
+      console.log(newAdminData)
+      if (validatePass(newAdminData.password)) {
+        const response = await axios.post('http://localhost:5000/Admin/addremove/', newAdminData);
+        console.log(response)
+        if (response.data.success) {
+          // Admin added successfully, close the pop-up and fetch admins again
+          alert('Admin Added')
+          handlePopupClose();
+          fetchAdmins();
+        } else {
+          // Handle error scenario
+          console.log(response.data.message)
+          console.error('Adding admin failed');
+          setError('Adding admin failed');
+        }
+      }
+      else {
+        setError("Please enter atleast 8 characters with number, small and capital letter.");
       }
     } catch (error) {
       console.error('An error occurred:', error);
-    
+
       if (error.response && error.response.status === 400 && error.response.data && error.response.data.message === 'Username already taken!') {
         setError('Username is already taken. Please choose a different username.');
       } else {
@@ -128,6 +138,7 @@ const AdminTable = () => {
       }
     }
   };
+
 
   const handleRemoveAdmin = async (adminUsername) => {
     try {
@@ -147,85 +158,99 @@ const AdminTable = () => {
       setError(`An error occurred: ${error.message}`);
     }
   };
+  const handleUsernameChange = (event) => {
+    setSearchUsername(event.target.value);
+  };
 
+  const fetchSelectedAdmin = () => {
+    // Check if a username is entered
+    if (searchUsername.trim() === '') {
+      console.log('Please enter a username.');
+      return;
+    }
+
+    // Filter admins based on the entered username
+    const selectedAdmin = admins.find((admin) => admin.username === searchUsername);
+
+    if (selectedAdmin) {
+      // Display information for the selected admin
+      setSelectedAdmin(selectedAdmin);
+      console.log("Selected Admin:", selectedAdmin);
+      // You can update the state or perform any other action as needed
+    } else {
+      console.log('No admin found for the entered username.');
+      // Handle the case where no admin is found
+      setSelectedAdmin(null); // Clear selected admin state
+    }
+  };
+
+
+
+  if (load) {
+    return (<div>Loading</div>)
+  }
   return (
     <div>
-      <h1>Admins</h1>
-      <button onClick={handleAddAdminClick}style={{ backgroundColor: 'blue', color: 'white', padding: '8px 12px', cursor: 'pointer' }}> Add Admin</button>
-      {showAddAdminPopup && (
-        <div className="popup">
-          <div className="popup-content">
-            <span className="close" onClick={handlePopupClose}>
-              &times;
-            </span>
-            <h2>Add Admin</h2>
-            <form onSubmit={handleAddAdminSubmit}>
-  <div>
-    <div>
-      <label>Username:</label>
-    </div>
-    <div>
-      <input
-        type="text"
-        name="username"
-        value={newAdminData.username}
-        onChange={handleInputChange}
-        required
-      />
-    </div>
-  </div>
-  <div>
-    <div>
-      <label>Password:</label>
-    </div>
-    <div>
-      <input
-        type="password"
-        name="password"
-        value={newAdminData.password}
-        onChange={handleInputChange}
-        required
-      />
-    </div>
-  </div>
-  <div>
-    <div>
-      <label>First Name:</label>
-    </div>
-    <div>
-      <input
-        type="text"
-        name="firstName"
-        value={newAdminData.firstName}
-        onChange={handleInputChange}
-      />
-    </div>
-  </div>
-  <div>
-    <div>
-      <label>Last Name:</label>
-    </div>
-    <div>
-      <input
-        type="text"
-        name="lastName"
-        value={newAdminData.lastName}
-        onChange={handleInputChange}
-      />
-    </div>
-  </div>
-  <br />
-  <div>
-  <button type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: '8px 12px', cursor: 'pointer', marginRight: '8px' }}>Add Admin</button>
-  <button type="button" onClick={handlePopupClose} style={{ backgroundColor: 'red', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Cancel</button>
-</div>
-  <br />
-  {error && <p>{error}</p>}
-</form>
+      <br />
+      <h1>Admins List</h1>
+
+      {!showAddAdminPopup && (<button onClick={handleAddAdminClick} style={{ backgroundColor: '#054574', color: 'white', padding: '8px 12px', cursor: 'pointer', marginLeft: '1220px' }}> Add Admin</button>)}
+      <div className>
+        {showAddAdminPopup && (
+          <div className="popup">
+            <div className={styles.popup}>
+              <form onSubmit={handleAddAdminSubmit}>
+                <h2>Add Admin</h2>
+                <div>
+                  <label style={{ display: 'block' }}>Username:</label>
+                  <input
+                    type="text"
+                    name="username"
+                    value={newAdminData.username}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block' }}>Password:</label>
+                  <input
+                    type="password"
+                    name="password"
+                    value={newAdminData.password}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block' }}>First Name:</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={newAdminData.firstName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div>
+                  <label style={{ display: 'block' }}>Last Name:</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={newAdminData.lastName}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <br />
+                <button type="submit" style={{ backgroundColor: '#054574', color: 'white', padding: '8px 12px', cursor: 'pointer', marginRight: '10px' }}>Add Admin</button>
+                <button type="button" onClick={handlePopupClose} style={{ backgroundColor: '#cc0000', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Cancel</button><br />
+                {error && <p>{error}</p>}
+                <br />
+              </form>
+            </div>
           </div>
-        </div>
-      )}
-      <table>
+        )}
+      </div>
+      <br />
+      <table className={styles.pharmacistTable}>
         <thead>
           <tr>
             <th>Username</th>
@@ -240,13 +265,13 @@ const AdminTable = () => {
               <td>{admin.firstName}</td>
               <td>{admin.lastName}</td>
               <td>
-                <button onClick={() => handleRemoveAdmin(admin.username)}style={{ backgroundColor: 'red', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Remove</button>
+                <button onClick={() => handleRemoveAdmin(admin.username)} style={{ backgroundColor: '#cc0000', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Remove</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+    </div >
   );
 };
 

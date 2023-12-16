@@ -12,7 +12,7 @@
 
 .button {
   width: 300px;
-  background-color: #053564;
+  background-color: #054574;
   color: #FFFFFF;
   padding: 10px 20px;
   border: none;
@@ -22,7 +22,7 @@
 
 .button-22 {
   width: 300px;
-  background-color: #053564;
+  background-color: #054574;
   color: #FFFFFF;
   padding: 10px 20px;
   border: none;
@@ -60,12 +60,12 @@ ul {
 }
 
 .button-red {
-  background-color: rgb(177, 7, 7);
+  background-color: #cc0000;
   color: white;
 }
 
 .button-blue {
-  background-color: rgb(8, 0, 72);
+  background-color: #054574;
   color: white;
   margin-right: 50px;
 }
@@ -265,7 +265,7 @@ ul {
 }
 
 .button-schedule {
-  background-color: #047021;
+  background-color: #44ad3a;
   color: #ffffff;
 }
 
@@ -314,7 +314,7 @@ ul {
 }
 
 .appointment-table-container .button-schedule {
-  background-color: #047021;
+  background-color: #087e28;
   color: #ffffff;
 }
 
@@ -324,6 +324,7 @@ ul {
 
 .appointment-table-container td:nth-last-child(2) {
   border-right: none;
+  width:25%;
 }
 
 /* Add new styles for the updated follow-up section */
