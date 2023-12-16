@@ -107,6 +107,7 @@ export const PatientProfile = () => {
     }
 
     function handleViewSubscriptions() {
+      console.log('hello world')
       navigate('/patient/ViewSubscribedPackages');
     }
     
@@ -179,26 +180,7 @@ export const PatientProfile = () => {
          {/*  <div className={styles['patient-info-bottom-div']}>
           </div> */}
           <div className={styles['main__div']}>
-            <div className={styles['left__div']}>
-              <h3 style={{color: 'black'}}>Health</h3>
-              <div className={styles['configurations__div']}>
-                <ShowCard title="View medical history" icon={<MedicalInformationIcon/>}><NorthEastIcon sx={{cursor: 'pointer'}} onClick={handleViewMedicalHistory}></NorthEastIcon></ShowCard>
-                <ShowCard title="View health records" icon={<HealthAndSafetyIcon/>}><Modal title="View Health Records"><HealthRecords /></Modal></ShowCard> 
-              </div>
-
-              <h3 style={{color: 'black'}}>Settings</h3>
-              <div className={styles['configurations__div']}>
-                <ShowCard title="Subscriptions" icon={<CardMembershipIcon/>}><NorthEastIcon sx={{cursor: 'pointer'}} onClick={handleViewSubscriptions}></NorthEastIcon></ShowCard>
-                {/* <DropDown title="Change password" child={<PasswordCard />}></DropDown> */}
-              </div>
-              <div className={styles['right__div']}>
-              <div className={styles['wallet__div']}>
-                <CreditCard><ViewPatientWalletPage /></CreditCard>
-              </div>
-            </div>
-            </div>
-
-            <div className={styles['middle__div']}>
+          <div className={styles['middle__div']}>
               <div className={styles['charts__div']}>
               <h3 style={{color: 'black'}}>Personal Info</h3>
                 <ProfileCard info={
@@ -210,16 +192,37 @@ export const PatientProfile = () => {
                     {name: 'Date of birth', value: dob}
                   ]
                 }></ProfileCard>
-                <h3 style={{color: 'black'}}>Family Memembers</h3>
-                <div className={styles['configurations__div']}>
-                  <ShowCard title="View family members" icon={<FamilyRestroomIcon/>}><Modal title="Family Members"><FamilyView /></Modal></ShowCard> 
-                  <ShowCard title="Add family member" icon={<GroupAddIcon/>}><Modal title="Add Family Member"><AddFamilyMember /></Modal></ShowCard> 
-                  <ShowCard title="Link patient by email" icon={<AddLinkIcon/>}><Modal title="Link Patient By Email"><LinkPatientWithAnotherByEmail /></Modal></ShowCard> 
-                  <ShowCard title="Link patient by mobile" icon={<PhonelinkRingIcon/>}><Modal title="Link Patient By Mobile"><LinkPatientWithAnotherByMobile /></Modal></ShowCard> 
+                <div className={styles['right__div']}>
+                  <div className={styles['wallet__div']}>
+                    <CreditCard><ViewPatientWalletPage /></CreditCard>
+                  </div>
                 </div>
               </div>
               
             </div>
+            <div className={styles['left__div']}>
+              <h3 style={{color: 'black'}}>Health</h3>
+              <div className={styles['configurations__div']}>
+                <ShowCard title="View Medical History" icon={<MedicalInformationIcon/>} navigate={handleViewMedicalHistory}></ShowCard>
+                <Modal title="View Health Records"  showIcon={<HealthAndSafetyIcon/>} isOpen={false}><HealthRecords /></Modal>
+              </div>
+
+              <h3 style={{color: 'black'}}>Subscriptions</h3>
+              <div className={styles['configurations__div']}>
+                <ShowCard title="Packages" icon={<CardMembershipIcon/>} navigate={handleViewSubscriptions}></ShowCard>
+                {/* <DropDown title="Change password" child={<PasswordCard />}></DropDown> */}
+              </div>
+              
+              <h3 style={{color: 'black'}}>Family Members</h3>
+              <div className={styles['configurations__div']}>
+                  <Modal title="View Family Members"  showIcon={<FamilyRestroomIcon/>} isOpen={false}><FamilyView /></Modal>
+                  <Modal title="Add Family Member"  showIcon={<GroupAddIcon/>} isOpen={false}><AddFamilyMember /></Modal>
+                  <Modal title="Link Patient By Email"  showIcon={<AddLinkIcon/>} isOpen={false}><LinkPatientWithAnotherByEmail /></Modal>
+                  <Modal title="Link Patient By Mobile"  showIcon={<PhonelinkRingIcon/>} isOpen={false}><LinkPatientWithAnotherByMobile /></Modal>
+              </div>
+            </div>
+
+
 
           </div>
         </div>

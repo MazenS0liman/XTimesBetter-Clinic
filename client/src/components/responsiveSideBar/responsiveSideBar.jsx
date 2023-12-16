@@ -119,7 +119,7 @@ export const ResponsiveSideBar = ({ array }) => {
             >
             <DehazeIcon></DehazeIcon>
         </Button> */}
-        <Button sx={{color: "white", '&:hover': {
+        {/* <Button sx={{color: "white", '&:hover': {
                     backgroundColor: "#125594",
                     color: "white"
                     }}} 
@@ -131,7 +131,7 @@ export const ResponsiveSideBar = ({ array }) => {
                     data-tooltip-place="bottom"
           >
             <HomeIcon></HomeIcon>
-        </Button>
+        </Button> */}
             
 
           {

@@ -12,6 +12,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import WalletIcon from '@mui/icons-material/Wallet';
 import MedicationIcon from '@mui/icons-material/Medication';
 import EditIcon from '@mui/icons-material/Edit';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 
 // Font Awesome icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,20 +21,31 @@ import { faKey, faWallet, faEye, faDeaf } from '@fortawesome/free-solid-svg-icon
 // Components
 import { Modal } from '../modalCard/modalCard';
 
-export const ShowCard = ({ title, icon, children }) => {
-    const [showContent, setShowContent] = useState(false); 
+import { animateScroll as scroll } from 'react-scroll';
 
-    console.log(`State: ${showContent}`);
-
+export const ShowCard = ({ title, icon, open, setOpen, navigate, children }) => {
     return (
-        <div className={styles['main__div']}>
+        <div className={styles['main__div']} onClick={() => {
+                console.log(`Open: ${open}`);
+                if (open !== undefined) {
+                    if (!open) {
+                        scroll.scrollToTop()
+                    }
+                    setOpen(!open);
+                }
+
+                console.log(`Navigate: ${navigate}`);
+                if (navigate !== undefined) {
+                    navigate();
+                }
+            }} style={{cursor: 'pointer'}}>
             <div className={styles['left__div']}>
                 {
                     icon
                 }
             </div>
             <div className={styles['middle__div']}>
-                <label className={styles['dropdown__label']}>{ title }</label>
+                <label className={styles['dropdown__label']} style={{zIndex: -1}}>{ title }</label>
             </div>
             <div className={styles['right__div']} >
                 {children}

@@ -145,32 +145,33 @@ export const DoctorProfile = () => {
             <div className={styles['doctor-info-bottom-div']}>
             
           <div className={styles['main__div']}>
+              <div className={styles['middle__div']}>
+                    <div className={styles['charts__div']}>
+                      <h3 style={{color: 'black'}}>Personal Info</h3>
+                      <ProfileCard info={
+                        [
+                          {name: 'name', value: name},
+                          {name: 'username', value: username},
+                          {name: 'email', value: email},
+                          {name: 'date of birth', value: dob}
+                        ]
+                      }></ProfileCard>
+                    </div>
+              </div>
               <div className={styles['left__div']}>
+                <h3 style={{color: 'black'}}>Settings</h3>
                 <div className={styles['configurations__div']}>
                   {/* <DropDown title="change password" child={<PasswordCard />}></DropDown> */}
-                  <ShowCard title="add time slots" icon={<AccessTimeIcon/>}><Modal title="Add Time Slots"><AddTimeSlots /></Modal></ShowCard>
-                  <ShowCard title="update info" icon={<EditIcon/>}><Modal title="Update Info"><UpdateDoctorInfo /></Modal></ShowCard>
-                  <ShowCard title="contract" icon={<ContactMailIcon/>}><Modal title="Employment Contract"><ContractView /></Modal></ShowCard>                  
+                  <Modal title="Add Time Slots" showIcon={<AccessTimeIcon/>} isOpen={false}><AddTimeSlots /></Modal>
+                  <Modal title="Update Info" showIcon={<EditIcon/>} isOpen={false}><UpdateDoctorInfo /></Modal>
+                  <Modal title="Employment Contract" showIcon={<ContactMailIcon/>} isOpen={false}><ContractView /></Modal>
+                </div>
+                <div className={styles['right__div']}>
+                  <div className={styles['wallet__div']}>
+                    <CreditCard><ViewDoctorWalletPage /></CreditCard>
+                  </div>
                 </div>
               </div>
-              <div className={styles['right__div']}>
-                <div className={styles['wallet__div']}>
-                  <CreditCard><ViewDoctorWalletPage /></CreditCard>
-                </div>
-              </div>
-              <div className={styles['middle__div']}>
-                <div className={styles['charts__div']}>
-                  <ProfileCard info={
-                    [
-                      {name: 'name', value: name},
-                      {name: 'username', value: username},
-                      {name: 'email', value: email},
-                      {name: 'date of birth', value: dob}
-                    ]
-                  }></ProfileCard>
-                </div>
-              </div>
-
           </div>
           </div>
         </div>

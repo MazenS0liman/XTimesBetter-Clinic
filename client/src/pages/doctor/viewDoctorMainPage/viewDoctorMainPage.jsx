@@ -156,7 +156,7 @@ export const ViewDoctorMainPage = () => {
                     <Route path="/VideoCall" element={<DoctorVideo />} />
                     <Route path='/rescheduleTimeSlots' element={<RescheduleTimeSlots/>} />
                     <Route path="/viewNotifications" element={<DoctorNotifications />} />
-                    <Route path="/" element={<Navigate to="/doctor/profile" />} />
+                    <Route path="/" element={<Navigate to="/doctor/viewPatientsPage" />} />
                 </Routes>
             </>
         </div >

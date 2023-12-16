@@ -159,7 +159,7 @@ export const ViewPatientMainPage = () => {
                     <Route path="/Call" element={<Call/>} />
                     <Route path="/rescheduleTimeSlots" element={<RescheduleTimeSlots/>} />
                     <Route path="/viewNotifications" element={<PatientNotifications />} />
-                    <Route path="/" element={<Navigate to="/patient/profile" />} />
+                    <Route path="/" element={<Navigate to="/patient/viewDoctorsListPage" />} />
                 </Routes>
             </>
         </div>

@@ -10,7 +10,7 @@
     position: relative;
     border-radius: 10px;
     color: white;
-    background-color: #2c7a9b;
+    background-color: #054574;
 }
 
 .left__div {
@@ -22,8 +22,12 @@
 }
 
 .right__div {
-    width: 10%;
-    height: 50%;
+    width: 7%;
+    height: 100%;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .keyboard__div {
