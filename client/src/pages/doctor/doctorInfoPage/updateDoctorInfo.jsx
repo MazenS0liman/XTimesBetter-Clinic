@@ -118,7 +118,7 @@ function UpdateDoctorInfo() {
       case 'hourly_rate':
         return (
           <div className="updateHourlyRate" id="hourly_rate">
-            <p><strong>Current Hourly Rate: </strong>{currentDoctorInfo.hourly_rate} EGP</p>
+            <p><strong>Current Hourly Rate: </strong>{currentDoctorInfo.hourly_rate} LE</p>
            
             <label htmlFor="hourly_rate">New Hourly Rate:</label>
             

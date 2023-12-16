@@ -211,10 +211,10 @@ In the absence of a formal guide, we encourage contributors to follow general be
 
 
 #### Appointments with Doctors
-10. *View all Appointments:*
+10. *View all Appointments :*
     - Patients can access a comprehensive list of available appointments where he/she can filter based on :
    a)date 
-   b)doctor's name.
+   b)status (upcoming, completed, cancelled, rescheduled)
 
 11. *Book an Appointment:*
     - Patients can book an Appointment with certain doctor according to the doctor's available time slots .

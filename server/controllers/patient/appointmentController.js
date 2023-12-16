@@ -342,9 +342,8 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
 
                 let notificationMessageDoctor;
                 let notificationMessageRegisteredPatient;
-
-
-                if (req.body.patientUsername === req.body.bookedUsername) {
+                
+                if (existingAppointment.patient_username === existingAppointment.doctor_username) {
                     //console.log("enter if,")
                     notificationMessageDoctor = `
                     Appointment Update:
@@ -398,6 +397,7 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
                 } else {
 
                     const patientToGO = await patientModel.findOne({ username: existingAppointment.patient_username });
+                   
                     if (patientToGO) {
                         notificationMessageDoctor = `
                         Appointment Update:
@@ -478,21 +478,21 @@ const rescheduleAppointment = asyncHandler(async (req, res) => {
                                     notifications: {
                                         type:"rescheduled",
         
-                                        message: `Appointment with ${updatedAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} is rescheduled to be at slot ${formattedNewTime} on ${updatedAppointment.date}.`,
+                                        message: `Appointment with ${existingAppointment.name} at slot ${formattedOldTime} on ${existingAppointment.date} is rescheduled to be at slot ${formattedNewTime} on ${updatedAppointment.date}.`,
                                     },
                                 },
                             },
                             { new: true }
                         );
+                        console.log('name',updatedAppointment);
                         notificationMessageDoctor = `
                         Appointment is rescheduled to be on:
              
-                        Patient Name: ${updatedAppointment.name}
+                        Patient Name: ${existingAppointment.name}
                         Date: ${updatedAppointment.date}
                         Time: ${formattedNewTime}
                         Status: Rescheduled
                     `;
-
                     }
                 }
 
@@ -595,7 +595,7 @@ const cancelAppointment = asyncHandler(async (req, res) => {
                     let notificationMessageRegisteredPatient;
     
     
-                    if (req.body.patientUsername === req.body.bookedUsername) {
+                    if (existingAppointment.patient_username === existingAppointment.doctor_username) {
                         //console.log("enter if,")
                         notificationMessageDoctor = `
                         Appointment with ${registeredPatient.name} has been cancelled.

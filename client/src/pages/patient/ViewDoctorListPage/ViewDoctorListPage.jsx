@@ -318,7 +318,7 @@ const ViewDoctorList = () => {
                             <div className={styles["doctor-details"]}>
                                 <h2>Dr. {doctor.name}</h2>
                                 <p><strong>Speciality:</strong> {doctor.speciality}</p>
-                                <p><strong>Hourly Rate:</strong> {doctor.hourly_rate} EGP</p>
+                                <p><strong>Hourly Rate:</strong> {doctor.hourly_rate} LE</p>
                             </div>
                         </div>
                     ))}

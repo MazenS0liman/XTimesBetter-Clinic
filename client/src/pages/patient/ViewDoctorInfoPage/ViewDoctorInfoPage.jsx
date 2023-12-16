@@ -203,7 +203,7 @@ const ViewDoctorInfo = () => {
             </div>
             <div className={styles['doctor-info-item']}>
               <Typography level="title-sm"><strong>Educational Background: </strong>{doctor.doctorInfo.educational_background}</Typography>
-              <Typography level="title-sm"><strong>Hourly Rate: </strong>{hourly_rate.toFixed(2)} EGP</Typography>
+              <Typography level="title-sm"><strong>Hourly Rate: </strong>{hourly_rate.toFixed(2)} LE</Typography>
             </div>
           </div>
         </div>

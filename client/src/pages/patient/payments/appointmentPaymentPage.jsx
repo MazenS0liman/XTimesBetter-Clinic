@@ -204,12 +204,12 @@ function AppointmentPayment() {
               <div>
                 <strong>Appointment Price:</strong>
                 {receivedInfo.appointmentPrice === receivedInfo.priceBefore
-                  ? `${receivedInfo.appointmentPrice} EGP`
+                  ? `${receivedInfo.appointmentPrice} LE`
                   : (
                     <>
-                      <span style={{ textDecoration: 'line-through', marginRight: '5px' }}>{receivedInfo.priceBefore} EGP</span>
+                      <span style={{ textDecoration: 'line-through', marginRight: '5px' }}>{receivedInfo.priceBefore} LE</span>
                       <span style={{ color: 'red' }}>
-                        {receivedInfo.appointmentPrice} EGP (Discount: {receivedInfo.discount}%)
+                        {receivedInfo.appointmentPrice} LE (Discount: {receivedInfo.discount}%)
                       </span>
                     </>
                   )

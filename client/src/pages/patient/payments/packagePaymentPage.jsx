@@ -162,12 +162,12 @@ function PackagePayment() {
           <div>
             <strong>Price: </strong>
             {receivedInfo.priceBefore === receivedInfo.priceAfter
-              ? `${receivedInfo.priceAfter} EGP`
+              ? `${receivedInfo.priceAfter} LE`
               : (
                 <>
-                  <span style={{ textDecoration: 'line-through', marginRight: '5px' }}>{receivedInfo.priceBefore} EGP</span>
+                  <span style={{ textDecoration: 'line-through', marginRight: '5px' }}>{receivedInfo.priceBefore} LE</span>
                   <span style={{ color: 'red' }}>
-                    {receivedInfo.priceAfter} EGP (Discount: {roundedDiscount}%)
+                    {receivedInfo.priceAfter} LE (Discount: {roundedDiscount}%)
                   </span>
                 </>
               )

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './doctorRequestPage.module.css';
+import { ResponsiveAppBar } from '../../../components/responsiveNavBar/responsiveNavBar';
 
 const DoctorRequest = () => {
 
@@ -123,7 +124,8 @@ const DoctorRequest = () => {
 
     return ( 
 
-
+      <>
+      <ResponsiveAppBar array={[]}></ResponsiveAppBar>
         <div className={styles.doctorRequestBack}>
           <div className={styles.doctorRequest}>
             <h2>Doctor Registration Request</h2>
@@ -273,7 +275,9 @@ const DoctorRequest = () => {
       </form>
       </div>
         </div>
+        </>
      );
+     
 }
  
 export default  DoctorRequest ;

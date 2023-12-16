@@ -550,7 +550,7 @@ const ViewAppointments = () => {
                                         className={styles['button-schedule']}
                                         onClick={() => handleRequestFollowUp(appointment.doctor_username, appointment.date, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
                                     >
-                                        Schedule Follow Up
+                                        Request Follow Up
                                     </button>
                                     )}
                                 </td>

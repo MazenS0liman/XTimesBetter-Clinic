@@ -514,7 +514,7 @@ const BookAppointmentForm = () => {
 
                 <div className={styles['h2-book']}>
                     <span className={styles['label']}>Hourly Rate :</span>
-                    <h4>{hourlyRate} EGP</h4>
+                    <h4>{hourlyRate} LE</h4>
                 </div>
                 <br></br>
                 <button className={styles['button-2']} onClick={handleSubmit}>
