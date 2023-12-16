@@ -5,7 +5,7 @@ const { authenticateToken } = require('../../middleware/authenticateToken');
 // Get all doctor Appointments
 router.get('/getAppointments', authenticateToken, getAppointments);
 
-router.get('/checkFollowUpStatus', checkFollowUpStatus)
+router.post('/checkFollowUpStatus',checkFollowUpStatus)
 
 // Get all doctor upcoming appointments
 router.get('/upcomingAppointments', authenticateToken, getUpcomingAppointments)

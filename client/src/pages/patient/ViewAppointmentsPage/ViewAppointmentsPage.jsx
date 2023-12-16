@@ -25,11 +25,13 @@ const ViewAppointments = () => {
     const [status, setStatus] = useState('');
     const [allAppointments, setShowAllAppointments] = useState([]);
     const [showFamilyAppointments, setShowFamilyAppointments] = useState(false);
+    const [followUpAppointments, setFollowUpAppointments] = useState([]);
 
     // To store the info of the appointment wanted to be rescheduled.
     const [selectedRescheduleAppointment, setSelectedRescheduleAppointment] = useState(null);
 
     const navigate = useNavigate();
+
 
     //Authenticate part
     const accessToken = sessionStorage.getItem('accessToken');
@@ -90,6 +92,31 @@ const ViewAppointments = () => {
         }
         fetchAllDoctors();
     }, []);
+
+    // Get follow up appointments 
+    useEffect(() => {
+        const fetchFollowUpData = async () => {
+            const response = await fetch(`http://localhost:5000/patient/appointment/getFollowUpAppointments`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': accessToken,
+                },
+            });
+
+            if (response.status === 200) {
+                const data = await response.json();
+                setFollowUpAppointments(data);
+            } else {
+                throw new Error('Error filtering appointments by status');
+            }
+        }
+         fetchFollowUpData();
+    }, []);
+
+    const hasFollowUp = (appointmentId) => {
+        return followUpAppointments.some((followUp) => followUp.appointment_ID === appointmentId );
+    };
 
     // function to get upcoming appointments
     const getUpcomingAppointments = async (currentUser) => {
@@ -430,6 +457,8 @@ const ViewAppointments = () => {
     // Render the component
     return (
         <div>
+            <br/>
+            <br/>
             <h1>Appointments</h1>
             <div className={styles['clear-filter-container']}>
                 <div className={styles['clear-button-container']}>
@@ -516,13 +545,13 @@ const ViewAppointments = () => {
                                         <button className={styles['button-red']} onClick={() => handleCancelAppointment(appointment._id)}>Cancel</button>
                                     )}
 
-                                    {appointment.status === 'completed' && (
+                                    {appointment.status === 'completed' && !hasFollowUp(appointment._id) &&  (
                                         <button
-                                            className={styles['button-schedule']}
-                                            onClick={() => handleRequestFollowUp(appointment.doctor_username, appointment.date, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
-                                        >
-                                            Schedule Follow Up
-                                        </button>
+                                        className={styles['button-schedule']}
+                                        onClick={() => handleRequestFollowUp(appointment.doctor_username, appointment.date, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
+                                    >
+                                        Schedule Follow Up
+                                    </button>
                                     )}
                                 </td>
                             </tr>

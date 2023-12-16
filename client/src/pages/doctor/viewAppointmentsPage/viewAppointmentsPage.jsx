@@ -19,6 +19,7 @@ const ViewAppointments = () => {
     const [selectedDate, setSelectedDate] = useState('');
     const [status, setStatus] = useState('');
     const [hasFollowUp, setHasFollowUp] = useState(false);
+    const [originalApps, setOriginalAppointments] = useState([]);
 
     const navigate = useNavigate();
 
@@ -61,6 +62,11 @@ const ViewAppointments = () => {
 
     //Authenticate part
 
+    const determineFollowUp = (appointment, allAppointments) => ({
+        ...appointment,
+        hasFollowUp: allAppointments.some(otherAppointment => otherAppointment.isFollowUp === appointment._id),
+      });
+
     // Function to get all my appointments.
     useEffect(() => {
         const fetchAllDoctors = async () => {
@@ -74,12 +80,16 @@ const ViewAppointments = () => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                setAppointments(data);
-                setShowAppointments(data);
-                setShowAllAppointments(data);
-            } else {
+                const appointmentsWithFollowUp = data.map(appointment => determineFollowUp(appointment, data));
+                setAppointments(appointmentsWithFollowUp);
+                setShowAppointments(true);
+                setShowAllAppointments(appointmentsWithFollowUp);
+                // Appointments with follow up
+                setOriginalAppointments(appointmentsWithFollowUp);
+              } else {
                 throw new Error('Error filtering appointments by status');
-            }
+              }
+            
         }
         fetchAllDoctors();
     }, []);
@@ -154,7 +164,7 @@ const ViewAppointments = () => {
             console.error('Error canceling appointment:', error.message);
         }
     }
-    
+
 
     const handleRescheduleAppointment = async (appointmentId) => {
         const appData = { appointmentID: appointmentId };
@@ -203,10 +213,11 @@ const ViewAppointments = () => {
 
         if (response.status === 200) {
             const data = await response.json();
-            setAppointments(data);
-        } else {
+            const appointmentsWithFollowUp = data.map(appointment => determineFollowUp(appointment, allAppointments));
+            setAppointments(appointmentsWithFollowUp);
+          } else {
             throw new Error('Error filtering appointments by status');
-        }
+          }
     };
 
     const handleStatusChange = (e) => {
@@ -238,11 +249,11 @@ const ViewAppointments = () => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                console.log('Filtered Appointments:', data);
-                setAppointments(data);
-            } else {
-                console.error('Error filtering appointments by date:', response.status);
-            }
+                const appointmentsWithFollowUp = data.map(appointment => determineFollowUp(appointment, allAppointments));
+                setAppointments(appointmentsWithFollowUp);
+              } else {
+                throw new Error('Error filtering appointments by date');
+              }
         } catch (error) {
             console.error('Error filtering appointments:', error.message);
         }
@@ -377,7 +388,9 @@ const ViewAppointments = () => {
         setShowFollowUpSection(false);
     };
 
-   
+
+
+
     const handleCloseFollowUp = () => {
         setShowFollowUpSection(false);
         setSelectedAppointment(null);
@@ -386,8 +399,8 @@ const ViewAppointments = () => {
 
 
     const handleClearFilters = () => {
-        setAppointments(allAppointments);
-        setShowAppointments(allAppointments);
+        setAppointments(originalApps);
+        setShowAppointments(true);
         setStatus('');
         setSelectedDate('');
     };
@@ -400,6 +413,7 @@ const ViewAppointments = () => {
     // Render the component
     return (
         <div>
+            <br/>
             <h1>Appointments</h1>
             <div className={styles['clear-filter-container']}>
                 <div className={styles['clear-button-container']}>
@@ -447,33 +461,36 @@ const ViewAppointments = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {appointments.map((appointment) => (
-                                <tr key={appointment._id}>
-                                    <td>{appointment.name}</td>
-                                    <td>{appointment.date}</td>
-                                    <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
-                                    <td>{formatTime(appointment.time)}</td>
-                                    <td>
-                                        {appointment.status === 'upcoming' && !hasFollowUp && (
-                                            <button className={styles['button-blue']} onClick={() => handleRescheduleAppointment(appointment._id)}>Reschedule</button>
-                                        )}
+                            {appointments.map((appointment) => {
+                            
 
-                                        {appointment.status === 'upcoming' && (
-                                            <button className={styles['button-red']} onClick={() => handleCancelAppointment(appointment._id)}>Cancel</button>
-                                        )}
+                                return (
+                                    <tr key={appointment._id}>
+                                        <td>{appointment.name}</td>
+                                        <td>{appointment.date}</td>
+                                        <td>{appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}</td>
+                                        <td>{formatTime(appointment.time)}</td>
+                                        <td>
+                                            {appointment.status === 'upcoming' && (
+                                                <button className={styles['button-blue']} onClick={() => handleRescheduleAppointment(appointment._id)}>Reschedule</button>
+                                            )}
 
-                                        {appointment.status === 'completed' && (
-                                            <button
-                                                className={styles['button-schedule']}
-                                                onClick={() => handleRequestFollowUp(appointment, appointment.date, appointment.doctor_username, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
-                                            >
-                                                Schedule Follow Up
-                                            </button>
-                                        )}
+                                            {appointment.status === 'upcoming' && (
+                                                <button className={styles['button-red']} onClick={() => handleCancelAppointment(appointment._id)}>Cancel</button>
+                                            )}
 
-                                    </td>
-                                </tr>
-                            ))}
+                                            {appointment.status === 'completed' && !appointment.hasFollowUp &&(
+                                                <button
+                                                    className={styles['button-schedule']}
+                                                    onClick={() => handleRequestFollowUp(appointment, appointment.date, appointment.doctor_username, appointment.time, appointment._id, appointment.name, appointment.patient_username)}
+                                                >
+                                                    Schedule Follow Up
+                                                </button>
+                                            )}
+                                        </td>
+                                    </tr>
+                                );
+                            })}
                         </tbody>
                     </table>
                 }

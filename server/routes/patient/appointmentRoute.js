@@ -1,5 +1,5 @@
 var router = require('express').Router();
-const { createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getHourlyRateByUsername, getHourlyRateByNationalID, getBookedAppointments, rescheduleAppointment, cancelAppointment, getAppointmentById, getPatientByUsername } = require('../../controllers/patient/appointmentController');
+const { createAppointment, getAppointments, getUpcomingAppointments, getPastAppointments, getHourlyRateByUsername, getHourlyRateByNationalID, getBookedAppointments, rescheduleAppointment, cancelAppointment, getAppointmentById, getPatientByUsername, getFollowUpAppointments } = require('../../controllers/patient/appointmentController');
 const { authenticateToken } = require('../../middleware/authenticateToken');
 
 // APIs
@@ -8,6 +8,8 @@ router.post('/createAppointment', createAppointment);
 
 router.get('/getAppointments', authenticateToken, getAppointments);
 
+
+router.get('/getFollowUpAppointments',authenticateToken,getFollowUpAppointments);
 // Get all upcoming appointments.
 router.get('/upcomingAppointments', authenticateToken, getUpcomingAppointments);
 

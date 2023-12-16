@@ -93,12 +93,8 @@ const getPastAppointmentsFollowUp = async (req, res) => {
 
 const checkFollowUpStatus = async (req, res) => {
     try {
-        //console.log('Checking follow-up status for appointmentId:', req.body.appointmentId);
         const followUpAppointment = await appointmentModel.findOne({ isFollowUp: req.body.appointmentId });
-
         const hasFollowUp = !!followUpAppointment;
-
-        //console.log('Result from database:', followUpAppointment);
         res.status(200).json({ hasFollowUp });
     } catch (error) {
         console.error(error);

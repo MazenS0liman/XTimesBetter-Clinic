@@ -8,6 +8,7 @@ const packageModel = require('../../models/Package');
 const linkedFamilyModel = require('../../models/LinkedFamily');
 const familyModel = require('../../models/Family');
 const { sendEmail } = require('../patient/payments/emailHelper');
+const followUpModel = require('../../models/FollowUp');
 
 
 
@@ -243,6 +244,14 @@ const getAppointments = asyncHandler(async (req, res) => {
         username: req.body.username,
     });
     const appointments = await appointmentModel.find({patient_username: patient.username});
+    res.status(200).json(appointments);
+});
+
+const getFollowUpAppointments = asyncHandler(async (req, res) => {
+    const patient = await patientModel.findOne({
+        username: req.body.username,
+    });
+    const appointments = await followUpModel.find({patient_username: patient.username});
     res.status(200).json(appointments);
 });
 
@@ -738,4 +747,4 @@ const cancelAppointment = asyncHandler(async (req, res) => {
 
 
 
-module.exports = { createAppointment, getAppointments, getUpcomingAppointments,getPatientByUsername, getPastAppointments, getBookedAppointments, getAppointmentById, getHourlyRateByUsername, getHourlyRateByNationalID, rescheduleAppointment, cancelAppointment };
+module.exports = { createAppointment,getFollowUpAppointments, getAppointments, getUpcomingAppointments,getPatientByUsername, getPastAppointments, getBookedAppointments, getAppointmentById, getHourlyRateByUsername, getHourlyRateByNationalID, rescheduleAppointment, cancelAppointment };

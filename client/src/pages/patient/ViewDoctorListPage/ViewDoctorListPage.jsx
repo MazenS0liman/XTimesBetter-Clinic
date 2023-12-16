@@ -271,8 +271,9 @@ const ViewDoctorList = () => {
 
     return (
         <div className={styles.container}>
+            <br/>
             <h1 className={styles["list-title"]}>Doctors</h1>
-
+            <br/>
             <div className={styles["search-container"]}>
                 <DoctorSearchBar onSearch={handleSearchByName} onSearch2={handleSearchBySpeciality} onClear={handleClearSearch} handleDatePickerClick={handleDatePickerClick} />
             </div>

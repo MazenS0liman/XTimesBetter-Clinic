@@ -150,7 +150,7 @@ const AdminTable = () => {
 
   return (
     <div>
-      <h1>Admin Table</h1>
+      <h1>Admins</h1>
       <button onClick={handleAddAdminClick}style={{ backgroundColor: 'blue', color: 'white', padding: '8px 12px', cursor: 'pointer' }}> Add Admin</button>
       {showAddAdminPopup && (
         <div className="popup">
@@ -160,50 +160,68 @@ const AdminTable = () => {
             </span>
             <h2>Add Admin</h2>
             <form onSubmit={handleAddAdminSubmit}>
-              <div>
-                <label>Username:</label>
-                <input
-                  type="text"
-                  name="username"
-                  value={newAdminData.username}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Password:</label>
-                <input
-                  type="password"
-                  name="password"
-                  value={newAdminData.password}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>First Name:</label>
-                <input
-                  type="text"
-                  name="firstName"
-                  value={newAdminData.firstName}
-                  onChange={handleInputChange}
-                  
-                />
-              </div>
-              <div>
-                <label>Last Name:</label>
-                <input
-                  type="text"
-                  name="lastName"
-                  value={newAdminData.lastName}
-                  onChange={handleInputChange}
-                  
-                />
-              </div>
-              <button type="submit"style={{ backgroundColor: 'blue', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Add Admin</button>
-              <button type="button" onClick={handlePopupClose}style={{ backgroundColor: 'red', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Cancel</button>
-              {error && <p>{error}</p>}
-            </form>
+  <div>
+    <div>
+      <label>Username:</label>
+    </div>
+    <div>
+      <input
+        type="text"
+        name="username"
+        value={newAdminData.username}
+        onChange={handleInputChange}
+        required
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      <label>Password:</label>
+    </div>
+    <div>
+      <input
+        type="password"
+        name="password"
+        value={newAdminData.password}
+        onChange={handleInputChange}
+        required
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      <label>First Name:</label>
+    </div>
+    <div>
+      <input
+        type="text"
+        name="firstName"
+        value={newAdminData.firstName}
+        onChange={handleInputChange}
+      />
+    </div>
+  </div>
+  <div>
+    <div>
+      <label>Last Name:</label>
+    </div>
+    <div>
+      <input
+        type="text"
+        name="lastName"
+        value={newAdminData.lastName}
+        onChange={handleInputChange}
+      />
+    </div>
+  </div>
+  <br />
+  <div>
+  <button type="submit" style={{ backgroundColor: 'blue', color: 'white', padding: '8px 12px', cursor: 'pointer', marginRight: '8px' }}>Add Admin</button>
+  <button type="button" onClick={handlePopupClose} style={{ backgroundColor: 'red', color: 'white', padding: '8px 12px', cursor: 'pointer' }}>Cancel</button>
+</div>
+  <br />
+  {error && <p>{error}</p>}
+</form>
           </div>
         </div>
       )}
