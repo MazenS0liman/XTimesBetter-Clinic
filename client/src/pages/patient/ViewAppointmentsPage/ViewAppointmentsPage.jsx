@@ -469,7 +469,9 @@ const ViewAppointments = () => {
         setShowAppointments(allAppointments);}}>
                                     <FontAwesomeIcon icon={faArrowLeft} />
                                 </Button>
+                               
                             </div>
+                            <h2 style={{ marginLeft: '500px' }}>Family Appointments </h2>
                         </div>
                     )}
 
@@ -507,12 +509,21 @@ const ViewAppointments = () => {
                     </div>
                 )}
 
-                <div className={styles['filter-item']}>
+                {/* <div className={styles['filter-item']}>
                     <button className={styles["button-22"]} type="submit" onClick={handleBookedAppointments}>
                         Family Appointments
                     </button>
-                </div>
+                </div> */}
+
             </div>
+
+            {!showFamilyAppointments && (
+                    <div className={styles['filter-item']}>
+                        <button className={styles['button-22']} type="submit" onClick={handleBookedAppointments}>
+                            Family Appointments
+                        </button>
+                    </div>
+                )}
 
             <br />
             <br />

@@ -150,8 +150,10 @@ function SubsPackagesList(){
 
   return (
     <div>
+      <br/>
       <h3 className='title'>Subscribed Package Details</h3>
       <div className='table-container'>
+      <br/>
       <table  className="data-table">
         <thead>
           <tr>
@@ -161,7 +163,7 @@ function SubsPackagesList(){
             <th className="table-header">Status</th>
             <th className="table-header">Start Date</th>
             <th className="table-header">End Date</th>
-            <th className="table-header">Unsubscribe</th>
+            {/* <th className="table-header">Unsubscribe</th> */}
 
            
            
@@ -180,7 +182,7 @@ function SubsPackagesList(){
               
               <td className="table-cell">
         {item.status === 'subscribed' ? (
-          <button onClick={() => handleUnSubscribeClick(item)}>Unsubscribe</button>
+          <button onClick={() => handleUnSubscribeClick(item)} style={{backgroundColor:'#b5b5b5d8'}}>Unsubscribe</button>
         ) : null}
       </td>
              

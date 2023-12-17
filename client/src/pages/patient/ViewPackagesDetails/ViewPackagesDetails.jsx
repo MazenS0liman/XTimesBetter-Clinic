@@ -246,8 +246,10 @@ function PackagesList(){
 
   return (
     <div>
+      <br/>
       <h3 className="title">Package Details</h3>
       <div className='table-container'>
+      <br/>
       <table  className="data-table">
         <thead>
           <tr>
@@ -258,7 +260,7 @@ function PackagesList(){
             <th className="table-header">Medicine Discount</th>
             <th className="table-header">Family Discount</th>
             <th className="table-header">Subscribe For </th>
-            <th className="table-header">Subscribe</th>
+            {/* <th className="table-header">Subscribe</th> */}
 
            
            
@@ -276,7 +278,7 @@ function PackagesList(){
 
               <td className="table-cell">
                 <select value={selectedFamilyMember} onChange={handleFamilyMemberChange}>
-                  <option value="">Select Family Member</option>
+                  <option value="">Select </option>
                   {/*should get it from the session*/}
                   <option value={username}>Myself</option>
                   
@@ -291,7 +293,7 @@ function PackagesList(){
 
 
               <td className="table-cell">
-                <button onClick={() => handleSubscribeClick(item.name)}>Subscribe</button>
+                <button onClick={() => handleSubscribeClick(item.name)} style={{backgroundColor:'#b5b5b5d8'}}>Subscribe</button>
               </td>
              
             </tr>
