@@ -217,6 +217,20 @@ const payAppointment = asyncHandler(async (req, res) => {
                         `;
                     }
                     else {
+                        await patients.findByIdAndUpdate(
+                            registeredPatient._id,
+                            {
+                                $push: {
+                                    notifications: {
+                                        type:"new",
+        
+                                        message: `Appointment to ${appointment.name} at slot ${formattedTime} on ${appointment.date} with DR. ${doctorToPay.name} is reserved.`,
+                                    },
+                                },
+                            },
+                            { new: true }
+                        );
+                        
                         notificationMessageDoctor = `
                         New Appointment Reserved:
              
@@ -248,6 +262,7 @@ const payAppointment = asyncHandler(async (req, res) => {
                     },
                     { new: true }
                 );
+            
                 return res.status(201).json({ success: true, url: session.url, successURL: session.success_url });
             }
         }

@@ -137,7 +137,8 @@ function PackagePayment() {
           }
           else {
             alert(data.message);
-            window.location = 'http://localhost:5173/patient/unsuccessPayment';
+            //window.location = 'http://localhost:5173/patient/unsuccessPayment';
+            navigate('/patient/unsuccessPayment');
           }
         })
       } catch {

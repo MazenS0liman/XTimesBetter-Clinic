@@ -15,7 +15,7 @@ function ViewRequestedDoctorsInfo() {
       const [rejected, setRejected] = useState(false);
       const navigate = useNavigate();
       const [currentPage, setCurrentPage] = useState(1);
-      const [itemsPerPage] = useState(6);
+      const [itemsPerPage] = useState(4);
       const [filteredDoctors, setFilteredDoctors] = useState([]);
       const [filter, setFilter] = useState('all');
   //Authenticate part
@@ -211,33 +211,7 @@ const handleFilterChange = (event) => {
               {/* Pagination Controls */}
               <br/>
 
-    <div style={{ marginBottom: '10px' }}>
-    <div style={{ marginBottom: '10px' }}>
-    <br/>
-
-      <button 
-        onClick={handlePrevPage} 
-        disabled={currentPage === 1}
-        style={{ marginRight: '10px' }}  // Adds space to the right of the 'Prev' button
-      >
-        Prev
-      </button>
-      <button 
-        onClick={handleNextPage} 
-        disabled={currentPage * itemsPerPage >= filteredDoctors.length}
-      >
-        Next
-      </button>
-      &nbsp; Page {currentPage}
-    </div>
-      &nbsp;
-      &nbsp;
-
-    </div>
-    &nbsp;
-    &nbsp;
-    &nbsp;
-
+  
           <div>
 
 
@@ -321,6 +295,33 @@ const handleFilterChange = (event) => {
             No doctors Requests found matching the selected criteria.
           </div>  
             )}
+              <div style={{ marginBottom: '10px' }}>
+    <div style={{ marginBottom: '10px' }}>
+    <br/>
+
+      <button 
+        onClick={handlePrevPage} 
+        disabled={currentPage === 1}
+        style={{ marginRight: '10px' }}  // Adds space to the right of the 'Prev' button
+      >
+        Prev
+      </button>
+      <button 
+        onClick={handleNextPage} 
+        disabled={currentPage * itemsPerPage >= filteredDoctors.length}
+      >
+        Next
+      </button>
+      &nbsp; Page {currentPage}
+    </div>
+      &nbsp;
+      &nbsp;
+
+    </div>
+    &nbsp;
+    &nbsp;
+    &nbsp;
+
         </div>
         
       );

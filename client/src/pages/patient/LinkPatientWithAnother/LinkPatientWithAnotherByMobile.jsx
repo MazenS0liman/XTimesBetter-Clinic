@@ -70,7 +70,8 @@ const LinkPatientWithAnotherByMobile = () => {
             if (response.status === 201) {
 
                 setIsSubmitted(true);
-                setMessage('Family member successfully Linked!');
+               // setMessage('Family member successfully Linked!');
+                alert('Family member successfully Linked!');
                 setMobile('');
                 setRelation('');
 
@@ -79,16 +80,18 @@ const LinkPatientWithAnotherByMobile = () => {
             } else if (response.status === 404) {
                 //setMessage('Patient does not exist.');
 
-                setError('Patient To Be Linked does not exist.');
+                //setError('Patient To Be Linked does not exist.');
+                alert('Patient To Be Linked does not exist.');
             }
             else if (response.status === 400) {
                 //setMessage('Patient does not exist.');
 
-                setError('Patient is already Linked.');
+               // setError('Patient is already Linked.');
+                alert('Patient is already Linked.');
             }
             else {
 
-                setError('An error occurred while linking the family member.');
+                alert('An error occurred while linking the family member.');
             }
         } catch (error) {
             console.log("There is an error");

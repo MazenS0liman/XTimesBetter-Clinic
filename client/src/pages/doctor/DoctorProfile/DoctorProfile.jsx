@@ -150,10 +150,10 @@ export const DoctorProfile = () => {
                       <h3 style={{color: 'black'}}>Personal Info</h3>
                       <ProfileCard info={
                         [
-                          {name: 'name', value: name},
-                          {name: 'username', value: username},
-                          {name: 'email', value: email},
-                          {name: 'date of birth', value: dob}
+                          {name: 'Name', value: name},
+                          {name: 'Username', value: username},
+                          {name: 'Email', value: email},
+                          {name: 'Date of birth', value: dob}
                         ]
                       }></ProfileCard>
                     </div>

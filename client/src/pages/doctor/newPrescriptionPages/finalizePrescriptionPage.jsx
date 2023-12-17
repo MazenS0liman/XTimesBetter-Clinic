@@ -105,6 +105,7 @@ const FinalizePrescription = () => {
         const updatedPrescriptionMeds = prescriptionMeds.filter(medicine => medicine.name !== medicineName); //remove from state
         setPrescriptionMeds(updatedPrescriptionMeds);
         sessionStorage.setItem('prescriptionMeds', JSON.stringify(updatedPrescriptionMeds)); //remove from session storage
+        // window.location.reload();
     };
 
     const handleSubmit = async () => {

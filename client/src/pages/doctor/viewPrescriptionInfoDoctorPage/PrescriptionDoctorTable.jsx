@@ -218,7 +218,7 @@ const PrescriptionDoctorTable = () => {
               type="text"
               value={filterValue}
               onChange={handleFilterValueChange}
-              placeholder={`Enter ${filter === 'doctor_username' ? 'Doctor Username' : 'Visit Date'}`}
+              placeholder={`Enter ${filter === 'doctor_username' ? 'Doctor Username' : 'dd/mm/yyyy'}`}
             />
           )}
           &nbsp;

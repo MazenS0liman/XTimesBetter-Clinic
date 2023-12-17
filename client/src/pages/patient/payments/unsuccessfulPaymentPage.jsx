@@ -50,7 +50,8 @@ function UnsuccessPayment() {
     
 
     const handleSubmit = () => {
-        window.location.href="http://localhost:5173/patient/";
+        //window.location.href="http://localhost:5173/patient/";
+        navigate('/patient/');
 
     };
 

@@ -51,7 +51,8 @@ function SuccessPayment(){
     }
     
     const handleSubmit =()=>{
-        window.location.href = 'http://localhost:5173/patient/';
+        //window.location.href = 'http://localhost:5173/patient/';
+        navigate('/patient/');
     }
     // return( 
     //     <div className="Success Payment">
@@ -179,9 +180,10 @@ function SuccessPackagePayment(){
             // Check if the request was successful (status code 200)
             if (response.ok) {
               const responseData = await response.json();
-              console.log('Success:', responseData);
+              //console.log('Success:', responseData);
 
-              window.location.href = 'http://localhost:5173/patient/';
+              //window.location.href = 'http://localhost:5173/patient/';
+              navigate('/patient/');
             } 
             else {
               console.error('API Error:', response.statusText);

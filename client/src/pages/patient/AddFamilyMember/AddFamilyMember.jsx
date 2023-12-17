@@ -84,7 +84,8 @@ const AddFamilyMember = () => {
             if (response.status === 201) {
 
                 setIsSubmitted(true);
-                setMessage('Family member successfully added!');
+                //setMessage('Family member successfully added!');
+                alert('Family member successfully added!');
                 setName('');
                 setnational_id('');
                 setAge('');
@@ -94,7 +95,8 @@ const AddFamilyMember = () => {
                 window.location.reload();
                 const data = await response.json();
                 if (data.length === 0) {
-                    setMessage('No Patient found with this username');
+                    //setMessage('No Patient found with this username');
+                    alert('No Patient found with this username');
                 }
                 //window.location.href = '/success';
             } else if (response.status === 404) {

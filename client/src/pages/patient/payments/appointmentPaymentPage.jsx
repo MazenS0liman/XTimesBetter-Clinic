@@ -137,11 +137,13 @@ function AppointmentPayment() {
           console.log(data.success);
           if (data.success) {
 
-            window.location = 'http://localhost:5173/patient/successPayment';
+            //window.location = 'http://localhost:5173/patient/successPayment';
+            navigate('/patient/successPayment');
           }
           else {
             alert(data.message);
-            window.location = 'http://localhost:5173/patient/unsuccessPayment';
+            //window.location = 'http://localhost:5173/patient/unsuccessPayment';
+            navigate('/patient/unsuccessPayment');
           }
 
         })

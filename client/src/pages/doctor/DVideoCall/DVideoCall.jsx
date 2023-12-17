@@ -163,7 +163,7 @@ function DoctorVideo(){
 
   return (
     <div >
-      <h3 className='title'>Appointments</h3>
+      <h3 className='title'>Video Call</h3>
       <div className='table-container'>
       <table  className="data-table">
         <thead>
@@ -194,8 +194,8 @@ function DoctorVideo(){
 
              
 
-              <td className="table-cell">
-                <button onClick={() => handleStartClick(item)}>Start</button>
+              <td className="table-cell" >
+                <button style= {{backgroundColor:'#b5b5b5d8'}}onClick={() => handleStartClick(item)}>Start</button>
               </td>
              
             </tr>

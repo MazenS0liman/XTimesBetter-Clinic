@@ -76,9 +76,10 @@ const PatientVisitLog = () => {
     if (load) {
         return (<div>Loading</div>)
     }
+    //style={{ backgroundImage: `url(${backgroundImage})` }}
     return (
-        <div className={styles["patientVisitLogContainer"]} style={{ backgroundImage: `url(${backgroundImage})` }}>
-            <h1 className={styles["patientLogTitle"]}>Patients Log</h1>
+        <div className={styles["patientVisitLogContainer"]} >
+            <h1 className={styles["patientLogTitle"]} style={{color:'#000000'}}>Patients Log </h1>
             <div className={styles["patientLogContainer"]}>
                 <table className={styles["patientLogTable"]}>
                     <thead>
