@@ -1,19 +1,25 @@
 # XTimesBetter-Clinic
 
 ## Motivation
-In the dynamic landscape of healthcare, the El7a2ny Virtual Clinic emerges as a pioneering solution, dedicated to transforming the interactions between clinics, doctors, and patients. This project is a software solution tailored for clinics and medical practitioners, facilitating a streamlined and automated approach to healthcare processes.
+In the dynamic landscape of healthcare, the El7a2ni Virtual Clinic emerges as a pioneering solution, dedicated to transforming the interactions between clinics, doctors, and patients. This project is a software solution tailored for clinics and medical practitioners, facilitating a streamlined and automated approach to healthcare processes.
 
 ## Build Status
 This project does not currently use a continuous integration service. If you encounter any issues during setup, please refer to the installation instructions and feel free to reach out for assistance.
 
-## Code Style
-Currently, our project doesn't have a formalized code style guide in place. While we strive for code readability and maintainability, we understand that consistency is crucial for collaborative development.
-In the absence of a formal guide, we encourage contributors to follow general best practices for code readability and to maintain consistency within the codebase.
+## Code Style 
+The code style is enforced using eslint and prettier. The code style is enforced using pre-commit hooks and pre-commit github action.
 
 
 ## Screenshots
-- ![Screenshot 1](link-to-screenshot-1)
-- ![Screenshot 2](link-to-screenshot-2)
+- ![Screenshot 1](Images/AllDrs.jpg)
+- ![Screenshot 2](Images/Appoint.jpg)
+- ![Screenshot 3](Images/Chat.jpg)
+- ![Screenshot 4](Images/Notifications.jpg)
+- ![Screenshot 5](Images/Packages.jpg)
+- ![Screenshot 6](Images/Patients.jpg)
+- ![Screenshot 7](Images/Prescription.jpg)
+- ![Screenshot 8](Images/Profile.jpg)
+- ![Screenshot 9](Images/Requests.jpg)
 
 
 ## Tech/Framework used
@@ -38,7 +44,7 @@ In the absence of a formal guide, we encourage contributors to follow general be
 
 ### Login
 1. *Users Login:*
-   - Registered users can log in as patients, gaining access to personalized features.
+   - Registered users can log in as patients,doctors,admin  gaining access to personalized features.
 2. *Users Logout:*
    - Logged in users can log out to keep their account and not reachable by everyone. 
    
@@ -134,8 +140,8 @@ In the absence of a formal guide, we encourage contributors to follow general be
     b) status (upcoming, completed, cancelled, rescheduled)
 
 #### Follow Ups
-12. Request Follow Up:
-    - Doctors can request a follow-up to a previous appointment.
+12. Schedule Follow Up:
+    - Doctors can schedule a follow-up to a previous appointment.
     
 13. Accept/Revoke a Follow Up:
     - Doctors can accept/revoke a requested follow-up that the patient requested to a previous appointment.
@@ -154,7 +160,7 @@ In the absence of a formal guide, we encourage contributors to follow general be
 
 16. Add Prescription: 
     - Doctor is be able to add a prescription to a patient prescription if the there is at least one completed appointment between them.
-    - Doctor is able to add medicine and for every medicine that is added to prescription docor is able to add dosage to it .
+    - Doctor is able to add medicine and for every medicine that is added to prescription doctor is able to add dosage to it .
     
 17. Update Prescription: 
     - Doctor is able to update prescription if the prescription is not filled by patient by adding/deleting medicine or update dosage of medicine .
@@ -211,16 +217,13 @@ In the absence of a formal guide, we encourage contributors to follow general be
 
 
 #### Appointments with Doctors
-10. *View all Appointments :*
-    - Patients can access a comprehensive list of available appointments where he/she can filter based on :
-   a)date 
-   b)status (upcoming, completed, cancelled, rescheduled)
 
-11. *Book an Appointment:*
+
+10. *Book an Appointment:*
     - Patients can book an Appointment with certain doctor according to the doctor's available time slots .
     - Patients choose to pay for their appointment using wallet or credit card.
 
-12. *View my Appointments:*
+11. *View my Appointments:*
     - Patients can view a list of all my upcoming / past appointments.
     - Reschedule an appointment on another date if the old date doesn't fit me anymore
     - Cancel an appointment and recieving refunds if the cancel was more than 24 hours before the appointment
@@ -229,66 +232,66 @@ In the absence of a formal guide, we encourage contributors to follow general be
        b)status (upcoming, completed, cancelled, rescheduled)
 
 #### Follow Ups
-13. *Request Follow Up:*
+12. *Request Follow Up:*
     - Patients can request a follow-up to a previous appointment.
 
 #### Prescriptions
-14. *View All Prescriptions:*
+13. *View All Prescriptions:*
     - View a list of all new and old prescriptions where my doctors prescribed for me.
     - Filter list of prescriptions according to :
       a)date
       b)filled or unfilled
 
 
-15. *Select ceratin Prescription :*
+14. *Select ceratin Prescription :*
     - View the details of my selected prescription
     - Download selected prescription in PDF format to have it saved on their devices
     - Choose to buy this prescription and pay for it's items using wallet or credit card
  
 
 #### Health Packages
-16. *Available Packages:*
+15. *Available Packages:*
      - Patients can view list of all available health package along their name,price,doctor discount , medicine discount , family discount 
       a)doctor discount : where he gets discount while booking an appointment
       b)medicine discount : where he gets when buying from the pharmacy platform
       c)family discount : it's a discount that the attached family members to the patient gets when subscribing to a package .
 
-17. *Subscribe:* 
+16. *Subscribe:* 
      - Patients can subscribe to health package to benefit from stated discounts for a whole year.
      - Patients choose to pay for their subscriptions using their wallet or credit card.
      - Patients can view the status of their health care package subscription (subscribed with renewal date/ unsubscribed/ cancelled with end date) .
 
-18.  *Unsubscribe:*
+17.  *Unsubscribe:*
      - Patients can cancel their subscription of certain package but yet benefit from it till the end date .
    
 
 #### Family Members
-19. *Add Family Member:*
+18. *Add Family Member:*
     - Add family member using Name, National ID, Age, Gender and relation to the patient whether (child,husband,wife) where this member isn't part of our Clinic system
   
-20. *Link Family Member:*
+19. *Link Family Member:*
      - Link a system user as my family member using Phone number or Email and stating the relation whether (child,husband,wife).
  
-21. *View Family Members:*
+20. *View Family Members:*
      - View list of all my Family members whether added or linked 
 
 
-22. *Do on Behalf of Family Member:*
+21. *Do on Behalf of Family Member:*
     - Patient can do multiple things on behalf of their linked/added family members :
     a)Book/Reschedule/Cancel an Appointment
     b)Subscribe/Unsubscribe in a Health Package
     c)Request a Follow Up
 
 #### Communication
-23. *Notifications:*
+22. *Notifications:*
     - Patient recieves notifications on the system/by mail on multiple occasions to remain updated :
     a)Booked Appointments
     b)Cancelled/Rescheduled Appointments
 
-24. *Chats:*
+23. *Chats:*
     - Patients can start conversation with doctors that they had appointments with
 
-25. *Video Calls:*
+24. *Video Calls:*
     - Patients can start video calls with their doctors to conduct their booked appointment.
 
 ## Code Examples
@@ -557,6 +560,39 @@ const getDoctorInfo = asyncHandler(async (req, res) => {
 module.exports = { getDoctorInfo };
 ```
 
+### Example 5: Generate Access Token 
+```javascript 
+const dotenv = require('dotenv').config();
+const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose');
+const asyncHandler = require('express-async-handler');
+const refreshtokenModel = require('../../models/RefreshToken');
+
+const changeAccessToken = asyncHandler ( async (req, res) => {
+    const refreshToken = req.body.refreshToken;
+    if (refreshToken === null) return res.status(401).json({ message: "No refresh token provided" });
+    const storedRefreshToken = refreshtokenModel.findOne({token: refreshToken});
+    if (storedRefreshToken === null) return res.status(403).json({ message: "Invalid refresh token" });
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, decoded) => {
+        if (err) return res.status(403).json({ message: "Invalid refresh token" });
+
+        let username = decoded.username;
+        const newAccessToken = await generateAccessToken({ name: username });
+        return res.status(200).json({ message: "Success", accessToken: "Bearer " + newAccessToken });
+    })
+});
+
+async function generateAccessToken(username) {
+    const payload = {
+        username: username,
+    }
+        
+    return await jwt.sign(payload,  process.env.ACCESS_TOKEN_SECRET);
+}
+
+module.exports = { changeAccessToken};
+```
+
 ## Installation
 To set up the XTimesBetter Clinic project on your local machine, follow these steps:
 
@@ -781,6 +817,21 @@ These tests are performed using [Postman](https://www.postman.com/). Below are e
 ]
 ```
 
+### Test 3 : Login
+- *Route*: http://localhost:5000/login
+- *Output*:
+ ```json
+ [
+  {
+     "message": "Success",
+     "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik5heWVyYU1haHJhbiIsImlhdCI6MTcwMjc3MzM2NX0.DxVM8CXddTxKDi113g5c_ugL-d-W5_hcqSImU5IzXuY",
+     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ik5heWVyYU1haHJhbiIsImlhdCI6MTcwMjc3MzM2NX0.d3iw1HxkRmxGpKlRBe1VKlg0ya_r4YCi9mnKurYa8E0",
+     "userType": "patient",
+     "loggingIn": true,
+     "name": "NayeraMahran"
+ }
+]
+```
 
 
 ## How to Use?
@@ -838,7 +889,7 @@ We welcome contributions from the community! If you'd like to contribute to the 
 
 ### Submitting Changes
 1. Push your changes to your forked repository.
-2. Create a pull request from your branch to the main repository's Sprint3 branch.
+2. Create a pull request from your branch to the main repository's Final_Sprint branch.
 
 ### Reporting Issues
 
